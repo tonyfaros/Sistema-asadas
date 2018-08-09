@@ -1,0 +1,476 @@
+<section>
+  
+  <div class="section-header">
+    <h2 id="asada-map" class="text-default-bright">Mapa de ASADAs</h2>
+
+  </div>
+
+  <div class="section-body">
+    <!-- Begin Body Section -->
+    <div class="content">
+      <div class="row">
+        <!-- MAPA -->
+        <div class="col-md-9">
+          <div class="fullMap" id="#map-canvas">
+            <div class="no-padding border-gray">
+              <!-- Begin Card Map -->
+              <agm-map #gm [(latitude)]="lat" [(longitude)]="lng" [(zoom)]="zoom" 
+                [scrollwheel]="false" [mapTypeId]="'terrain'" [gestureHandling]="'cooperative'"
+                [mapTypeControl]="'true'">
+
+                <!-- MARKER PARA LOS TANQUES DE AGUA-->
+                <agm-marker *ngFor="let m of infraestTankmarkers" [(latitude)]="m.lat" [(longitude)]="m.long" 
+                (zIndex)="1" [(iconUrl)]="m.iconUrl" (markerClick)="markerClick(); lastOpen?.close(); lastOpen = infoWindow;">
+                  <agm-info-window #infoWindow>
+                    <div id="iw-container">
+                    
+                      <div class="iw-title">
+                        <button (click)="redirectTanque(m)" type="button" class="btn btn-block ink-reaction btn-link">{{m.name}}</button>
+                      </div>
+                      <div class="iw-subTitle">
+                        {{m.asadaname}}
+                        <br>{{m.province}}
+                        <br>+(506) {{m.phonenumber}}<br>
+                      </div><br>
+                      <strong *ngIf="(isLoggedIn == true && m.asada && m.asada.id == AsadaUser) || (isLoggedIn == true && this.UserRol == 'Super Administrador')" >Nivel de riesgo: </strong>
+                      <span *ngIf="(isLoggedIn == true && m.asada && m.asada.id == AsadaUser) || (isLoggedIn == true && this.UserRol == 'Super Administrador')"> {{m.riskLevel}}</span>
+                      <br>
+                    </div>
+                  </agm-info-window>
+                </agm-marker>
+
+                <!-- MARKER PARA LAS CAPTACIONES SUPERFICIALES -->
+                <agm-marker *ngFor="let m of infraestCaptacionkmarkers" [(latitude)]="m.lat" [(longitude)]="m.long" 
+                (zIndex)="1" [(iconUrl)]="m.iconUrl" (markerClick)="markerClick(); lastOpen?.close(); lastOpen = infoWindow;">
+                  <agm-info-window #infoWindow>
+                    <div id="iw-container">
+                      <div class="iw-title">
+                        <button (click)="redirectCaptacion(m)" type="button" class="btn btn-block ink-reaction btn-link">{{m.name}}</button>                    
+                      </div>
+                      <div class="iw-subTitle">
+                        {{m.asadaname}}
+                        <br>{{m.province}}
+                        <br>+(506) {{m.phonenumber}}<br>
+                      </div><br>
+                      <strong *ngIf="(isLoggedIn == true && m.asada && m.asada.id == AsadaUser) || (isLoggedIn == true && this.UserRol == 'Super Administrador')" >Nivel de riesgo: </strong>
+                      <span *ngIf="(isLoggedIn == true && m.asada && m.asada.id == AsadaUser) || (isLoggedIn == true && this.UserRol == 'Super Administrador')"> {{m.riskLevel}}</span>
+                      <br>
+                    </div>
+                  </agm-info-window>
+                </agm-marker>
+                
+                <!-- MARKER PARA LAS ASADAS -->
+                <agm-marker *ngFor="let m of asadasmarkers" [(latitude)]="m.lat" [(longitude)]="m.long" [(iconUrl)]="m.iconUrl"
+                [(zIndex)]="m.zIndex" (markerClick)="markerClick(); lastOpen?.close(); lastOpen = infoWindow;">   
+                  <agm-info-window #infoWindow class="infowindow" [isOpen]="m.showInfoWindow">
+                    <div id="iw-container">
+                      
+                      <div class="iw-title">
+                        <button (click)="redirectASADA(m)" class="btn btn-link ink-reaction btn-warning">{{m.name}}</button>
+                      </div>
+                      <div class="iw-content">
+                        <div class="iw-subTitle">
+                          {{m.province}}, {{m.state}}, {{m.district}}
+                          <br>+(506) {{m.phonenumber}}<br>
+                        </div>
+                        <button (click)="setDetails(m)" type="button" class="btn btn-icon-toggle" data-toggle="modal" data-target="#InfoModal" data-placement="top" data-original-title="Ver">ISRS</button> - 
+                        <button (click)="setDetails(m)" type="button" class="btn ink-reaction btn-icon-toggle" data-toggle="modal" data-target="#InfoModal2" data-placement="top" data-original-title="Ver">ISAR</button>
+                        <br><br>
+                        <strong>Tipo de zona: </strong><span> {{m.zonetype}}</span><br>
+                        <strong>Número de abonados: </strong><span> {{m.numbersubscribed}}</span><br>
+                        <strong>Población abastecida: </strong><span> {{m.population}}</span><br>
+                        <strong>Tipos de Abastecimiento: </strong><br>
+                        <ul>
+                          <li>Captaciones Superficiales: {{m.cantSuperficial}}</li>
+                          <li>Tanques: {{m.cantTanques}}</li>
+                          <li>Sistemas de Cloración: {{m.cantCloraci}}</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </agm-info-window>                  
+                </agm-marker> 
+
+              </agm-map>
+            </div>
+            <!-- End Card Map -->
+          </div>
+          <!-- End FullMap -->
+        </div>
+        <!-- END Mapa -->
+        <!-- FILTERBOX -->
+        <div class="col-md-3">
+            <div class="panel-group">
+              <div class="card panel">
+                <div class="card-head regular collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#accordion1">
+                  <header>Provincias</header>
+                  <div class="tools">
+                    <a class="btn btn-icon-toggle"><i class="fa fa-angle-down"></i></a>
+                  </div>
+                </div>
+                <div id="accordion1" class="collapse">
+                  <div class="card-body">
+                    <div class="card panel">
+                      <div class="card-head regular collapsed" data-toggle="collapse" data-parent="#accordion1" data-target="#accordion1-1">
+                        <header>Cartago</header>
+                        <div class="tools">
+                          <a class="btn btn-icon-toggle"><i class="fa fa-angle-down"></i></a>
+                        </div>
+                      </div>
+                      <!-- Cantones -->
+                      <div id="accordion1-1" class="collapse">
+                        <div class="card-body">
+                          <!-- Canton central -->
+                          <div class="card panel">
+                            <div class="card-head card-head-xs collapsed">
+                              <header>
+                                <div class="checkbox checkbox-styled checkbox-default-dark">
+                                  <label><input type="checkbox" checked><span> Cartago</span></label>
+                                </div>
+                              </header>
+                              <div class="tools" data-toggle="collapse" data-parent="#accordion1-1" data-target="#accordion1-1-1">
+                                <a class="btn btn-icon-toggle"><i class="fa fa-angle-down"></i></a>
+                              </div>
+                            </div>
+                            <!-- Distritos -->
+                            <div id="accordion1-1-1" class="collapse">
+                              <div class="distrito-container">
+                                <div class="checkbox checkbox-styled checkbox-default">
+                                  <label><input type="checkbox" checked><span> San Nicolás</span></label><br>
+                                  <label><input type="checkbox" checked><span> Granadilla</span></label><br>
+                                </div>
+                              </div>
+                            </div><!--end .panel -->
+                          </div>
+                          <!-- otro canton -->
+                          <div class="card panel">
+                            <div class="card-head card-head-xs collapsed">
+                              <header>
+                                <div class="checkbox checkbox-styled checkbox-default-dark">
+                                  <label><input type="checkbox" checked><span> Oreamuno</span></label>
+                                </div>
+                              </header>
+                              <div class="tools" data-toggle="collapse" data-parent="#accordion1-1" data-target="#accordion1-1-2">
+                                <a class="btn btn-icon-toggle"><i class="fa fa-angle-down"></i></a>
+                              </div>
+                            </div>
+                            <!-- Distritos -->
+                            <div id="accordion1-1-2" class="collapse">
+                              <div class="distrito-container">
+                                <div class="checkbox checkbox-styled checkbox-default">
+                                  <label><input type="checkbox" checked><span> Cot</span></label><br>
+                                  <label><input type="checkbox" checked><span> Cipreses</span></label><br>
+                                  <label><input type="checkbox" checked><span> Potrero Cerrado</span></label><br>
+                                  <label><input type="checkbox" checked><span> Santa Rosa</span></label><br>
+                                </div>
+                              </div>
+                            </div><!--end .panel -->
+                          </div>
+                          <!-- otro canton -->
+                          <div class="card panel">
+                            <div class="card-head card-head-xs collapsed">
+                              <header>
+                                <div class="checkbox checkbox-styled checkbox-default-dark">
+                                  <label><input type="checkbox" checked><span> Paraíso</span></label>
+                                </div>
+                              </header>
+                              <div class="tools" data-toggle="collapse" data-parent="#accordion1-1" data-target="#accordion1-1-3">
+                                <a class="btn btn-icon-toggle"><i class="fa fa-angle-down"></i></a>
+                              </div>
+                            </div>
+                            <!-- Distritos -->
+                            <div id="accordion1-1-3" class="collapse">
+                              <div class="distrito-container">
+                                <div class="checkbox checkbox-styled checkbox-default">
+                                  <label><input type="checkbox" checked><span> Orosi</span></label><br>
+                                  <label><input type="checkbox" checked><span> Cachí</span></label><br>
+                                  <label><input type="checkbox" checked><span> Santiago</span></label><br>
+                                </div>
+                              </div>
+                            </div><!--end .panel -->
+                          </div>
+                          <!-- otro canton -->
+                          <div class="card panel">
+                            <div class="card-head card-head-xs collapsed">
+                              <header>
+                                <div class="checkbox checkbox-styled checkbox-default-dark">
+                                  <label><input type="checkbox" checked><span> Turrialba</span></label>
+                                </div>
+                              </header>
+                              <div class="tools" data-toggle="collapse" data-parent="#accordion1-1" data-target="#accordion1-1-4">
+                                <a class="btn btn-icon-toggle"><i class="fa fa-angle-down"></i></a>
+                              </div>
+                            </div>
+                            <!-- Distritos -->
+                            <div id="accordion1-1-4" class="collapse">
+                              <div class="distrito-container">
+                                <div class="checkbox checkbox-styled checkbox-default">
+                                  <label><input type="checkbox" checked><span> La Isabel</span></label><br>
+                                  <label><input type="checkbox" checked><span> Tayutic</span></label><br>
+                                  <label><input type="checkbox" checked><span> La Suiza</span></label><br>
+                                  <label><input type="checkbox" checked><span> Santa Cruz</span></label><br>
+                                </div>
+                              </div>
+                            </div><!--end .panel -->
+                          </div>
+                          <!-- otro canton -->
+                          <div class="card panel">
+                            <div class="card-head card-head-xs collapsed">
+                              <header>
+                                <div class="checkbox checkbox-styled checkbox-default-dark">
+                                  <label><input type="checkbox" checked><span> El Guarco</span></label>
+                                </div>
+                              </header>
+                              <div class="tools" data-toggle="collapse" data-parent="#accordion1-1" data-target="#accordion1-1-5">
+                                <a class="btn btn-icon-toggle"><i class="fa fa-angle-down"></i></a>
+                              </div>
+                            </div>
+                            <!-- Distritos -->
+                            <div id="accordion1-1-5" class="collapse">
+                              <div class="distrito-container">
+                                <div class="checkbox checkbox-styled checkbox-default">
+                                  <label><input type="checkbox" checked><span> San Isidro</span></label><br>
+                                </div>
+                              </div>
+                            </div><!--end .panel -->
+                          </div>
+                          <!-- más cantones-->
+
+                        </div>
+                      </div>
+                    </div><!--end .panel -->
+                  </div>
+                </div>
+              </div><!--end .panel -->
+              <!-- Tipos -->
+              <div class="card panel">
+                <div class="card-head regular collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#accordion2">
+                  <header>Categoría</header>
+                  <div class="tools">
+                    <a class="btn btn-icon-toggle"><i class="fa fa-angle-down"></i></a>
+                  </div>
+                </div>
+                <div id="accordion2" class="collapse">
+                  <div class="card-body">
+                    
+                    <div class="card panel">
+                      <div class="card-head card-head-xs collapsed" >
+                          <header>
+                            <div class="checkbox checkbox-styled checkbox-default-dark">
+                              <label><input type="checkbox" checked><span> Oficina de ASADA</span></label>
+                            </div>
+                            <div class="checkbox checkbox-styled checkbox-default-dark">
+                              <label><input type="checkbox" checked><span> Tanque de almacenamiento</span></label>
+                            </div>
+                            <div class="checkbox checkbox-styled checkbox-default-dark">
+                              <label><input type="checkbox" checked><span> Sistema de cloración</span></label>
+                            </div>
+                            <div class="checkbox checkbox-styled checkbox-default-dark">
+                              <label><input type="checkbox" checked><span> Captación de naciente</span></label>
+                            </div>
+                            <div class="checkbox checkbox-styled checkbox-default-dark">
+                              <label><input type="checkbox" checked><span> Toma de agua superficial</span></label>
+                            </div>
+                          </header>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div><!--end .panel -->
+              <!-- Riesgos -->
+              <div class="card panel" *ngIf="isLoggedIn == true">
+                <div class="card-head regular collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#accordion3">
+                  <header>Riesgos</header>
+                  <div class="tools">
+                    <a class="btn btn-icon-toggle"><i class="fa fa-angle-down"></i></a>
+                  </div>
+                </div>
+                <div id="accordion3" class="collapse">
+                  <div class="card-body">
+
+                    <div class="card panel">
+                      <div class="card-head card-head-xs collapsed" id="riesgos">
+                          <header>
+                            <div class="checkbox checkbox-styled checkbox-danger">
+                              <label><input type="checkbox" checked><span> Muy Alto</span></label>
+                            </div>
+                            <div class="checkbox checkbox-styled checkbox-warning">
+                              <label><input type="checkbox" checked><span> Alto</span></label>
+                            </div>
+                            <div class="checkbox checkbox-styled checkbox-yellow">
+                              <label><input type="checkbox" checked><span> Intermedio</span></label>
+                            </div>
+                            <div class="checkbox checkbox-styled checkbox-lime">
+                              <label><input type="checkbox" checked><span> Bajo</span></label>
+                            </div>
+                            <div class="checkbox checkbox-styled checkbox-success">
+                              <label><input type="checkbox" checked><span> Nulo</span></label>
+                            </div>
+                          </header>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div><!--end .panel -->
+
+              <div class="card panel">
+                <div class="card-head regular collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#accordion4">
+                  <header>Simbología</header>
+                  <div class="tools">
+                    <a class="btn btn-icon-toggle"><i class="fa fa-angle-down"></i></a>
+                  </div>
+                </div>
+                <div id="accordion4" class="collapse in">
+                  <div class="card-body">
+
+                    <div class="card panel">
+                      <div class="card-head card-head-xs collapsed" >
+                          <header>
+                            <div style=" display: inline-block;">
+                              <img src="../../../assets/icons/Naciente.png" alt="" />
+                              <span> Captación Superficial o naciente </span>
+                            </div>
+                            <div style=" display: inline-block;">
+                              <img src="../../../assets/icons/oficina.png" alt="" />
+                              <span> Oficina ASADA </span>
+                            </div>
+                            <div style=" display: inline-block;">
+                              <img src="../../../assets/icons/Tanque.png" alt="" />
+                              <span> Tanques de Agua </span>
+                            </div>
+                          </header>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div><!--end .panel -->
+
+            </div><!--end .panel-group -->
+        </div>
+          <!-- END filterbox -->
+      </div>
+      <!-- END row-->
+      
+      <div class="row">
+        <!-- ASADA Table -->
+        <div class="col-md-9"><br>
+          <div class="asada-table">
+            <div class="card style-default-light">
+              <div class="nano" style="height: 400px;">
+                <div class="nano-content">
+                  <div class="card-body height-8" style="height: auto;">
+                <!--<div><div>-->
+                    <div class="card-body">
+                      <div class="table-responsive">
+                        <!-- <table class="table table-condensed table-hover" [mfData]="asadasmarkers" #mf="mfDataTable" [mfRowsOnPage]="10">-->
+                        <table class="table table-condensed table-hover">  
+                          <thead>
+                            <tr>
+                              <th style="width: 30%">Nombre
+                                  <!-- <mfDefaultSorter by="nombre">Nombre</mfDefaultSorter> -->
+                              </th>
+                              <th style="width: 30%">Ubicación
+                                  <!-- <mfDefaultSorter by="ubicacion">Ubicación</mfDefaultSorter>-->
+                              </th>
+                              <th style="width: 10%">Tanques
+                                  <!-- <mfDefaultSorter by="tanques">Tanques</mfDefaultSorter>-->
+                              </th>
+                              <th style="width: 10%">Captaciones
+                                  <!-- <mfDefaultSorter by="captaciones">Captaciones</mfDefaultSorter>-->
+                              </th>
+                              <th style="width: 10%">Cloración
+                                  <!-- <mfDefaultSorter by="cloracion">Cloración</mfDefaultSorter>-->
+                              </th>
+                              <th style="width: 10%">Opciones
+                                  <!-- <mfDefaultSorter by="opciones">Opciones</mfDefaultSorter>-->
+                              </th>
+                            </tr>
+                            <!--<tr>
+                              <th colspan="5">
+                                  Filter by name:
+                                  <input class="form-control" [(ngModel)]="filterQuery"/>
+                              </th>
+                            </tr> -->
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let m of asadasmarkers">
+                              <td><button (click)="redirectASADA(m)" class="btn btn-link btn-xs ink-reaction">{{m.name}}</button></td>
+                              <td>{{m.province}}, {{m.state}}, {{m.district}}</td>
+                              <td>{{m.cantTanques}}</td>
+                              <td>{{m.cantSuperficial}}</td>
+                              <td>{{m.cantCloraci}}</td>
+                              <td>
+                                <button (click)="m.showInfoWindow = !m.showInfoWindow" class="btn ink-reaction btn-floating-action btn-xs btn-danger">
+                                    <i class="fa fa-map-marker"></i>
+                                </button>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        
+            </div>
+          </div>
+          <!-- END Asada table -->
+        </div>
+        <!-- END Asada table-->
+      </div>
+  </div>
+  <!-- END container -->
+  <!-- End FullMap + filterbox -->
+
+
+
+  </div>
+  <!-- End Body Section -->
+
+  <div id="InfoModal" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+    <div class="modal-dialog modal-lg ">
+
+      <!-- Modal content-->
+      <div class="modal-content ">
+        <div class="modal-header">
+          <h3 class="modal-title">ISRS</h3>
+        </div>
+        <div class="modal-body" *ngIf="loadgraphic == true" >
+          <div>
+            <app-graphics size="big" type="GIRS" [sort]=AsadaId ></app-graphics>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn ink-reaction btn-raised btn-warning"  data-dismiss="modal" (click)="cancelModal()" >Cerrar</button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div id="InfoModal2" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+    <div class="modal-dialog modal-lg ">
+
+      <!-- Modal content-->
+      <div class="modal-content ">
+        <div class="modal-header">
+          <h3 class="modal-title">ISAR</h3>
+        </div>
+        <div class="modal-body" *ngIf="loadgraphic == true">
+            <div>
+              <app-graphics  size="big" type="GAR" [sort]=AsadaId></app-graphics>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn ink-reaction btn-raised btn-warning"  data-dismiss="modal" (click)="cancelModal()" >Cerrar</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

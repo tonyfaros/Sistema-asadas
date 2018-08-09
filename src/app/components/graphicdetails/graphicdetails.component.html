@@ -1,0 +1,91 @@
+<section>
+
+<div class="col-lg-12">
+
+<form class="form" (ngSubmit)="onSubmit()" [formGroup]="addGraphicForm">
+  <div class="card">
+    <div class="card-head style-primary" >
+      <header *ngIf="graphicType=='GAR'" class="active"> Editar Información Grafico ISAR </header>
+      <header *ngIf="graphicType=='GIRS'" class="active"> Editar Información Grafico ISRS </header>    
+    </div>
+    <!-- BEGIN TEXT PLACE -->
+    <div class="card-body">
+
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <input type="number" class="form-control" id="valor1" formControlName="valor1"  required>
+            <label *ngIf="graphicType=='GAR'" for="valor1">% Cobertura alcantarillado sanitario:</label>
+            <label *ngIf="graphicType=='GIRS'" for="valor1">% Recolección:</label>
+          </div>
+
+        </div> 
+
+      </div> <!-- End Row -->
+
+
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <input type="number" class="form-control" id="valor2" formControlName="valor2"  required>
+            <label *ngIf="graphicType=='GAR'" for="valor2">% Tratamiento aguas grises y jabonosas:</label>
+            <label *ngIf="graphicType=='GIRS'" for="valor2">% Limpieza de vías y zonas públicas:</label>
+          </div>
+
+        </div> 
+
+      </div> <!-- End Row -->
+
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <input type="number" class="form-control" id="valor3" formControlName="valor3"  required>
+            <label *ngIf="graphicType=='GAR'" for="valor3">% Viviendas con tratamiento de excretas con tanque séptico:</label>
+            <label *ngIf="graphicType=='GIRS'" for="valor3">% Ausencia RS en rios o lotes:</label>
+          </div>
+
+        </div> 
+
+      </div> <!-- End Row -->
+
+      <div *ngIf="graphicType=='GIRS'" class="row" >
+        <div class="col-sm-6">
+          <div class="form-group">
+            <input type="number" class="form-control" id="valor4" formControlName="valor4"  required>
+            <label for="valor4">% Recuperación de residuos sólidos valorizables:</label>
+          </div>
+
+         </div> 
+      </div> <!-- End Row -->
+
+       <div *ngIf="graphicType=='GIRS'" class="row" >
+        <div class="col-sm-6">
+          <div class="form-group">
+            <input type="number" class="form-control" id="valor5" formControlName="valor5"  required>
+            <label for="valor5">% Tratamiento:</label>
+          </div>
+
+         </div> 
+
+      </div> <!-- End Row -->
+
+      
+
+       <div class="card-actionbar">
+        <div class="card-actionbar-row">
+
+          <button type="submit" class="btn ink-reaction btn-raised btn-primary"  [disabled]="!addGraphicForm.valid">
+          Editar
+          <div class="ink" style="top: 20px; left: 51.75px;"></div></button>
+           <button type="button" class="btn ink-reaction btn-raised btn-warning" data-dismiss="modal" (click)="cancel()">Cancelar</button>
+        </div>
+      </div>
+
+          <toaster-container  [toasterconfig]="toastConfig"></toaster-container>
+
+      </div> <!-- End card body -->
+      
+  </div><!--end .card -->
+</form>
+ </div>
+</section>

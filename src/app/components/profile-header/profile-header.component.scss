@@ -1,0 +1,24 @@
+.small-margin{
+    visibility: hidden;
+}
+@media screen and (max-width: 600px)
+{
+    .small-margin{
+        visibility: visible;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-right: 10px;
+        margin-left: 10px;
+        
+    }
+}
+
+.e{
+    
+    min-height: 64px;
+    padding: 12px;
+}
+
+.profile-info {
+    padding-top: 5px !important;
+}

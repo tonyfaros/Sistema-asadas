@@ -1,0 +1,106 @@
+<section>
+	<div class="section-body contain-xl">
+		<div class="card tabs-left style-default-light">
+
+			<!-- BEGIN SEARCH BAR -->
+			<div class="card-body style-primary no-y-padding">
+				<form class="form form-inverse">
+					<div class="form-group">
+						<div class="input-group input-group-lg">
+							<div class="input-group-content">
+								<input type="text" class="form-control" id="searchInput" placeholder="" (keyup)="search(input.value)" #input>
+								<div class="form-control-line">
+								</div>
+							</div>
+							<div class="input-group-btn">
+								<button class="btn btn-floating-action btn-default-bright" type="button"><i class="fa fa-search"></i></button>
+							</div>
+						</div>
+					</div>
+					<!--end .form-group -->
+				</form>
+			</div>
+			<!--end .card-body -->
+			<!-- END SEARCH BAR -->
+
+			<!-- BEGIN TAB CONTENT -->
+			<div class="card-body tab-content style-default-bright">
+				<div class="tab-pane active" id="web1">
+					<div class="row">
+						<div class="col-lg-12">
+
+							<!-- BEGIN PAGE HEADER -->
+							<div class="margin-bottom-xxl">
+								<span class="text-light text-lg">Cantidad de registros de bitacora en el sistema 
+									<strong>{{filteredList.length}}</strong>
+								</span>
+							</div>
+							<!-- END PAGE HEADER -->
+
+							<div>
+								<table class="table table-hover">
+									<thead>
+										<tr>
+											<th class="text-medium text-lg text-primary">Fecha de bitácora</th>
+											<th class="text-medium text-lg text-primary">Cantidad de Asadas</th>
+											<th class="text-medium text-lg text-primary">Cantidad de Nacientes</th>
+											<th class="text-medium text-lg text-primary">Cantidad de Aguas superficiales</th>
+											<th class="text-medium text-lg text-primary">Cantidad de Tanques</th>
+											<th class="text-medium text-lg text-primary">Cantidad de Lineas de Distribución</th>
+											<th class="text-medium text-lg text-primary">Cantidad de Sistemas de Cloración</th>
+											<th class="text-right text-lg text-primary">Revertir</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr *ngFor="let element of filteredList">
+											<td><a class="opacity-75">{{element.date}}</a></td>
+											<td><a class="opacity-75">{{element.dataAsadas.length}}</a></td>
+											<td><a class="opacity-75">{{element.dataInfraChlorination.length}}</a></td>
+											<td><a class="opacity-75">{{element.dataInfraDistributionLine.length}}</a></td>
+											<td><a class="opacity-75">{{element.dataInfraNascent.length}}</a></td>
+											<td><a class="opacity-75">{{element.dataInfraSuperficialWater.length}}</a></td>
+											<td><a class="opacity-75">{{element.dataInfraTank.length}}</a></td>
+											<td>
+												<button (click)="uploadRegister(element)" type="button" class="btn btn-icon-toggle" data-toggle="modal" data-target="#upload-register"
+												 data-placement="top" data-original-title="Copy row"><i class="fa fa-cloud-upload fa-2x"></i></button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+			<!-- END TAB CONTENT -->
+		</div>
+	</div>
+
+	<!--MODAL ZONE -->
+	<div id="upload-register" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+		<div class="modal-dialog modal-lg ">
+		  <!-- Modal content-->
+		  <div class="modal-content ">
+			<div class="modal-header">
+			  <h3 class="modal-title">Revertir cambios</h3>
+			</div>
+			<div class="modal-body">
+				<p class="alert alert-danger "><strong>Si continua con esta acción se podrían perder datos.
+					¿Desea continuar?</strong></p>
+
+			</div>
+	
+			<div class="modal-footer">
+				<button type="button" colspan="6" class="btn ink-reaction btn-raised btn-danger" (click)="updateSystem(register)" 
+			  		data-dismiss="modal" >Continuar</button>
+
+			  	<button type="button" class="btn ink-reaction btn-raised btn-warning"  
+			  		data-dismiss="modal" >Cerrar</button>
+
+
+			</div>
+		  </div>
+		</div>
+	  </div>
+</section>

@@ -1,0 +1,240 @@
+<section>
+	<div class="section-header">
+		<ol class="breadcrumb">
+			<li *ngIf="searchType=='asadas'" class="active"> <h3>Asadas</h3> </li>
+			<li *ngIf="searchType=='infraestructura'" class="active"> <h3>Infraestructuras</h3></li>
+
+			<button *ngIf="searchType=='infraestructura'" (click)="export()" class="btn ink-reaction btn-raised btn-primary btn-loading-state search-btn"
+				[disabled]="" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading...">
+					Exportar Infraestructuras
+				<div class="ink" style="top: 20px; left: 51.75px;"></div>
+			</button>
+			
+			<button *ngIf="searchType=='asadas'" (click)="export()" class="btn ink-reaction btn-raised btn-primary btn-loading-state search-btn"
+				[disabled]="" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading...">
+					Exportar Asadas
+				<div class="ink" style="top: 20px; left: 51.75px;"></div>
+			</button>
+
+			<button *ngIf="searchType=='asadas' && userAccess.rol =='Super Administrador'" 
+				class="btn ink-reaction btn-raised btn-primary btn-loading-state search-btn"
+				data-toggle="modal" data-target="#upload-asadas" data-placement="top" 
+				data-original-title="Subir">
+				Importar ASADAs
+			</button>
+		</ol>
+
+	</div>
+	<br>
+
+	<div class="section-body contain-xl ">
+		<div class="card tabs-left style-default-light">
+
+			<!-- BEGIN SEARCH BAR -->
+			<div class="card-body style-primary no-y-padding">
+				<form class="form form-inverse">
+					<div class="form-group">
+						<div class="input-group input-group-lg">
+							<div class="input-group-content">
+								<input type="text" class="form-control" id="searchInput" placeholder="" (keyup)="search(input.value)" #input>
+								<div class="form-control-line"></div>
+							</div>
+							<div class="input-group-btn">
+								<button class="btn btn-floating-action btn-default-bright" type="button"><i class="fa fa-search"></i></button>
+							</div>
+						</div>
+					</div>
+					<!--end .form-group -->
+				</form>
+			</div>
+			<!--end .card-body -->
+			<!-- END SEARCH BAR -->
+
+			<!-- BEGIN TAB CONTENT -->
+			<div class="card-body tab-content style-default-bright">
+				<div class="tab-pane active" id="web1">
+					<div class="row">
+						<div class="col-lg-12">
+
+							<!-- BEGIN PAGE HEADER -->
+							<div class="margin-bottom-xxl">
+
+								<span class="text-light text-lg">Cantidad de resultados <strong>{{filteredList.length}}</strong></span>
+
+							</div>
+							<!--end .margin-bottom-xxl -->
+							<!-- END PAGE HEADER -->
+
+							<div *ngIf="searchType=='asadas'">
+								<table class="table table-hover">
+									<thead>
+										<tr>
+											<th>
+												<div class="checkbox checkbox-styled tile-text">
+													<label>
+														<input type="checkbox" [(ngModel)]="allSelection" (change)="selectAll()">
+														<span>
+														</span>
+													</label>
+												</div>
+											</th>
+											<th class="text-medium text-lg text-primary sorting">Nombre</th>
+											<th class="text-medium text-lg text-primary">Provincia</th>
+											<th class="text-medium text-lg text-primary">Cantón</th>
+											<th class="text-medium text-lg text-primary">Distrito</th>
+											<th *ngIf="optionsAllowed == true" class="text-medium text-lg text-primary">Cargar Infraestructuras</th>
+											<th *ngIf="optionsAllowed == true" class="text-right text-lg text-primary">Opciones</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr *ngFor="let element of filteredList">
+											<td>
+												<div class="checkbox checkbox-styled tile-text">
+													<label>
+														<input type="checkbox" [(ngModel)]="element.isActive">
+														<span>
+														</span>
+													</label>
+												</div>
+											</td>
+											<td><a class="custom-pointer" (click)=openDetails(element)>{{element.name}}</a></td>
+											<td><a class="opacity-75">{{element.province}}</a></td>
+											<td><a class="opacity-75">{{element.district}}</a></td>
+											<td><a class="opacity-75">{{element.subDistrict}}</a></td>
+											<td *ngIf="optionsAllowed == true"> 
+												<button *ngIf="element.allowedToEdit==true"
+													class="btn ink-reaction btn-raised btn-primary btn-loading-state"
+													(click)="uploadInfraestructura(element)"
+													data-toggle="modal" data-target="#upload-infraestructuras" data-placement="top" 
+													data-original-title="Subir">
+													Importar
+												</button>
+											</td>
+											<td *ngIf="optionsAllowed == true" class="text-right">
+												<button *ngIf="element.allowedToEdit==true" (click)="modifyInfo(element)" type="button" class="btn btn-icon-toggle" data-toggle="tooltip"
+												 data-placement="top" data-original-title="Copy row"><i class="fa fa-pencil"></i></button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<!-- BEGIN RESULT LIST -->
+							<div *ngIf="searchType=='infraestructura'">
+								<table class="table table-hover">
+									<thead>
+										<tr>
+											<th >
+												<div class="checkbox checkbox-styled tile-text">
+													<label>
+														<input type="checkbox" [(ngModel)]="allSelection" (change)="selectAll()">
+														<span>
+														</span>
+													</label>
+												</div>
+											</th>
+											<th></th>
+											<th class="text-medium text-lg text-primary sorting">Nombre</th>
+											<th class="text-medium text-lg text-primary sorting">Asada</th>
+											<th class="text-medium text-lg text-primary sorting">Tipo</th>
+
+											<th *ngIf="optionsAllowed==true" class="text-right text-lg text-primary">Opciones</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr *ngFor="let element of filteredList">
+											<td>
+												<div class="checkbox checkbox-styled tile-text">
+													<label>
+														<input [disabled]="element.allowedToEdit==false" type="checkbox" [(ngModel)]="element.isActive">
+														<span>
+														</span>
+													</label>
+												</div>
+											</td>
+											<td>
+												<div *ngIf="element.img">
+													<img class="img-circle width-2" [src]="element.img[0].url" alt="" />
+												</div>
+
+												<div *ngIf="!element.img">
+													<img class="img-circle width-2" src="../../../assets/img/default-image.png" alt="" />
+												</div>
+											</td>
+											<td><a class="custom-pointer" (click)=openDetails(element)>{{element.name}}</a></td>
+											<td><a class="opacity-75">{{element.asada.name}}</a></td>
+											<td><a class="opacity-75">{{element.type}}</a></td>
+
+											<td *ngIf="optionsAllowed == true" class="text-right">
+												<button *ngIf="element.allowedToEvaluate==true" (click)="evaluate(element)" type="button" class="btn btn-icon-toggle"
+												><i class="fa fa-list-alt" content="Evaluar Riesgo"></i></button>
+												<button *ngIf="element.allowedToEdit==true" (click)="modifyInfo(element)" type="button" class="btn btn-icon-toggle"
+												><i class="fa fa-pencil" content="Editar Información"></i></button>
+												 
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+
+						</div>
+						<!--end .col -->
+					</div>
+					<!--end .row -->
+				</div>
+				<!--end .tab-pane -->
+			</div>
+			<!--end .card-body -->
+			<!-- END TAB CONTENT -->
+
+		</div>
+		<!--end .card -->
+	</div>
+	<!--end .section-body -->
+
+	<div id="upload-asadas" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+		<div class="modal-dialog modal-lg ">
+		  <!-- Modal content-->
+		  <div class="modal-content ">
+			<div class="modal-header">
+			  <h3 class="modal-title">Subir archivo de ASADAs</h3>
+			</div>
+			<div class="modal-body">
+				<ng2-file-input (onAdded)="onAdded($event)" (onRemoved)="onRemoved($event)">
+					
+					<!-- Importar Asadas -->
+
+				</ng2-file-input>
+			</div>
+	
+			<div class="modal-footer">
+			  <button type="button" class="btn ink-reaction btn-raised btn-warning"  data-dismiss="modal" >Cerrar</button>
+			</div>
+	
+		  </div>
+	
+		</div>
+	</div>
+
+	<div id="upload-infraestructuras" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog">
+		<div class="modal-dialog modal-lg ">
+		  <!-- Modal content-->
+		  <div class="modal-content ">
+			<div class="modal-header">
+			  <h3 class="modal-title">Subir archivo de infraestructuras</h3>
+			  <h3>{{(uploadInfraestructuraElement)?.adminEntityName}}</h3>
+			</div>
+			<div class="modal-body">
+				<ng2-file-input [browse-text]="'Archivo...'"
+				(onRemoved)="onRemoved2($event)" (onAdded)="onAdded2($event,uploadInfraestructuraElement)" >
+				</ng2-file-input>
+			</div>
+	
+			<div class="modal-footer">
+			  	<button type="button" class="btn ink-reaction btn-raised btn-warning"  
+			  		data-dismiss="modal" >Cerrar</button>
+			</div>
+		  </div>
+		</div>
+	  </div>
+</section>

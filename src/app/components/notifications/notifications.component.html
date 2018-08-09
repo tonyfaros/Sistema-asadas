@@ -1,0 +1,89 @@
+<section>
+
+<div class="card-body">
+
+    <div class="card card-bordered style-primary">
+      <div class="card-head">
+        <header>Notificaciones</header>
+      </div>
+
+
+      <div class="card-body style-default-bright">
+        
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th class="text-medium text-lg text-primary sorting">Asunto</th>
+              <th class="text-medium text-lg text-primary">Enviado por</th>
+              <th class="text-right text-lg text-primary">Opciones</th>
+            </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let element of filterList" >
+                <td><a class="custom-pointer" >{{element.subject}}</a></td>
+                <td><a class="opacity-75">{{element.username}}</a></td>
+                <td class="text-right">
+                  <button (click)="setDetails(element)" type="button" class="btn ink-reaction btn-icon-toggle btn-lg btn-primary" data-toggle="modal" data-target="#InfoModal" data-placement="top" data-original-title="Ver"><i class="fa fa-eye"></i></button>
+                  <button (click)="setDetails(element)" type="button" class="btn ink-reaction btn-icon-toggle btn-lg btn-danger" data-toggle="modal" data-target="#EliminateModal" data-placement="top" data-original-title="Eliminar"><i class="fa fa-times"></i></button>
+              </tr>
+            </tbody>
+          </table>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="crearNotific()">Crear Notificación</button>
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+  <div id="InfoModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content" *ngFor="let element of singleList" >
+        <div class="modal-header">
+          <h4 class="modal-title">{{element.subject}}</h4>
+        </div>
+        <div class="modal-body">
+          <h3>{{element.message}}</h3>
+          <h4>Enviado por: {{element.username}}</h4>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="responder(element)">Responder</button>
+          <button type="button" class="btn btn-default"  data-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+
+            <!-- Modal -->
+  <div id="EliminateModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content" *ngFor="let element of singleList" >
+        <div class="modal-header">
+          <h4 class="modal-title">Confirmar acción</h4>
+        </div>
+        <div class="modal-body">
+          <h3>¿Desea eliminar la notificación?</h3>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteNotf(element)">Eliminar</button>
+          <button type="button" class="btn btn-default"  data-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+</div>
+
+</section>

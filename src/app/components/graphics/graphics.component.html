@@ -1,0 +1,26 @@
+<section>
+
+  <div class="section-header">
+    <ol class="breadcrumb">
+      <li *ngIf="graphicType=='GAR'" class="active"> ISAR </li>
+      <li *ngIf="graphicType=='GIRS'" class="active"> ISRS </li>    
+    </ol>
+  </div>
+ <div>
+  <div style="display: block">
+    <canvas *ngIf="barChartData && barChartLabels && barChartOptions
+    && barChartColors && barChartLegend && barChartType"
+     baseChart
+            [datasets]="barChartData"
+            [labels]="barChartLabels"
+            [options]="barChartOptions"
+            [colors]="barChartColors"
+            [legend]="barChartLegend"
+            [chartType]="barChartType"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)"></canvas>
+  </div>
+  <button *ngIf="changepermit==true"  type="button" class="btn ink-reaction btn-raised btn-accent btn-loading-state moveleft" (click)="editGraphic()">Editar Gráfico</button>
+</div>
+
+</section>

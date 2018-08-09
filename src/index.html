@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+
+  <title>Sistema ASADAs</title>
+
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="manifest" href="/manifest.json">
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.3/Chart.bundle.min.js"></script>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
+  <link rel="manifest" href="assets/icons/manifest.json">
+  <link rel="mask-icon" href="assets/icons/safari-pinned-tab.svg" color="#5bbad5">
+  <link rel="shortcut icon" href="assets/icons/favicon.ico">
+  <meta name="msapplication-config" content="assets/icons/browserconfig.xml">
+  <meta name="theme-color" content="#ffffff">
+  
+  <meta name="apple-mobile-web-app-title" content="Asadas">
+  <meta name="application-name" content="Asadas">
+  <meta name="msapplication-config" content="assets/icons/browserconfig.xml">
+  <meta name="theme-color" content="#ffffff">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/service-worker.js').then(function (registration) {
+      }).catch(function (err) {
+        // registration failed :(
+        console.log('ServiceWorker registration failed: ', err);
+      });
+    }
+  </script>
+
+  <!-- Begin TEMPLATE UTILITIES -->
+  <!-- BEGIN META -->
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="keywords" content="sistema,asada,asadas,Costa,Rica">
+  <meta name="description" content="Sistema de Gestión de ASADAs">
+
+  <!-- BEGIN STYLESHEETS -->
+  <link type="text/css" rel="stylesheet" href="/assets/css/theme-4/bootstrap.css" />
+  <link type="text/css" rel="stylesheet" href="/assets/css/theme-4/materialadmin.css" />
+  
+  <!--Font Awesome Icon Font-->
+  <link type="text/css" rel="stylesheet" href="/assets/css/theme-4/font-awesome.min.css" />
+  <!--Material Design Iconic Font-->
+  <link type="text/css" rel="stylesheet" href="/assets/css/theme-4/material-design-iconic-font.min.css" />
+  <!-- Custom fonts for this template -->
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Cabin:700' rel='stylesheet' type='text/css'>
+  
+  <!-- Additional CSS includes -->
+  <link type="text/css" rel="stylesheet" href="/assets/css/theme-default/libs/dropzone/dropzone-theme.css?1424887864">
+  <link type="text/css" rel="stylesheet" href="/assets/css/theme-default/libs/summernote/summernote.css?1425218701" />
+  <link type="text/css" rel="stylesheet" href="/assets/css/theme-default/libs/rickshaw/rickshaw.css?1422792967" />
+  <link type="text/css" rel="stylesheet" href="/assets/css/theme-default/libs/morris/morris.core.css?1420463396" />
+  <link type="text/css" rel="stylesheet" href="/assets/css/nanoscroller/nanoscroller.css" />
+
+  <link rel="stylesheet" type="text/css" href="/node_modules/angular2-toaster/toaster.css" />
+
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+      <script type="text/javascript" src="/assets/js/libs/utils/html5shiv.js"></script>
+      <script type="text/javascript" src="/assets/js/libs/utils/respond.min.js"></script>
+      <![endif]-->
+
+
+  <!-- BEGIN JAVASCRIPT -->
+  <script src="/assets/js/libs/jquery/jquery-1.11.2.min.js"></script>
+  <script src="/assets/js/libs/jquery/jquery-migrate-1.2.1.min.js"></script>
+  <script src="/assets/js/libs/bootstrap/bootstrap.min.js"></script>
+  <script src="/assets/js/libs/nanoscroller/jquery.nanoscroller.min.js"></script>
+
+  <script src="/assets/js/libs/spin.js/spin.min.js"></script>
+  <script src="/assets/js/libs/autosize/jquery.autosize.min.js"></script>
+  <script src="/assets/js/libs/moment/moment.min.js"></script>
+  <script src="/assets/js/libs/flot/jquery.flot.min.js"></script>
+  <script src="/assets/js/libs/flot/jquery.flot.time.min.js"></script>
+  <script src="/assets/js/libs/flot/jquery.flot.resize.min.js"></script>
+  <script src="/assets/js/libs/flot/jquery.flot.orderBars.js"></script>
+  <script src="/assets/js/libs/flot/jquery.flot.pie.js"></script>
+  <script src="/assets/js/libs/flot/curvedLines.js"></script>
+  <script src="/assets/js/libs/jquery-knob/jquery.knob.min.js"></script>
+  <script src="/assets/js/libs/sparkline/jquery.sparkline.min.js"></script>
+  <script src="/assets/js/libs/d3/d3.min.js"></script>
+  <script src="/assets/js/libs/d3/d3.v3.js"></script>
+  
+  <!-- Put App.js last in your javascript imports -->
+  <script src="/assets/js/core/source/App.min.js"></script>
+  <!-- End TEMPLATE UTILITIES -->
+
+</head>
+
+<body class="menubar-hoverable header-fixed" id="page-top">
+
+  <app-root>Loading...</app-root>
+
+</body>
+
+</html>

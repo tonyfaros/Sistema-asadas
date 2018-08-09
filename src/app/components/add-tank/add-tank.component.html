@@ -1,0 +1,253 @@
+<div class="col-lg-12">
+  <form class="form" (ngSubmit)="onSubmit()" [formGroup]="addTankForm">
+    <div class="card">
+      <div class="card-head style-primary">
+        <header>Creación de tanque de almacenamiento</header>
+      </div>
+      <!-- BEGIN TEXT PLACE -->
+      <div class="card-body">
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <input type="text" class="form-control" id="aqueductName" formControlName="aqueductName" required>
+              <label for="aqueductName">Nombre Acueducto</label>
+            </div>
+            <!-- Error message -->
+            <div *ngIf="formErrors.aqueductName" class="alert alert-danger">
+              {{ formErrors.aqueductName }}
+            </div>
+
+          </div>
+
+          <div class="col-sm-6">
+            <div class="form-group">
+              <input type="text" class="form-control" id="registerNo" formControlName="registerNo" required>
+              <label for="registerNo">NO. Registro</label>
+            </div>
+
+            <!-- Error message -->
+            <div *ngIf="formErrors.registerNo" class="alert alert-danger">
+              {{ formErrors.registerNo }}
+            </div>
+
+          </div>
+        </div>
+        <!-- End Row -->
+
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <input type="text" class="form-control" id="tankName" formControlName="tankName" required>
+              <label for="tankName">Nombre del Tanque de almacenamiento</label>
+            </div>
+
+            <!-- Error message -->
+            <div *ngIf="formErrors.tankName" class="alert alert-danger">
+              {{ formErrors.tankName }}
+            </div>
+
+          </div>
+
+
+          <div class="col-sm-6">
+            <div class="form-group">
+              <input type="text" class="form-control " id="direction" formControlName="direction" required>
+              <label for="direction">Dirreción</label>
+            </div>
+
+            <!-- Error message -->
+            <div *ngIf="formErrors.direction" class="alert alert-danger">
+              {{ formErrors.direction }}
+            </div>
+
+          </div>
+
+        </div>
+        <!-- End row -->
+
+        <div class="row">
+
+          <div class="col-sm-3">
+            <div class="form-group">
+              <input type="number" step="any" class="form-control" id="volume" formControlName="volumeAmount" requerired>
+              <label for="volume">Volumen del tanque</label>
+            </div>
+
+            <!-- Error message -->
+            <div *ngIf="formErrors.volumeAmount" class="alert alert-danger">
+              {{ formErrors.volumeAmount }}
+            </div>
+          </div>
+
+          <div class="col-sm-3">
+            <div class="form-group">
+              <select id="selectVolume" name="selectVolume" class="form-control" formControlName="volumeUnit">
+                    <option *ngFor="let unit of measureUnit" [value]=unit.value name="volumenSelectOption" ngDefaultControl>{{unit.display}}</option>
+                  </select>
+            </div>
+          </div>
+
+          <div class="col-sm-6">
+            <div class="form-group">
+              <material-datepicker [(date)]="creationDate" dateFormat="DD-MM-YYYY" placeholder="Seleccione una fecha"></material-datepicker>
+              <label for="creationDate">Fecha de creación</label>
+            </div>
+
+
+          </div>
+        </div>
+        <!-- End row -->
+
+
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <input type="text" class="form-control" id="asada" formControlName="asada" readonly>
+              <label for="asada" class="control-label">ASADA</label>
+            </div>
+          </div>
+
+          <div class="col-sm-6">
+            <div class="form-group">
+              <input type="text" class="form-control" id="inCharge" formControlName="inCharge" readonly required>
+              <label for="inCharge">Funcionario</label>
+            </div>
+
+            <!-- Error message -->
+            <div *ngIf="formErrors.inCharge" class="alert alert-danger">
+              {{ formErrors.inCharge }}
+            </div>
+
+          </div>
+
+
+        </div>
+        <!-- End row -->
+        <!-- END TEXT PLACE -->
+        <br>
+
+        <!-- BEGIN RADIO BUTTONS -->
+        <div class="row">
+          <div class="form-group">
+            <label class="col-sm-6 control-label">Tipo de tanque</label>
+            <div class="col-lg-12">
+              <label *ngFor="let type of tankType" class="radio-inline radio-styled">
+              <input type="radio" value={{type.value}} formControlName="type" ><span>{{type.display}}</span>
+            </label>
+
+            </div>
+            <!--end .col -->
+          </div>
+          <br>
+        </div>
+
+        <div class="row">
+          <div class="form-group">
+            <label class="col-sm-6 control-label">Material de tanque</label>
+            <div class="col-lg-12">
+              <label *ngFor="let material of tankMaterial; let idx = index" class="radio-inline radio-styled">
+              <input type="radio"  value={{material.value}}  formControlName="material" ><span>{{material.display}}</span>
+            </label>
+
+            </div>
+            <!--end .col -->
+          </div>
+          <br>
+        </div>
+
+        <div class="row">
+          <div class="form-group">
+            <label class="col-sm-6 control-label">Frecuencia de limpieza</label>
+            <div class="col-lg-12">
+              <label *ngFor="let clean of cleaningFrec" class="radio-inline radio-styled">
+              <input type="radio"  value={{clean.value}} formControlName="cleaning"><span>{{clean.display}}</span>
+            </label>
+            </div>
+            <!--end .col -->
+          </div>
+          <br>
+        </div>
+        <!-- END RADIO BUTTONS -->
+
+
+
+        <!-- BEGIN LOCATION -->
+        <div class="row">
+          <div class="col-sm-6">
+
+            <div class="card">
+              <div class="card-head style-warning">
+                <header> Ubicación</header>
+              </div>
+              <div class="card-body">
+                <div class="form-group">
+                  <input type="number" step="any" class="form-control dirty" formControlName="latitude" required>
+                  <label>Latitud</label>
+                </div>
+
+                <!-- Error message -->
+                <div *ngIf="formErrors.latitude" class="alert alert-danger">
+                  {{ formErrors.latitude }}
+                </div>
+
+                <div class="form-group">
+                  <input type="number" step="any" class="form-control dirty" formControlName="longitude" required>
+                  <label>Longitud</label>
+                </div>
+
+                <!-- Error message -->
+                <div *ngIf="formErrors.longitude" class="alert alert-danger">
+                  {{ formErrors.longitude }}
+                </div>
+
+                <button type="button" (click)="getGeoLocation()" class="btn btn-raised btn-default-light ink-reaction"><i class="md md-my-location"></i>Ubicación actual</button>
+              </div>
+              <!--end .card-body -->
+            </div>
+            <!--end .card -->
+
+          </div>
+        </div>
+        <!-- END LOCATION -->
+
+        <!-- BEGIN IMAGE UPLOAD 
+        <h3 class="text-primary-dark">Inserte una imagen</h3>
+        <div class="row">
+          <div class="fileUpload btn btn-default-light">
+            <span>Cargar archivo</span>
+            <input type="file" class="upload" accept="image/*" (change)="uploadFile($event)" />
+          </div>
+          <div class="fileText">
+            <div *ngIf="imageFile">
+              <span>Archivo cargado: {{imageFile.name}}</span>
+            </div>
+
+            <div *ngIf="!imageFile">
+              <span>Seleccionar un archivo</span>
+            </div>
+          </div>
+        </div>
+
+
+       END IMAGE UPLOAD -->
+
+
+        <div class="card-actionbar">
+          <div class="card-actionbar-row">
+            <button type="submit" class="btn ink-reaction btn-raised btn-primary" [disabled]="!addTankForm.valid || !creationDate">
+          Crear Tanque
+          <div class="ink" style="top: 20px; left: 51.75px;"></div></button>
+
+            <button type="button" class="btn ink-reaction btn-raised btn-warning" data-dismiss="modal" (click)="cancel()">Cancelar</button>
+          </div>
+        </div>
+
+        <toaster-container [toasterconfig]="toastConfig"></toaster-container>
+
+      </div>
+      <!-- End card body -->
+
+    </div>
+    <!--end .card -->
+  </form>
+</div>

@@ -1,0 +1,152 @@
+<section >
+  <div class="section-header">
+      <h2 class="text-default-bright">Comparación de ASADAs</h2>
+  </div>
+  <div class="section-body">
+    <div class="card">
+    <div class="card-body">
+      <div class="container">
+          <div class="row">
+                <div class="span20">
+                <table class="table table-condensed table-hover">
+                  <thead>
+                    <tr>
+                        <th> </th>
+                        <th>
+                            <div class="btn-group" >
+                                <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                  ASADA 1 <i class="fa fa-caret-down"></i>
+                                </button>
+                                <ul class="dropdown-menu animation-zoom">
+
+                                  <li class="cursor-position" *ngFor="let element of filteredList" style="border-style: hidden hidden solid hidden"><a (click)=onSelectedItem(element,1)>{{element.name}} </a></li>
+                                  
+                                  
+                                </ul>
+                              </div>
+                        </th>
+                        <th>
+                            <div class="btn-group" >
+                                <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                  ASADA 2 <i class="fa fa-caret-down"></i>
+                                </button>
+                                <ul class="dropdown-menu animation-zoom">
+
+                                  <li class="cursor-position" *ngFor="let element of filteredList" style="border-style: hidden hidden solid hidden"><a (click)=onSelectedItem(element,2)>{{element.name}} </a></li>
+                                
+                                </ul>
+                              </div>
+                        </th>
+                        <th>
+                          <div class="btn-group" >
+                            <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                              ASADA 3 <i class="fa fa-caret-down"></i>
+                            </button>
+                            <ul class="dropdown-menu animation-zoom">
+
+                              <li class="cursor-position" *ngFor="let element of filteredList" style="border-style: hidden hidden solid hidden"><a (click)=onSelectedItem(element,3)>{{element.name}} </a></li>
+
+                              
+                            </ul>
+                          </div>
+                        </th>
+                        <th>
+                            <div class="btn-group" >
+                                <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                  ASADA 4 <i class="fa fa-caret-down"></i>
+                                </button>
+                                <ul class="dropdown-menu animation-zoom">
+                                  <li class="cursor-position" *ngFor="let element of filteredList" style="border-style: hidden hidden solid hidden"><a (click)=onSelectedItem(element,4)>{{element.name}} </a></li>
+                                </ul>
+                              </div>
+                        </th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Nombre</td>
+                      <td>{{asadasCompareList[0].name}}</td>
+                      <td>{{asadasCompareList[1].name}}</td>
+                      <td>{{asadasCompareList[2].name}}</td>
+                      <td>{{asadasCompareList[3].name}}</td>
+                    </tr>
+                    <tr>
+                      <td>Ubicación (provincia, cantón, distrito)</td>
+                      <td>{{asadasCompareList[0].province}}, {{asadasCompareList[0].district}}, {{asadasCompareList[0].subDistrict}}</td>
+                      <td>{{asadasCompareList[1].province}}, {{asadasCompareList[1].district}}, {{asadasCompareList[1].subDistrict}}</td>
+                      <td>{{asadasCompareList[2].province}}, {{asadasCompareList[2].district}}, {{asadasCompareList[2].subDistrict}}</td>
+                      <td>{{asadasCompareList[3].province}}, {{asadasCompareList[3].district}}, {{asadasCompareList[3].subDistrict}}</td>
+                    </tr>
+                    <tr>
+                      <td>Cantidad de abonados</td>
+                      <td>{{asadasCompareList[0].numberSubscribed}}</td>
+                      <td>{{asadasCompareList[1].numberSubscribed}}</td>
+                      <td>{{asadasCompareList[2].numberSubscribed}}</td>
+                      <td>{{asadasCompareList[3].numberSubscribed}}</td>
+                    </tr>
+                    <tr>
+                      <td>Población abastecida</td>
+                      <td>{{asadasCompareList[0].population}}</td>
+                      <td>{{asadasCompareList[1].population}}</td>
+                      <td>{{asadasCompareList[2].population}}</td>
+                      <td>{{asadasCompareList[3].population}}</td>
+                    </tr>
+                    <tr>
+                      <td>Tipo de Zona</td>
+                      <td>{{asadasCompareList[0].zoneType}}</td>
+                      <td>{{asadasCompareList[1].zoneType}}</td>
+                      <td>{{asadasCompareList[2].zoneType}}</td>
+                      <td>{{asadasCompareList[3].zoneType}}</td>
+                    </tr>
+                    <tr>
+                      <td>Ente administrador</td>
+                      <td>{{asadasCompareList[0].adminEntityName}}</td>
+                      <td>{{asadasCompareList[1].adminEntityName}}</td>
+                      <td>{{asadasCompareList[2].adminEntityName}}</td>
+                      <td>{{asadasCompareList[3].adminEntityName}}</td>
+                    </tr>
+                    <tr>
+                      <td>Captaciones Superficiales</td>
+                      <td>{{asadasCompareList[0].superficial}}</td>
+                      <td>{{asadasCompareList[1].superficial}}</td>
+                      <td>{{asadasCompareList[2].superficial}}</td>
+                      <td>{{asadasCompareList[3].superficial}}</td>
+                    </tr>
+                    <tr>
+                      <td>Tanques</td>
+                      <td>{{asadasCompareList[0].tanksNumber}}</td>
+                      <td>{{asadasCompareList[1].tanksNumber}}</td>
+                      <td>{{asadasCompareList[2].tanksNumber}}</td>
+                      <td>{{asadasCompareList[3].tanksNumber}}</td>
+                    </tr>
+                    <tr>
+                      <td>Sistemas de Cloración</td>
+                      <td>{{asadasCompareList[0].fountains}}</td>
+                      <td>{{asadasCompareList[1].fountains}}</td>
+                      <td>{{asadasCompareList[2].fountains}}</td>
+                      <td>{{asadasCompareList[3].fountains}}</td>
+                    </tr>
+                    <tr>
+                      <td>Captaciones de Nacientes</td>
+                      <td>{{asadasCompareList[0].nascent}}</td>
+                      <td>{{asadasCompareList[1].nascent}}</td>
+                      <td>{{asadasCompareList[2].nascent}}</td>
+                      <td>{{asadasCompareList[3].nascent}}</td>
+                    </tr>
+                    <tr>
+                      <td>Lineas de Distribucion</td>
+                      <td>{{asadasCompareList[0].waterWells}}</td>
+                      <td>{{asadasCompareList[1].waterWells}}</td>
+                      <td>{{asadasCompareList[2].waterWells}}</td>
+                      <td>{{asadasCompareList[3].waterWells}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+           </div>
+          </div>
+        </div>
+    </div>
+
+  </div>
+</section>

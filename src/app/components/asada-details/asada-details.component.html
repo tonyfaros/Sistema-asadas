@@ -1,0 +1,480 @@
+<section>
+
+  <div class="section-body contain-xl">
+
+    <div class="col-lg-12">
+      <form class="form" (ngSubmit)="onSubmit2()" [formGroup]="detailAsadaForm">
+        <div class="card">
+
+          <div class="card-head style-primary" *ngIf="readOnlyMode == true">
+            <header>Detalles de la ASADA</header>
+
+          </div>
+
+          <div class="card-head style-primary" *ngIf="readOnlyMode == false">
+            <header> Editar ASADA </header>
+          </div>
+
+          <!-- BEGIN TEXT PLACE -->
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <input type="text" class="form-control dirty" [readonly]="readOnlyMode == true" id="asadaName" formControlName="asadaName"
+                    required>
+                  <label for="asadaName">Nombre de la ASADA</label>
+                </div>
+
+                <!-- Error message -->
+                <div *ngIf="formErrors.asadaName" class="alert alert-danger">
+                  {{ formErrors.asadaName }}
+                </div>
+
+              </div>
+
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <input type="text" class="form-control dirty" [readonly]="readOnlyMode == true" id="inCharge" formControlName="inCharge"
+                    required>
+                  <label for="inCharge">Encargado</label>
+                </div>
+
+                <!-- Error message -->
+                <div *ngIf="formErrors.inCharge" class="alert alert-danger">
+                  {{ formErrors.inCharge }}
+                </div>
+
+              </div>
+
+            </div>
+            <!-- End Row -->
+
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <input type="text" class="form-control dirty" [readonly]="readOnlyMode == true" id="phoneNumber" formControlName="phoneNumber"
+                    required>
+                  <label for="phoneNumber">Numero de teléfono</label>
+                </div>
+
+                <!-- Error message -->
+                <div *ngIf="formErrors.phoneNumber" class="alert alert-danger">
+                  {{ formErrors.phoneNumber }}
+                </div>
+
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <input type="text" class="form-control dirty" [readonly]="readOnlyMode == true" id="email" formControlName="email" required>
+                  <label for="email">Correo electronico</label>
+                </div>
+
+                <!-- Error message -->
+                <div *ngIf="formErrors.email" class="alert alert-danger">
+                  {{ formErrors.email }}
+                </div>
+
+              </div>
+
+            </div>
+            <!-- End row -->
+
+            <div class="row">
+
+              <div class="col-sm-3">
+                <div class="form-group" *ngIf="readOnlyMode == false">
+
+                  <select id="selectProvince" name="selectProvince" class="form-control" formControlName="province">
+                  <option *ngFor="let pro of crProvince" [value]=pro name="asadaSelectOption" ngDefaultControl>{{pro}}</option>
+                </select>
+                  <label for="province">Provincia</label>
+                </div>
+
+                <div class="form-group" *ngIf="readOnlyMode == true">
+                  <input type="text" class="form-control dirty" readonly id="province" formControlName="province">
+                  <label for="province">Provincia</label>
+                </div>
+
+                <!-- Error message -->
+                <div *ngIf="formErrors.province" class="alert alert-danger">
+                  {{ formErrors.province }}
+                </div>
+
+              </div>
+
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <input type="text" class="form-control dirty" [readonly]="readOnlyMode == true" id="district" formControlName="district"
+                    required>
+                  <label for="district">Cantón</label>
+                </div>
+
+                <!-- Error message -->
+                <div *ngIf="formErrors.district" class="alert alert-danger">
+                  {{ formErrors.district }}
+                </div>
+
+              </div>
+
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <input type="text" class="form-control dirty" [readonly]="readOnlyMode == true" id="subDistrict" formControlName="subDistrict"
+                    required>
+                  <label for="subDistrict">Districto</label>
+                </div>
+
+                <!-- Error message -->
+                <div *ngIf="formErrors.subDistrict" class="alert alert-danger">
+                  {{ formErrors.subDistrict }}
+                </div>
+
+              </div>
+
+            </div>
+            <!-- End row -->
+
+            <div class="row">
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <input type="text" class="form-control dirty" [readonly]="readOnlyMode == true" id="location" formControlName="location"
+                    required>
+                  <label for="location">Localidad</label>
+                </div>
+
+                <!-- Error message -->
+                <div *ngIf="formErrors.location" class="alert alert-danger">
+                  {{ formErrors.location }}
+                </div>
+
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <input type="number" step="any" class="form-control dirty" [readonly]="readOnlyMode == true" id="geoCode" formControlName="geoCode"
+                    required>
+                  <label for="geoCode">codigo geográfico</label>
+                  <p class="help-block"> <a href="https://www.correos.go.cr/nosotros/codigopostal/cod_postal/codigo_postal_mobile.aspx" target="_blank"> Ayuda con los codigos </a></p>
+                </div>
+
+                <!-- Error message -->
+                <div *ngIf="formErrors.geoCode" class="alert alert-danger">
+                  {{ formErrors.geoCode }}
+                </div>
+
+              </div>
+
+            </div>
+            <!-- End row -->
+
+            <div class="row">
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <input type="number" step="any" class="form-control dirty" [readonly]="readOnlyMode == true" id="numberSubscribed" formControlName="numberSubscribed"
+                    required>
+                  <label for="numberSubscribed">Cantidad de abonados</label>
+                </div>
+
+                <!-- Error message -->
+                <div *ngIf="formErrors.numberSubscribed" class="alert alert-danger">
+                  {{ formErrors.numberSubscribed }}
+                </div>
+
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <input type="number" step="any" class="form-control" [readonly]="readOnlyMode == true" id="population" formControlName="population"
+                    required>
+                  <label for="population">Población abastecida</label>
+                </div>
+
+                <!-- Error message -->
+                <div *ngIf="formErrors.population" class="alert alert-danger">
+                  {{ formErrors.population }}
+                </div>
+
+              </div>
+
+            </div>
+            <!-- End row -->
+
+            <div class="row">
+
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <input type="text" class="form-control dirty" [readonly]="readOnlyMode == true" id="concessionNumber" formControlName="concessionNumber"
+                    required>
+                  <label for="concessionNumber">Numero de concesión</label>
+                </div>
+
+                <!-- Error message -->
+                <div *ngIf="formErrors.concessionNumber" class="alert alert-danger">
+                  {{ formErrors.concessionNumber }}
+                </div>
+
+              </div>
+
+              <div class="col-sm-3">
+
+                <div class="form-group" *ngIf="readOnlyMode == false">
+                  <material-datepicker [(date)]="dueDate" dateFormat="DD-MM-YYYY" placeholder="Seleccione una fecha"></material-datepicker>
+                  <label for="dueDate">Fecha de vencimiento de la concesión</label>
+                </div>
+
+                <div class="form-group" *ngIf="readOnlyMode == true">
+                  <input type="text" class="form-control" [readonly]="readOnlyMode == true" id="concessionDue" formControlName="concessionDue"
+                    required>
+                  <label for="concessionDue">Fecha de vencimiento de la concesión</label>
+                </div>
+              </div>
+
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <input type="text" class="form-control dirty" [readonly]="readOnlyMode == true" id="minaeRegister" formControlName="minaeRegister"
+                    required>
+                  <label for="minaeRegister">Numero de registro del MINAE</label>
+                </div>
+
+                <!-- Error message -->
+                <div *ngIf="formErrors.minaeRegister" class="alert alert-danger">
+                  {{ formErrors.minaeRegister }}
+                </div>
+
+              </div>
+
+
+            </div>
+            <!-- End row -->
+
+
+            <!-- END TEXT PLACE -->
+
+            <!-- BEGIN RADIO BUTTON -->
+
+            <div class="form-group" *ngIf="readOnlyMode == false">
+              <label class="col-sm-6 control-label">Tipo de zona</label>
+              <div class="col-lg-12">
+                <label *ngFor="let zone of zoneType" class="radio-inline radio-styled">
+              <input type="radio" value={{zone.value}} formControlName="zoneType" ><span>{{zone.display}}</span>
+            </label>
+
+              </div>
+              <!--end .col -->
+            </div>
+
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group" *ngIf="readOnlyMode == true">
+                  <input type="text" class="form-control" readonly formControlName="zoneType">
+                  <label for="volume">Tipo de zona</label>
+                </div>
+              </div>
+            </div>
+            <br>
+
+            <div class="form-group" *ngIf="readOnlyMode == false">
+              <label class="col-sm-6 control-label">Ente adminstrador</label>
+              <div class="col-lg-12">
+                <label *ngFor="let entity of adminEntity" class="radio-inline radio-styled">
+              <input type="radio" value={{entity.value}} formControlName="adminEntity" ><span>{{entity.display}}</span>
+            </label>
+
+              </div>
+              <!--end .col -->
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group" *ngIf="readOnlyMode == true">
+                  <input type="text" class="form-control" readonly formControlName="adminEntity">
+                  <label for="volume">Ente adminstrador</label>
+                </div>
+              </div>
+            </div>
+            <br>
+
+            <div class="form-group" *ngIf="readOnlyMode == false">
+              <label class="col-sm-6 control-label">Programa de Control de Calidad del Agua</label>
+              <div class="col-lg-12">
+                <label *ngFor="let option of WaterControlProgram" class="radio-inline radio-styled">
+              <input type="radio" value={{option.value}} formControlName="waterProgram" ><span>{{option.display}}</span>
+            </label>
+
+              </div>
+              <!--end .col -->
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group" *ngIf="readOnlyMode == true">
+                  <input type="text" class="form-control" readonly formControlName="waterProgram">
+                  <label for="volume">Programa de Control de Calidad del Agua</label>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- END RADIO BUTTON -->
+
+
+            <!-- BEGIN LOCATION   -->
+            <div class="row">
+              <div class="col-sm-6">
+
+                <div class="card">
+                  <div class="card-head style-warning">
+                    <header> Ubicación de la oficina</header>
+                  </div>
+
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <input type="number" step="any" class="form-control dirty" [readonly]="readOnlyMode == true" formControlName="officeLatitude"
+                            required>
+                          <label>Latitud</label>
+                        </div>
+
+                        <!-- Error message -->
+                        <div *ngIf="formErrors.officeLatitude" class="alert alert-danger">
+                          {{ formErrors.officeLatitude }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <input type="number" step="any" class="form-control dirty" [readonly]="readOnlyMode == true" formControlName="officeLongitude"
+                            required>
+                          <label>Longitud</label>
+                        </div>
+
+                        <!-- Error message -->
+                        <div *ngIf="formErrors.officeLongitude" class="alert alert-danger">
+                          {{ formErrors.officeLongitude }}
+                        </div>
+                      </div>
+
+                    </div>
+                    <div *ngIf="readOnlyMode == false">
+                      <button type="button" (click)="getGeoLocation()" class="btn btn-raised btn-default-light ink-reaction"><i class="md md-my-location"></i>Ubicación actual</button>
+                    </div>
+                  </div>
+                  <!--end .card-body -->
+                </div>
+                <!--end .card -->
+              </div>
+            </div>
+            <!-- END LOCATION     -->
+          </div>
+
+
+          <div>  
+            <div>
+              <app-graphics type="GIRS" [sort]=AsadaId></app-graphics>
+            </div>
+          </div>
+
+          <div>  
+            <div>
+              <app-graphics type="GAR" [sort]=AsadaId></app-graphics>
+            </div>
+          </div>
+
+          <div *ngIf="readOnlyMode == true">
+            <app-search type="infraestructura" [sort]=AsadaId></app-search>
+          </div>
+
+          <div class="card-actionbar" >
+            <div class="card-actionbar-row && isAdmin">
+
+              <!-- Trigger the modal -->
+              <div *ngIf="readOnlyMode == false">
+                <button type="submit" class="btn ink-reaction btn-raised btn-primary btn-loading-state" data-toggle="modal" data-target="#SaveModal"
+                  [disabled]="!detailAsadaForm.valid || !dueDate">
+                Guardar Cambios
+              <div class="ink" style="top: 20px; left: 51.75px;"></div></button>
+
+                <button type="button" class="btn ink-reaction btn-raised btn-warning btn-loading-state" (click)="reload()">
+                Volver
+              <div class="ink" style="top: 20px; left: 51.75px;"></div></button>
+
+                <button type="button" class="btn ink-reaction btn-raised btn-danger btn-loading-state" data-toggle="modal" data-target="#EliminateModal">
+                Eliminar ASADA
+              <div class="ink" style="top: 20px; "></div></button>
+
+              </div>
+
+              <div *ngIf="readOnlyMode == true">
+                <button *ngIf="isAdmin || isEditor" (click)="export()" class="btn ink-reaction btn-raised btn-primary btn-loading-state " [disabled]="" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading...">
+                      Exportar
+                    <div class="ink" style="top: 20px; left: 51.75px;"></div>
+                  </button>
+                <button type="button" class="btn ink-reaction btn-raised btn-primary btn-loading-state" *ngIf="readOnlyMode == true && isAdmin" (click)="changeToEdit()">
+                Editar
+                <div class="ink" style="top: 20px; left: 51.75px;"></div></button>
+
+                <button *ngIf="isAdmin || isEditor" type="button" class="btn ink-reaction btn-raised btn-accent btn-loading-state moveleft" (click)="addInfra()">
+                Agregar Intraestructura
+                <div class="ink" style="top: 20px; left: 51.75px;"></div></button>
+
+
+              </div>
+              <br>
+
+            </div>
+          </div>
+
+        </div>
+      </form>
+    </div>
+    <!-- End card body -->
+    <!--end .card -->
+  </div>
+
+  <!-- Modal -->
+  <div id="SaveModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Confirmar cambios</h4>
+        </div>
+        <div class="modal-body">
+          <h3>Desea guardar los cambios.</h3>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="onSubmit()">Guardar</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="EliminateModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Confirmar accion</h4>
+        </div>
+        <div class="modal-body">
+          <h3>Desea eliminar la ASADA.</h3>
+          <h4 class="text-danger">Si la ASADA es eliminada, no se podra recuperar</h4>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="delete()">Eliminar</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</section>

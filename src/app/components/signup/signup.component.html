@@ -1,0 +1,138 @@
+<!-- BEGIN LOGIN SECTION -->
+<section class="section-account">
+
+	<!-- imagen de header -->
+	<div class="img-backdrop" style="background-image: url('../../assets/img/CostaRicaForest.jpg')"></div>
+
+
+	<div class="spacer"></div>
+	<div class="card contain-sm style-default-dark">
+		<div class="card-body">
+			<div class="row">
+				<div class="col-sm-6">
+					<br/>
+					<span class="text-lg text-bold text-primary">Sistema de ASADAS</span>
+					<br/><br/>
+
+					<!-- verficar form -->
+					<form class="form form-inverse" (ngSubmit)="onSubmit()" [formGroup]="userDetailsForm">
+						<div class="form-group form-inverse">
+							<input type="email" class="form-control form-inverse" formControlName="email" id="email" required>
+							<label for="username" class="form-inverse">Correo</label>
+							<!-- Error message -->
+
+						</div>
+						<div *ngIf="formErrors.email" class="alert alert-danger">
+							{{ formErrors.email }}
+						</div>
+						<div class="form-group form-inverse">
+							<input type="password" class="form-control form-inverse" formControlName="password" id="password" required>
+							<label for="password">Contraseña</label>
+							<!-- Error message -->
+						</div>
+						<div *ngIf="formErrors.password" class="alert alert-danger">
+							{{ formErrors.password }}
+						</div>
+						<div class="form-group form-inverse">
+							<input type="password" class="form-control form-inverse" formControlName="passwordConfirmation" id="passwordConfirmation" required />
+							<label for="password">Confirmar Contraseña </label>
+							<!-- Error message -->
+						</div>
+						<div *ngIf="formErrors.passwordConfirmation" class="alert alert-danger">
+							{{ formErrors.passwordConfirmation }}
+						</div>
+						<div class="form-group form-inverse">
+							<input type="text" class="form-control form-inverse" formControlName="userName" id="userName" required />
+							<label for="password">Nombre </label>
+							<!-- Error message -->
+						</div>
+						<div *ngIf="formErrors.userName" class="alert alert-danger">
+							{{ formErrors.userName }}
+						</div>
+						<div class="form-group form-inverse">
+							<input type="text" class="form-control form-inverse" formControlName="userLastName" id="userLastName" required />
+							<label for="password">Apellidos </label>
+							<!-- Error message -->
+						</div>
+						<div *ngIf="formErrors.userLastName" class="alert alert-danger">
+							{{ formErrors.userLastName }}
+						</div>
+						<div class="form-group form-inverse">
+							<label for="select13">Asada</label>
+							<select id="select13" name="select13" class="form-control form-inverse" [ngModelOptions]="{standalone: true}" [(ngModel)]="asadaSelected">
+								<option *ngFor="let asada of asadaDB" [ngValue]=asada name="asadaSelectOption" ngDefaultControl>{{asada.name}}
+									
+								</option>
+							</select>
+							<div class="form-control-line form-inverse"></div>
+						</div>
+						<div class="form-group form-inverse" *ngIf="asadaSelected && asadaSelected.name != 'Sin asada'">
+							<label for="select13" class="col-sm-2 control-label">Acceso</label>
+							<select id="select13" name="select13" class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="rol">
+								<option ngValue="Fontanero" name="rolOption" ngDefaultControl>
+									Fontanero/a                    
+								</option>
+								<option ngValue="Edición" name="rolOption" ngDefaultControl>
+									Edición de infraestructuras                    
+								</option>
+								<option ngValue="Administración" name="rolOption" ngDefaultControl>
+									Administración                    
+								</option>
+							</select><br>
+							<strong *ngIf="rol=='Fontanero'" for="volume">
+								Este tipo de acceso permite reportar incidentes desde la aplicación móvil.
+							</strong>
+							<strong *ngIf="rol=='Edición'" for="volume">Este tipo de acceso solo permite edición de infraestructuras y llenado de formularios de la asada seleccionada. No
+								podrá editar datos de la asada.
+							</strong>
+							<strong *ngIf="rol=='Administración'" for="volume">Este tipo de acceso permite la edición sobre la asada seleccionada. Esto incluye formularios de evaluación y edición
+								de infraestructuras.
+							</strong>
+
+
+						</div>
+						<!-- Error message -->
+						<div *ngIf="formErrors.rol" class="alert alert-danger">
+							{{ formErrors.rol }}
+						</div>
+						<br/>
+						<div class="row">
+							<div class="col-xs-6 text-left">
+								<div class="checkbox checkbox-inline checkbox-styled">
+									<label>
+									</label>
+								</div>
+							</div>
+							<!--end .col -->
+							<div class="col-xs-6 text-right">
+								<button type="submit" class="btn btn-primary btn-raised">Registrarse</button>
+							</div>
+							<!--end .col -->
+						</div>
+						<!--end .row -->
+					</form>
+
+
+				</div>
+				<!--end .col -->
+
+				<!-- Register -->
+				<div class="col-sm-5 col-sm-offset-1 text-center">
+					<br><br>
+					<h3 class="text-light">
+						¿Ya tiene cuenta?
+					</h3>
+					<a class="btn btn-block btn-raised btn-primary" routerLink="/LoginPage">Iniciar Sesión</a>
+					<br><br>
+
+
+				</div>
+				<!--end .col -->
+			</div>
+			<!--end .row -->
+		</div>
+		<!--end .card-body -->
+	</div>
+	<!--end .card -->
+</section>
+<!-- END LOGIN SECTION -->

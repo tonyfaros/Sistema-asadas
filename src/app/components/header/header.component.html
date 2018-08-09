@@ -1,0 +1,43 @@
+<!-- Begin Header -->
+
+<header id="header" >
+  <div class="headerbar header-inverse">
+
+    <div class="headerbar-left">
+      <ul class="header-nav header-nav-options">
+
+        <!-- Menu botton -->
+        <li>
+          <a class="btn btn-icon-toggle menubar-toggle" data-toggle="menubar" href="javascript:void(0);">
+            <i class="fa fa-bars"></i>
+          </a>
+        </li>
+
+        <li class="header-nav-brand">
+          <div class="brand-holder">
+            <a href="#">
+              <span class="text-bold text-primary">
+                <h3> Sistema de Gestión de ASADAs</h3>
+              </span>
+            </a>
+          </div>
+        </li>
+        
+      
+
+      </ul>
+    </div>
+
+    <div class="headerbar-right">
+      
+      <app-profile-header></app-profile-header>
+
+      <ul class="header-nav header-nav-toggle pull-right">
+          <button *ngIf="!isLoggedIn" type="button" class="btn ink-reaction btn-raised btn-primary small-margin" routerLink="/LoginPage">Iniciar sesión</button>
+      </ul>
+
+    </div>
+
+  </div>
+</header>
+<!-- End Header -->

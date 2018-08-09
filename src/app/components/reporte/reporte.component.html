@@ -1,0 +1,77 @@
+<section>
+  
+  <div class="section-body contain-xl">
+      <div class="section-header">
+          <h2 class="text-default-bright">Reportes de las ASADAS</h2>
+        </div>
+    <div class="card tabs-left style-default-light">
+        
+      <!-- BEGIN SEARCH BAR -->
+      <div class="card-body style-primary no-y-padding">
+        <form class="form form-inverse">
+          <div class="form-group">
+            <div class="input-group input-group-lg">
+              <div class="input-group-content">
+                <input type="text" class="form-control" id="searchInput" placeholder="" (keyup)="search(input.value)" #input>
+                <div class="form-control-line">
+                </div>
+              </div>
+              <div class="input-group-btn">
+                <button class="btn btn-floating-action btn-default-bright" type="button"><i class="fa fa-search"></i></button>
+              </div>
+            </div>
+          </div>
+          <!--end .form-group -->
+        </form>
+      </div>
+      <!--end .card-body -->
+      <!-- END SEARCH BAR -->
+
+      <!-- BEGIN TAB CONTENT -->
+      <div class="card-body tab-content style-default-bright">
+        <div class="tab-pane active" id="web1">
+          <div class="row">
+            <div class="col-lg-12">
+
+              <!-- BEGIN PAGE HEADER -->
+              <div class="margin-bottom-xxl">
+                <span class="text-light text-lg">Cantidad de registros de bitacora en el sistema 
+                 <strong>{{myIncidentes.length}}</strong>
+                </span>
+              </div>
+              <!-- END PAGE HEADER -->
+
+              <div>
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th class="text-medium text-lg text-primary">Fecha </th>
+                      <th class="text-medium text-lg text-primary">Detalles</th>
+                      <th class="text-medium text-lg text-primary">Estado</th>
+                      <th class="text-medium text-lg text-primary">Categoria</th>
+                      <th class="text-medium text-lg text-primary">Tipo</th>
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let element of myIncidentes">
+                      <td><a class="opacity-75" >{{element.date}}</a></td>
+                      <td><a class="opacity-75">{{element.details}}</a></td>
+                      <td><a class="opacity-75">{{element.state}}</a></td>
+                      <td><a class="opacity-75">{{element.type}}</a></td>
+                      <td><a class="opacity-75">{{element.subType}}</a></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      <!-- END TAB CONTENT -->
+    </div>
+  </div>
+
+
+</section>

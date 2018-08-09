@@ -1,0 +1,43 @@
+<section>
+
+	<div class="section-header">
+	    <h2 class="text-primary">Solicitudes de usuarios</h2>
+	</div>
+
+	<div class="section-body">
+
+		<div class="card">		
+			<div class="card-body">
+	
+				<ul class="list">
+					<li *ngFor="let request of requests" class="tile">
+						<a class="tile-content ink-reaction">
+							<div class="tile-text">
+								{{request.userName}}
+								<small>
+									Solicita permisos de {{request.rol}} de la asada: {{request.asadaName}} 
+								</small>
+							</div>
+						</a>
+						<a (click)="approve(request)" class="btn btn-flat ink-reaction">
+							<i class="glyphicon glyphicon-ok"></i>
+						</a>
+						<a (click)="denyRequest(request)" class="btn btn-flat ink-reaction">
+							<i class="glyphicon glyphicon-remove"></i>
+						</a>
+					</li>
+					<li *ngIf="requests==null || requests.length==0" class="tile">
+						<a class="tile-content ink-reaction">
+							<div class="tile-text">
+								No hay solicitudes
+							</div>
+						</a>
+					</li>
+				</ul>
+
+			</div>
+		</div>
+
+	</div>
+
+</section>

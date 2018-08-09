@@ -1,0 +1,154 @@
+<section>
+    <div class="section-header">
+      <h2>Dashboard</h2>
+    </div>
+    
+    <div class="section-body contain-xl ">
+        <div class="row">
+          <h4 class="dashboard-subtitle">General</h4>
+          <!-- BEGIN ALERT - REVENUE -->
+          <div class="col-md-2 col-sm-2">
+            <div class="card">
+              <div class="card-body no-padding">
+                <div class="alert alert-callout alert-info no-margin">
+                  <!--<strong class="pull-right text-success text-lg">0,38% <i class="md md-trending-up"></i></strong>-->
+                  <strong class="text-xl">{{numberOfAsadas}}</strong><br/>
+                  <span class="opacity-100">Total de ASADAs</span>
+                  <div class="stick-bottom-left-right">
+                    <div class="height-2 sparkline-revenue" data-line-color="#bdc1c1"></div>
+                  </div>
+                </div>
+              </div><!--end .card-body -->
+            </div><!--end .card -->
+
+            <div class="card">
+              <div class="card-body no-padding">
+                <div class="alert alert-callout alert-info no-margin">
+                  <!--<strong class="pull-right text-info text-lg">0,01% <i class="md md-swap-vert"></i></strong>-->
+                  <strong class="text-xl">{{numberOfInfraestructuras}}</strong><br/>
+                  <span class="opacity-100">Total de Infraestructuras</span>
+                  <div class="stick-bottom-right">
+                    <div class="height-1 sparkline-visits" data-bar-color="#e5e6e6"></div>
+                  </div>
+                </div>
+              </div><!--end .card-body -->
+            </div><!--end .card -->
+
+          </div><!--end .col -->
+          <!-- END ALERT - REVENUE -->
+
+          <!-- BEGIN ALERT - BOUNCE RATES -->
+          <div class="col-md-5 col-sm-5">
+            <div class="card">
+              <div class="card-body no-padding">
+                
+                <div class="alert alert-callout alert-info no-margin">
+                  <!--<strong class="pull-right text-info text-lg">0,18% <i class="md md-trending-down"></i></strong>
+                  <strong class="text-xl">4.2</strong><br/>-->
+                    <span class="opacity-100">Top 5 Infraestructuras por ASADA</span>
+                </div>
+                <div style="display: block">
+                    <ngx-charts-bar-horizontal *ngIf="doughnutLoaded"
+                      [view]="barsView"
+                      [scheme]="colorScheme"
+                      [results]="barChartData"
+                      [gradient]="gradient"
+                      [xAxis]="showXAxis"
+                      [yAxis]="showYAxis"
+                      [legend]="doughnutShowLegend"
+                      [showXAxisLabel]="showXAxisLabel"
+                      [showYAxisLabel]="showYAxisLabel"
+                      [xAxisLabel]="xAxisLabel"
+                      [yAxisLabel]="yAxisLabel">
+                    </ngx-charts-bar-horizontal>
+                  </div>
+              </div><!--end .card-body -->
+            </div><!--end .card -->
+          </div><!--end .col -->
+          <!-- END ALERT - BOUNCE RATES -->
+
+          <!-- BEGIN ALERT - BOUNCE RATES -->
+          <div class="col-md-5 col-sm-5">
+              <div class="card">
+                <div class="card-body no-padding">
+                  <div class="alert alert-callout alert-info no-margin">
+                    <!--<strong class="pull-right text-info text-lg">0,18% <i class="md md-trending-down"></i></strong>
+                    <strong class="text-xl">4.2</strong><br/>-->
+                    <span class="opacity-100">Tipos de infraestructuras</span>
+                  </div>
+                  <div class="container" style="padding-left: 25px;">
+                    <div style="display: block">
+                      <ngx-charts-pie-chart *ngIf="doughnut2Loaded"
+                        [view]="doughnutView"
+                        [results]="doughnut2ChartData"
+                        [legend]="doughnutShowLegend"
+                        [explodeSlices]="doughnutExplodeSlices"
+                        [labels]="doughnutShowLabels"
+                        [doughnut]="doughnut"
+                        [scheme]="colorScheme"
+                        [gradient]="gradient">
+                      </ngx-charts-pie-chart>
+                    </div>
+                  </div>
+                  
+                </div><!--end .card-body -->
+              </div><!--end .card -->
+            </div><!--end .col -->
+            <!-- END ALERT - BOUNCE RATES -->
+
+        </div><!--end .row -->
+        <div class="row">
+          <h4 class="dashboard-subtitle">Incidentes</h4>
+          <div class="col-md-6 col-sm-12">
+            <div class="card">
+              <div class="card-body no-padding">
+                <div class="alert alert-callout alert-info no-margin">
+                  <span class="opacity-100">Incidentes Abiertos / Cerrados por ASADA</span>
+                </div>
+                <ngx-charts-bar-vertical-stacked *ngIf="iXALoaded"
+                  [view]="iXAView"
+                  [scheme]="colorScheme2"
+                  [results]="iXADatos"
+                  [gradient]="gradient"
+                  [xAxis]="showXAxis"
+                  [yAxis]="showYAxis"
+                  [legend]="iXAshowLegend"
+                  [showXAxisLabel]="iXAshowXAxisLabel"
+                  [showYAxisLabel]="iXAshowYAxisLabel"
+                  [xAxisLabel]="iXAxAxisLabel"
+                  [yAxisLabel]="iXAyAxisLabel">
+                </ngx-charts-bar-vertical-stacked>
+              </div><!--end .card-body -->
+            </div><!--end .card -->
+
+          </div><!--end .col -->
+
+          <div class="col-md-6 col-sm-12">
+            <div class="card">
+              <div class="card-body no-padding">
+                <div class="alert alert-callout alert-info no-margin">
+                  <span class="opacity-100">Tipos de incidentes por ASADA</span>
+                </div>
+                <ngx-charts-bar-vertical-stacked *ngIf="iXA2Loaded"
+                  [view]="iXAView"
+                  [scheme]="colorScheme2"
+                  [results]="iXA2Datos"
+                  [gradient]="gradient"
+                  [xAxis]="showXAxis"
+                  [yAxis]="showYAxis"
+                  [legend]="iXAshowLegend"
+                  [showXAxisLabel]="iXAshowXAxisLabel"
+                  [showYAxisLabel]="iXAshowYAxisLabel"
+                  [xAxisLabel]="iXAxAxisLabel"
+                  [yAxisLabel]="iXAyAxisLabel">
+                </ngx-charts-bar-vertical-stacked>
+              </div><!--end .card-body -->
+            </div><!--end .card -->
+          </div><!--end .col -->
+
+        </div>
+        
+        <app-persmission-requests></app-persmission-requests>
+
+    </div>
+</section>

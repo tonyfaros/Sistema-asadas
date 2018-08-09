@@ -1,0 +1,183 @@
+<div class="col-lg-12">
+  <form class="form" (ngSubmit)="onSubmit()" [formGroup]="addNascentForm">
+    <div class="card">
+      <div class="card-head style-primary">
+        <header>Creación de captación de naciente o mantial</header>
+      </div>
+      <!-- BEGIN TEXT PLACE -->
+      <div class="card-body">
+        <div class="row">
+
+          <div class="col-sm-6">
+            <div class="form-group">
+              <input type="text" class="form-control" id="aqueductName" formControlName="aqueductName"  required>
+              <label for="aqueductName">Nombre del Acueducto</label>
+            </div>
+            <!-- Error message -->
+            <div *ngIf="formErrors.aqueductName" class="alert alert-danger">
+                {{ formErrors.aqueductName }}
+            </div>
+
+          </div> 
+
+          <div class="col-sm-6">
+            <div class="form-group">
+              <input type="text"  class="form-control" id="aqueductInCharge" formControlName="aqueductInCharge" required>
+              <label for="aqueductInCharge">Encargado del acueducto</label>
+            </div>
+
+              <!-- Error message -->
+            <div *ngIf="formErrors.aqueductInCharge" class="alert alert-danger">
+                {{ formErrors.aqueductInCharge }}
+            </div>
+
+          </div>
+
+        </div> <!-- End Row -->
+
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <input type="text"  class="form-control" id="nascentName" formControlName="nascentName" required>
+              <label for="nascentName">Nombre de la naciente o mantial</label>
+            </div>
+
+              <!-- Error message -->
+            <div *ngIf="formErrors.nascentName" class="alert alert-danger">
+                {{ formErrors.nascentName }}
+            </div>
+
+          </div>
+        </div><!-- End row -->
+
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <input type="text" class="form-control" id="registerMINAE" formControlName="registerMINAE" required>
+              <label for="registerMINAE"> Número de registro en MINAE </label>
+            </div>
+
+              <!-- Error message -->
+            <div *ngIf="formErrors.registerMINAE" class="alert alert-danger">
+                {{ formErrors.registerMINAE }}
+            </div>
+
+          </div>
+
+          <div class="col-sm-6">
+              <div class="form-group">
+                <input type="text" class="form-control" id="registerARS" formControlName="registerARS" requerired>
+                <label for="registerARS">Registro en dirrección de ARS</label>
+              </div>
+
+              <!-- Error message -->
+            <div *ngIf="formErrors.registerARS" class="alert alert-danger">
+                {{ formErrors.registerARS }}
+            </div>
+
+          </div>
+
+      </div> <!-- End row -->
+
+      <div class="row">
+
+          <div class="col-sm-6">
+            <div class="form-group">
+              <input type="text" class="form-control " readonly id="asada" formControlName="asada">
+              <label for="asada">ASADA</label>
+            </div>
+          </div>
+
+          <div class="col-sm-6">
+            <div class="form-group">
+              <input type="text"  class="form-control" id="inCharge" formControlName="inCharge" readonly required>
+              <label for="inCharge">Funcionario</label>
+            </div>
+
+              <!-- Error message -->
+            <div *ngIf="formErrors.inCharge" class="alert alert-danger">
+                {{ formErrors.inCharge }}
+            </div>
+
+          </div>
+      </div> <!-- End row -->
+
+
+
+      <!-- END TEXT PLACE -->
+      <br>
+      
+      <!-- BEGIN RADIO BUTTONS -->
+      <div class="row">
+        <div class="form-group">
+          <label class="col-sm-6 control-label">Tipo de naciente</label>
+          <div class="col-lg-12">
+            <label *ngFor="let type of nascentType" class="radio-inline radio-styled">
+              <input type="radio" value={{type.value}} formControlName="nascentType" ><span>{{type.display}}</span>
+            </label>
+   
+          </div><!--end .col -->
+        </div>
+        <br>
+      </div>
+
+        <!-- END RADIO BUTTONS -->
+
+
+
+        <!-- BEGIN LOCATION -->
+        <div class="row">
+          <div class="col-sm-6">
+
+              <div class="card">
+              <div class="card-head style-warning">
+                   <header> Ubicación</header>
+              </div>
+                <div class="card-body">
+                  <div class="form-group">
+                    <input type="number" step="any" class="form-control dirty" formControlName="latitude" required>
+                    <label >Latitud</label>
+                  </div>
+                  
+                   <!-- Error message -->
+                  <div *ngIf="formErrors.latitude" class="alert alert-danger">
+                      {{ formErrors.latitude }}
+                  </div>
+
+                  <div class="form-group">
+                    <input type="number" step="any" class="form-control dirty" formControlName="longitude" required>
+                    <label >Longitud</label>
+                  </div>
+
+                   <!-- Error message -->
+                  <div *ngIf="formErrors.longitude" class="alert alert-danger">
+                      {{ formErrors.longitude }}
+                  </div>
+
+                  <button type="button" (click)="getGeoLocation()" class="btn btn-raised btn-default-light ink-reaction"><i class="md md-my-location"></i>Ubicación actual</button>
+                </div><!--end .card-body -->
+              </div><!--end .card -->
+
+          </div>      
+        </div>
+        <!-- END LOCATION -->
+
+      
+
+      <div class="card-actionbar">
+        <div class="card-actionbar-row">
+          <button type="submit" class="btn ink-reaction btn-raised btn-primary btn-loading-state"  [disabled]="!addNascentForm.valid">
+          Crear Naciente
+          <div class="ink" style="top: 20px; left: 51.75px;"></div></button>
+
+           <button type="button" class="btn ink-reaction btn-raised btn-warning" data-dismiss="modal" (click)="cancel()">Cancelar</button>
+        </div>
+      </div>
+
+        <toaster-container  [toasterconfig]="toastConfig"></toaster-container>
+
+        </div> <!-- End card body -->
+        
+    </div><!--end .card -->
+  </form>
+  </div>

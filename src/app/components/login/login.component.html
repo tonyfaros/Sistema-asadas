@@ -1,0 +1,82 @@
+<!-- BEGIN LOGIN SECTION -->
+<section class="section-account">
+
+	<!-- imagen de header -->
+	<!-- <div class="img-backdrop" style="background-image: url('../../assets/img/home5.png')"></div> -->
+
+
+	<!-- <div class="spacer"></div>-->
+	<div class="card contain-sm style-default-dark">
+		<div class="card-body">
+			<div class="row">
+				<div class="col-sm-6">
+					<br/> 
+					<span class="text-lg text-bold text-primary">Sistema de ASADAS</span>
+					<br/><br/>
+
+					<!-- verficar form -->
+					<form class="form form-inverse" (ngSubmit)="onSubmit()" [formGroup]="loginFrom">
+						<div class="form-group form-inverse" >
+							<input type="text" class="form-control form-inverse" formControlName="email" id="email" required>
+							<label for="username">Correo</label>
+							<!-- Error message -->
+
+						</div>
+						<div *ngIf="formErrors.email" class="alert alert-danger">
+							{{ formErrors.email }}
+						</div>
+						<div class="form-group form-inverse">
+							<input type="password" class="form-control form-inverse" formControlName="password" id="password" required>
+							<label for="password">Contraseña</label>
+							<!-- Error message -->
+						</div>
+						<div *ngIf="formErrors.password" class="alert alert-danger">
+							{{ formErrors.password }}
+						</div>
+						<br/>
+						<div class="row">
+							<div class="col-xs-6 text-left">
+								<div class="checkbox checkbox-inline checkbox-styled">
+
+								</div>
+							</div>
+							<!--end .col -->
+							<div class="col-xs-6 text-right">
+								<button type="submit" class="btn btn-primary btn-raised" type="submit">Iniciar</button>
+							</div>
+							<!--end .col -->
+						</div>
+						<!--end .row -->
+					</form>
+
+
+				</div>
+				<!--end .col -->
+
+				<!-- Register -->
+				<div class="col-sm-5 col-sm-offset-1 text-center">
+					<br><br>
+					<h4>
+						¿No tiene cuenta?
+					</h4>
+					<a class="btn btn-block btn-raised btn-primary" routerLink="/signup">Registrarse</a>
+					<br><br>
+
+
+				</div>
+				<!--end .col -->
+			</div>
+			<!--end .row -->
+		</div>
+		<!--end .card-body -->
+	</div>
+	<!--end .card -->
+	<toaster-container [toasterconfig]="toastConfig"></toaster-container>
+
+	<div class="footer">
+		<!-- <div class="img-backdrop" style="background-image: url('../../img/home5.png')"></div> -->
+		<div class="spacer"></div>
+			
+	</div>
+</section>
+<!-- END LOGIN SECTION -->

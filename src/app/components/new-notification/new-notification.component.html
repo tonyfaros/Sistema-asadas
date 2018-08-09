@@ -1,0 +1,66 @@
+<section>
+
+<div class="col-lg-12">
+
+<form class="form" (ngSubmit)="onSubmit()" [formGroup]="addNotificationForm">
+  <div class="card">
+    <div class="card-head style-primary">
+      <header>Creación de una Notificación</header>
+    </div>
+    <!-- BEGIN TEXT PLACE -->
+    <div class="card-body">
+
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <input type="text" class="form-control" id="userreceiver" formControlName="userreceiver"  required>
+            <label for="userreceiver">Enviar a:</label>
+          </div>
+
+        </div> 
+
+      </div> <!-- End Row -->
+
+
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <input type="text" class="form-control" id="subject" formControlName="subject"  required>
+            <label for="subject">Asunto:</label>
+          </div>
+
+        </div> 
+
+      </div> <!-- End Row -->
+
+
+      <div class="row">
+        <div class="col-sm-9">
+          <div class="form-group">
+            <input type="text" class="form-control" id="message" formControlName="message"  required>
+            <label for="message">Mensaje:</label>
+          </div>
+
+        </div> 
+
+      </div> <!-- End Row -->
+
+       <div class="card-actionbar">
+        <div class="card-actionbar-row">
+
+          <button type="submit" class="btn ink-reaction btn-raised btn-primary btn-loading-state"  [disabled]="!addNotificationForm.valid"
+          data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading...">
+          Enviar Notificación
+          <div class="ink" style="top: 20px; left: 51.75px;"></div></button>
+           <button type="button" class="btn ink-reaction btn-raised btn-warning" data-dismiss="modal" (click)="cancel()">Cancelar</button>
+        </div>
+      </div>
+
+          <toaster-container  [toasterconfig]="toastConfig"></toaster-container>
+
+      </div> <!-- End card body -->
+      
+  </div><!--end .card -->
+</form>
+ </div>
+</section>

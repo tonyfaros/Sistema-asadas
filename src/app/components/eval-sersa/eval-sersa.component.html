@@ -1,0 +1,72 @@
+
+<section>
+
+<div class="section-header">
+    <h2 class="text-primary">Formulario Tanques de Almacenamiento</h2>
+</div>
+
+<div class="section-body">
+
+        <div class="row">
+          <form class="form" role="form">
+
+
+            <div *ngFor="let element of form" class="col-md-12">
+                <div class="card">
+                  <div class="card-body">
+
+                    <p>{{element.$key}}. {{element.$value}}</p>
+                      <div class="form-group">
+                        <div class="col-sm-9">
+                          <label class="radio-inline radio-styled">
+                            <input type="radio" (click)="newAnswer(element.$key,true)" [name]="element.$key"><span>Si</span>
+                          </label>
+                          <label class="radio-inline radio-styled">
+                            <input type="radio" (click)="newAnswer(element.$key,false)" [name]="element.$key" required><span>No</span>
+                          </label>
+                        </div><!--end .col -->
+                      </div><!--end .form-group -->
+                  </div><!--end .card-body -->
+                </div><!--end .card -->
+              </div>
+              <div class="col-md-8">
+                <div class="form-group">
+                  <button data-toggle="modal" data-target="#ConfirmModal" type="button" class="btn btn-raised btn-primary"  
+                  >Guardar Evaluacion</button>
+                  <button  type="button" class="btn btn-raised btn-warning" (click)="goBack()">Volver</button>
+                </div>
+              </div>
+            </form>
+        </div>
+
+
+            <!-- Modal -->
+    <div id="ConfirmModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Enviar evaluación</h4>
+          </div>
+
+          <div class="modal-body">
+            <h3>El resultado de la evaluación es: </h3>
+            <h4 class="text-warning">Una vez enviada, no se podra editar</h4>
+
+          </div>
+
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" data-dismiss="modal"  (click)="saveAnswers()">Guardar</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+            <toaster-container  [toasterconfig]="toastConfig"></toaster-container>
+
+</div>      
+
+</section>

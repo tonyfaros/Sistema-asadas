@@ -1,0 +1,144 @@
+<section>
+
+  <div class="section-body contain-xl">
+
+    <div class="ccol-sm-6">
+      <form class="form" (ngSubmit)="onSubmit()" [formGroup]="userDetailsForm">
+        <div class="card">
+
+          <div class="card-head style-primary" *ngIf="readOnlyMode == true">
+            <header>Detalles Usuario</header>
+          </div>
+
+          <div class="card-head style-primary" *ngIf="readOnlyMode == false">
+            <header> Editar Usuario </header>
+          </div>
+
+          <!-- BEGIN TEXT PLACE -->
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <input type="text" class="form-control dirty" [readonly]="readOnlyMode == true" id="userName" formControlName="userName"
+                    required>
+                  <label for="userName">Nombre</label>
+                </div>
+
+                <!-- Error message -->
+                <div *ngIf="formErrors.userName" class="alert alert-danger">
+                  {{ formErrors.userName }}
+                </div>
+
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <input type="text" class="form-control dirty" [readonly]="readOnlyMode == true" id="userLastName" formControlName="userLastName"
+                    required>
+                  <label for="userLastName">Apellidos</label>
+                </div>
+
+                <!-- Error message -->
+                <div *ngIf="formErrors.userLastName" class="alert alert-danger">
+                  {{ formErrors.userLastName }}
+                </div>
+
+              </div>
+            </div>
+            <!-- End Row -->
+
+
+            <div *ngIf="rol!='Super Administrador'" class="row">
+              <div class="col-sm-12">
+                <div class="form-group" *ngIf="readOnlyMode == false">
+                  <label for="select13" class="col-sm-2 control-label">Asada</label>
+                  <select id="select13" name="select13" class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="asadaSelected">
+                  <option *ngFor="let asada of asadaDB" [ngValue]=asada name="asadaSelectOption" ngDefaultControl>{{asada.name}}
+                    
+                  </option>
+                  </select>
+                  <div class="form-control-line"></div>
+                </div>
+                <div class="form-group" *ngIf="readOnlyMode == false && asadaSelected.name != 'Sin asada'">
+                  <label for="select13" class="col-sm-2 control-label">Tipo de acceso</label>
+                  <select id="select13" name="select13" class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="rol">
+                  <option ngValue="Edición" name="rolOption" ngDefaultControl>
+                    Edición                    
+                  </option>
+                  <option ngValue="Administración" name="rolOption" ngDefaultControl>
+                    Administración                    
+                  </option>
+                  </select>
+                  <p *ngIf="rol=='Edición'" for="volume">Este tipo de acceso solo permite edición de infraestructuras y llenado de formularios de la asada seleccionada.
+                    No podrá editar datos de la asada.
+                  </p>
+                  <p *ngIf="rol=='Administración'" for="volume">Este tipo de acceso permite la edición sobre la asada seleccionada. Esto incluye formularios de evaluación
+                    y edición de infraestructuras.
+                  </p>
+
+
+                </div>
+                <!-- Error message -->
+                <div *ngIf="formErrors.rol" class="alert alert-danger">
+                  {{ formErrors.rol }}
+                </div>
+
+                <div class="form-group" *ngIf="readOnlyMode == true">
+                  <input type="text" class="form-control dirty" readonly id="name" formControlName="asadaName">
+                  <label for="volume">Asada</label>
+                </div>
+                <div class="form-group" *ngIf="readOnlyMode == true && isAsada">
+                  <input type="text" class="form-control dirty" readonly id="state" formControlName="asadaState">
+                  <label for="volume">Estado de aprovación de la asada</label>
+                </div>
+                <br>
+              </div>
+            </div>
+            <!-- END TEXT PLACE -->
+
+            <!-- END IMAGE UPLOAD -->
+
+          </div>
+          <!-- End card body -->
+
+
+
+          <div class="card-actionbar">
+            <div class="card-actionbar-row">
+
+              <div *ngIf="readOnlyMode == false">
+                <button type="submit" class="btn ink-reaction btn-raised btn-primary btn-loading-state" [disabled]="!userDetailsForm.valid"
+                  data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading...">
+            Guardar Cambios
+            <div class="ink" style="top: 20px; left: 51.75px;"></div></button>
+
+                <button type="button" class="btn ink-reaction btn-raised btn-warning btn-loading-state" (click)="cancelChanges()" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading...">
+            Cancelar
+            <div class="ink" style="top: 20px; left: 51.75px;"></div></button>
+
+                <!--<button (click)="delete()" class="btn ink-reaction btn-raised btn-danger btn-loading-state" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading...">
+            Eliminar
+            <div class="ink" style="top: 20px; "></div></button>-->
+              </div>
+
+              <div *ngIf="readOnlyMode == true">
+                <button type="button" class="btn ink-reaction btn-raised btn-primary btn-loading-state" *ngIf="readOnlyMode == true" (click)="changeToEdit()"
+                  data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading...">
+            Editar
+            <div class="ink" style="top: 20px; left: 51.75px;"></div></button>
+              </div>
+              <br>
+
+            </div>
+          </div>
+
+
+        </div>
+        <!--end .card -->
+      </form>
+    </div>
+
+
+  </div>
+  <!-- End section-body -->
+</section>

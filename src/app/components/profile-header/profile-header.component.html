@@ -1,0 +1,23 @@
+<ul class="header-nav header-nav-profile" *ngIf="isLoggedIn">
+	<li class="dropdown">
+		<a href="javascript:void(0);" class="dropdown-toggle ink-reaction" data-toggle="dropdown" aria-expanded="false">
+			<span data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading..." 
+				class="profile-info">
+				{{userName}}
+				<small *ngIf="isLoggedIn && userRol !='Super Administrador'"> {{asada}} </small>
+				<small data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading..."> {{userRol}} </small>
+			</span>
+		</a>
+
+		<ul class="dropdown-menu animation-dock">
+			<li class="dropdown-header"></li>
+			<li><a routerLink="profilePage">Mi perfil</a></li>
+			<li>
+				<a routerLink="notifications">Notificaciones <span class="badge style-danger pull-right"> {{numnotif}} </span></a>
+			</li>
+			<li *ngIf = "userRol=='Super Administrador'"><a routerLink="RequestPage">Solicitudes <span *ngIf="numRequest!=0" class="badge style-danger pull-right"> {{numRequest}} </span></a></li>
+			<li class="divider"></li>
+			<li (click)="logout()"><a href=""><i class="fa fa-fw fa-power-off text-danger"></i><i (click)="logout()">Cerrar sesión</i></a></li>
+		</ul><!--end .dropdown-menu -->
+	</li><!--end .dropdown -->
+</ul>

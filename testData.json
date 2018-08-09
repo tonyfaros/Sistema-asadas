@@ -1,0 +1,560 @@
+{
+  "Evaluaciones" : [ null, {
+    "datetime" : "13/6/96:10:pst",
+    "preguntas" : [ null, "si", "no", "si" ],
+    "usuario" : 1
+  }, {
+    "datetime" : "05/04/96",
+    "preguntas" : [ null, "si", "no", "si" ]
+  } ],
+  "SERSACaptacionNaciente" : [ null, "¿Está la naciente sin cerca de protección que impida el acceso de personas y animales a la captación (crítica)", "¿Está la captación de la naciente desprotegida abierta a la contaminación ambiental? (sin tapa o sin tanque de captación)", "¿Está la tapa de la captación construida en condiciones no sanitarias?", "¿Están las paredes y las losas superior e inferior de la captación con grietas? (critica)", "¿Se carece de canales para desviar el agua de escorrentía? (crítica)", "¿Carece la captación de respiraderos o tubería de rebalse con rejilla de protección?", "¿Se encuentran plantas (raíces, hojas, algas y otros) dentro de la captación de la naciente?", "¿Existen aguas estancadas sobre o alrededor de la captación? (crítica)", "¿Existe alguna fuente de contaminación alrededor de la captación? (Observar si aproximadamente a 200 metros a la redonda existen letrinas, animales, viviendas, basura)", "¿Se encuentra la captación ubicada en zonas con actividad agrícola o industrial? (crítica)" ],
+  "SERSACaptacionSuperficial" : [ null, "¿Está la captación fuera de un área protegida o zona de conservación?", "¿Está la toma de agua desprovista de infraestructura que la proteja?", "¿Está el área alrededor de la toma sin cerca?", "¿Está la toma de agua ubicada dentro de alguna zona de actividad agrícola? (crítica)", "¿Existe alguna otra fuente de contaminación alrededor de la toma (letrinas, animales, viviendas, basura o industrias, etc.)? (Observar si aproximadamente a 200 metros a la redonda existen letrinas, animales, viviendas, basura) (crítica)", "¿Está la captación con acceso fácil de personas y animales? (crítica)", "¿Están las rejillas de la toma en malas condiciones (ausentes, quebradas y otros)?", "¿Existe presencia de plantas (raíces, hojas y otros) tapando las rejillas de la toma?", "¿Existen condiciones de deforestación y erosión en los alrededores de la toma de agua?", "¿Está ausente el desarenador después de la toma de agua?" ],
+  "SERSASistemaCloracion" : [ null, "¿Se carece de una zona/caseta debidamente acondicionada para la preparación y aplicación del cloro? (critica)", "¿Carece el acueducto de bitácora de la dosificación del cloro? (critica)", "¿Carece el operario de la capacitación necesaria para la preparación y aplicación de la cloración?", "¿Se carece del equipo de protección necesaria para el personal operativo del sistema de cloración?", "¿Se carece del equipo para la medición de cloro residual?", "¿Se carece de registros de la concentración y del caudal de la solución de cloro preparada y aplicada? (critica)", "¿Se carece de registros de los niveles de cloro residual en tanque(s) de almacenamiento?", "¿Se carece de registros de caudal del agua a ser clorada (caudal que ingresa al tanque donde se homogeniza el cloro)?", "¿Se carece de mantenimiento periódico del sistema de cloración?", "¿Se carece de registros de consumo de cloro día/semana/mes/año?" ],
+  "SERSATanque" : [ null, "¿Están las paredes agrietadas (concretos) o herrumbradas (metálico)? (critica)", "¿Está la tapa del tanque de almacenamiento, construida en condiciones no sanitarias?", "¿Es el borde de cemento alrededor del tanque menor a 1 metro?", "¿Está ausente o fuera de operación el sistema de cloración? (critica)", "¿Está el nivel del agua menor que 1/4 del volumen del tanque?", "¿Existen sedimentos, algas u hongos dentro del tanque?", "¿Está ausente o defectuosa la cerca de protección?", "¿Carece la tapa de un sistema seguro de cierre (candado, cadena, tornillo)?", "¿Carece el tanque de respiraderos o tubería de rebalse con rejilla de protección? (critica)", "¿Existe alguna fuente de contaminación alrededor del tanque (letrinas, animales, viviendas, basura, actividad agrícola o industrial) (critica)" ],
+  "asadas" : {
+    "-KhB26p_I71IlqrFB3R_" : {
+      "adminEntity" : "Asada",
+      "concessionDue" : {
+        "day" : 11,
+        "month" : 4,
+        "year" : 2017
+      },
+      "concessionNumber" : "44545",
+      "district" : "San francisco",
+      "email" : "coerreo@hotmail.com",
+      "geoCode" : 101020,
+      "inCharge" : "Juan Jose",
+      "location" : "por ahi",
+      "minaeRegistration" : "454,lm",
+      "name" : "San Fracicana",
+      "numberSubscribed" : 200,
+      "office" : {
+        "lat" : 9.910743199999999,
+        "long" : -84.0537344
+      },
+      "phoneNumber" : "225511225",
+      "population" : 500,
+      "province" : "Heredia",
+      "subDistrict" : "porvenir",
+      "tags" : "San Fracicana San Jose 200 Asada",
+      "type" : "asada",
+      "waterProgram" : "Si",
+      "zoneType" : "Urbana"
+    },
+    "-KhPaQiit6uAmKFHMkSR" : {
+      "adminEntity" : "Asada",
+      "concessionDue" : {
+        "day" : 20,
+        "month" : 4,
+        "year" : 2017
+      },
+      "concessionNumber" : "46465",
+      "district" : "jhjhjkl",
+      "email" : "aaaaa",
+      "geoCode" : 102003,
+      "inCharge" : "Prueba",
+      "location" : "hghghjg",
+      "minaeRegistration" : "456465465",
+      "name" : "Prueba",
+      "numberSubscribed" : 22255,
+      "office" : {
+        "lat" : 9.908089,
+        "long" : -84.0518324
+      },
+      "phoneNumber" : "22020",
+      "population" : 44444,
+      "province" : "San Jose",
+      "subDistrict" : "jjjj",
+      "tags" : "Prueba San Jose 22255 Asada",
+      "type" : "asada",
+      "waterProgram" : "No",
+      "zoneType" : "Urbana"
+    }
+  },
+  "evaluationsPerInfrastructure" : {
+    "-KjUtIXi4bzLGvkXjkGi" : {
+      "-KlPqr58Z2TdeMYt9VWw" : {
+        "dateTime" : "30/5/2017 @ 13:35:49",
+        "questions" : [ null, true, true, true, true, true, true, true, true, true, true ],
+        "riskCalculated" : 10,
+        "user" : {
+          "apellidos" : "Mata Araya",
+          "nombre" : "Joshua"
+        }
+      },
+      "-KlProc2zcSoBJPg5B_G" : {
+        "dateTime" : "30/5/2017 @ 13:40:2",
+        "questions" : [ null, false, false, false, false, false, false, false, false, true, true ],
+        "riskCalculated" : 2,
+        "user" : {
+          "apellidos" : "Mata Araya",
+          "nombre" : "Joshua"
+        }
+      }
+    },
+    "-KjpfUe4FUFa8igmyY_q" : {
+      "-Kl0f4GMlCIhjpS97Ukc" : {
+        "dateTime" : "25/5/2017 @ 16:13:51",
+        "questions" : [ null, true, true, true, true, true, true, true, true, true, true ],
+        "riskCalculated" : 10,
+        "user" : {
+          "apellidos" : "Mata",
+          "asada" : {
+            "id" : "-KhPaQiit6uAmKFHMkSR",
+            "name" : "Prueba",
+            "rol" : "Administración",
+            "state" : "Permiso de Administración de la asada."
+          },
+          "nombre" : "Joshua",
+          "rol" : "Administración"
+        }
+      }
+    }
+  },
+  "funcionarioPorAsada" : [ null, [ null, true, true ] ],
+  "graphics" : {
+    "1" : {
+      "asada" : "-KhB26p_I71IlqrFB3R_",
+      "type" : "GIRS",
+      "valor1" : 50,
+      "valor2" : 50,
+      "valor3" : 50,
+      "valor4" : 50,
+      "valor5" : 50
+    },
+    "-Kk98SrlUSSjWXFop_nN" : {
+      "asada" : "-KhB26p_I71IlqrFB3R_",
+      "type" : "GAR",
+      "valor1" : 50,
+      "valor2" : 100,
+      "valor3" : 50,
+      "valor4" : 0,
+      "valor5" : 0
+    },
+    "-Kk99Bj30aFbtiBFYooj" : {
+      "asada" : "-KhPaQiit6uAmKFHMkSR",
+      "type" : "GIRS",
+      "valor1" : 16,
+      "valor2" : 40,
+      "valor3" : 10,
+      "valor4" : 80,
+      "valor5" : 5
+    },
+    "-Kk99J2BwTzM8uinBx5y" : {
+      "asada" : "-KhPaQiit6uAmKFHMkSR",
+      "type" : "GAR",
+      "valor1" : 50,
+      "valor2" : 100,
+      "valor3" : 75,
+      "valor4" : 0,
+      "valor5" : 0
+    }
+  },
+  "infraestructura" : {
+    "-KjUtIXi4bzLGvkXjkGi" : {
+      "asada" : {
+        "id" : "-KhB26p_I71IlqrFB3R_",
+        "name" : "San Fracicana"
+      },
+      "details" : {
+        "aqueductName" : "Agua feliz",
+        "cleaning" : "Anual",
+        "creationDate" : {
+          "day" : 2,
+          "month" : 5,
+          "year" : 2017
+        },
+        "direction" : "Dirreccion",
+        "inCharge" : "Alex",
+        "material" : "Plastico",
+        "registerNo" : "4565",
+        "tankType" : "Enterrado",
+        "volume" : {
+          "amount" : 100,
+          "unit" : "metro3"
+        }
+      },
+      "img" : [ {
+        "description" : "",
+        "fileName" : "1495506055899tank.jpg",
+        "url" : "https://firebasestorage.googleapis.com/v0/b/sistemaasadas.appspot.com/o/infrastructure%2F1495506055899tank.jpg?alt=media&token=044095aa-3f5d-43c1-a7b1-3bfc7474d08e"
+      } ],
+      "lat" : 9.9280694,
+      "long" : -84.0957246,
+      "name" : "Nuevo tanque",
+      "risk" : 2,
+      "tags" : "Tanque Nuevo tanque Agua feliz San Fracicana -KhB26p_I71IlqrFB3R_",
+      "type" : "Tanque"
+    },
+    "-KjfkRFR0bEd_j6zstAb" : {
+      "asada" : {
+        "id" : "-KhB26p_I71IlqrFB3R_",
+        "name" : "San Fracicana"
+      },
+      "details" : {
+        "aqueductName" : "Acueducto feliz",
+        "cleaning" : "Anual",
+        "creationDate" : {
+          "day" : 3,
+          "month" : 5,
+          "year" : 2017
+        },
+        "direction" : "Pipipi",
+        "inCharge" : "Juan",
+        "material" : "Contreto",
+        "registerNo" : "667",
+        "tankType" : "Elevado",
+        "volume" : {
+          "amount" : 54,
+          "unit" : "metro3"
+        }
+      },
+      "img" : [ {
+        "description" : "Tanque de agua",
+        "fileName" : "1494982629117tank.jpg",
+        "url" : "https://firebasestorage.googleapis.com/v0/b/sistemaasadas.appspot.com/o/infrastructure%2F1494982629117tank.jpg?alt=media&token=fdea0429-16e2-4dd6-9798-cec945242553"
+      } ],
+      "lat" : 9.9580694,
+      "long" : -84.0907246,
+      "name" : "Tanque feliz",
+      "risk" : 1,
+      "tags" : "Tanque Tanque felizAcueducto feliz667-KhB26p_I71IlqrFB3R_",
+      "type" : "Tanque"
+    },
+    "-KjpfUe4FUFa8igmyY_q" : {
+      "asada" : {
+        "id" : "-KhPaQiit6uAmKFHMkSR",
+        "name" : "Prueba"
+      },
+      "details" : {
+        "aqueductInCharge" : "Toma feliz",
+        "aqueductName" : "Acueducto Feliz",
+        "cleaningFrec" : "Diara",
+        "inCharge" : "Juan",
+        "registerARS" : "ag789asfas",
+        "registerMINAE" : "465asdf"
+      },
+      "img" : [ {
+        "description" : "Toma superficial 2",
+        "fileName" : "1494981389040naciente.jpg",
+        "url" : "https://firebasestorage.googleapis.com/v0/b/sistemaasadas.appspot.com/o/infrastructure%2F1494981389040naciente.jpg?alt=media&token=594465f2-91a7-4e35-957d-fba4537adccb"
+      } ],
+      "lat" : 9.920459700000002,
+      "long" : -84.0626719,
+      "name" : "Toma feliz",
+      "risk" : 10,
+      "tags" : "CaptacionSuperficial Toma feliz Acueducto Feliz Toma feliz -KhPaQiit6uAmKFHMkSR",
+      "type" : "CaptacionSuperficial"
+    },
+    "-KkOT2i5TkyAGAtAoK9E" : {
+      "asada" : {
+        "id" : "-KhB26p_I71IlqrFB3R_",
+        "name" : "San Fracicana"
+      },
+      "details" : {
+        "aqueductName" : "Acueducto Feliz",
+        "cleaning" : "Anual",
+        "creationDate" : {
+          "day" : 25,
+          "month" : 5,
+          "year" : 2017
+        },
+        "direction" : "Cerca del agua",
+        "inCharge" : "Pedro",
+        "material" : "Contreto",
+        "registerNo" : "4654a6sdf",
+        "tankType" : "Elevado",
+        "telephone" : "54564",
+        "volume" : {
+          "amount" : 46445,
+          "unit" : "metro3"
+        }
+      },
+      "img" : [ {
+        "description" : "",
+        "fileName" : "1495506115320tank.jpg",
+        "url" : "https://firebasestorage.googleapis.com/v0/b/sistemaasadas.appspot.com/o/infrastructure%2F1495506115320tank.jpg?alt=media&token=5204eb6e-e217-4ed0-855e-e266a4b06103"
+      } ],
+      "lat" : 9.921341199999999,
+      "long" : -84.064612,
+      "name" : "Tanque azul",
+      "risk" : 0,
+      "tags" : "Tanque Tanque azul Acueducto Feliz San Fracicana -KhB26p_I71IlqrFB3R_",
+      "type" : "Tanque"
+    },
+    "-KkOW8PUm1k-X-eRfoWa" : {
+      "asada" : {
+        "id" : "-KhB26p_I71IlqrFB3R_",
+        "name" : "San Fracicana"
+      },
+      "details" : {
+        "aqueductInCharge" : "Juan",
+        "aqueductName" : "Acueducto feliz",
+        "inCharge" : "Pedro",
+        "nascentType" : "Caseta",
+        "registerARS" : "4fasf54dsa",
+        "registerMINAE" : "54f6as54df",
+        "telephone" : "546"
+      },
+      "img" : [ {
+        "description" : "",
+        "fileName" : "1495505932642naciente.jpg",
+        "url" : "https://firebasestorage.googleapis.com/v0/b/sistemaasadas.appspot.com/o/infrastructure%2F1495505932642naciente.jpg?alt=media&token=ad1577a4-6841-47d5-8dce-9dff95591a29"
+      } ],
+      "lat" : 9.921341199999999,
+      "long" : -84.064612,
+      "name" : "Naciente",
+      "risk" : 0,
+      "tags" : "CaptacionNaciente Naciente Acueducto feliz Juan -KhB26p_I71IlqrFB3R_",
+      "type" : "CaptacionNaciente"
+    },
+    "-KkOjNyUKVRFhGsdQGzb" : {
+      "asada" : {
+        "id" : "-KhPaQiit6uAmKFHMkSR",
+        "name" : "Prueba"
+      },
+      "details" : {
+        "aqueductInCharge" : "asdf",
+        "aqueductName" : "asdf",
+        "cleaningFrec" : "Mensual",
+        "inCharge" : "asdf",
+        "registerARS" : "aa",
+        "registerMINAE" : "asdf"
+      },
+      "lat" : 9.921341199999999,
+      "long" : -84.064612,
+      "name" : "asdf",
+      "risk" : 3,
+      "tags" : "CaptacionSuperficial asdf asdf Prueba -KhPaQiit6uAmKFHMkSR",
+      "type" : "CaptacionSuperficial"
+    },
+    "-KknU4IvKHeobAd2w0Qp" : {
+      "asada" : {
+        "id" : "-KhPaQiit6uAmKFHMkSR",
+        "name" : "Prueba"
+      },
+      "details" : {
+        "aqueductName" : "Nuevo Acu",
+        "cleaning" : "Anual",
+        "creationDate" : {
+          "day" : 1,
+          "month" : 5,
+          "year" : 2017
+        },
+        "direction" : "tanque de agua",
+        "inCharge" : "Joshua Mata Araya",
+        "material" : "Plastico",
+        "registerNo" : "54f4asd",
+        "tankType" : "Enterrado",
+        "volume" : {
+          "amount" : 50,
+          "unit" : "metro3"
+        }
+      },
+      "lat" : 0.333,
+      "long" : 4.55,
+      "name" : "Nuevo tanque",
+      "risk" : 0,
+      "tags" : "Tanque Nuevo tanque Nuevo Acu Prueba -KhPaQiit6uAmKFHMkSR",
+      "type" : "Tanque"
+    },
+    "-Kl0o5H69RU2Ueuan80s" : {
+      "asada" : {
+        "id" : "-KhPaQiit6uAmKFHMkSR",
+        "name" : "Prueba"
+      },
+      "details" : {
+        "AqueductCreationDate" : {
+          "day" : 9,
+          "month" : 5,
+          "year" : 2017
+        },
+        "aqueductInCharge" : "Joshua Mata",
+        "aqueductName" : "Acuaductos San Isidro",
+        "chlorinType" : "Electrolisis",
+        "dosageType" : "Programado",
+        "inCharge" : "Joshua Mata",
+        "installationDate" : {
+          "day" : 25,
+          "month" : 5,
+          "year" : 2017
+        },
+        "ubication" : "San Isia"
+      },
+      "lat" : 9.8662741,
+      "long" : -83.91257639999999,
+      "name" : "Sistema Cloracion San Isidro",
+      "risk" : 0,
+      "tags" : "SistemaCloracion Sistema Cloracion San Isidro Acuaductos San Isidro Prueba -KhPaQiit6uAmKFHMkSR",
+      "type" : "SistemaCloracion"
+    },
+    "-Kl0vMC4alSQoSyPJCps" : {
+      "asada" : {
+        "id" : "-KhPaQiit6uAmKFHMkSR",
+        "name" : "Prueba"
+      },
+      "details" : {
+        "aqueductInCharge" : "Test",
+        "aqueductName" : "Test",
+        "inCharge" : "Joshua Mata",
+        "nascentType" : "SemiEnterrada",
+        "registerARS" : "123",
+        "registerMINAE" : "123"
+      },
+      "lat" : 9.8563575,
+      "long" : -83.9125163,
+      "name" : "Captación Naciente Test",
+      "risk" : 0,
+      "tags" : "CaptacionNaciente Captación Naciente Test Test Test -KhPaQiit6uAmKFHMkSR",
+      "type" : "CaptacionNaciente"
+    }
+  },
+  "notifications" : {
+    "-KkF5UuoMPxosGDWfIO2" : {
+      "message" : "No tenemos un fontanero disponible",
+      "subject" : "PROBLEMAS",
+      "userid" : "EQ1DhSayJQbADrcKAAvysngAWrw1",
+      "username" : "Joshua Mata Araya",
+      "userreceiver" : "Joshua Mata"
+    },
+    "-KkcMBCXCniWDKB2tYiV" : {
+      "message" : "Se debe de alertar a los ciudadanos que no consuman el agua de la zona sur de la ASADA Garabito",
+      "subject" : "Animal Muerto en Tanque",
+      "userid" : "620OSe60nWNTUGQOPMzd9z7nQUJ2",
+      "username" : "Juan Jose Gutierrez Jimenez",
+      "userreceiver" : "Juan Jose Gutierrez Jimenez"
+    },
+    "-KknIUAWq4paeHJhHXE_" : {
+      "message" : "Hola esto es una prueba",
+      "subject" : "Prueba",
+      "userid" : "byfegQC5ZuWmmBy45Q6SaRbE9a93",
+      "username" : "Alex Sanchz",
+      "userreceiver" : "Joshua Mata Araya"
+    },
+    "-Kl-h3Qb63JAuDJiq1h4" : {
+      "message" : "Gracias !!",
+      "subject" : "Respondiendo",
+      "userid" : "EQ1DhSayJQbADrcKAAvysngAWrw1",
+      "username" : "Joshua Mata Araya",
+      "userreceiver" : "Alex Sanchz"
+    },
+    "-Kl0wP_DHqWCvwAkbCZv" : {
+      "message" : "Hola, EStamos en revisión, Problemas !!",
+      "subject" : "Prueba",
+      "userid" : "hKG79e1We6MlQG44SGAxJXgogXI2",
+      "username" : "Joshua Mata",
+      "userreceiver" : "Juan Jose Gutierrez Jimenez"
+    },
+    "-KlQ5hYyVdOfT41m4OZm" : {
+      "message" : "Hola ",
+      "subject" : "Prueba",
+      "userid" : "EQ1DhSayJQbADrcKAAvysngAWrw1",
+      "username" : "Joshua Mata Araya",
+      "userreceiver" : "Joshua Mata "
+    }
+  },
+  "rolAccess" : {
+    "620OSe60nWNTUGQOPMzd9z7nQUJ2" : {
+      "asada" : "-KhB26p_I71IlqrFB3R_",
+      "asadaName" : "San Fracicana",
+      "rol" : "Edición",
+      "userName" : "Juan Jose",
+      "usuario" : "620OSe60nWNTUGQOPMzd9z7nQUJ2"
+    },
+    "EQ1DhSayJQbADrcKAAvysngAWrw1" : {
+      "rol" : "Super Administrador",
+      "userName" : "Joshua",
+      "usuario" : "EQ1DhSayJQbADrcKAAvysngAWrw1"
+    },
+    "Icz13Zh0h3huTeP1DK4VmN2xi4n1" : {
+      "asada" : "-KhB26p_I71IlqrFB3R_",
+      "asadaName" : "San Fracicana",
+      "rol" : "Edición",
+      "userName" : "Pedro",
+      "usuario" : "Icz13Zh0h3huTeP1DK4VmN2xi4n1"
+    },
+    "byfegQC5ZuWmmBy45Q6SaRbE9a93" : {
+      "asada" : "-KhB26p_I71IlqrFB3R_",
+      "asadaName" : "San Fracicana",
+      "rol" : "Administración",
+      "userName" : "Alex",
+      "usuario" : "byfegQC5ZuWmmBy45Q6SaRbE9a93"
+    },
+    "hKG79e1We6MlQG44SGAxJXgogXI2" : {
+      "asada" : "-KhPaQiit6uAmKFHMkSR",
+      "asadaName" : "Prueba",
+      "rol" : "Administración",
+      "userName" : "Joshua",
+      "usuario" : "hKG79e1We6MlQG44SGAxJXgogXI2"
+    },
+    "qhSTWjD0s7dlHb4T3xJOMAvdSpe2" : {
+      "asada" : "-KhB26p_I71IlqrFB3R_",
+      "asadaName" : "San Fracicana",
+      "rol" : "Edición",
+      "userName" : "Pedro",
+      "usuario" : "qhSTWjD0s7dlHb4T3xJOMAvdSpe2"
+    }
+  },
+  "usuarios" : {
+    "620OSe60nWNTUGQOPMzd9z7nQUJ2" : {
+      "apellidos" : "Gutierrez Jimenez",
+      "asada" : {
+        "id" : "-KhB26p_I71IlqrFB3R_",
+        "name" : "San Fracicana",
+        "rol" : "Edición",
+        "state" : "Permiso de Edición de la asada."
+      },
+      "nombre" : "Juan Jose"
+    },
+    "7U2XyWmkk7XJxbaLFKB28Gzylmz2" : {
+      "apellidos" : "Mata",
+      "nombre" : "Joshua Publico"
+    },
+    "EQ1DhSayJQbADrcKAAvysngAWrw1" : {
+      "apellidos" : "Mata Araya",
+      "nombre" : "Joshua"
+    },
+    "Icz13Zh0h3huTeP1DK4VmN2xi4n1" : {
+      "apellidos" : "Koala",
+      "asada" : {
+        "id" : "-KhB26p_I71IlqrFB3R_",
+        "name" : "San Fracicana",
+        "rol" : "Edición",
+        "state" : "Permiso de Edición de la asada."
+      },
+      "nombre" : "Pedro"
+    },
+    "byfegQC5ZuWmmBy45Q6SaRbE9a93" : {
+      "apellidos" : "Sanchz",
+      "asada" : {
+        "id" : "-KhB26p_I71IlqrFB3R_",
+        "name" : "San Fracicana",
+        "rol" : "Administración",
+        "state" : "Permiso de Administración de la asada."
+      },
+      "nombre" : "Alex"
+    },
+    "hKG79e1We6MlQG44SGAxJXgogXI2" : {
+      "apellidos" : "Mata",
+      "asada" : {
+        "id" : "-KhPaQiit6uAmKFHMkSR",
+        "name" : "Prueba",
+        "rol" : "Administración",
+        "state" : "Permiso de Administración de la asada."
+      },
+      "nombre" : "Joshua",
+      "rol" : "Administración"
+    },
+    "qhSTWjD0s7dlHb4T3xJOMAvdSpe2" : {
+      "apellidos" : "Koala",
+      "asada" : {
+        "id" : "-KhB26p_I71IlqrFB3R_",
+        "name" : "San Fracicana",
+        "rol" : "Edición",
+        "state" : "Permiso de Edición de la asada."
+      },
+      "nombre" : "Pedro"
+    },
+    "undefined" : "620OSe60nWNTUGQOPMzd9z7nQUJ2"
+  }
+}
