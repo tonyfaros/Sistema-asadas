@@ -18,6 +18,26 @@
                 [scrollwheel]="false" [mapTypeId]="'terrain'" [gestureHandling]="'cooperative'"
                 [mapTypeControl]="'true'">
 
+
+                <!-- MARKER PARA LOS TANQUES DE AGUA-->
+                <agm-marker
+                [latitude]="9.991970"
+                [longitude]="-84.113594"
+                [iconUrl]="'../../../assets/icons/Storage-intermedio.png'"
+                (markerClick)="markerClick(); lastOpen?.close(); lastOpen = infoWindow;">
+                  <agm-info-window #infoWindow>
+                    <div id="iw-container">
+                    
+                      <div class="iw-title">
+                        <button  type="button" class="btn btn-block ink-reaction btn-link">titulo</button>
+                      </div>
+                      <div class="iw-subTitle">
+                        subtitulo
+                      </div><br><br>
+                    </div>
+                  </agm-info-window>
+                </agm-marker>
+
                 <!-- MARKER PARA LOS TANQUES DE AGUA-->
                 <agm-marker *ngFor="let m of infraestTankmarkers" [(latitude)]="m.lat" [(longitude)]="m.long" 
                 (zIndex)="1" [(iconUrl)]="m.iconUrl" (markerClick)="markerClick(); lastOpen?.close(); lastOpen = infoWindow;">

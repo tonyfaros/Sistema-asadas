@@ -176,7 +176,7 @@ export class MapGoogleComponent implements OnInit {
     }
     redirectCaptacion(elem:Infrastructure){
         if(elem.type == "CaptacionNaciente" ){
-             this.router.navigate(["/CaptacionNacienteDetails/"+ elem.$key]);    
+             this.router.navigate(["/CaptacionNacienteDetails/"+ elem.$key]);  
         }
         else{
             this.router.navigate(["/CaptacionSuperficialDetails/"+ elem.$key]);   
@@ -195,7 +195,7 @@ export class MapGoogleComponent implements OnInit {
     lng: number = -83.9004535;
 
     //ZOOM LEVEL
-    zoom: number = 10;
+    zoom: number = 30;
 
     //VARIABLES
     markerName: string;
