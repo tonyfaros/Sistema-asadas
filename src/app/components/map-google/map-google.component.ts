@@ -17,12 +17,24 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import {Subscription} from "rxjs/Subscription";
 
+//import ol from 'openlayers/dist/ol-debug.js';
+
+
+import Map from 'ol/Map';
+import View from 'ol/View';
+import OSM from 'ol/source/OSM';
+import TileLayer from 'ol/layer/Tile';
+import * as ol from 'openlayers';
+
+
+
 @Component({
     selector: 'app-map-google',
     templateUrl: './map-google.component.html',
     styleUrls: ['./map-google.component.scss'],
     providers: [MapGoogleService,UserService]
 })
+
 export class MapGoogleComponent implements OnInit {
 
     private allList: Infrastructure[];
@@ -64,9 +76,23 @@ export class MapGoogleComponent implements OnInit {
     private scrollExecuted: boolean = false;
     private fragment: string;
 
+
+   
+    
+
     ngOnInit() {
         //this.route.fragment.subscribe(fragment => { this.fragment = fragment; });
-        
+        new ol.Map({
+            layers: [
+              new TileLayer({source: new OSM()})
+            ],
+            view: new View({
+              center: [0, 0],
+              zoom: 6
+            }),
+            target: 'map'
+          });
+
         this.af.auth.subscribe(user => {
             if (user) {
                 // user logged in
@@ -94,6 +120,17 @@ export class MapGoogleComponent implements OnInit {
 
 
     }
+
+
+
+
+
+
+
+
+
+
+    
 
     /*ngAfterViewChecked(): void {
     if (!this.scrollExecuted) {
