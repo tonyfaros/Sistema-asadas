@@ -17,12 +17,26 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import {Subscription} from "rxjs/Subscription";
 
+//import ol from 'openlayers/dist/ol-debug.js';
+
+import Map from 'ol/Map';
+import View from 'ol/View';
+import TileLayer from 'ol/layer/Tile.js';
+//import ImageLayer from 'ol/layer/.js';
+import OSM from 'ol/source/OSM.js';
+import TileWMS from 'ol/source/TileWMS.js';
+
+import * as ol from 'openlayers';
+
+
+
 @Component({
     selector: 'app-map-google',
     templateUrl: './map-google.component.html',
     styleUrls: ['./map-google.component.scss'],
     providers: [MapGoogleService,UserService]
 })
+
 export class MapGoogleComponent implements OnInit {
 
     private allList: Infrastructure[];
@@ -64,9 +78,41 @@ export class MapGoogleComponent implements OnInit {
     private scrollExecuted: boolean = false;
     private fragment: string;
 
+
+   
+    
+
     ngOnInit() {
         //this.route.fragment.subscribe(fragment => { this.fragment = fragment; });
-        
+        /*
+        var layers = [
+            new TileLayer({
+                source: new TileWMS({
+                    url: 'http://geos.snitcr.go.cr/be/IGN_1/wms',//'http://geos0.snitcr.go.cr/cgi-bin/web',
+                    params: {
+                        'LAYERS ': 'indice_1000'
+                    }
+                })
+              }),
+              new TileLayer({
+                source: new TileWMS({
+                  projection: 'EPSG:4326', //HERE IS THE DATA SOURCE PROJECTION
+                  url: 'http://demo.boundlessgeo.com/geoserver/wms',
+                  params: {
+                    'LAYERS': 'ne:NE1_HR_LC_SR_W_DR'
+                  }
+                })
+              })
+          ];
+          var map = new Map({
+            layers: layers,
+            target: 'map',
+            view: new View({
+                center: ol.proj.fromLonLat([-84.139406,9.999912]),
+                zoom: 6
+            })
+          });*/
+
         this.af.auth.subscribe(user => {
             if (user) {
                 // user logged in
@@ -94,6 +140,17 @@ export class MapGoogleComponent implements OnInit {
 
 
     }
+
+
+
+
+
+
+
+
+
+
+    
 
     /*ngAfterViewChecked(): void {
     if (!this.scrollExecuted) {
@@ -176,7 +233,7 @@ export class MapGoogleComponent implements OnInit {
     }
     redirectCaptacion(elem:Infrastructure){
         if(elem.type == "CaptacionNaciente" ){
-             this.router.navigate(["/CaptacionNacienteDetails/"+ elem.$key]);    
+             this.router.navigate(["/CaptacionNacienteDetails/"+ elem.$key]);  
         }
         else{
             this.router.navigate(["/CaptacionSuperficialDetails/"+ elem.$key]);   
@@ -195,7 +252,7 @@ export class MapGoogleComponent implements OnInit {
     lng: number = -83.9004535;
 
     //ZOOM LEVEL
-    zoom: number = 10;
+    zoom: number = 30;
 
     //VARIABLES
     markerName: string;
