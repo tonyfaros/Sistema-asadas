@@ -1,21 +1,30 @@
 <section>
   
-  <div id="map" style="width: 100%; height: 400px;" style="background-color:white;"></div>
+  <!--div id="map" style="width: 100%; height: 400px; background-color: whitesmoke; display: none"></div-->
   <div class="section-header">
-    <h2 id="asada-map" class="text-default-bright">Mapa de ASADAs</h2>
-  </div>
+      <ol class="breadcrumb">
+          <li class="active"> <h2 id="asada-map" class="text-default-bright">Mapa de ASADAs</h2></li>
+
+          <button *ngIf="isLoggedIn == true " 
+            class="btn ink-reaction btn-raised btn-primary filter-btn"
+           
+            data-original-title="Subir">
+            Filtros
+          </button>
+        </ol>
+</div>
 
   <div class="section-body">
     <!-- Begin Body Section -->
     <div class="content">
       <div class="row">
         <!-- MAPA -->
-        <div class="col-md-9">
+        <div class="col-md-12">
           <div class="fullMap" id="#map-canvas">
             <div class="no-padding border-gray">
               <!-- Begin Card Map -->
               <agm-map #gm [(latitude)]="lat" [(longitude)]="lng" [(zoom)]="zoom" 
-                [scrollwheel]="false" [mapTypeId]="'terrain'" [gestureHandling]="'cooperative'"
+                [scrollwheel]="false" [mapTypeId]="'satellite'" [gestureHandling]="'cooperative'"
                 [mapTypeControl]="'true'">
 
 

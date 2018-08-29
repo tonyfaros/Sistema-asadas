@@ -22,6 +22,7 @@ import {Subscription} from "rxjs/Subscription";
 import Map from 'ol/Map';
 import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile.js';
+//import ImageLayer from 'ol/layer/.js';
 import OSM from 'ol/source/OSM.js';
 import TileWMS from 'ol/source/TileWMS.js';
 
@@ -83,31 +84,34 @@ export class MapGoogleComponent implements OnInit {
 
     ngOnInit() {
         //this.route.fragment.subscribe(fragment => { this.fragment = fragment; });
-
-
+        /*
         var layers = [
             new TileLayer({
-              source: new OSM()
-            }),
-            new TileLayer({
-              extent: [-13884991, 2870341, -7455066, 6338219],
-              source: new TileWMS({
-                url: 'https://ahocevar.com/geoserver/wms',
-                params: {'LAYERS': 'topp:states', 'TILED': true},
-                serverType: 'geoserver',
-                // Countries have transparency, so do not fade tiles:
-                transition: 0
+                source: new TileWMS({
+                    url: 'http://geos.snitcr.go.cr/be/IGN_1/wms',//'http://geos0.snitcr.go.cr/cgi-bin/web',
+                    params: {
+                        'LAYERS ': 'indice_1000'
+                    }
+                })
+              }),
+              new TileLayer({
+                source: new TileWMS({
+                  projection: 'EPSG:4326', //HERE IS THE DATA SOURCE PROJECTION
+                  url: 'http://demo.boundlessgeo.com/geoserver/wms',
+                  params: {
+                    'LAYERS': 'ne:NE1_HR_LC_SR_W_DR'
+                  }
+                })
               })
-            })
           ];
           var map = new Map({
             layers: layers,
             target: 'map',
             view: new View({
-              center: [-10997148, 4569099],
-              zoom: 4
+                center: ol.proj.fromLonLat([-84.139406,9.999912]),
+                zoom: 6
             })
-          });
+          });*/
 
         this.af.auth.subscribe(user => {
             if (user) {
