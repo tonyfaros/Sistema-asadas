@@ -70,6 +70,7 @@ import { CompareAsadasComponent } from './components/compare-asadas/compare-asad
 import { BitacoraComponent } from './components/bitacora/bitacora.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ReporteComponent } from './components/reporte/reporte.component';
+import { TomaDatosComponent } from './components/toma-datos/toma-datos.component';
 
 
 @NgModule({
@@ -113,6 +114,7 @@ import { ReporteComponent } from './components/reporte/reporte.component';
     BitacoraComponent,
     DashboardComponent,
     ReporteComponent,
+    TomaDatosComponent,
   ],
   imports: [
     DatepickerModule,
