@@ -40,6 +40,7 @@ import { BitacoraComponent } from '../components/bitacora/bitacora.component'
 //Ricardo' Components imports
 import { ReporteComponent } from '../components/reporte/reporte.component'
 import { TomaDatosComponent } from '../components/toma-datos/toma-datos.component'
+import { AdmUsuariosComponent } from '../components/adm-usuarios/adm-usuarios.component'
 import { AuthGuard } from '../auth.service' 
 
 //Gaby: agrego esto aquí por un bug de esta biblioteca
@@ -86,6 +87,7 @@ const appRoutes: Routes = [
   //Luis' Component routes
   { path: 'reporte', component: ReporteComponent },
   { path: 'tomaDatos', component: TomaDatosComponent },
+  { path: 'admUsuarios', component: AdmUsuariosComponent },
   { path: '**', component: NotFoundComponentComponent }
 
 ];
