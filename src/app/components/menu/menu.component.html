@@ -92,7 +92,7 @@
 						</a>
 						<ul></ul>
 					</li>
-					<li class="gui-folder" *ngIf="isLoggedIn && userAccess.rol =='Super Administrador'" >
+					<li class="gui-folder" *ngIf="isLoggedIn && userAccess.rol =='Super Administrador' || userAccess.rol =='Estudiante'" >
 						<a routerLink="/tomaDatos" >
 							<div class="gui-icon"><i class="glyphicon glyphicon-list-alt"></i></div>
 							<span class="title">Toma de datos</span>

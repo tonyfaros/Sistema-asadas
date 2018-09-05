@@ -8,6 +8,12 @@ export class AngularFireService {
 	constructor(private af: AngularFire){
 	}
 
+	getUsuario(pKey: String):FirebaseObjectObservable<any>  {
+		const Obj$: FirebaseObjectObservable<any> = 
+			this.af.database.object('usuarios/'+pKey);
+		return Obj$;
+	  }
+
 	getInfrastructure(pKey: String):FirebaseObjectObservable<any>  {
        const Obj$: FirebaseObjectObservable<any> = 
 	   	this.af.database.object('infraestructura/'+pKey);

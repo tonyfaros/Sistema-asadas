@@ -1,96 +1,73 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {AngularFireDatabase} from 'angularfire2/database'
+import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { Observable } from 'rxjs';
 
-/*		Model-Entities		*/
+
 import { User } from '../../common/model/User';
-
-/*		Modules		*/
-import { FirebaseApp, AngularFire, FirebaseListObservable } from 'angularfire2';
-
-/*		Services		*/
-import { AngularFireService } from 'app/common/service/angularFire.service';
-import { ExportService } from "app/common/service/export.service";
-import { UserService } from "app/common/service/user.service";
-import { SearchService } from './search.service';
+import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'app-adm-usuarios',
   templateUrl: './adm-usuarios.component.html',
-  styleUrls: ['./adm-usuarios.component.scss'],
-  providers: [SearchService, UserService, AngularFireService]
+  styleUrls: ['./adm-usuarios.component.scss']
 })
 export class AdmUsuariosComponent implements OnInit {
-
-  private sub: any;
-  public filteredList: any[];
-  private allList: any[];
-  public allSelection: boolean;
-  private searchFirebase: any;
-	private searchFirebase2: any;
-  public userAccess;
-	private user;
-	public isLoggedIn: boolean;
-
-  constructor(
-    private searchService: SearchService,
-		private angularFire: AngularFire,
-		private userService: UserService,
-		private route: ActivatedRoute,
-    private router: Router,
-    private af: AngularFire,
-		private angularFireService: AngularFireService,
-		private fb: FormBuilder,
-		private exportService: ExportService) {
-  }
+  filteredList: any[];
+  filteredList2: any[];
   
+  projects: Observable<any[]>;
+  customers: FirebaseObjectObservable<any[]>;
   
 
-  ngOnInit(): void{
-    this.loadLocalAttributes();
-  }
+  
+  constructor(db: AngularFireDatabase, private af: AngularFire) { 
+    var usuarios = new Array();
+    
+    db.list('usuarios')
+    .subscribe(filteredList2 => {
+      this.filteredList2 = filteredList2;
+      
+      console.log(this.filteredList2);
+    });
+    
+    db.list('rolAccess')
+      .subscribe(filteredList => {
+        this.filteredList = filteredList;
+        
+        for (var i = 0; i < this.filteredList.length; i++){
+          var cont = 0;
+          var usuario = {
+            'nombre': '',
+            'apellidos': '',
+            'correo': '',
+            'rol': ''
+          }
+          while(this.filteredList[i]["usuario"] != this.filteredList2[cont]["$key"])
+            cont++;
+  
+          usuario.nombre = this.filteredList2[cont]["nombre"];
+          usuario.apellidos = this.filteredList2[cont]["apellidos"];
+          usuario.correo = this.filteredList2[cont]["correo"];
+          usuario.rol = this.filteredList[i]["rol"];
+  
+          usuarios.push(usuario);
+          console.log(usuarios);
+        }
+        this.filteredList = usuarios;
 
-  
-  ngOnDestroy(): void {
-		if (this.sub != null)
-			this.sub.unsubscribe();
-		this.filteredList = [];
-		this.allList = [];
-  }
-  
-  loadUserPermissions() {
-		this.userAccess = {};
-		this.af.auth.subscribe(user => {
-			if (user) {
-				this.isLoggedIn = true;
-				this.userService.getRolAccess(user.uid).subscribe(
-					results => {
-						this.userAccess = results;
-						//this.userAccess.asada
-					}
-				)
-			}
-			this.getResult();
-			
-		});
-  }
-  
-  loadLocalAttributes() {
-		this.filteredList = [];
-		this.allList = [];
-		this.allSelection = false;
+        
+      });
+     
+      
+    
 
   }
 
-  getResult(): void {
-		this.allList = this.filteredList = [];	
-		this.searchFirebase = this.searchService.search("usuarios");
-		this.searchFirebase.subscribe(
-			results => {
-				this.filteredList = results;
-			}
-		);
-	}
+  ngOnInit() {
+  }
 
+  
+ 
 
 }
