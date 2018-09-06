@@ -70,6 +70,8 @@ import { CompareAsadasComponent } from './components/compare-asadas/compare-asad
 import { BitacoraComponent } from './components/bitacora/bitacora.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ReporteComponent } from './components/reporte/reporte.component';
+import { FilterComponent } from './components/filter/filter.component';
+
 
 
 @NgModule({
@@ -113,6 +115,7 @@ import { ReporteComponent } from './components/reporte/reporte.component';
     BitacoraComponent,
     DashboardComponent,
     ReporteComponent,
+    FilterComponent,
   ],
   imports: [
     DatepickerModule,
@@ -154,4 +157,11 @@ import { ReporteComponent } from './components/reporte/reporte.component';
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class AppModule { }
+
+export class AppModule { 
+  /*private _url= 'assets/locations.json';
+  constructor(private _http: Http) {}
+  getLocations () {
+    return this._http.get(this._url)
+      .map((response: Response) => response.json());
+  }*/}
