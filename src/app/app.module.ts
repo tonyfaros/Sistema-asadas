@@ -73,7 +73,6 @@ import { ReporteComponent } from './components/reporte/reporte.component';
 import { FilterComponent } from './components/filter/filter.component';
 
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -159,9 +158,6 @@ import { FilterComponent } from './components/filter/filter.component';
 })
 
 export class AppModule { 
-  /*private _url= 'assets/locations.json';
-  constructor(private _http: Http) {}
-  getLocations () {
-    return this._http.get(this._url)
-      .map((response: Response) => response.json());
-  }*/}
+
+}
+
