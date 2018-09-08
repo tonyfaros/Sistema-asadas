@@ -1,9 +1,159 @@
+
+  
+<!--PRUEBA-->
+<div class="col-md-6" *ngIf="false">
+    <div class="card tabs-right style-default-light">
+      <ul class="card-head nav nav-tabs text-center" data-toggle="tabs">
+        <li class="active"><a href="#first6"><i class="fa fa-lg fa-user"></i><br/><h4>Profile<br/><small>Personal details</small></h4></a></li>
+        <li><a href="#second6"><i class="fa fa-lg fa-clock-o"></i><br/><h4>History<br/><small>About us</small></h4></a></li>
+      </ul>
+      <div class="card-body tab-content style-default-bright">
+        <div class="tab-pane active" id="first6"><h3 class="text-light">Daniel <strong>Johnson</strong></h3>
+          <p>Per at postea mediocritatem, vim numquam aliquid eu, in nam sale gubergren. Fuisset delicatissimi duo, qui ut animal noluisse erroribus. Ea eum veniam audire. Dicant vituperata consequuntur.</p>
+          <dl class="dl-horizontal">
+            
+          </dl>
+        </div>
+        <div class="tab-pane" id="second6">
+          <h1><i class="fa fa-clock-o text-accent"></i> History</h1>
+          <p class="lead">Ad ius duis dissentiunt, an sit harum primis persecuti, adipisci tacimates mediocrem sit et. Id illud voluptaria omittantur qui, te affert nostro mel. Cu conceptam vituperata temporibus has.</p>
+          <p>Per at postea mediocritatem, vim numquam aliquid eu, in nam sale gubergren. Fuisset delicatissimi duo, qui ut animal noluisse erroribus. Ea eum veniam audire. Dicant vituperata consequuntur.</p>
+        </div>
+      </div>
+    </div><!--end .card -->
+  </div><!--end .col -->
+
+
 <div>
   <button
   class="btn ink-reaction btn-raised btn-primary filter-btn"
-  data-original-title="Subir" >
-  Filtro
+  data-original-title="Subir" (click)="prueba()">
+  Filtro 
 </button>
+<div class="col-md-4">
+    <div class="row" id="panelFiltros">
+      <div class="card panel filter-container col-md-12 ">
+        <div class="card-head card-head-xs collapsed" data-toggle="collapse" data-parent="#panelFiltros" data-target="#filtroProvincias">
+          <header >Provincias</header>
+          <div class="tools">
+            <a class="btn btn-icon-toggle"><i class="fa fa-angle-down"></i></a>
+          </div>
+        </div>
+        <div id="filtroProvincias" class="panel-group collapse">
+          <div class="card-body filter-body">
+              <div *ngFor="let prov of locaciones.provincias" class="card panel darken-background">
+                <div  class="card-head card-head-xs">
+                  <header>
+                    <div class="checkbox checkbox-styled checkbox-default-dark">
+                      <label >
+                        <input type ="checkbox" checked (click)="filterCheckboxChange($event, prov)"><span>{{prov.name}}</span>
+                      </label>
+                    </div>
+                  </header>
+                  <div class="tools collapsed" data-toggle="collapse" data-toggle="collapse" data-parent="#filtroProvincias" [attr.data-target]="'#filtro'+prov.key">
+                      <a class="btn btn-icon-toggle"><i class="fa fa-angle-down"></i></a>
+                  </div>
+                </div>
+                <div [id]="'filtro'+prov.key"  class="panel-group collapse">
+                  <div class="card-body filter-body">
+                    <div *ngFor="let cant of prov.cantones" class="card panel darken-background">
+                        <div  class="card-head card-head-xs">
+                         <header>
+                            <div class="checkbox checkbox-styled checkbox-default-dark">
+                              <label >
+                                <input type ="checkbox" checked="false" (click)="filterCheckboxChange($event, prov)">
+                                <span>{{cant.name}}</span>
+                              </label>
+                            </div>
+                          </header>
+                          <div class="tools collapsed" data-toggle="collapse" data-parent="#filtroProvincias" [attr.data-target]="'#filtro'+prov.key+'-'+cant.key">
+                            <a class="btn btn-icon-toggle"><i class="fa fa-angle-down"></i></a>
+                          </div>
+                        </div>
+                        <div [id]="'filtro'+prov.key+'-'+cant.key"  class="panel-group collapse">
+                            <div class="card-head card-head-xs filter-head">
+                              <header>
+                                  <div class="checkbox checkbox-styled checkbox-default-dark">
+                                      <label class="col-sm-12" *ngFor="let dist of cant.distritos">
+                                          <input type="checkbox" checked (click)="filterCheckboxChange($event, prov)">
+                                          <span>{{dist.name}}</span>
+                                      </label>
+                                  </div>
+                                </header>
+                            </div>
+                        </div>
+                        
+                    </div>
+                  </div>
+                </div>
+                </div>
+              </div>
+        </div>
+      </div>
+
+      <div class="card panel filter-container col-md-12 ">
+          <div class="card-head card-head-xs collapsed" data-toggle="collapse" data-parent="#panelFiltros" data-target="#filtroCategorias">
+            <header >Categorias</header>
+            <div class="tools">
+              <a class="btn btn-icon-toggle"><i class="fa fa-angle-down"></i></a>
+            </div>
+          </div>
+          <div id="filtroCategorias" class="panel-group collapse">
+            <div class="card-body filter-body">
+                <header>
+                    <div class="checkbox checkbox-styled checkbox-default-dark">
+                      <label><input type="checkbox" checked><span> Oficina de ASADA</span></label>
+                    </div>
+                    <div class="checkbox checkbox-styled checkbox-default-dark">
+                      <label><input type="checkbox" checked><span> Tanque de almacenamiento</span></label>
+                    </div>
+                    <div class="checkbox checkbox-styled checkbox-default-dark">
+                      <label><input type="checkbox" checked><span> Sistema de cloración</span></label>
+                    </div>
+                    <div class="checkbox checkbox-styled checkbox-default-dark">
+                      <label><input type="checkbox" checked><span> Captación de naciente</span></label>
+                    </div>
+                    <div class="checkbox checkbox-styled checkbox-default-dark">
+                      <label><input type="checkbox" checked><span> Toma de agua superficial</span></label>
+                    </div>
+                  </header>
+            </div>
+          </div>
+      </div>
+
+      <div class="card panel filter-container col-md-12 ">
+          <div class="card-head card-head-xs collapsed" data-toggle="collapse" data-parent="#panelFiltros" data-target="#filtroRiesgos">
+            <header >Riesgos</header>
+            <div class="tools">
+              <a class="btn btn-icon-toggle"><i class="fa fa-angle-down"></i></a>
+            </div>
+          </div>
+          <div id="filtroRiesgos" class="panel-group collapse">
+            <div class="card-body filter-body">
+                <header>
+                  <div class="checkbox checkbox-styled checkbox-danger">
+                    <label><input type="checkbox" checked><span> Muy Alto</span></label>
+                  </div>
+                  <div class="checkbox checkbox-styled checkbox-warning">
+                    <label><input type="checkbox" checked><span> Alto</span></label>
+                  </div>
+                  <div class="checkbox checkbox-styled checkbox-yellow">
+                    <label><input type="checkbox" checked><span> Intermedio</span></label>
+                  </div>
+                  <div class="checkbox checkbox-styled checkbox-lime">
+                    <label><input type="checkbox" checked><span> Bajo</span></label>
+                  </div>
+                  <div class="checkbox checkbox-styled checkbox-success">
+                    <label><input type="checkbox" checked><span> Nulo</span></label>
+                  </div>
+                </header>
+            </div>
+          </div>
+      </div>
+
+    </div>
+  </div>
+
 
 
 <div class="col-md-3">
@@ -32,7 +182,9 @@
                   <div class="card-head card-head-xs collapsed">
                     <header>
                       <div class="checkbox checkbox-styled checkbox-default-dark">
-                        <label><input type="checkbox" checked><span> Cartago</span></label>
+                        <label *ngFor="let prov of locaciones.provincias">
+                          <input type="checkbox" checked><span>{{prov.name}}</span>
+                        </label>
                       </div>
                     </header>
                     <div class="tools" data-toggle="collapse" data-parent="#accordion1-1" data-target="#accordion1-1-1">
@@ -43,7 +195,7 @@
                   <div id="accordion1-1-1" class="collapse">
                     <div class="distrito-container">
                       <div class="checkbox checkbox-styled checkbox-default">
-                        <label><input type="checkbox" checked><span> San Nicolás</span></label><br>
+                        <label><input type="checkbox" checked><span> Ssan Nicolás</span></label><br>
                         <label><input type="checkbox" checked><span> Granadilla</span></label><br>
                       </div>
                     </div>
@@ -236,15 +388,15 @@
             <div class="card-head card-head-xs collapsed" >
                 <header>
                   <div style=" display: inline-block;">
-                    <img src="../../../assets/icons/Naciente.png" alt="" />
+                    <img src="../../..../../../assets/icons/Naciente.png" alt="" />
                     <span> Captación Superficial o naciente </span>
                   </div>
                   <div style=" display: inline-block;">
-                    <img src="../../../assets/icons/oficina.png" alt="" />
+                    <img src="../../..../../../assets/icons/oficina.png" alt="" />
                     <span> Oficina ASADA </span>
                   </div>
                   <div style=" display: inline-block;">
-                    <img src="../../../assets/icons/Tanque.png" alt="" />
+                    <img src="../../..../../../assets/icons/Tanque.png" alt="" />
                     <span> Tanques de Agua </span>
                   </div>
                 </header>

@@ -16,6 +16,7 @@ import { UserService } from "app/common/service/user.service";
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import {Subscription} from "rxjs/Subscription";
+import { filterParams } from '../filter/filter.component';
 
 @Component({
     selector: 'app-map-google',
@@ -93,6 +94,9 @@ export class MapGoogleComponent implements OnInit {
         });
 
 
+    }
+    filterNotity(event:filterParams){
+        
     }
 
     /*ngAfterViewChecked(): void {

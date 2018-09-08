@@ -6,11 +6,29 @@ export class LocationsService {
   
   locations: locaciones;
   constructor() { 
+    this.readLocations();
+  }
+  readLocations(){
     var loc=require('assets/locations.json');
     this.locations = {'provincias':loc};
   }
+
   getLocations():locaciones {
+    this.readLocations();
     return this.locations
+  }
+
+  activateLocations(loc:locaciones):locaciones{
+    loc.provincias.forEach(prov => {
+      prov.active=true;
+      prov.cantones.forEach(cant => {
+        cant.active=true;
+        cant.distritos.forEach(dist => {
+          dist.active=true;
+        });
+      });
+    });
+    return loc;
   }
 
   getListProvincias():string[]{
@@ -25,42 +43,6 @@ export class LocationsService {
       provincias=[];
     }
     return provincias;
-  }
-
-  prueba(){
-    let pc=1;
-    var loc=[]
-    this.locations.provincias.forEach(prov => {
-      var p:provincia={'key':pc,"name":prov.name,"cantones":[]};
-
-      //prov.key=pc;
-      loc.push(p);
-
-      let cc=1;
-      prov.cantones.forEach(cant => {
-        var c:canton={'key':cc,"name":cant.name,"distritos":[]};
-        //cant.key=cc;
-
-        p.cantones.push(c);
-
-        cant.key=cc;
-        let dc=1;
-        cant.distritos.forEach(dist => {
-          
-          var d:distrito={'key':dc,"name":dist.name};
-          //dist.key=dc;
-
-          c.distritos.push(d);
-          
-          dc++;
-        });
-        cc++;
-      });
-      pc++;
-      
-    });
-    console.log(JSON.stringify(loc));
-    
   }
 
   getProvincia(numProv:number):provincia{    
@@ -146,26 +128,50 @@ export class LocationsService {
     }
     return distritos;
   }
-  
-  
+  //La unica funcion de este metodo es de generar la identificacion para cada ubicacion, se usa principalmente para
+  //actualizar el archivo json de locaciones que originalmente no poseia este dato.
+  private keysGenerator(){
+    let pc=1;
+    var loc=[]
+    this.locations.provincias.forEach(prov => {
+      var p:provincia={'key':pc,"name":prov.name,"cantones":[]};
+      loc.push(p);
+      let cc=1;
+      prov.cantones.forEach(cant => {
+        var c:canton={'key':cc,"name":cant.name,"distritos":[]};
+        p.cantones.push(c);
+        cant.key=cc;
+        let dc=1;
+        cant.distritos.forEach(dist => {
+          var d:distrito={'key':dc,"name":dist.name};
+          c.distritos.push(d);
+          dc++;
+        });
+        cc++;
+      });
+      pc++;
+    });
+    console.log(JSON.stringify(loc));
+  }
 }
+
+
 export interface locaciones {
   provincias: provincia[];
 }
 
-export interface provincia {
-  key?: number;
-  name: string;
+export interface provincia extends location{
   cantones?: canton[];
 }
 
-export interface canton {
-  key?: number;
-  name: string;
+export interface canton extends location{
   distritos?: distrito[];
 }
 
-export interface distrito {
+export interface distrito extends location{}
+
+export interface location{
   key?: number;
+  active?:boolean;
   name: string
 }

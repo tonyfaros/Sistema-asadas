@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {LocationsService, provincia, locaciones} from  "app/common/service/locations.service";
+import { Component, OnInit,EventEmitter, Output } from '@angular/core';
+import {LocationsService, locaciones, location} from  "app/common/service/locations.service";
 
 @Component({
   selector: 'app-filter',
@@ -10,12 +10,49 @@ import {LocationsService, provincia, locaciones} from  "app/common/service/locat
   export class FilterComponent implements OnInit {
 
     private locaciones:locaciones;
+    private categorias:string[];
+    private riesgos:string[];
+
+    public filterConfiguration:filterParams;
     constructor(private LocServ: LocationsService){}
-  
+
+    @Output() notify: EventEmitter<filterParams> = new EventEmitter<filterParams>();
+    
     ngOnInit() {
-      this.LocServ.prueba();
-      //console.log(this.LocServ.getListDistritos(1,1));
-      //console.log("JSON2: "+JSON.stringify(this.locaciones));
+      this.updateLocations();
     }
+
+    updateLocations(){
+      this.locaciones=this.LocServ.getLocations();
+      this.locaciones=this.LocServ.activateLocations(this.locaciones);
+    }
+
+    filterCheckboxChange(event,loc:location) {
+      try{
+        loc.active=event.target.checked;
+      }catch(ex){
+        loc.active=true;
+        event.target.checked=true;
+      }
+      this.notifyChange();
+    }
+
+    generateFilterConfiguration(){
+      this.filterConfiguration={};
+      this.filterConfiguration.locaciones=this.locaciones;
+      this.filterConfiguration.categoras=this.categorias;
+      this.filterConfiguration.riesgos=this.riesgos;
+    }
+
+    notifyChange(){
+      this.generateFilterConfiguration();
+      this.notify.emit(this.filterConfiguration);
+    }
+
+  }
   
+  export interface filterParams{
+    locaciones?:locaciones;
+    riesgos?:string[];
+    categoras?:string[]; 
   }
