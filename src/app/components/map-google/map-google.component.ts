@@ -76,10 +76,10 @@ export class MapGoogleComponent implements OnInit {
             }
         });
     }
-    private scroll(id){
+    private scroll(id) {
         let el = document.getElementById(id);
         el.scrollIntoView();
-          
+
     }
 
     filterNotity(filConf: filterConfig) {
@@ -123,13 +123,13 @@ export class MapGoogleComponent implements OnInit {
                         }
                     });
                 }
-                if(showAsada && filtLoc){
-                    filtLoc.forEach(prov=>{
+                if (showAsada && filtLoc) {
+                    filtLoc.forEach(prov => {
                         if (prov.name.toLowerCase() == asada.province.toLowerCase()) {
                             showAsada = prov.active;
-                            this.getMarckersInfraestructurasAsada(asada).forEach(infra=>{
-                                if(infra){
-                                    infra.visible= infra.visible&&showAsada;
+                            this.getMarckersInfraestructurasAsada(asada).forEach(infra => {
+                                if (infra) {
+                                    infra.visible = infra.visible && showAsada;
                                 }
                             });
                         }
@@ -140,10 +140,10 @@ export class MapGoogleComponent implements OnInit {
         }
     }
 
-    getMarckersInfraestructurasAsada(asada:asadastructure):genericInfraestructure[]{
-        var infraAsada:genericInfraestructure[]=[];
+    getMarckersInfraestructurasAsada(asada: asadastructure): genericInfraestructure[] {
+        var infraAsada: genericInfraestructure[] = [];
         this.infraestructuremarkers.forEach(param => {
-            if(param.asada.id==asada.$key){
+            if (param.asada.id == asada.$key) {
                 infraAsada.push(param);
             }
         });
@@ -237,7 +237,7 @@ export class MapGoogleComponent implements OnInit {
     zoom: number = 10;
 
     //MAP MARKER SIZE
-    private markerSize=28;
+    private markerSize = 28;
 
     //VARIABLES
     markerName: string;
@@ -316,13 +316,18 @@ export class MapGoogleComponent implements OnInit {
                 else {
                     iconUrl = "../../../assets/icons/" + iconType + "-publico.png";
                 }
-
                 var infraestmarker = {
                     $key: entry.$key,
                     name: entry.name,
                     lat: entry.lat,
                     long: entry.long,
-                    iconUrl: iconUrl,
+                    iconConfig: {
+                        url: iconUrl,
+                        scaledSize: {
+                            height: this.markerSize,
+                            width: this.markerSize
+                        }
+                    },
                     risk: entry.risk,
                     riskLevel: entry.riskLevel,
                     province: province,
@@ -388,12 +393,20 @@ export class MapGoogleComponent implements OnInit {
             else {
                 iconUrl = "../../../assets/icons/oficina.png";
             }
+
+
             var newAsadaMarker = {
                 $key: key,
                 name: name,
                 lat: lat,
                 long: long,
-                iconUrl: iconUrl,
+                iconConfig: {
+                    url: iconUrl,
+                    scaledSize: {
+                        height: this.markerSize,
+                        width: this.markerSize
+                    }
+                },
                 visible: true,
                 province: province,
                 state: state,
@@ -454,7 +467,13 @@ interface genericInfraestructure {
     name: string;
     lat: number;
     long: number;
-    iconUrl: string;
+    iconConfig: {
+        url: string,
+        scaledSize: {
+            height: number,
+            width: number
+        }
+    };
     visible: boolean;
     province: string;
     //asadaname: string;
@@ -474,7 +493,13 @@ interface asadastructure {
     name: string;
     lat: number;
     long: number;
-    iconUrl: string;
+    iconConfig: {
+        url: string,
+        scaledSize: {
+            height: number,
+            width: number
+        }
+    };
     visible: boolean,
     province: string;
     state: string; //Canton

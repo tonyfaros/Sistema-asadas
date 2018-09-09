@@ -31,7 +31,7 @@
 
                 <!-- MARKER PARA INFRAESTRUCTURAS-->
                 <div *ngFor="let m of infraestructuremarkers">
-                  <agm-marker *ngIf="m.visible" [(latitude)]="m.lat" [(longitude)]="m.long" (zIndex)="1" [(iconUrl)]="m.iconUrl" (markerClick)="markerClick(); lastOpen?.close(); lastOpen = infoWindow;">
+                  <agm-marker *ngIf="m.visible" [(latitude)]="m.lat" [(longitude)]="m.long" (zIndex)="1" [(iconUrl)]="m.iconConfig" (markerClick)="markerClick(); lastOpen?.close(); lastOpen = infoWindow;">
                     <agm-info-window #infoWindow>
                       <div id="iw-container">
                         <div class="iw-title">
@@ -53,7 +53,7 @@
                 </div>
 
                 <div *ngFor="let m of asadasmarkers">
-                  <agm-marker *ngIf="m.visible" [(latitude)]="m.lat" [(longitude)]="m.long" [(iconUrl)]="m.iconUrl" [(zIndex)]="m.zIndex" (markerClick)="markerClick(); lastOpen?.close(); lastOpen = infoWindow;">
+                  <agm-marker *ngIf="m.visible" [(latitude)]="m.lat" [(longitude)]="m.long" [(iconUrl)]="m.iconConfig" [(zIndex)]="m.zIndex" (markerClick)="markerClick(); lastOpen?.close(); lastOpen = infoWindow;">
                     <agm-info-window #infoWindow class="infowindow" [isOpen]="m.showInfoWindow">
                       <div id="iw-container">
 
@@ -174,15 +174,16 @@
                   <div class="card-head card-head-xs collapsed">
                     <header>
                       <div style=" display: inline-block;">
-                        <img src="../../..../../../assets/icons/Naciente.png" alt="" />
+                        
+                        <img src="../../..../../../assets/icons/Naciente.png" alt="" style="width:22px;"/>
                         <span> Captación Superficial o naciente </span>
                       </div>
                       <div style=" display: inline-block;">
-                        <img src="../../..../../../assets/icons/oficina.png" alt="" />
+                        <img src="../../..../../../assets/icons/oficina.png" alt="" style="width:22px;"/>
                         <span> Oficina ASADA </span>
                       </div>
                       <div style=" display: inline-block;">
-                        <img src="../../..../../../assets/icons/Tanque.png" alt="" />
+                        <img src="../../..../../../assets/icons/Tanque.png" alt=""  style="width:22px;"/>
                         <span> Tanques de Agua </span>
                       </div>
                     </header>
