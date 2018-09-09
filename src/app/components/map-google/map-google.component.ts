@@ -8,69 +8,57 @@ import { NgModule, ApplicationRef } from '@angular/core';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 
 import { MapGoogleService } from './map-google.service';
-import { Infrastructure  } from '../../common/model/Infrastructure';
+import { Infrastructure } from '../../common/model/Infrastructure';
 import { Asada } from '../../common/model/Asada';
 import { SebmGoogleMap } from 'angular2-google-maps/core';
 import { AngularFire, FirebaseAuthState } from 'angularfire2/index';
 import { UserService } from "app/common/service/user.service";
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
-import {Subscription} from "rxjs/Subscription";
-import { filterParams } from '../filter/filter.component';
+import { Subscription } from "rxjs/Subscription";
+import { filterConfig, filterParam } from '../filter/filter.component';
+import { locaciones, provincia } from '../../common/service/locations.service';
 
 @Component({
     selector: 'app-map-google',
     templateUrl: './map-google.component.html',
     styleUrls: ['./map-google.component.scss'],
-    providers: [MapGoogleService,UserService]
+    providers: [MapGoogleService, UserService]
 })
 export class MapGoogleComponent implements OnInit {
 
     private allList: Infrastructure[];
     private AsadasList: Asada[];
     private AsadasListTemp: Asada[];
-    //public asadasmarkers: Asada[];
-    private SingleList: any[];
-    private agregado = false;
+
     public AsadaId: string;
     public AsadaUser: string;
     public UserRol: string;
     public loadgraphic: boolean;
 
-    public filterQuery = "";
+    public filterConfiguration: filterConfig;
+
 
     public cantidadTanques = 0;
     public cantidadCaptaciones = 0;
     public cantidadCloracion = 0;
     public lastOpen: any;
-    
-    constructor(private mapService: MapGoogleService,private af: AngularFire,private userService: UserService,private router: Router, private route: ActivatedRoute) {
 
-        //[iconUrl]="m.iconUrl"
-
+    constructor(private mapService: MapGoogleService, private af: AngularFire, private userService: UserService, private router: Router, private route: ActivatedRoute) {
         this.allList = [];
-        //this.markers = [];
         this.AsadasList = [];
         this.AsadasListTemp = [];
-        this.infraestTankmarkers = [];
-        this.infraestCaptacionkmarkers = [];
+        this.infraestructuremarkers = [];
         this.asadasmarkers = [];
-        this.SingleList = [];
-
     }
 
     user: FirebaseAuthState;
     public isLoggedIn: boolean;
-
-    private scrollExecuted: boolean = false;
-    private fragment: string;
+    hidden = true;
 
     ngOnInit() {
-        //this.route.fragment.subscribe(fragment => { this.fragment = fragment; });
-        
         this.af.auth.subscribe(user => {
             if (user) {
-                // user logged in
                 this.user = user;
                 this.isLoggedIn = true;
                 var userDetails = this.userService.getRolAccess(this.user.uid);
@@ -79,67 +67,106 @@ export class MapGoogleComponent implements OnInit {
                         this.AsadaUser = results.asada;
                         this.UserRol = results.rol;
                         this.getResultAsadasTemp();
-
                     }
                 );
-
-
             }
             else {
-                // user not logged in
                 this.isLoggedIn = false;
                 this.getResultAsadasTemp();
-
             }
         });
-
-
     }
-    filterNotity(event:filterParams){
-        
+    private scroll(id){
+        let el = document.getElementById(id);
+        el.scrollIntoView();
+          
     }
 
-    /*ngAfterViewChecked(): void {
-    if (!this.scrollExecuted) {
-        let routeFragmentSubscription: Subscription;
-        routeFragmentSubscription = this.route.fragment.subscribe(fragment => {
-          if (fragment) {
-            let element = document.getElementById(fragment);
-            if (element) {
-              element.scrollIntoView();
-              this.scrollExecuted = true;
-              // Free resources
-              setTimeout(
-                () => {
-                  console.log('routeFragmentSubscription unsubscribe');
-                  routeFragmentSubscription.unsubscribe();
-                }, 0);
+    filterNotity(filConf: filterConfig) {
+        this.filterConfiguration = filConf;
+        this.updateFiltersVisibilty();
+    }
+
+    updateFiltersVisibilty() {
+        if (this.filterConfiguration) {
+            var filtLoc: provincia[] = this.filterConfiguration.locaciones.provincias;
+            var filtCat: filterParam[] = this.filterConfiguration.categorias;
+            var filtRie: filterParam[] = this.filterConfiguration.riesgos;
+
+            for (let infra of this.infraestructuremarkers) {
+                var showInfra = true;
+                if (showInfra && filtRie) {
+                    for (let param of filtRie) {
+                        if (param.value.toLowerCase() == infra.riskLevel.toLowerCase()) {
+                            showInfra = param.active;
+                            break;
+                        }
+                    }
+                }
+                if (showInfra && filtCat) {
+                    filtCat.forEach(param => {
+                        if (param.value.toLowerCase() == infra.type.toLowerCase()) {
+                            showInfra = showInfra && param.active;
+                        }
+                    });
+                }
+                infra.visible = showInfra;
             }
-          }
+            for (let asada of this.asadasmarkers) {
+                var showAsada = true;
+                var filtLoc: provincia[] = this.filterConfiguration.locaciones.provincias;
+                var filtCat: filterParam[] = this.filterConfiguration.categorias;
+                if (showAsada && filtCat) {
+                    filtCat.forEach(param => {
+                        if (param.value.toLowerCase() == "asada") {
+                            showAsada = param.active;
+                        }
+                    });
+                }
+                if(showAsada && filtLoc){
+                    filtLoc.forEach(prov=>{
+                        if (prov.name.toLowerCase() == asada.province.toLowerCase()) {
+                            showAsada = prov.active;
+                            this.getMarckersInfraestructurasAsada(asada).forEach(infra=>{
+                                if(infra){
+                                    infra.visible= infra.visible&&showAsada;
+                                }
+                            });
+                        }
+                    });
+                }
+                asada.visible = showAsada;
+            }
+        }
+    }
+
+    getMarckersInfraestructurasAsada(asada:asadastructure):genericInfraestructure[]{
+        var infraAsada:genericInfraestructure[]=[];
+        this.infraestructuremarkers.forEach(param => {
+            if(param.asada.id==asada.$key){
+                infraAsada.push(param);
+            }
         });
-      }
-    }*/
+        return infraAsada;
+    }
 
     getResultAsadas(): void {
         this.mapService.getASADAS()
-            .subscribe(
-                results => {
-                    this.AsadasList = results;
-                    this.addASADASMarkers();
-                }
+            .subscribe(results => {
+                this.AsadasList = results;
+                this.addASADASMarkers();
+            }
             );
-
     }
 
     getResultAsadasTemp(): void {
         this.mapService.getASADAS()
-                .subscribe(
+            .subscribe(
                 results => {
                     this.AsadasListTemp = results;
                     this.getInfraestructures();
                 }
             );
-
     }
 
     getInfraestructures(): void {
@@ -147,45 +174,53 @@ export class MapGoogleComponent implements OnInit {
             .subscribe(
                 results => {
                     this.allList = results;
-                    this.addTankMarkers();
-                    this.addCaptacionesSuperf();
+                    this.addInfraestructureMarker();
                     this.getResultAsadas();
                 }
             );
-
     }
 
     setDetails(elem: asadastructure) {
-        
-        if(this.loadgraphic){
-             this.loadgraphic=false;
-             
+
+        if (this.loadgraphic) {
+            this.loadgraphic = false;
+
         }
-        else{
+        else {
             this.loadgraphic = true;
             this.AsadaId = elem.$key;
         }
     }
 
-    cancelModal(){
-         this.loadgraphic=false;
+    cancelModal() {
+        this.loadgraphic = false;
     }
 
-    redirectASADA(elem: asadastructure){
-        this.router.navigate(["/asadaDetails/"+ elem.$key]);
+    redirectASADA(elem: asadastructure) {
+        this.router.navigate(["/asadaDetails/" + elem.$key]);
 
     }
-    redirectTanque(elem:Infrastructure){
-         this.router.navigate(["/TanqueDetails//"+ elem.$key]);
-    }
-    redirectCaptacion(elem:Infrastructure){
-        if(elem.type == "CaptacionNaciente" ){
-             this.router.navigate(["/CaptacionNacienteDetails/"+ elem.$key]);    
+
+    redirectInfraestructure(elem: Infrastructure) {
+        console.log(elem.type);
+        switch (elem.type) {
+            case "Tanque": {
+                this.router.navigate(["/TanqueDetails//" + elem.$key]);
+                break;
+            }
+            case "CaptacionNaciente": {
+                this.router.navigate(["/CaptacionNacienteDetails/" + elem.$key]);
+                break;
+            }
+            case "CaptacionSuperficial": {
+                this.router.navigate(["/CaptacionSuperficialDetails/" + elem.$key]);
+                break;
+            }
+            case "Naciente": {
+                this.router.navigate(["/CaptacionSuperficialDetails/" + elem.$key]);
+                break;
+            }
         }
-        else{
-            this.router.navigate(["/CaptacionSuperficialDetails/"+ elem.$key]);   
-        }
-       
     }
 
     private visible: boolean = true;
@@ -207,14 +242,26 @@ export class MapGoogleComponent implements OnInit {
     markerLong: string;
 
     asadasmarkers: asadastructure[];
-    infraestTankmarkers: infraestructureTank[];
-    infraestCaptacionkmarkers: infraestructureCaptacion[];
+    infraestructuremarkers: genericInfraestructure[];
 
-    addTankMarkers() {
+
+    addInfraestructureMarker() {
 
         for (let entry of this.allList) {
 
+            var iconType = "";
+            var isInfraestructure: boolean = false;
             if (entry.type == "Tanque") {
+                iconType = "Tanque"
+                isInfraestructure = true;
+            }
+            else {
+                if (entry.type == "CaptacionSuperficial" || entry.type == "CaptacionNaciente" || entry.type == "Naciente") {
+                    iconType = "Naciente"
+                    isInfraestructure = true;
+                }
+            }
+            if (isInfraestructure) {
                 var idasada = entry.asada.id;
 
                 var province;
@@ -229,72 +276,63 @@ export class MapGoogleComponent implements OnInit {
                         break;
                     }
                 }
-
                 var iconUrl;
+                if (this.isLoggedIn) {
 
-                //Tag para el marker del mapa
-                if (entry.type == "Tanque") {
-
-                    if (this.isLoggedIn){
-                        
-                        if (this.AsadaUser == entry.asada.id || this.UserRol == "Super Administrador"){
-                            //Riesgo Nulo
-                            //if (entry.riskLevel == "Nulo" || entry.risk == 0) {
-                            if (entry.riskLevel == "Nulo") {
-                                iconUrl = "../../../assets/icons/Storage-nulo.png";
+                    if (this.AsadaUser == entry.asada.id || this.UserRol == "Super Administrador") {
+                        switch (entry.riskLevel) {
+                            case "Nulo": {
+                                iconUrl = "../../../assets/icons/" + iconType + "-nulo.png";
+                                break;
                             }
-                            //Riesgo Bajo
-                            //else if ((entry.risk <= 2 && entry.risk > 0) || entry.riskLevel == "Bajo") {
-                            else if (entry.riskLevel == "Bajo") {
-                                iconUrl = "../../../assets/icons/Storage-bajo.png";
-
+                            case "Bajo": {
+                                iconUrl = "../../../assets/icons/" + iconType + "-bajo.png";
+                                break;
                             }
-                            //Riesgo Intermedio
-                            //else if ((entry.risk >= 3 && entry.risk <= 4) || entry.riskLevel == "Intermedio") {
-                            else if (entry.riskLevel == "Intermedio") {
-                                iconUrl = "../../../assets/icons/Storage-intermedio.png";
-
+                            case "Intermedio": {
+                                iconUrl = "../../../assets/icons/" + iconType + "-intermedio.png";
+                                break;
                             }
-                            //Riesgo Alto
-                            //else if ((entry.risk >= 5 && entry.risk <= 7) || entry.riskLevel == "Alto") {
-                            else if (entry.riskLevel == "Alto") {
-                                iconUrl = "../../../assets/icons/Storage-alto.png";
-
+                            case "Alto": {
+                                iconUrl = "../../../assets/icons/" + iconType + "-alto.png";
+                                break;
                             }
-                            //Riesgo Muy alto
-                            //else if ((entry.risk >= 8 && entry.risk <= 10) || entry.riskLevel == "Muy Alto") {
-                            else if (entry.riskLevel == "Muy Alto") {
-                                iconUrl = "../../../assets/icons/Storage-muyalto.png";
-
+                            case "Muy Alto": {
+                                iconUrl = "../../../assets/icons/" + iconType + "-muyalto.png";
+                                break;
+                            }
+                            default: {
+                                iconUrl = "../../../assets/icons/" + iconType + ".png";
                             }
                         }
-                         else{
-                            iconUrl = "../../../assets/icons/Tanque-publico.png";
-                         }
                     }
-                    else{
-                        iconUrl = "../../../assets/icons/Tanque-publico.png";
-
+                    else {
+                        iconUrl = "../../../assets/icons/" + iconType + "-publico.png";
                     }
                 }
-
+                else {
+                    iconUrl = "../../../assets/icons/" + iconType + "-publico.png";
+                }
 
                 var infraestmarker = {
-                    $key : entry.$key,
+                    $key: entry.$key,
                     name: entry.name,
                     lat: entry.lat,
                     long: entry.long,
                     iconUrl: iconUrl,
-                    asadaname: entry.asada.name,
                     risk: entry.risk,
                     riskLevel: entry.riskLevel,
                     province: province,
                     phonenumber: phonenumber,
-                    asada : { id:entry.asada.id }
+                    type: entry.type,
+                    visible: true,
+                    asada: {
+                        id: entry.asada.id,
+                        name: entry.asada.name
+                    }
                 }
-                this.infraestTankmarkers.push(infraestmarker);
+                this.infraestructuremarkers.push(infraestmarker);
             }
-
         }
     }
 
@@ -336,23 +374,24 @@ export class MapGoogleComponent implements OnInit {
             cantSuperficial = this.cantidadCaptaciones;
             cantCloraci = this.cantidadCloracion;
 
-             if (this.isLoggedIn){
-                 if (this.AsadaUser == asadaElement.$key || this.UserRol == "Super Administrador"){
-                    iconUrl = "../../../assets/icons/oficina.png";
-                 }
-                 else{
+            if (this.isLoggedIn) {
+                if (this.AsadaUser == asadaElement.$key || this.UserRol == "Super Administrador") {
                     iconUrl = "../../../assets/icons/oficina.png";
                 }
-             }
-             else{
+                else {
+                    iconUrl = "../../../assets/icons/oficina.png";
+                }
+            }
+            else {
                 iconUrl = "../../../assets/icons/oficina.png";
-             }
+            }
             var newAsadaMarker = {
                 $key: key,
                 name: name,
                 lat: lat,
                 long: long,
                 iconUrl: iconUrl,
+                visible: true,
                 province: province,
                 state: state,
                 district: district,
@@ -360,9 +399,9 @@ export class MapGoogleComponent implements OnInit {
                 phonenumber: phonenumber,
                 zonetype: zonetype,
                 numbersubscribed: numbersubscribed,
-                cantTanques:cantTanques,
-                cantSuperficial:cantSuperficial,
-                cantCloraci:cantCloraci,
+                cantTanques: cantTanques,
+                cantSuperficial: cantSuperficial,
+                cantCloraci: cantCloraci,
                 showInfoWindow: false,
                 zIndex: 100,
             }
@@ -372,123 +411,59 @@ export class MapGoogleComponent implements OnInit {
 
     }
 
-    evalCantTanques (asadaid: string ){
-        
+    evalCantTanques(asadaid: string) {
+
         this.cantidadTanques = 0;
-        for (let entry of this.allList){
-            if (entry.asada.id == asadaid && entry.type == "Tanque"){
-                this.cantidadTanques = this.cantidadTanques+1;
-            }
-
-        }
-    }
-
-     evalCantCaptacion (asadaid: string ){
-        
-        this.cantidadCaptaciones = 0; 
-        for (let entry of this.allList){
-            if (entry.asada.id == asadaid && (entry.type == "CaptacionNaciente" || entry.type =="CaptacionSuperficial")){
-                this.cantidadCaptaciones = this.cantidadCaptaciones+1;
-            }
-
-        }
-    }
-
-     evalCantSistemasClr (asadaid: string ){
-        
-        this.cantidadCloracion = 0;
-        for (let entry of this.allList){
-            if (entry.asada.id == asadaid && entry.type == "SistemaCloracion"){
-                this.cantidadCloracion = this.cantidadCloracion+1;
-            }
-
-        }
-    }
-
-    addCaptacionesSuperf() {
         for (let entry of this.allList) {
-
-            if (entry.type == "CaptacionSuperficial" || entry.type == "CaptacionNaciente" || entry.type == "Naciente") {
-                var idasada = entry.asada.id;
-
-                var province;
-                var phonenumber;
-                for (let asadaElement of this.AsadasListTemp) {
-
-                    if (asadaElement.$key == idasada) {
-
-                        province = asadaElement.province;
-                        phonenumber = asadaElement.phoneNumber;
-
-                        break;
-                    }
-                }
-
-                var iconUrl;
-
-                if (entry.type == "CaptacionSuperficial" || entry.type == "CaptacionNaciente" || entry.type == "Naciente") {
-                    
-                    if (this.isLoggedIn){
-
-                        if (this.AsadaUser == entry.asada.id || this.UserRol == "Super Administrador"){
-                            //Riesgo Nulo
-                            if (entry.riskLevel == "Nulo") {
-                                iconUrl = "../../../assets/icons/Naciente-nulo.png";
-                            }
-                            //Riesgo Bajo
-                            else if (entry.riskLevel == "Bajo") {
-                                iconUrl = "../../../assets/icons/Naciente-bajo.png";
-
-                            }
-                            //Riesgo Intermedio
-                            else if (entry.riskLevel == "Intermedio") {
-                                iconUrl = "../../../assets/icons/Naciente-intermedio.png";
-
-                            }
-                            //Riesgo Alto
-                            else if (entry.riskLevel == "Alto") {
-                                iconUrl = "../../../assets/icons/Naciente-alto.png";
-
-                            }
-                            //Riesgo Muy alto
-                            else if (entry.riskLevel == "Muy Alto") {
-                                iconUrl = "../../../assets/icons/Naciente-muyalto.png";
-
-                            }
-
-                        }
-                        else{
-                            iconUrl = "../../../assets/icons/Naciente-publico.png";
-                        }
-                    }
-                    else{
-                        iconUrl = "../../../assets/icons/Naciente-publico.png";
-                    }
-                }
-
-
-                var infraestmarker = {
-                    $key : entry.$key,
-                    name: entry.name,
-                    lat: entry.lat,
-                    long: entry.long,
-                    iconUrl: iconUrl,
-                    asadaname: entry.asada.name,
-                    risk: entry.risk,
-                    riskLevel: entry.riskLevel,
-                    province: province,
-                    phonenumber: phonenumber,
-                    asada : { id:entry.asada.id }
-                }
-                this.infraestCaptacionkmarkers.push(infraestmarker);
+            if (entry.asada.id == asadaid && entry.type == "Tanque") {
+                this.cantidadTanques = this.cantidadTanques + 1;
             }
 
         }
-
     }
 
+    evalCantCaptacion(asadaid: string) {
+
+        this.cantidadCaptaciones = 0;
+        for (let entry of this.allList) {
+            if (entry.asada.id == asadaid && (entry.type == "CaptacionNaciente" || entry.type == "CaptacionSuperficial")) {
+                this.cantidadCaptaciones = this.cantidadCaptaciones + 1;
+            }
+
+        }
+    }
+
+    evalCantSistemasClr(asadaid: string) {
+
+        this.cantidadCloracion = 0;
+        for (let entry of this.allList) {
+            if (entry.asada.id == asadaid && entry.type == "SistemaCloracion") {
+                this.cantidadCloracion = this.cantidadCloracion + 1;
+            }
+
+        }
+    }
 }
 
+
+interface genericInfraestructure {
+    $key?: string;
+    name: string;
+    lat: number;
+    long: number;
+    iconUrl: string;
+    visible: boolean;
+    province: string;
+    //asadaname: string;
+    risk: number;
+    riskLevel: string;
+    phonenumber: string;
+    type?: string;
+    asada: {
+        id: string;
+        name: string;
+    };
+}
 
 
 interface asadastructure {
@@ -497,6 +472,7 @@ interface asadastructure {
     lat: number;
     long: number;
     iconUrl: string;
+    visible: boolean,
     province: string;
     state: string; //Canton
     district: string;
@@ -511,37 +487,3 @@ interface asadastructure {
     showInfoWindow: boolean;
 }
 
-interface infraestructureTank {
-    $key?: string;
-    name: string;
-    lat: number;
-    long: number;
-    iconUrl: string;
-    asadaname: string;
-    risk: number;
-    riskLevel: string;
-    province: string;
-    phonenumber: string;
-    type?:string;
-    asada:{
-        id: string;
-    };
-}
-
-
-interface infraestructureCaptacion {
-    $key?: string;
-    name: string;
-    lat: number;
-    long: number;
-    iconUrl: string;
-    asadaname: string;
-    risk: number;
-    riskLevel: string;
-    province: string;
-    phonenumber: string;
-    type?:string;
-    asada:{
-        id: string;
-    };
-}
