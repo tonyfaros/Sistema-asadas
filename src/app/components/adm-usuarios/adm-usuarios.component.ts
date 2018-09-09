@@ -4,7 +4,6 @@ import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'a
 
 import { FirebaseAuthState } from 'angularfire2/index';
 import { Observable } from 'rxjs';
-import { FirebaseAuthState } from 'angularfire2/index';
 
 
 
