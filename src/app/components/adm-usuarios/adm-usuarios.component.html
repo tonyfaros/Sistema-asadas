@@ -41,6 +41,7 @@
                         <th class="text-medium text-lg text-primary">Apellido</th>
                         <th class="text-medium text-lg text-primary">Correo</th>
                         <th class="text-medium text-lg text-primary">Rol</th>
+                        <th class="text-medium text-lg text-primary"> </th>
                         
                         
                       </tr>
@@ -50,7 +51,10 @@
                         <td><a class="opacity-75">{{element.nombre}}</a></td>
                         <td><a class="opacity-75">{{element.apellidos}}</a></td>
                         <td><a class="opacity-75" >{{element.correo}}</a></td>
-                        <td><a class="opacity-75">{{element.rol}}</a></td>
+                        <td><a  class="opacity-75">{{element.rol}}</a></td>
+                        <td class="text-right">
+                            <button *ngIf = "User!=element.id" type="button" class="btn btn-icon-toggle" (click)="delete(element)" data-toggle="tooltip" data-placement="top" data-original-title="Copy row"><i class="fa fa-trash"></i></button>
+                          </td>
                       </tr>
                     </tbody>
                   </table>
