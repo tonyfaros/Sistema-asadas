@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database'
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import { Observable } from 'rxjs';
+import { FirebaseAuthState } from 'angularfire2/index';
+
 
 
 import { User } from '../../common/model/User';
@@ -16,8 +18,11 @@ export class AdmUsuariosComponent implements OnInit {
   filteredList: any[];
   filteredList2: any[];
   
+  
   projects: Observable<any[]>;
   customers: FirebaseObjectObservable<any[]>;
+  private User = '';
+
   
 
   
@@ -38,6 +43,7 @@ export class AdmUsuariosComponent implements OnInit {
         for (var i = 0; i < this.filteredList.length; i++){
           var cont = 0;
           var usuario = {
+            'id':'',
             'nombre': '',
             'apellidos': '',
             'correo': '',
@@ -45,7 +51,7 @@ export class AdmUsuariosComponent implements OnInit {
           }
           while(this.filteredList[i]["usuario"] != this.filteredList2[cont]["$key"])
             cont++;
-  
+          usuario.id = this.filteredList[i]["usuario"];  
           usuario.nombre = this.filteredList2[cont]["nombre"];
           usuario.apellidos = this.filteredList2[cont]["apellidos"];
           usuario.correo = this.filteredList2[cont]["correo"];
@@ -63,8 +69,16 @@ export class AdmUsuariosComponent implements OnInit {
     
 
   }
+  user: FirebaseAuthState;
 
   ngOnInit() {
+        this.af.auth.subscribe(user => {
+      this.user = user;
+      this.User = this.user.uid;
+      
+    });
+    
+
   }
 
   
