@@ -1,15 +1,8 @@
 <section>
 
   <div class="section-header">
-    <h2 id="mapa-title" class="text-default-bright">Mapa de ASADAs</h2>
-    <app-filter 
-      [activeLocationFilter]="true" 
-      [activeCategoryFilter]="true" 
-      [activeRiskFilter]="true" 
-      [activeFilterButton]="true" 
+    <h2 id="mapa-title" class="text-default-bright col-xs-12 col-md-3" >Mapa de ASADAs</h2>
 
-      (notify)='filterNotity($event)'>
-    </app-filter>
 
   </div>
 
@@ -21,6 +14,17 @@
         <div class="col-md-12">
           <div class="fullMap" id="map-canvas">
             <div class="no-padding border-gray">
+              <div class="col-xs-12">
+                <app-filter
+                  [activeLocationFilter]="true" 
+                  [activeCategoryFilter]="true" 
+                  [activeRiskFilter]="true" 
+                  [activeFilterButton]="true" 
+                  (notify)='filterNotity($event)'
+                  style="position:absolute">
+                </app-filter>
+                
+              </div>
               <!-- Begin Card Map -->
               <agm-map #gm [(latitude)]="lat" id="googleMap" [(longitude)]="lng" [(zoom)]="zoom" [scrollwheel]="false" [mapTypeId]="'terrain'"
                 [gestureHandling]="'cooperative'" [mapTypeControl]="'true'">

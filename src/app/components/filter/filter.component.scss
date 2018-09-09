@@ -1,33 +1,73 @@
-.filter-btn{
+
+.filter-component{
+    margin: 5px 0px;
+    padding: 0px!important;
+    min-height: 45px;
+    min-width: 0px;
+    z-index: 200;
+}
+
+.filter-panel{
+    padding-right:0px;
     float: right;
-    margin-left: 5px;
-}  
+    right: 100px;
+    z-index: 200;
+    position: absolute;
+}
+.filter-config-panel{
+    max-height: 48px;
+}
+
+.filter-btn-panel{
+    min-width: 90px;
+    max-width: 100px;
+    float: right;
+    margin: 5px;
+    padding: 0px;
+    z-index: 200;
+}
+.filter-btn{
+    margin: 0px;
+    float: right!important;
+}
 
 .filter-container{
+    float: right;
     background-color:rgba(254, 254, 255, 0.849);
     color: rgb(25, 25, 26);
-}
-.filter-body{
-    padding: 0px 5px 0px 5px;
+    padding: 2px!important;
+    margin: 5px 5px;
+    z-index: 200;
 }
 
-.filter-head{
+.filter-body{
     padding: 0px 5px 0px 5px;
+    z-index: 200;
 }
-.filter-component{
-    padding: 0px 10px;
+
+
+.filter-head{
+    width: 95%;
 }
 header{
-    padding: 5px!important 10px!important;
+    padding: 2px!important 2px!important;
+}
+.tools{
+    padding-right: 0px!important;
 }
 
 .darken-background{
     background-color:rgba(71, 71, 94, 0.301);
+    //background-color:rgba(216, 19, 140, 0.849);
     color:inherit;
 }
 
 .header-thin{
     padding: 2px 20px;
+}
+.filter-locaciones-container{
+    max-height: 400px!important;
+    overflow: auto!important;
 }
 
 .canton-container{
