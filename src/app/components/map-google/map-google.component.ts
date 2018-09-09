@@ -236,6 +236,9 @@ export class MapGoogleComponent implements OnInit {
     //ZOOM LEVEL
     zoom: number = 10;
 
+    //MAP MARKER SIZE
+    private markerSize=28;
+
     //VARIABLES
     markerName: string;
     markerLat: string;
