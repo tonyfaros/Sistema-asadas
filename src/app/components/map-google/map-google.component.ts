@@ -247,6 +247,27 @@ export class MapGoogleComponent implements OnInit {
     asadasmarkers: asadastructure[];
     infraestructuremarkers: genericInfraestructure[];
 
+    generateSnitMap(){
+        var layers = [
+            new TileLayer({
+                source: new TileWMS({
+                    url: 'http://geos.snitcr.go.cr/be/IGN_1/wms',//'http://geos0.snitcr.go.cr/cgi-bin/web',
+                    params: {
+                        'LAYERS ': 'indice_1000'
+                    }
+                })
+              })
+          ];
+          var map = new Map({
+            layers: layers,
+            target: 'snitMap',
+            view: new View({
+                center: ol.proj.fromLonLat([-84.139406,9.999912]),
+                zoom: 6
+            })
+          });
+    }
+
 
     addInfraestructureMarker() {
 
