@@ -35,10 +35,8 @@ import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile.js';
 import OSM from 'ol/source/OSM.js';
 import TileWMS from 'ol/source/TileWMS.js';
-
+import Group from 'ol/layer/Group.js';
 import * as ol from 'openlayers';
-
-
 
 @Component({
     selector: 'app-map-google',
@@ -104,43 +102,95 @@ export class MapGoogleComponent implements OnInit {
         el.scrollIntoView();
 
     }
-    
+
     generateSnitMap() {
 
-        var WGS84 =  ("EPSG:4326");
-        var WGS84_Claro =  ("EPSG:3857");
-        var CRTM05 =  ("EPSG:5367");
-        
+        var WGS84 = ("EPSG:4326");
+        var WGS84_Claro = ("EPSG:3857");
+        var CRTM05 = ("EPSG:5367");
+
         // WGS84 Google Mercator projection (meters)
-        var WGS84_google_mercator =  ("EPSG: 5367");
-        var format ="image/png";
+        var WGS84_google_mercator = ("EPSG: 5367");
+        var format = "image/png";
 
-        var layers = [
-            new TileLayer({
-              //source: new OSM()
-              
-
-              source: new TileWMS(({
+        var capaDistrital:TileLayer=new TileLayer({
+            source: new TileWMS(({
                 'url': 'http://geos.snitcr.go.cr/be/IGN_5/wms?',
-                params: {'LAYERS': 'limiteprovincial_5k', 'VERSION': '1.1.1',
+                params: {
+                    'LAYERS': 'limitedistrital_5k', 'VERSION': '1.1.1',
                     'TILED': true,
                     'FORMAT': format,
-                    'TRANSPARENT':false,
+                    'TRANSPARENT': false,
                     'SRS': 'EPSG:5367',
                     'gridSet': 'CRTM05'
                 }
             }))
+        });
+        var capaCantonal:TileLayer=new TileLayer({
+            source: new TileWMS(({
+                'url': 'http://geos.snitcr.go.cr/be/IGN_5/wms?',
+                params: {
+                    'LAYERS': ['limitecantonal_5k'], 'VERSION': '1.1.1',
+                    'TILED': true,
+                    'FORMAT': format,
+                    'TRANSPARENT': false,
+                    'SRS': 'EPSG:5367',
+                    'gridSet': 'CRTM05'
+                }
+            }))
+        });
+        var capaProvincial:TileLayer=new TileLayer({
+            source: new TileWMS(({
+                'url': 'http://geos.snitcr.go.cr/be/IGN_5/wms?',
+                params: {
+                    'LAYERS': 'limiteprovincial_5k', 'VERSION': '1.1.1',
+                    'TILED': true,
+                    'FORMAT': format,
+                    'TRANSPARENT': false,
+                    'SRS': 'EPSG:5367',
+                    'gridSet': 'CRTM05'
+                }
+            }))
+        });
+        var capaDetalle:TileLayer=new TileLayer({
+            source: new TileWMS(({
+                //'url': 'http://geop3.www.snitcr.go.cr/GeoP/geop?k=Y2FwYTo6SUdOX1JBU1RFUjo6SE9KQVNfNTA',
+                'url': 'http://geos0.snitcr.go.cr/cgi-bin/web?map=hojas50.map',
+                params: {
+                    'LAYERS': 'HOJAS_50', 'VERSION': '1.1.1',
+                    'TILED': 'true',
+                    'FORMAT': format,
+                    'TRANSPARENT': false,
+                    'SRS': 'EPSG:97057',
+                    'gridSet': 'CRTM05'
+                }
+            }))
+        })
+
+        var layers = [
+            new Group({
+                layers: [
+                    capaDistrital,
+                    capaCantonal,
+                    capaProvincial,
+                    capaDetalle,
+                ]
             })
-          ];
-          var map = new Map({
+        ];
+        var map = new Map({
             layers: layers,
             target: 'snitMap',
             view: new View({
-              center: [-10997148, 4569099],
-              zoom: 4
+                center: ol.proj.fromLonLat([this.lng,this.lat]),
+                zoom: this.zoom
             })
-          });
+        });
+        capaDistrital.setOpacity(0.8);
+        capaCantonal.setOpacity(0.5);
+        capaProvincial.setOpacity(0.8);
+        capaDetalle.setOpacity(0.5);
 
+        //var center = ol.proj.transform(map.getView().getCenter(), map.getView().getProjection(), 'EPSG:4326');
 
 
 
@@ -161,25 +211,25 @@ export class MapGoogleComponent implements OnInit {
             markers.addMarker(new OpenLayers.OpenLayers.Marker(lonLat));
             
             map.setCenter (lonLat, zoom);*/
-/*
-        var layers = [
-            new TileLayer({
-                source: new TileWMS({
-                    url: 'http://geos.snitcr.go.cr/be/IGN_1/wms',//'http://geos0.snitcr.go.cr/cgi-bin/web',
-                    params: {
-                        'LAYERS ': 'indice_1000'
-                    }
-                })
-            })
-        ];
-        var map = new Map({
-            layers: layers,
-            target: 'snitMap',
-            view: new View({
-                center: ol.proj.fromLonLat([-84.139406, 9.999912]),
-                zoom: 6
-            })
-        });*/
+        /*
+                var layers = [
+                    new TileLayer({
+                        source: new TileWMS({
+                            url: 'http://geos.snitcr.go.cr/be/IGN_1/wms',//'http://geos0.snitcr.go.cr/cgi-bin/web',
+                            params: {
+                                'LAYERS ': 'indice_1000'
+                            }
+                        })
+                    })
+                ];
+                var map = new Map({
+                    layers: layers,
+                    target: 'snitMap',
+                    view: new View({
+                        center: ol.proj.fromLonLat([-84.139406, 9.999912]),
+                        zoom: 6
+                    })
+                });*/
     }
 
 
