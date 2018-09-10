@@ -19,6 +19,27 @@ import { Subscription } from "rxjs/Subscription";
 import { filterConfig, filterParam } from '../filter/filter.component';
 import { locaciones, provincia } from '../../common/service/locations.service';
 
+/*
+import Map from 'ol/map';
+import Control from 'ol/control';
+import View from 'ol/View';
+import Proj from 'ol/proj';
+import OSM from 'ol/source/OSM.js';
+import TileWMS from 'ol/source/TileWMS';
+import TileLayer from 'ol/layer/Tile.js';
+
+import XYZ from 'ol/source/XYZ';
+*/
+import Map from 'ol/Map';
+import View from 'ol/View';
+import TileLayer from 'ol/layer/Tile.js';
+import OSM from 'ol/source/OSM.js';
+import TileWMS from 'ol/source/TileWMS.js';
+
+import * as ol from 'openlayers';
+
+
+
 @Component({
     selector: 'app-map-google',
     templateUrl: './map-google.component.html',
@@ -75,12 +96,92 @@ export class MapGoogleComponent implements OnInit {
                 this.getResultAsadasTemp();
             }
         });
+
+        this.generateSnitMap();
     }
     private scroll(id) {
         let el = document.getElementById(id);
         el.scrollIntoView();
 
     }
+    
+    generateSnitMap() {
+
+        var WGS84 =  ("EPSG:4326");
+        var WGS84_Claro =  ("EPSG:3857");
+        var CRTM05 =  ("EPSG:5367");
+        
+        // WGS84 Google Mercator projection (meters)
+        var WGS84_google_mercator =  ("EPSG: 5367");
+        var format ="image/png";
+
+        var layers = [
+            new TileLayer({
+              //source: new OSM()
+              
+
+              source: new TileWMS(({
+                'url': 'http://geos.snitcr.go.cr/be/IGN_5/wms?',
+                params: {'LAYERS': 'limiteprovincial_5k', 'VERSION': '1.1.1',
+                    'TILED': true,
+                    'FORMAT': format,
+                    'TRANSPARENT':false,
+                    'SRS': 'EPSG:5367',
+                    'gridSet': 'CRTM05'
+                }
+            }))
+            })
+          ];
+          var map = new Map({
+            layers: layers,
+            target: 'snitMap',
+            view: new View({
+              center: [-10997148, 4569099],
+              zoom: 4
+            })
+          });
+
+
+
+
+
+        /*var map = new OpenLayers.OpenLayers.Map("snitMap");
+        map.addLayer(new OpenLayers.OpenLayers.Layer.OSM());
+        var lonLat = new OpenLayers.OpenLayers.LonLat( -0.1279688 ,51.5077286 )
+        .transform(
+          new OpenLayers.OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
+          map.getProjectionObject() // to Spherical Mercator Projection
+        );
+        
+            var zoom=16;
+
+            var markers = new OpenLayers.OpenLayers.Layer.Markers( "Markers" );
+            map.addLayer(markers);
+            
+            markers.addMarker(new OpenLayers.OpenLayers.Marker(lonLat));
+            
+            map.setCenter (lonLat, zoom);*/
+/*
+        var layers = [
+            new TileLayer({
+                source: new TileWMS({
+                    url: 'http://geos.snitcr.go.cr/be/IGN_1/wms',//'http://geos0.snitcr.go.cr/cgi-bin/web',
+                    params: {
+                        'LAYERS ': 'indice_1000'
+                    }
+                })
+            })
+        ];
+        var map = new Map({
+            layers: layers,
+            target: 'snitMap',
+            view: new View({
+                center: ol.proj.fromLonLat([-84.139406, 9.999912]),
+                zoom: 6
+            })
+        });*/
+    }
+
 
     filterNotity(filConf: filterConfig) {
         this.filterConfiguration = filConf;
@@ -246,27 +347,6 @@ export class MapGoogleComponent implements OnInit {
 
     asadasmarkers: asadastructure[];
     infraestructuremarkers: genericInfraestructure[];
-
-    generateSnitMap(){
-        var layers = [
-            new TileLayer({
-                source: new TileWMS({
-                    url: 'http://geos.snitcr.go.cr/be/IGN_1/wms',//'http://geos0.snitcr.go.cr/cgi-bin/web',
-                    params: {
-                        'LAYERS ': 'indice_1000'
-                    }
-                })
-              })
-          ];
-          var map = new Map({
-            layers: layers,
-            target: 'snitMap',
-            view: new View({
-                center: ol.proj.fromLonLat([-84.139406,9.999912]),
-                zoom: 6
-            })
-          });
-    }
 
 
     addInfraestructureMarker() {
