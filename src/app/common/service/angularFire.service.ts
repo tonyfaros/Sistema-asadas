@@ -57,6 +57,10 @@ export class AngularFireService {
 			this.af.database.list('asadas').push(pAsada).catch((error)=>console.log(error));
 	 }
 
+	addNewTomaDatos(tomaDatos):void{
+		this.af.database.list('tomaDatos').push(tomaDatos).catch((error)=>console.log(error));
+	}
+
 	 updateAsada(pKey: String, pAsda){
 		const Obj$ = this.getAsada(pKey);
 		Obj$.update(pAsda).catch((error)=>console.log("Error actualizando datos " + error));
