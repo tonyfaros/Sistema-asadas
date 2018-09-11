@@ -4,7 +4,6 @@
 
   <div class="section-header">
     <h2 id="mapa-title" class="text-default-bright col-xs-12 col-md-3" >Mapa de ASADAs</h2>
-
   </div>
 
   <div class="section-body">
@@ -26,7 +25,7 @@
                 </app-filter>
                 
               </div>
-              <div id="snitMap" class="col-xs-12 snitMap" style="display:none"></div>
+              <div id="snitMap" class="col-xs-12 snitMap" *ngIf="false"></div>
               
               <!-- Begin Card Map -->
               <agm-map #gm [(latitude)]="lat" id="googleMap" [(longitude)]="lng" [(zoom)]="zoom" [scrollwheel]="false" [mapTypeId]="'terrain'"
