@@ -16,17 +16,18 @@
           <div class="fullMap" id="map-canvas">
             <div class="no-padding border-gray">
               <div class="col-xs-12">
-                <app-filter
+                <app-filter 
                   [activeLocationFilter]="true" 
                   [activeCategoryFilter]="true" 
-                  [activeRiskFilter]="true" 
+                  [activeRiskFilter]="isLoggedIn" 
                   [activeFilterButton]="true" 
                   (notify)='filterNotity($event)'
                   style="position:absolute">
                 </app-filter>
                 
               </div>
-              <div id="snitMap" class="col-xs-12 snitMap"></div>
+              <div id="snitMap" class="col-xs-12 snitMap" style="display:none"></div>
+              
               <!-- Begin Card Map -->
               <agm-map #gm [(latitude)]="lat" id="googleMap" [(longitude)]="lng" [(zoom)]="zoom" [scrollwheel]="false" [mapTypeId]="'terrain'"
                 [gestureHandling]="'cooperative'" [mapTypeControl]="'true'">

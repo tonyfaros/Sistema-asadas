@@ -94,16 +94,124 @@ export class MapGoogleComponent implements OnInit {
                 this.getResultAsadasTemp();
             }
         });
-
         this.generateSnitMap();
+        //this.generateSnitMap();
     }
     private scroll(id) {
         let el = document.getElementById(id);
         el.scrollIntoView();
 
     }
-
+    
     generateSnitMap() {
+
+        const markerSource = new ol.source.Vector();
+        var markerStyle = new ol.style.Style({
+            image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
+                anchor: [0.5, 46],
+                anchorXUnits: 'fraction',
+                anchorYUnits: 'pixels',
+                opacity: 0.75,
+                src: 'assets/icons/Naciente.png'
+            }))
+        });
+        var format = "image/png";
+
+        var vectorIcon = new ol.layer.Vector({
+            source: markerSource,
+            style: markerStyle,
+        })
+
+        var capaDistrital = new ol.layer.Tile({
+            source: new ol.source.TileWMS(({
+                'url': 'http://geos.snitcr.go.cr/be/IGN_5/wms?',
+                params: {
+                    'LAYERS': 'limitedistrital_5k', 'VERSION': '1.1.1',
+                    'TILED': true,
+                    'FORMAT': format,
+                    'TRANSPARENT': true,
+                    'SRS': 'EPSG:5367',
+                    'gridSet': 'CRTM05'
+                }
+            }))
+        });
+        var capaCantonal = new ol.layer.Tile({
+            source: new ol.source.TileWMS(({
+                'url': 'http://geos.snitcr.go.cr/be/IGN_5/wms?',
+                params: {
+                    'LAYERS': ['limitecantonal_5k'], 'VERSION': '1.1.1',
+                    'TILED': true,
+                    'FORMAT': format,
+                    'TRANSPARENT': true,
+                    'SRS': 'EPSG:5367',
+                    'gridSet': 'CRTM05'
+                }
+            }))
+        });
+        var capaProvincial = new ol.layer.Tile({
+            source: new ol.source.TileWMS(({
+                'url': 'http://geos.snitcr.go.cr/be/IGN_5/wms?',
+                params: {
+                    'LAYERS': 'limiteprovincial_5k', 'VERSION': '1.1.1',
+                    'TILED': true,
+                    'FORMAT': format,
+                    'TRANSPARENT': true,
+                    'SRS': 'EPSG:5367',
+                    'gridSet': 'CRTM05'
+                }
+            }))
+        });
+
+        var layers = [
+            new ol.layer.Group({
+                layers: [
+                    capaDistrital,
+                    capaCantonal,
+                    capaProvincial,
+                    vectorIcon
+                ]
+            })]
+
+        let map = new ol.Map({
+            target: 'snitMap',
+            layers: layers,
+            view: new ol.View({
+                center: ol.proj.fromLonLat([this.lng, this.lat]),
+                zoom: this.zoom
+            })
+        });
+
+
+        function addMarker(lon, lat) {
+            console.log('lon:', lon);
+            console.log('lat:', lat);
+
+            var iconFeatures = [];
+
+            var iconFeature = new ol.Feature({
+                geometry: new ol.geom.Point(ol.proj.transform([lon, lat], 'EPSG:4326',
+                    'EPSG:3857')),
+                name: 'Null Island',
+                population: 4000,
+                rainfall: 500
+            });
+
+            markerSource.addFeature(iconFeature);
+        }
+
+        map.on('singleclick', function (event) {
+            var lonLat = ol.proj.toLonLat(event.coordinate);
+            addMarker(lonLat[0], lonLat[1]);
+        });
+        
+
+        addMarker(0.5, 46);
+
+
+
+    }
+
+    generateSnitMapOLD() {
 
         var WGS84 = ("EPSG:4326");
         var WGS84_Claro = ("EPSG:3857");
@@ -113,7 +221,7 @@ export class MapGoogleComponent implements OnInit {
         var WGS84_google_mercator = ("EPSG: 5367");
         var format = "image/png";
 
-        var capaDistrital:TileLayer=new TileLayer({
+        var capaDistrital: TileLayer = new TileLayer({
             source: new TileWMS(({
                 'url': 'http://geos.snitcr.go.cr/be/IGN_5/wms?',
                 params: {
@@ -126,7 +234,7 @@ export class MapGoogleComponent implements OnInit {
                 }
             }))
         });
-        var capaCantonal:TileLayer=new TileLayer({
+        var capaCantonal: TileLayer = new TileLayer({
             source: new TileWMS(({
                 'url': 'http://geos.snitcr.go.cr/be/IGN_5/wms?',
                 params: {
@@ -139,7 +247,7 @@ export class MapGoogleComponent implements OnInit {
                 }
             }))
         });
-        var capaProvincial:TileLayer=new TileLayer({
+        var capaProvincial: TileLayer = new TileLayer({
             source: new TileWMS(({
                 'url': 'http://geos.snitcr.go.cr/be/IGN_5/wms?',
                 params: {
@@ -152,7 +260,7 @@ export class MapGoogleComponent implements OnInit {
                 }
             }))
         });
-        var capaDetalle:TileLayer=new TileLayer({
+        var capaDetalle: TileLayer = new TileLayer({
             source: new TileWMS(({
                 //'url': 'http://geop3.www.snitcr.go.cr/GeoP/geop?k=Y2FwYTo6SUdOX1JBU1RFUjo6SE9KQVNfNTA',
                 'url': 'http://geos0.snitcr.go.cr/cgi-bin/web?map=hojas50.map',
@@ -167,6 +275,20 @@ export class MapGoogleComponent implements OnInit {
             }))
         })
 
+
+
+        const markerSource = new ol.source.Vector();
+        var markerStyle = new ol.style.Style({
+            image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
+                anchor: [0.5, 46],
+                anchorXUnits: 'fraction',
+                anchorYUnits: 'pixels',
+                opacity: 0.75,
+                src: 'assets/icons/Naciente.png'
+            }))
+        });
+
+
         var layers = [
             new Group({
                 layers: [
@@ -174,6 +296,10 @@ export class MapGoogleComponent implements OnInit {
                     capaCantonal,
                     capaProvincial,
                     capaDetalle,
+                    new ol.layer.Vector({
+                        source: markerSource,
+                        style: markerStyle,
+                    })
                 ]
             })
         ];
@@ -181,7 +307,7 @@ export class MapGoogleComponent implements OnInit {
             layers: layers,
             target: 'snitMap',
             view: new View({
-                center: ol.proj.fromLonLat([this.lng,this.lat]),
+                center: ol.proj.fromLonLat([this.lng, this.lat]),
                 zoom: this.zoom
             })
         });
@@ -190,6 +316,26 @@ export class MapGoogleComponent implements OnInit {
         capaProvincial.setOpacity(0.8);
         capaDetalle.setOpacity(0.5);
 
+
+        function addMarker(lon, lat) {
+            console.log('lon:', lon);
+            console.log('lat:', lat);
+
+            var iconFeatures = [];
+
+            var iconFeature = new ol.Feature({
+                geometry: new ol.geom.Point(ol.proj.transform([lon, lat], 'EPSG:4326',
+                    'EPSG:3857')),
+                name: 'Null Island',
+                population: 4000,
+                rainfall: 500
+            });
+
+            markerSource.addFeature(iconFeature);
+        }
+
+
+        //addMarker(0.5, 46);
         //var center = ol.proj.transform(map.getView().getCenter(), map.getView().getProjection(), 'EPSG:4326');
 
 

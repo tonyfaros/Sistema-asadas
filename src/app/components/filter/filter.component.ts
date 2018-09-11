@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
-import { LocationsService, locaciones, location } from "app/common/service/locations.service";
+import { LocationsService, locaciones, location, provincia, canton } from "app/common/service/locations.service";
 
 @Component({
   selector: 'app-filter',
@@ -12,22 +12,29 @@ export class FilterComponent implements OnInit {
   private locaciones: locaciones;
   private categorias: filterParam[];
   private riesgos: filterParam[];
-
+  private filterColSize=12;
   public filterConfiguration: filterConfig;
   constructor(private LocServ: LocationsService) { }
 
   @Output() notify: EventEmitter<filterConfig> = new EventEmitter<filterConfig>();
   @Input() activeLocationFilter: boolean = true;
   @Input() activeRiskFilter: boolean = true;
-  @Input() activeCategoryFilter: boolean = true;  
+  @Input() activeCategoryFilter: boolean = true;
   @Input() activeFilterButton: boolean = true;
 
-
+  private check: boolean = true;
 
   ngOnInit() {
     this.updateLocations();
     this.updateCategorias();
     this.updateRiesgos();
+
+    var filterCount=0;
+    if(this.activeLocationFilter) filterCount++;
+    if(this.activeCategoryFilter) filterCount++;
+    if(this.activeRiskFilter) filterCount++;
+    this.filterColSize=12/filterCount;
+
   }
 
   updateLocations() {
@@ -41,6 +48,7 @@ export class FilterComponent implements OnInit {
       { value: "Intermedio", active: true },
       { value: "Bajo", active: true },
       { value: "Nulo", active: true },
+      { value: "No se capta", active: true }
     ]
   }
 
@@ -56,14 +64,35 @@ export class FilterComponent implements OnInit {
 
   private LocationfilterCheckboxChange(event, loc: location) {
     if (this.activeLocationFilter) {
-      try {
-        loc.active = event.target.checked;
-      } catch (ex) {
+      //try {
+        this.recursiveLocationActiveToggle(loc,(event.target.checked||false));
+     /* } 
+      catch (ex) {
         loc.active = true;
         event.target.checked = true;
-      }
+      }*/
       this.notifyChange();
     }
+  }
+  private recursiveLocationActiveToggle(loc:location,active:boolean){
+      loc.active=active;
+      var locations:location[]=
+      ((<provincia>loc).cantones) || ((<canton>loc).distritos);
+      if(locations){
+        locations.forEach(loc=>{
+          this.recursiveLocationActiveToggle(loc,active);
+        });
+      }
+
+  }
+
+  private toggleActiveLocation(locations: location[], activate: boolean) {
+    try {
+      locations.forEach(loc => {
+        loc.active = activate;
+      });
+    }
+    catch(ex){}
   }
 
   private CategoryfilterCheckboxChange(event, value: string) {

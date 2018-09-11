@@ -36,8 +36,9 @@
     background-color:rgba(254, 254, 255, 0.849);
     color: rgb(25, 25, 26);
     padding: 2px!important;
-    margin: 5px 5px;
+    margin: 5px 2px;
     z-index: 200;
+    width: 100%;
 }
 
 .filter-body{
@@ -47,7 +48,7 @@
 
 
 .filter-head{
-    width: 95%;
+    padding: 0px 4px;
 }
 header{
     padding: 2px!important 2px!important;
@@ -76,3 +77,18 @@ header{
 .distrito-container{
     background-color:rgba(200,200,200,0.5);
 }
+
+.risk-checkbox-group .checkbox-styled.checkbox-yellow label input:checked ~ span:before {
+    border-color: #FFEB3B !important;
+    cursor: pointer;
+  }
+  
+  .risk-checkbox-group .checkbox-styled.checkbox-lime label input:checked ~ span:before {
+    border-color: #CDDC39 !important;
+    cursor: pointer;
+  }
+
+  .checkbox-styled:not(ie8).disabled ~ span{
+      border-color: gray!important;
+      color:gray!important;
+  }
