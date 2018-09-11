@@ -1,0 +1,105 @@
+<section>
+  
+  <div class="section-body contain-xl">
+      <div class="section-header">
+          <h2 class="text-default-bright">Toma de datos</h2>
+          
+        </div>
+        <!-- BEGIN SEARCH BAR -->
+      <div class="no-y-padding" style="background-color:transparent">
+        
+          <form class="form form-inverse">
+            <div class="form-group">
+              <button type="button" class="btn ink-reaction btn-raised btn-primary-dark " data-toggle="modal" data-target="#formModal">Nueva toma</button>
+              
+            </div>
+            <!--end .form-group -->
+          </form>
+        </div>
+        <!--end .card-body -->
+        <!-- END SEARCH BAR -->
+
+    <div class="card tabs-left style-default-light ">
+        
+      
+
+      <!-- BEGIN TAB CONTENT -->
+      <div class="card-body tab-content style-default-bright">
+        <div class="tab-pane active" id="web1">
+          <div class="row">
+            <div class="col-lg-12">
+
+              <!-- BEGIN PAGE HEADER -->
+              
+              <!-- END PAGE HEADER -->
+
+              <div>
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th class="text-medium text-lg text-primary"># </th>
+                      <th class="text-medium text-lg text-primary">ASADA</th>
+                      <th class="text-medium text-lg text-primary">Fecha</th>
+                      <th class="text-medium text-lg text-primary"># Infraestructuras</th>
+                      <th class="text-medium text-lg text-primary">Estado</th>
+                      <th class="text-medium text-lg text-primary"> </th>
+                      
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let element of myIncidentes">
+                      <td><a class="opacity-75">{{element.details}}</a></td>
+                      <td><a class="opacity-75">{{element.state}}</a></td>
+                      <td><a class="opacity-75" >{{element.date}}</a></td>
+                      <td><a class="opacity-75">{{element.type}}</a></td>
+                      <td><a class="opacity-75">{{element.subType}}</a></td>
+                      <td><a class="opacity-75">{{element.subType}}</a></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      <!-- END TAB CONTENT -->
+    </div>
+  </div>
+  <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="formModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" style="color:#4CAF50" id="formModalLabel">Seleccione la ASADA</h4>
+          </div>
+          <form class="form-horizontal" role="form">
+            <div class="modal-body">
+              <div class="form-group">
+                <div class="col-sm-8">
+                  <select id="select1" name="select1" class="form-control">
+                      <option value="">&nbsp;</option>
+                      <option value="30">30</option>
+                      <option value="40">40</option>
+                      <option value="50">50</option>
+                      <option value="60">60</option>
+                      <option value="70">70</option>
+                    </select>
+                    
+                </div>
+              </div>
+              
+              
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary">Crear</button>
+            </div>
+          </form>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <!-- END FORM MODAL MARKUP -->
+
+</section>
