@@ -51,11 +51,9 @@
                         <td><a class="opacity-75">{{element.nombre}}</a></td>
                         <td><a class="opacity-75">{{element.apellidos}}</a></td>
                         <td><a class="opacity-75" >{{element.correo}}</a></td>
-
                         <td><a class="opacity-75">{{element.rol}}</a></td>
-                         <td><a  class="opacity-75">{{element.rol}}</a></td>
                         <td class="text-right">
-                            <button *ngIf = "User!=element.id" type="button" class="btn btn-icon-toggle" (click)="delete(element)" data-toggle="tooltip" data-placement="top" data-original-title="Copy row"><i class="fa fa-trash"></i></button>
+                            <button *ngIf = "User!=element.$key" type="button" class="btn btn-icon-toggle" (click)="deleteUsuario(element.$key)" data-toggle="tooltip" data-placement="top" data-original-title="Copy row"><i class="fa fa-trash"></i></button>
                           </td>
                        
 
@@ -72,6 +70,7 @@
       </div>
     </div>
     <!-- BEGIN FORM MODAL MARKUP -->
+
 <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="formModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -79,44 +78,65 @@
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           <h4 class="modal-title" style="color:#4CAF50" id="formModalLabel">Agregar usuario</h4>
           </div>
-        <form class="form-horizontal" role="form">
+
+
+          
+        <form class="form-horizontal form-validate" role="form">
           <div class="modal-body">
-            <div class="form-group">
+            
+            <div class="form-group form-validate">
               <div class="col-sm-3">
-                <label for="email1" class="control-label">Email</label>
+                <label for="nombre" class="control-label">Rol</label>
               </div>
               <div class="col-sm-9">
-                <input type="email" name="email1" id="email1" class="form-control" placeholder="Email">
+                <select id="rol" name="rol" class="form-control" required>
+                      <option value="">&nbsp;</option>
+                      <option value="Profesor">Profesor</option>
+                      <option value="Estudiante">Estudiante</option>
+                    </select>
               </div>
             </div>
-            <div class="form-group">
+
+            <div class="form-group" >
               <div class="col-sm-3">
-                <label for="password1" class="control-label">Password</label>
+                <label for="nombre" class="control-label">Nombre</label>
               </div>
               <div class="col-sm-9">
-                <input type="password" name="password1" id="password1" class="form-control" placeholder="Password">
+                <input type="text" class="form-control" name="nombre" id="nombre" class="form-control" required>
               </div>
             </div>
+
             <div class="form-group">
               <div class="col-sm-3">
+                <label for="apellidos" class="control-label">Apellidos</label>
               </div>
               <div class="col-sm-9">
-                <div class="checkbox">
-                  <label>
-                    <input type="checkbox" id="cb1"> Remember me
-                  </label>
-                </div>
+                <input type="text" class="form-control" name="apellidos" id="apellidos" class="form-control" required>
               </div>
             </div>
+            
+            <div class="form-group">
+              <div class="col-sm-3">
+                <label for="correo" class="control-label">Correo</label>
+              </div>
+              <div class="col-sm-9">
+                <input type="email" class="form-control" name="correo" id="correo" class="form-control" required>
+              </div>
+            
+            
+            </div>
+
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary">Login</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary" data-dismiss="modal" (click)="addUsuario()">Agregar</button>
           </div>
         </form>
+
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
   <!-- END FORM MODAL MARKUP -->
   
   </section>
+  
