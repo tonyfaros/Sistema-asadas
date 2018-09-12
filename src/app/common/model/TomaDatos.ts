@@ -4,4 +4,5 @@ export class TomaDatos{
     nameAsada: string;
     dateCreated: string;
     status: string;
+    idEstudiante: string;
 }

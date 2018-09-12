@@ -31,13 +31,26 @@ export class TomaDatosComponent implements OnInit {
 
    }
 
+   private User = '';
+
+   user: FirebaseAuthState;
+
+
   ngOnInit() {
-  }
+      this.af.auth.subscribe(user => {
+
+      this.user = user;
+      this.User = this.user.uid;
+      
+    });}
+
+ 
 
   asadaHandler(event: any){
     this.asadaSelected = event.target.value;
-  
   }
+
+
 
   addNewTomaDatos(pTomaDatos){
     this.angularFireService.addNewTomaDatos(pTomaDatos);
@@ -50,11 +63,14 @@ export class TomaDatosComponent implements OnInit {
     let latest_date =this.datepipe.transform(this.todayDate, 'yyyy-MM-dd');
 
     tomaDatos.dateCreated = latest_date;
-    tomaDatos.idToma= '2';
+    tomaDatos.idToma= '3';
     tomaDatos.nameAsada = this.asadaSelected;
     tomaDatos.status = 'Indefinido';
+    tomaDatos.idEstudiante = this.User;
 
     this.addNewTomaDatos(tomaDatos);
+
+    
 
   }
 
