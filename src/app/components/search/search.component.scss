@@ -1,4 +1,25 @@
 
+app-filter{
+    width: 100%;
+    left: 0px;
+    right: 0px;
+    float: left;
+  }
+.table-panel{
+    padding: 5px 15px!important;
+}
+.no-y-padding{
+    padding-top: 0px;
+    padding-bottom: 0px;
+} 
+.no-x-padding{
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+.results-count-bar{
+    margin: 5px 0px!important;
+}
 
 .img-circle{
     width: 80px;
@@ -16,7 +37,6 @@
     width: 500px;
     height: 500px;
   }
-
 ng2-file-input-files input {
     width: 0.1px;
 	height: 0.1px;
@@ -25,7 +45,26 @@ ng2-file-input-files input {
 	position: absolute;
 	z-index: -1;
 }
-
+div .input-group-content{
+    padding-top: 5px;
+    color:rgb(25, 27, 26)!important;
+}
+.form-control{
+    color:rgb(25, 27, 26)!important;
+}
+.form-control::before{
+    color:rgb(25, 27, 26)!important;
+    background-color: #333!important;
+    visibility: visible!important;
+}
+.line{
+    background-color: gray;
+    height: 2px;
+    width: 100%;
+    bottom: 0px;
+    position: absolute;
+    opacity: 0.3;
+}
 
 .ng2-file-input{
     .ng2-file-input-drop-container{

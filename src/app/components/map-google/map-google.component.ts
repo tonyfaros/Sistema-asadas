@@ -410,7 +410,7 @@ export class MapGoogleComponent implements OnInit {
                 infra.visible = showInfra;
             }
             for (let asada of this.asadasmarkers) {
-                var showAsada = true;
+                var showAsada = false;
                 var filtLoc: provincia[] = this.filterConfiguration.locaciones.provincias;
                 var filtCat: filterParam[] = this.filterConfiguration.categorias;
                 if (showAsada && filtCat) {
@@ -423,7 +423,16 @@ export class MapGoogleComponent implements OnInit {
                 if (showAsada && filtLoc) {
                     filtLoc.forEach(prov => {
                         if (prov.name.toLowerCase() == asada.province.toLowerCase()) {
-                            showAsada = prov.active;
+                            prov.cantones.forEach(cant => {
+                                if(cant.name.toLowerCase()==asada.state.toLowerCase()){
+                                    prov.cantones.forEach(dist => {
+                                        if(cant.name.toLowerCase()==asada.state.toLowerCase()){
+                                            showAsada = prov.active&&cant.active&&dist.active;
+                                        }
+                                    });
+                                }
+                            });
+
                             this.getMarckersInfraestructurasAsada(asada).forEach(infra => {
                                 if (infra) {
                                     infra.visible = infra.visible && showAsada;

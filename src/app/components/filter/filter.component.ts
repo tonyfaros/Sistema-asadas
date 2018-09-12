@@ -14,7 +14,9 @@ export class FilterComponent implements OnInit {
   private riesgos: filterParam[];
   private filterColSize=12;
   public filterConfiguration: filterConfig;
-  constructor(private LocServ: LocationsService) { }
+  constructor(private LocServ: LocationsService) {
+
+   }
 
   @Output() notify: EventEmitter<filterConfig> = new EventEmitter<filterConfig>();
   @Input() activeLocationFilter: boolean = true;
@@ -24,17 +26,36 @@ export class FilterComponent implements OnInit {
 
   private check: boolean = true;
 
-  ngOnInit() {
+  ngOnInit() {   
+    
+    var filterCount=0;
+    if(this.activeLocationFilter) {
+      filterCount++;
+    }
+    console.log("---------->"+filterCount);
+    
+    if(this.activeCategoryFilter) 
+    {
+      filterCount++;
+    }
+    console.log("---------->"+filterCount);
+
+    if(this.activeRiskFilter)
+    { 
+      filterCount++;
+    }
+    console.log("---------->"+filterCount);
+
+
+    this.filterColSize=12/filterCount;
+    console.log("---------->"+this.activeLocationFilter);
+    console.log("---------->"+this.activeCategoryFilter);
+    console.log("---------->"+this.activeRiskFilter);
+    console.log("------------------->"+this.filterColSize);
+
     this.updateLocations();
     this.updateCategorias();
     this.updateRiesgos();
-
-    var filterCount=0;
-    if(this.activeLocationFilter) filterCount++;
-    if(this.activeCategoryFilter) filterCount++;
-    if(this.activeRiskFilter) filterCount++;
-    this.filterColSize=12/filterCount;
-
   }
 
   updateLocations() {

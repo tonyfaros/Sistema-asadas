@@ -2,20 +2,20 @@
 .filter-component{
     margin: 5px 0px;
     padding: 0px!important;
-    min-height: 45px;
+    min-height: 50px;
     min-width: 0px;
     z-index: 200;
 }
 
 .filter-panel{
     padding-right:0px;
-    float: right;
+    float: right!important;
     right: 100px;
     z-index: 200;
     position: absolute;
 }
 .filter-config-panel{
-    max-height: 48px;
+    max-height: 55px;
 }
 
 .filter-btn-panel{
@@ -30,9 +30,15 @@
     margin: 0px;
     float: right!important;
 }
+.float-right{
+    float: right;
+}  
+.float-left{
+    float: left;
+}  
 
 .filter-container{
-    float: right;
+    float: right!important;
     background-color:rgba(254, 254, 255, 0.849);
     color: rgb(25, 25, 26);
     padding: 2px!important;
