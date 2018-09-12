@@ -45,13 +45,13 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let element of myIncidentes">
-                      <td><a class="opacity-75">{{element.details}}</a></td>
-                      <td><a class="opacity-75">{{element.state}}</a></td>
-                      <td><a class="opacity-75" >{{element.date}}</a></td>
-                      <td><a class="opacity-75">{{element.type}}</a></td>
-                      <td><a class="opacity-75">{{element.subType}}</a></td>
-                      <td><a class="opacity-75">{{element.subType}}</a></td>
+                    <tr *ngFor="let element of filteredList">
+                      <td><a class="opacity-75">{{element.id}}</a></td>
+                      <td><a class="opacity-75">{{element.Asada}}</a></td>
+                      <td><a class="opacity-75" >{{element.Fecha}}</a></td>
+                      <td><a class="opacity-75">{{element.Infraestructura}}</a></td>
+                      <td><a class="opacity-75">{{element.Estado}}</a></td>
+                      <td><a class="opacity-75"></a></td>
                     </tr>
                   </tbody>
                 </table>
