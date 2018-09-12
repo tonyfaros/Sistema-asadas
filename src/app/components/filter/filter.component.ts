@@ -61,6 +61,7 @@ export class FilterComponent implements OnInit {
     this.updateRiesgos();
   }
   
+  
 
   updateLocations() {
     this.locaciones = this.LocServ.getLocations();

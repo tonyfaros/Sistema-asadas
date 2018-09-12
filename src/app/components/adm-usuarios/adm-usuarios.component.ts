@@ -6,7 +6,7 @@ import { FirebaseAuthState } from 'angularfire2/index';
 import { Observable } from 'rxjs';
 
 
-
+import { AngularFireService } from '../../common/service/angularFire.service'; 
 import { User } from '../../common/model/User';
 import 'rxjs/add/operator/map';
 
@@ -14,7 +14,8 @@ import 'rxjs/add/operator/map';
 @Component({
   selector: 'app-adm-usuarios',
   templateUrl: './adm-usuarios.component.html',
-  styleUrls: ['./adm-usuarios.component.scss']
+  styleUrls: ['./adm-usuarios.component.scss'],
+  providers:[AngularFireService]
 })
 export class AdmUsuariosComponent implements OnInit {
   filteredList: any[];
@@ -29,46 +30,15 @@ export class AdmUsuariosComponent implements OnInit {
   
   
   
-  constructor(db: AngularFireDatabase, private af: AngularFire) { 
+  constructor(db: AngularFireDatabase, private af: AngularFire,private angularFireService: AngularFireService) { 
     var usuarios = new Array();
    
     db.list('usuarios')
-    .subscribe(filteredList2 => {
-      this.filteredList2 = filteredList2;
+    .subscribe(filteredList => {
+      this.filteredList = filteredList;
       
-      //console.log(this.filteredList2);
+      console.log(this.filteredList);
     });
-    
-    db.list('rolAccess')
-      .subscribe(filteredList => {
-        this.filteredList = filteredList;
-        
-        for (var i = 0; i < this.filteredList.length; i++){
-          var cont = 0;
-          var usuario = {
-            'id':'',
-            'nombre': '',
-            'apellidos': '',
-            'correo': '',
-            'rol': ''
-          }
-          while(this.filteredList[i]["usuario"] != this.filteredList2[cont]["$key"])
-            cont++;
-          usuario.id = this.filteredList[i]["usuario"];  
-
-          usuario.nombre = this.filteredList2[cont]["nombre"];
-          usuario.apellidos = this.filteredList2[cont]["apellidos"];
-          usuario.correo = this.filteredList2[cont]["correo"];
-          usuario.rol = this.filteredList[i]["rol"];
-  
-          usuarios.push(usuario);
-          //console.log(usuarios);
-        }
-        this.filteredList = usuarios;
-        
-      });
-    
-      
     
 
   }
@@ -80,11 +50,29 @@ export class AdmUsuariosComponent implements OnInit {
 
       this.user = user;
       this.User = this.user.uid;
-      
     });
-    
-
   }
+
+  addUsuario(){
+		const usuario: User = new User();
+
+			usuario.nombre = (<HTMLInputElement>document.getElementById('nombre')).value; 
+			usuario.apellidos = (<HTMLInputElement>document.getElementById('apellidos')).value; 
+			usuario.correo = (<HTMLInputElement>document.getElementById('correo')).value; 
+			usuario.rol = (<HTMLInputElement>document.getElementById('rol')).value; 
+			
+		this.addNewUsuario(usuario);
+  }
+
+  addNewUsuario(pUsuario) {
+		this.angularFireService.addNewUsuario(pUsuario);
+	}
+
+  deleteUsuario(pKey){
+    this.angularFireService.deleteUsuario(pKey);
+  }
+
+  
   /*
   delete(elem: any): void {
     var admin = require('firebase-admin');
@@ -140,6 +128,10 @@ nodemailer.createTestAccount((err, account) => {
 
 }
   */
+
+  
  
 
 }
+
+

@@ -17,14 +17,46 @@ export class TomaDatosComponent implements OnInit {
   filteredList2: any[];
   asadaSelected: string = '';
   todayDate: Date;
+  filteredList: any[];
 
   constructor(db: AngularFireDatabase, private af: AngularFire,private angularFireService: AngularFireService,private datepipe: DatePipe) {
-
+    
     db.list('asadas')
     .subscribe(filteredList2 => {
       this.filteredList2 = filteredList2;
+      });
+
+    var tomaDatosList = new Array();
+    db.list('tomaDatos')
+    .subscribe(filteredList => {
+      this.filteredList = filteredList;
       
-      console.log(this.filteredList2);
+      //console.log(this.filteredList2);
+      for (var i = 0; i < this.filteredList.length; i++){
+        var toma_datos = {
+          'key':'',
+          'id':'',
+          'Asada': '',
+          'Fecha': '',
+          'Estado': '',
+          'Infraestructura': ''
+        }
+        if(this.filteredList[i]["idEstudiante"] == this.User){
+          toma_datos.key = this.filteredList[i]["$key"];  
+          toma_datos.id = this.filteredList[i]["idToma"]; 
+          toma_datos.Asada = this.filteredList[i]["nameAsada"];
+          toma_datos.Fecha = this.filteredList[i]["dateCreated"];
+          toma_datos.Estado = this.filteredList[i]["status"];
+          toma_datos.Infraestructura = "3";
+  
+          tomaDatosList.push(toma_datos);
+          console.log(toma_datos);
+        }
+          
+        
+      }
+      this.filteredList = tomaDatosList;
+
       
     });
 
@@ -70,7 +102,7 @@ export class TomaDatosComponent implements OnInit {
 
     this.addNewTomaDatos(tomaDatos);
 
-    
+
 
   }
 
