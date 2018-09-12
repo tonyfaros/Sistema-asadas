@@ -424,7 +424,8 @@ export class MapGoogleComponent implements OnInit {
                 if (showAsada && filtLoc) {
                     filtLoc.forEach(prov => {
                         if (prov.name.toLowerCase() == asada.province.toLowerCase()) {
-                            prov.cantones.forEach(cant => {
+                            showAsada = prov.active;
+                            /*prov.cantones.forEach(cant => {
                                 if(cant.name.toLowerCase()==asada.state.toLowerCase()){
                                     prov.cantones.forEach(dist => {
                                         if(cant.name.toLowerCase()==asada.state.toLowerCase()){
@@ -432,7 +433,7 @@ export class MapGoogleComponent implements OnInit {
                                         }
                                     });
                                 }
-                            });
+                            });*/
 
                             this.getMarckersInfraestructurasAsada(asada).forEach(infra => {
                                 if (infra) {
@@ -541,7 +542,7 @@ export class MapGoogleComponent implements OnInit {
     lng: number = -83.9004535;
 
     //ZOOM LEVEL
-    zoom: number = 30;
+    zoom: number = 10;
 
     //MAP MARKER SIZE
     private markerSize = 28;

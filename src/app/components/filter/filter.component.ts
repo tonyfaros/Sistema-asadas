@@ -27,7 +27,10 @@ export class FilterComponent implements OnInit {
   private check: boolean = true;
 
   ngOnInit() {   
-    
+    //como el calculo es independiente de si los valores cambian, es posible que el bug que produce que no se actualicen
+    //los tamaños en los contenedores de filtros sea provocado porque en ejecucion los valores booleanos de visualizacion
+    //cambian, no obstante no se recalcula el valor del tamaño de los contenedores
+    //puede solucionarse justificando los contenedores para evitar el calculo del tamaño
     var filterCount=0;
     if(this.activeLocationFilter) {
       filterCount++;
@@ -57,6 +60,7 @@ export class FilterComponent implements OnInit {
     this.updateCategorias();
     this.updateRiesgos();
   }
+  
 
   updateLocations() {
     this.locaciones = this.LocServ.getLocations();
