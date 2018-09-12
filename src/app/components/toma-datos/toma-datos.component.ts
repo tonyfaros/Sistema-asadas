@@ -17,14 +17,40 @@ export class TomaDatosComponent implements OnInit {
   filteredList2: any[];
   asadaSelected: string = '';
   todayDate: Date;
+  filteredList: any[];
 
   constructor(db: AngularFireDatabase, private af: AngularFire,private angularFireService: AngularFireService,private datepipe: DatePipe) {
-
-    db.list('asadas')
+    var tomaDatosList = new Array();
+    db.list('tomaDatos')
     .subscribe(filteredList2 => {
       this.filteredList2 = filteredList2;
       
-      console.log(this.filteredList2);
+      //console.log(this.filteredList2);
+      for (var i = 0; i < this.filteredList2.length; i++){
+        var toma_datos = {
+          'key':'',
+          'id':'',
+          'Asada': '',
+          'Fecha': '',
+          'Estado': '',
+          'Infraestructura': ''
+        }
+        while(this.filteredList2[i]["usuario"] != this.User){
+          toma_datos.key = this.filteredList2[i]["$key"];  
+          toma_datos.id = this.filteredList2[i]["id"]; 
+          toma_datos.Asada = this.filteredList2[i]["Asada"];
+          toma_datos.Fecha = this.filteredList2[i]["Fecha"];
+          toma_datos.Estado = this.filteredList2[i]["estado"];
+          toma_datos.Infraestructura = "3";
+  
+          tomaDatosList.push(toma_datos);
+          //console.log(usuarios);
+        }
+          
+        
+      }
+      this.filteredList = tomaDatosList;
+
       
     });
 
@@ -70,7 +96,7 @@ export class TomaDatosComponent implements OnInit {
 
     this.addNewTomaDatos(tomaDatos);
 
-    
+
 
   }
 
