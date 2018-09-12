@@ -44,6 +44,7 @@ import * as ol from 'openlayers';
     styleUrls: ['./map-google.component.scss'],
     providers: [MapGoogleService, UserService]
 })
+
 export class MapGoogleComponent implements OnInit {
 
     private allList: Infrastructure[];
@@ -540,7 +541,7 @@ export class MapGoogleComponent implements OnInit {
     lng: number = -83.9004535;
 
     //ZOOM LEVEL
-    zoom: number = 10;
+    zoom: number = 30;
 
     //MAP MARKER SIZE
     private markerSize = 28;
