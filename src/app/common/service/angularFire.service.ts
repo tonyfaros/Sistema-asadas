@@ -57,6 +57,7 @@ export class AngularFireService {
 			this.af.database.list('asadas').push(pAsada).catch((error)=>console.log(error));
 	 }
 
+<<<<<<< HEAD
 	 addNewUsuario(pUsuario):void{
 			this.af.database.list('usuarios').push(pUsuario).catch((error)=>console.log(error));
 	 }
@@ -64,6 +65,11 @@ export class AngularFireService {
 	 deleteUsuario(pKey:string){
      	this.af.database.object('usuarios/'+pKey).remove();
    	}
+=======
+	addNewTomaDatos(tomaDatos):void{
+		this.af.database.list('tomaDatos').push(tomaDatos).catch((error)=>console.log(error));
+	}
+>>>>>>> 1e129572829237c9ac15bc15e3a959a7bdf40e70
 
 	 updateAsada(pKey: String, pAsda){
 		const Obj$ = this.getAsada(pKey);
