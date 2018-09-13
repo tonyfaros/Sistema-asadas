@@ -51,7 +51,9 @@
                       <td><a class="opacity-75" >{{element.Fecha}}</a></td>
                       <td><a class="opacity-75">{{element.Infraestructura}}</a></td>
                       <td><a class="opacity-75">{{element.Estado}}</a></td>
-                      <td><a class="opacity-75"></a></td>
+                      <td class="text-right">
+                            <button *ngIf = "element.Estado!='Aceptado'" type="button" class="btn btn-icon-toggle"  data-toggle="tooltip" data-placement="top" data-original-title="Copy row"><i class="fa fa-arrow-right"></i></button>
+                          </td>
                     </tr>
                   </tbody>
                 </table>
@@ -80,9 +82,7 @@
                       
                       <option *ngFor="let element of filteredList2" [ngValue]="element">{{element.name}}</option>
                     </select>
-                    <p><span>Selected: </span><b>
-                      {{asadaSelected}}
-                    </b></p>
+                    
                 </div>
               </div>
               
@@ -90,7 +90,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-              <button type="button" class="btn btn-primary" (click)="create()" data-dismiss="modal" >Crear</button>
+              <button type="submit" class="btn btn-primary" (click)="create()" data-dismiss="modal" >Crear</button>
             </div>
            </form>
         </div><!-- /.modal-content -->
