@@ -4,6 +4,7 @@ export class User {
     apellidos: string;
     correo: string;
     rol: string;
+    password: string;
     asada?: {
         name: string;
         id: string;

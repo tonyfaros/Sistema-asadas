@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 import { AngularFireService } from '../../common/service/angularFire.service'; 
 import { User } from '../../common/model/User';
 import 'rxjs/add/operator/map';
+import * as CryptoJS from 'crypto-js';
 
 
 @Component({
@@ -51,7 +52,40 @@ export class AdmUsuariosComponent implements OnInit {
       this.user = user;
       this.User = this.user.uid;
     });
+
+    
   }
+
+  encrypt(){
+    var key = CryptoJS.enc.Utf8.parse('7061737323313233');
+    var iv = CryptoJS.enc.Utf8.parse('7061737323313233');
+    var encrypted = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(Math.random().toString(36).substring(7)), key,
+        {
+            keySize: 128 / 8,
+            iv: iv,
+            mode: CryptoJS.mode.CBC,
+            padding: CryptoJS.pad.Pkcs7
+        });
+
+    var decrypted = CryptoJS.AES.decrypt(encrypted, key, {
+        keySize: 128 / 8,
+        iv: iv,
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7
+    });
+
+    console.log('Encrypted :' + encrypted);
+    console.log('Key :' + encrypted.key);
+    console.log('Salt :' + encrypted.salt);
+    console.log('iv :' + encrypted.iv);
+    console.log('Decrypted : ' + decrypted);
+    console.log('utf8 = ' + decrypted.toString(CryptoJS.enc.Utf8));
+
+    return ''+encrypted;
+
+  }
+
+ //let r = Math.random().toString(36).substring(7);
 
   addUsuario(){
 		const usuario: User = new User();
@@ -60,6 +94,11 @@ export class AdmUsuariosComponent implements OnInit {
 			usuario.apellidos = (<HTMLInputElement>document.getElementById('apellidos')).value; 
 			usuario.correo = (<HTMLInputElement>document.getElementById('correo')).value; 
 			usuario.rol = (<HTMLInputElement>document.getElementById('rol')).value; 
+      usuario.password = this.encrypt();
+
+     
+      
+
 			
 		this.addNewUsuario(usuario);
   }
@@ -71,6 +110,7 @@ export class AdmUsuariosComponent implements OnInit {
   deleteUsuario(pKey){
     this.angularFireService.deleteUsuario(pKey);
   }
+
 
   
   /*

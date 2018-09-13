@@ -201,8 +201,8 @@ export class MapGoogleComponent implements OnInit {
         }
 
         map.on('singleclick', function (event) {
-            var lonLat = ol.proj.toLonLat(event.coordinate);
-            addMarker(lonLat[0], lonLat[1]);
+            //var lonLat = ol.proj.toLonLat(event.coordinate);
+            //addMarker(lonLat[0], lonLat[1]);
         });
 
 
