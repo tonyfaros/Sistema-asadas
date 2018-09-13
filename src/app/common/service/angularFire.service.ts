@@ -57,6 +57,15 @@ export class AngularFireService {
 			this.af.database.list('asadas').push(pAsada).catch((error)=>console.log(error));
 	 }
 
+
+	 addNewUsuario(pUsuario):void{
+			this.af.database.list('usuarios').push(pUsuario).catch((error)=>console.log(error));
+	 }
+
+	 deleteUsuario(pKey:string){
+     	this.af.database.object('usuarios/'+pKey).remove();
+   	}
+
 	addNewTomaDatos(tomaDatos):void{
 		this.af.database.list('tomaDatos').push(tomaDatos).catch((error)=>console.log(error));
 	}

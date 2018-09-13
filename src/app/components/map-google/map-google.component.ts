@@ -8,33 +8,41 @@ import { NgModule, ApplicationRef } from '@angular/core';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 
 import { MapGoogleService } from './map-google.service';
-import { Infrastructure  } from '../../common/model/Infrastructure';
+import { Infrastructure } from '../../common/model/Infrastructure';
 import { Asada } from '../../common/model/Asada';
 import { SebmGoogleMap } from 'angular2-google-maps/core';
 import { AngularFire, FirebaseAuthState } from 'angularfire2/index';
 import { UserService } from "app/common/service/user.service";
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
-import {Subscription} from "rxjs/Subscription";
+import { Subscription } from "rxjs/Subscription";
+import { filterConfig, filterParam } from '../filter/filter.component';
+import { locaciones, provincia } from '../../common/service/locations.service';
 
-//import ol from 'openlayers/dist/ol-debug.js';
+/*
+import Map from 'ol/map';
+import Control from 'ol/control';
+import View from 'ol/View';
+import Proj from 'ol/proj';
+import OSM from 'ol/source/OSM.js';
+import TileWMS from 'ol/source/TileWMS';
+import TileLayer from 'ol/layer/Tile.js';
 
+import XYZ from 'ol/source/XYZ';
+*/
 import Map from 'ol/Map';
 import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile.js';
-//import ImageLayer from 'ol/layer/.js';
 import OSM from 'ol/source/OSM.js';
 import TileWMS from 'ol/source/TileWMS.js';
-
+import Group from 'ol/layer/Group.js';
 import * as ol from 'openlayers';
-
-
 
 @Component({
     selector: 'app-map-google',
     templateUrl: './map-google.component.html',
     styleUrls: ['./map-google.component.scss'],
-    providers: [MapGoogleService,UserService]
+    providers: [MapGoogleService, UserService]
 })
 
 export class MapGoogleComponent implements OnInit {
@@ -42,80 +50,35 @@ export class MapGoogleComponent implements OnInit {
     private allList: Infrastructure[];
     private AsadasList: Asada[];
     private AsadasListTemp: Asada[];
-    //public asadasmarkers: Asada[];
-    private SingleList: any[];
-    private agregado = false;
+
     public AsadaId: string;
     public AsadaUser: string;
     public UserRol: string;
     public loadgraphic: boolean;
 
-    public filterQuery = "";
+    public filterConfiguration: filterConfig;
+
 
     public cantidadTanques = 0;
     public cantidadCaptaciones = 0;
     public cantidadCloracion = 0;
     public lastOpen: any;
-    
-    constructor(private mapService: MapGoogleService,private af: AngularFire,private userService: UserService,private router: Router, private route: ActivatedRoute) {
 
-        //[iconUrl]="m.iconUrl"
-
+    constructor(private mapService: MapGoogleService, private af: AngularFire, private userService: UserService, private router: Router, private route: ActivatedRoute) {
         this.allList = [];
-        //this.markers = [];
         this.AsadasList = [];
         this.AsadasListTemp = [];
-        this.infraestTankmarkers = [];
-        this.infraestCaptacionkmarkers = [];
+        this.infraestructuremarkers = [];
         this.asadasmarkers = [];
-        this.SingleList = [];
-
     }
 
     user: FirebaseAuthState;
     public isLoggedIn: boolean;
-
-    private scrollExecuted: boolean = false;
-    private fragment: string;
-
-
-   
-    
+    hidden = true;
 
     ngOnInit() {
-        //this.route.fragment.subscribe(fragment => { this.fragment = fragment; });
-        /*
-        var layers = [
-            new TileLayer({
-                source: new TileWMS({
-                    url: 'http://geos.snitcr.go.cr/be/IGN_1/wms',//'http://geos0.snitcr.go.cr/cgi-bin/web',
-                    params: {
-                        'LAYERS ': 'indice_1000'
-                    }
-                })
-              }),
-              new TileLayer({
-                source: new TileWMS({
-                  projection: 'EPSG:4326', //HERE IS THE DATA SOURCE PROJECTION
-                  url: 'http://demo.boundlessgeo.com/geoserver/wms',
-                  params: {
-                    'LAYERS': 'ne:NE1_HR_LC_SR_W_DR'
-                  }
-                })
-              })
-          ];
-          var map = new Map({
-            layers: layers,
-            target: 'map',
-            view: new View({
-                center: ol.proj.fromLonLat([-84.139406,9.999912]),
-                zoom: 6
-            })
-          });*/
-
         this.af.auth.subscribe(user => {
             if (user) {
-                // user logged in
                 this.user = user;
                 this.isLoggedIn = true;
                 var userDetails = this.userService.getRolAccess(this.user.uid);
@@ -124,75 +87,393 @@ export class MapGoogleComponent implements OnInit {
                         this.AsadaUser = results.asada;
                         this.UserRol = results.rol;
                         this.getResultAsadasTemp();
-
                     }
                 );
-
-
             }
             else {
-                // user not logged in
                 this.isLoggedIn = false;
                 this.getResultAsadasTemp();
-
             }
         });
+        this.generateSnitMap();
+        //this.generateSnitMap();
+    }
+    private scroll(id) {
+        let el = document.getElementById(id);
+        el.scrollIntoView();
+
+    }
+
+    generateSnitMap() {
+
+        const markerSource = new ol.source.Vector();
+        var markerStyle = new ol.style.Style({
+            image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
+                anchor: [0.5, 46],
+                anchorXUnits: 'fraction',
+                anchorYUnits: 'pixels',
+                opacity: 0.75,
+                src: 'assets/icons/Naciente.png'
+            }))
+        });
+        var format = "image/png";
+
+        var vectorIcon = new ol.layer.Vector({
+            source: markerSource,
+            style: markerStyle,
+        })
+
+        var capaDistrital = new ol.layer.Tile({
+            source: new ol.source.TileWMS(({
+                'url': 'http://geos.snitcr.go.cr/be/IGN_5/wms?',
+                params: {
+                    'LAYERS': 'limitedistrital_5k', 'VERSION': '1.1.1',
+                    'TILED': true,
+                    'FORMAT': format,
+                    'TRANSPARENT': true,
+                    'SRS': 'EPSG:5367',
+                    'gridSet': 'CRTM05'
+                }
+            }))
+        });
+        var capaCantonal = new ol.layer.Tile({
+            source: new ol.source.TileWMS(({
+                'url': 'http://geos.snitcr.go.cr/be/IGN_5/wms?',
+                params: {
+                    'LAYERS': ['limitecantonal_5k'], 'VERSION': '1.1.1',
+                    'TILED': true,
+                    'FORMAT': format,
+                    'TRANSPARENT': true,
+                    'SRS': 'EPSG:5367',
+                    'gridSet': 'CRTM05'
+                }
+            }))
+        });
+        var capaProvincial = new ol.layer.Tile({
+            source: new ol.source.TileWMS(({
+                'url': 'http://geos.snitcr.go.cr/be/IGN_5/wms?',
+                params: {
+                    'LAYERS': 'limiteprovincial_5k', 'VERSION': '1.1.1',
+                    'TILED': true,
+                    'FORMAT': format,
+                    'TRANSPARENT': true,
+                    'SRS': 'EPSG:5367',
+                    'gridSet': 'CRTM05'
+                }
+            }))
+        });
+
+        var layers = [
+            new ol.layer.Group({
+                layers: [
+                    capaDistrital,
+                    capaCantonal,
+                    capaProvincial,
+                    vectorIcon
+                ]
+            })]
+
+        let map = new ol.Map({
+            target: 'snitMap',
+            layers: layers,
+            view: new ol.View({
+                center: ol.proj.fromLonLat([this.lng, this.lat]),
+                zoom: this.zoom
+            })
+        });
+
+
+        function addMarker(lon, lat) {
+            console.log('lon:', lon);
+            console.log('lat:', lat);
+
+            var iconFeatures = [];
+
+            var iconFeature = new ol.Feature({
+                geometry: new ol.geom.Point(ol.proj.transform([lon, lat], 'EPSG:4326',
+                    'EPSG:3857')),
+                name: 'Null Island',
+                population: 4000,
+                rainfall: 500
+            });
+
+            markerSource.addFeature(iconFeature);
+        }
+
+        map.on('singleclick', function (event) {
+            var lonLat = ol.proj.toLonLat(event.coordinate);
+            addMarker(lonLat[0], lonLat[1]);
+        });
+
+
+        addMarker(0.5, 46);
+
 
 
     }
 
+    generateSnitMapOLD() {
 
+        var WGS84 = ("EPSG:4326");
+        var WGS84_Claro = ("EPSG:3857");
+        var CRTM05 = ("EPSG:5367");
 
+        // WGS84 Google Mercator projection (meters)
+        var WGS84_google_mercator = ("EPSG: 5367");
+        var format = "image/png";
 
-
-
-
-
-
-
-    
-
-    /*ngAfterViewChecked(): void {
-    if (!this.scrollExecuted) {
-        let routeFragmentSubscription: Subscription;
-        routeFragmentSubscription = this.route.fragment.subscribe(fragment => {
-          if (fragment) {
-            let element = document.getElementById(fragment);
-            if (element) {
-              element.scrollIntoView();
-              this.scrollExecuted = true;
-              // Free resources
-              setTimeout(
-                () => {
-                  console.log('routeFragmentSubscription unsubscribe');
-                  routeFragmentSubscription.unsubscribe();
-                }, 0);
-            }
-          }
+        var capaDistrital: TileLayer = new TileLayer({
+            source: new TileWMS(({
+                'url': 'http://geos.snitcr.go.cr/be/IGN_5/wms?',
+                params: {
+                    'LAYERS': 'limitedistrital_5k', 'VERSION': '1.1.1',
+                    'TILED': true,
+                    'FORMAT': format,
+                    'TRANSPARENT': false,
+                    'SRS': 'EPSG:5367',
+                    'gridSet': 'CRTM05'
+                }
+            }))
         });
-      }
-    }*/
+        var capaCantonal: TileLayer = new TileLayer({
+            source: new TileWMS(({
+                'url': 'http://geos.snitcr.go.cr/be/IGN_5/wms?',
+                params: {
+                    'LAYERS': ['limitecantonal_5k'], 'VERSION': '1.1.1',
+                    'TILED': true,
+                    'FORMAT': format,
+                    'TRANSPARENT': false,
+                    'SRS': 'EPSG:5367',
+                    'gridSet': 'CRTM05'
+                }
+            }))
+        });
+        var capaProvincial: TileLayer = new TileLayer({
+            source: new TileWMS(({
+                'url': 'http://geos.snitcr.go.cr/be/IGN_5/wms?',
+                params: {
+                    'LAYERS': 'limiteprovincial_5k', 'VERSION': '1.1.1',
+                    'TILED': true,
+                    'FORMAT': format,
+                    'TRANSPARENT': false,
+                    'SRS': 'EPSG:5367',
+                    'gridSet': 'CRTM05'
+                }
+            }))
+        });
+        var capaDetalle: TileLayer = new TileLayer({
+            source: new TileWMS(({
+                //'url': 'http://geop3.www.snitcr.go.cr/GeoP/geop?k=Y2FwYTo6SUdOX1JBU1RFUjo6SE9KQVNfNTA',
+                'url': 'http://geos0.snitcr.go.cr/cgi-bin/web?map=hojas50.map',
+                params: {
+                    'LAYERS': 'HOJAS_50', 'VERSION': '1.1.1',
+                    'TILED': 'true',
+                    'FORMAT': format,
+                    'TRANSPARENT': false,
+                    'SRS': 'EPSG:97057',
+                    'gridSet': 'CRTM05'
+                }
+            }))
+        })
+
+
+
+        const markerSource = new ol.source.Vector();
+        var markerStyle = new ol.style.Style({
+            image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
+                anchor: [0.5, 46],
+                anchorXUnits: 'fraction',
+                anchorYUnits: 'pixels',
+                opacity: 0.75,
+                src: 'assets/icons/Naciente.png'
+            }))
+        });
+
+
+        var layers = [
+            new Group({
+                layers: [
+                    capaDistrital,
+                    capaCantonal,
+                    capaProvincial,
+                    capaDetalle,
+                    new ol.layer.Vector({
+                        source: markerSource,
+                        style: markerStyle,
+                    })
+                ]
+            })
+        ];
+        var map = new Map({
+            layers: layers,
+            target: 'snitMap',
+            view: new View({
+                center: ol.proj.fromLonLat([this.lng, this.lat]),
+                zoom: this.zoom
+            })
+        });
+        capaDistrital.setOpacity(0.8);
+        capaCantonal.setOpacity(0.5);
+        capaProvincial.setOpacity(0.8);
+        capaDetalle.setOpacity(0.5);
+
+
+        function addMarker(lon, lat) {
+            console.log('lon:', lon);
+            console.log('lat:', lat);
+
+            var iconFeatures = [];
+
+            var iconFeature = new ol.Feature({
+                geometry: new ol.geom.Point(ol.proj.transform([lon, lat], 'EPSG:4326',
+                    'EPSG:3857')),
+                name: 'Null Island',
+                population: 4000,
+                rainfall: 500
+            });
+
+            markerSource.addFeature(iconFeature);
+        }
+
+
+        //addMarker(0.5, 46);
+        //var center = ol.proj.transform(map.getView().getCenter(), map.getView().getProjection(), 'EPSG:4326');
+
+
+
+
+        /*var map = new OpenLayers.OpenLayers.Map("snitMap");
+        map.addLayer(new OpenLayers.OpenLayers.Layer.OSM());
+        var lonLat = new OpenLayers.OpenLayers.LonLat( -0.1279688 ,51.5077286 )
+        .transform(
+          new OpenLayers.OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
+          map.getProjectionObject() // to Spherical Mercator Projection
+        );
+        
+            var zoom=16;
+
+            var markers = new OpenLayers.OpenLayers.Layer.Markers( "Markers" );
+            map.addLayer(markers);
+            
+            markers.addMarker(new OpenLayers.OpenLayers.Marker(lonLat));
+            
+            map.setCenter (lonLat, zoom);*/
+        /*
+                var layers = [
+                    new TileLayer({
+                        source: new TileWMS({
+                            url: 'http://geos.snitcr.go.cr/be/IGN_1/wms',//'http://geos0.snitcr.go.cr/cgi-bin/web',
+                            params: {
+                                'LAYERS ': 'indice_1000'
+                            }
+                        })
+                    })
+                ];
+                var map = new Map({
+                    layers: layers,
+                    target: 'snitMap',
+                    view: new View({
+                        center: ol.proj.fromLonLat([-84.139406, 9.999912]),
+                        zoom: 6
+                    })
+                });*/
+    }
+
+
+    filterNotity(filConf: filterConfig) {
+        this.filterConfiguration = filConf;
+        this.updateFiltersVisibilty();
+    }
+
+    updateFiltersVisibilty() {
+        if (this.filterConfiguration) {
+            var filtLoc: provincia[] = this.filterConfiguration.locaciones.provincias;
+            var filtCat: filterParam[] = this.filterConfiguration.categorias;
+            var filtRie: filterParam[] = this.filterConfiguration.riesgos;
+
+            for (let infra of this.infraestructuremarkers) {
+                var showInfra = true;
+                if (showInfra && filtRie) {
+                    for (let param of filtRie) {
+                        if (param.value.toLowerCase() == infra.riskLevel.toLowerCase()) {
+                            showInfra = param.active;
+                            break;
+                        }
+                    }
+                }
+                if (showInfra && filtCat) {
+                    filtCat.forEach(param => {
+                        if (param.value.toLowerCase() == infra.type.toLowerCase()) {
+                            showInfra = showInfra && param.active;
+                        }
+                    });
+                }
+                infra.visible = showInfra;
+            }
+            for (let asada of this.asadasmarkers) {
+                var showAsada = true;
+
+                if (showAsada && filtCat) {
+                    filtCat.forEach(param => {
+                        if (param.value.toLowerCase() == "asada") {
+                            showAsada = param.active;
+                        }
+                    });
+                }
+                if (showAsada && filtLoc) {
+                    filtLoc.forEach(prov => {
+                        if (prov.name.toLowerCase() == asada.province.toLowerCase()) {
+                            showAsada = showAsada&&prov.active;
+                            prov.cantones.forEach(cant => {
+                                if(cant.name.toLowerCase()==asada.state.toLowerCase()){
+                                    showAsada = showAsada&&cant.active;
+                                    cant.distritos.forEach(dist => {
+                                        if(dist.name.toLowerCase()==asada.district.toLowerCase()){
+                                            showAsada = showAsada&&dist.active;
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+                    this.getMarckersInfraestructurasAsada(asada).forEach(infra => {
+                        if (infra) {
+                            infra.visible = infra.visible && showAsada;
+                        }
+                    });
+                }
+                asada.visible = showAsada;
+            }
+        }
+    }
+
+    getMarckersInfraestructurasAsada(asada: asadastructure): genericInfraestructure[] {
+        var infraAsada: genericInfraestructure[] = [];
+        this.infraestructuremarkers.forEach(param => {
+            if (param.asada.id == asada.$key) {
+                infraAsada.push(param);
+            }
+        });
+        return infraAsada;
+    }
 
     getResultAsadas(): void {
         this.mapService.getASADAS()
-            .subscribe(
-                results => {
-                    this.AsadasList = results;
-                    this.addASADASMarkers();
-                }
+            .subscribe(results => {
+                this.AsadasList = results;
+                this.addASADASMarkers();
+            }
             );
-
     }
 
     getResultAsadasTemp(): void {
         this.mapService.getASADAS()
-                .subscribe(
+            .subscribe(
                 results => {
                     this.AsadasListTemp = results;
                     this.getInfraestructures();
                 }
             );
-
     }
 
     getInfraestructures(): void {
@@ -200,45 +481,53 @@ export class MapGoogleComponent implements OnInit {
             .subscribe(
                 results => {
                     this.allList = results;
-                    this.addTankMarkers();
-                    this.addCaptacionesSuperf();
+                    this.addInfraestructureMarker();
                     this.getResultAsadas();
                 }
             );
-
     }
 
     setDetails(elem: asadastructure) {
-        
-        if(this.loadgraphic){
-             this.loadgraphic=false;
-             
+
+        if (this.loadgraphic) {
+            this.loadgraphic = false;
+
         }
-        else{
+        else {
             this.loadgraphic = true;
             this.AsadaId = elem.$key;
         }
     }
 
-    cancelModal(){
-         this.loadgraphic=false;
+    cancelModal() {
+        this.loadgraphic = false;
     }
 
-    redirectASADA(elem: asadastructure){
-        this.router.navigate(["/asadaDetails/"+ elem.$key]);
+    redirectASADA(elem: asadastructure) {
+        this.router.navigate(["/asadaDetails/" + elem.$key]);
 
     }
-    redirectTanque(elem:Infrastructure){
-         this.router.navigate(["/TanqueDetails//"+ elem.$key]);
-    }
-    redirectCaptacion(elem:Infrastructure){
-        if(elem.type == "CaptacionNaciente" ){
-             this.router.navigate(["/CaptacionNacienteDetails/"+ elem.$key]);  
+
+    redirectInfraestructure(elem: Infrastructure) {
+        console.log(elem.type);
+        switch (elem.type) {
+            case "Tanque": {
+                this.router.navigate(["/TanqueDetails//" + elem.$key]);
+                break;
+            }
+            case "CaptacionNaciente": {
+                this.router.navigate(["/CaptacionNacienteDetails/" + elem.$key]);
+                break;
+            }
+            case "CaptacionSuperficial": {
+                this.router.navigate(["/CaptacionSuperficialDetails/" + elem.$key]);
+                break;
+            }
+            case "Naciente": {
+                this.router.navigate(["/CaptacionSuperficialDetails/" + elem.$key]);
+                break;
+            }
         }
-        else{
-            this.router.navigate(["/CaptacionSuperficialDetails/"+ elem.$key]);   
-        }
-       
     }
 
     private visible: boolean = true;
@@ -252,7 +541,10 @@ export class MapGoogleComponent implements OnInit {
     lng: number = -83.9004535;
 
     //ZOOM LEVEL
-    zoom: number = 30;
+    zoom: number = 10;
+
+    //MAP MARKER SIZE
+    private markerSize = 28;
 
     //VARIABLES
     markerName: string;
@@ -260,14 +552,26 @@ export class MapGoogleComponent implements OnInit {
     markerLong: string;
 
     asadasmarkers: asadastructure[];
-    infraestTankmarkers: infraestructureTank[];
-    infraestCaptacionkmarkers: infraestructureCaptacion[];
+    infraestructuremarkers: genericInfraestructure[];
 
-    addTankMarkers() {
+
+    addInfraestructureMarker() {
 
         for (let entry of this.allList) {
 
+            var iconType = "";
+            var isInfraestructure: boolean = false;
             if (entry.type == "Tanque") {
+                iconType = "Tanque"
+                isInfraestructure = true;
+            }
+            else {
+                if (entry.type == "CaptacionSuperficial" || entry.type == "CaptacionNaciente" || entry.type == "Naciente") {
+                    iconType = "Naciente"
+                    isInfraestructure = true;
+                }
+            }
+            if (isInfraestructure) {
                 var idasada = entry.asada.id;
 
                 var province;
@@ -282,72 +586,68 @@ export class MapGoogleComponent implements OnInit {
                         break;
                     }
                 }
-
                 var iconUrl;
+                if (this.isLoggedIn) {
 
-                //Tag para el marker del mapa
-                if (entry.type == "Tanque") {
-
-                    if (this.isLoggedIn){
-                        
-                        if (this.AsadaUser == entry.asada.id || this.UserRol == "Super Administrador"){
-                            //Riesgo Nulo
-                            //if (entry.riskLevel == "Nulo" || entry.risk == 0) {
-                            if (entry.riskLevel == "Nulo") {
-                                iconUrl = "../../../assets/icons/Storage-nulo.png";
+                    if (this.AsadaUser == entry.asada.id || this.UserRol == "Super Administrador") {
+                        switch (entry.riskLevel) {
+                            case "Nulo": {
+                                iconUrl = "../../../assets/icons/" + iconType + "-nulo.png";
+                                break;
                             }
-                            //Riesgo Bajo
-                            //else if ((entry.risk <= 2 && entry.risk > 0) || entry.riskLevel == "Bajo") {
-                            else if (entry.riskLevel == "Bajo") {
-                                iconUrl = "../../../assets/icons/Storage-bajo.png";
-
+                            case "Bajo": {
+                                iconUrl = "../../../assets/icons/" + iconType + "-bajo.png";
+                                break;
                             }
-                            //Riesgo Intermedio
-                            //else if ((entry.risk >= 3 && entry.risk <= 4) || entry.riskLevel == "Intermedio") {
-                            else if (entry.riskLevel == "Intermedio") {
-                                iconUrl = "../../../assets/icons/Storage-intermedio.png";
-
+                            case "Intermedio": {
+                                iconUrl = "../../../assets/icons/" + iconType + "-intermedio.png";
+                                break;
                             }
-                            //Riesgo Alto
-                            //else if ((entry.risk >= 5 && entry.risk <= 7) || entry.riskLevel == "Alto") {
-                            else if (entry.riskLevel == "Alto") {
-                                iconUrl = "../../../assets/icons/Storage-alto.png";
-
+                            case "Alto": {
+                                iconUrl = "../../../assets/icons/" + iconType + "-alto.png";
+                                break;
                             }
-                            //Riesgo Muy alto
-                            //else if ((entry.risk >= 8 && entry.risk <= 10) || entry.riskLevel == "Muy Alto") {
-                            else if (entry.riskLevel == "Muy Alto") {
-                                iconUrl = "../../../assets/icons/Storage-muyalto.png";
-
+                            case "Muy Alto": {
+                                iconUrl = "../../../assets/icons/" + iconType + "-muyalto.png";
+                                break;
+                            }
+                            default: {
+                                iconUrl = "../../../assets/icons/" + iconType + ".png";
                             }
                         }
-                         else{
-                            iconUrl = "../../../assets/icons/Tanque-publico.png";
-                         }
                     }
-                    else{
-                        iconUrl = "../../../assets/icons/Tanque-publico.png";
-
+                    else {
+                        iconUrl = "../../../assets/icons/" + iconType + "-publico.png";
                     }
                 }
-
-
+                else {
+                    iconUrl = "../../../assets/icons/" + iconType + "-publico.png";
+                }
                 var infraestmarker = {
-                    $key : entry.$key,
+                    $key: entry.$key,
                     name: entry.name,
                     lat: entry.lat,
                     long: entry.long,
-                    iconUrl: iconUrl,
-                    asadaname: entry.asada.name,
+                    iconConfig: {
+                        url: iconUrl,
+                        scaledSize: {
+                            height: this.markerSize,
+                            width: this.markerSize
+                        }
+                    },
                     risk: entry.risk,
                     riskLevel: entry.riskLevel,
                     province: province,
                     phonenumber: phonenumber,
-                    asada : { id:entry.asada.id }
+                    type: entry.type,
+                    visible: true,
+                    asada: {
+                        id: entry.asada.id,
+                        name: entry.asada.name
+                    }
                 }
-                this.infraestTankmarkers.push(infraestmarker);
+                this.infraestructuremarkers.push(infraestmarker);
             }
-
         }
     }
 
@@ -389,23 +689,32 @@ export class MapGoogleComponent implements OnInit {
             cantSuperficial = this.cantidadCaptaciones;
             cantCloraci = this.cantidadCloracion;
 
-             if (this.isLoggedIn){
-                 if (this.AsadaUser == asadaElement.$key || this.UserRol == "Super Administrador"){
-                    iconUrl = "../../../assets/icons/oficina.png";
-                 }
-                 else{
+            if (this.isLoggedIn) {
+                if (this.AsadaUser == asadaElement.$key || this.UserRol == "Super Administrador") {
                     iconUrl = "../../../assets/icons/oficina.png";
                 }
-             }
-             else{
+                else {
+                    iconUrl = "../../../assets/icons/oficina.png";
+                }
+            }
+            else {
                 iconUrl = "../../../assets/icons/oficina.png";
-             }
+            }
+
+
             var newAsadaMarker = {
                 $key: key,
                 name: name,
                 lat: lat,
                 long: long,
-                iconUrl: iconUrl,
+                iconConfig: {
+                    url: iconUrl,
+                    scaledSize: {
+                        height: this.markerSize,
+                        width: this.markerSize
+                    }
+                },
+                visible: true,
                 province: province,
                 state: state,
                 district: district,
@@ -413,9 +722,9 @@ export class MapGoogleComponent implements OnInit {
                 phonenumber: phonenumber,
                 zonetype: zonetype,
                 numbersubscribed: numbersubscribed,
-                cantTanques:cantTanques,
-                cantSuperficial:cantSuperficial,
-                cantCloraci:cantCloraci,
+                cantTanques: cantTanques,
+                cantSuperficial: cantSuperficial,
+                cantCloraci: cantCloraci,
                 showInfoWindow: false,
                 zIndex: 100,
             }
@@ -425,123 +734,65 @@ export class MapGoogleComponent implements OnInit {
 
     }
 
-    evalCantTanques (asadaid: string ){
-        
+    evalCantTanques(asadaid: string) {
+
         this.cantidadTanques = 0;
-        for (let entry of this.allList){
-            if (entry.asada.id == asadaid && entry.type == "Tanque"){
-                this.cantidadTanques = this.cantidadTanques+1;
-            }
-
-        }
-    }
-
-     evalCantCaptacion (asadaid: string ){
-        
-        this.cantidadCaptaciones = 0; 
-        for (let entry of this.allList){
-            if (entry.asada.id == asadaid && (entry.type == "CaptacionNaciente" || entry.type =="CaptacionSuperficial")){
-                this.cantidadCaptaciones = this.cantidadCaptaciones+1;
-            }
-
-        }
-    }
-
-     evalCantSistemasClr (asadaid: string ){
-        
-        this.cantidadCloracion = 0;
-        for (let entry of this.allList){
-            if (entry.asada.id == asadaid && entry.type == "SistemaCloracion"){
-                this.cantidadCloracion = this.cantidadCloracion+1;
-            }
-
-        }
-    }
-
-    addCaptacionesSuperf() {
         for (let entry of this.allList) {
-
-            if (entry.type == "CaptacionSuperficial" || entry.type == "CaptacionNaciente" || entry.type == "Naciente") {
-                var idasada = entry.asada.id;
-
-                var province;
-                var phonenumber;
-                for (let asadaElement of this.AsadasListTemp) {
-
-                    if (asadaElement.$key == idasada) {
-
-                        province = asadaElement.province;
-                        phonenumber = asadaElement.phoneNumber;
-
-                        break;
-                    }
-                }
-
-                var iconUrl;
-
-                if (entry.type == "CaptacionSuperficial" || entry.type == "CaptacionNaciente" || entry.type == "Naciente") {
-                    
-                    if (this.isLoggedIn){
-
-                        if (this.AsadaUser == entry.asada.id || this.UserRol == "Super Administrador"){
-                            //Riesgo Nulo
-                            if (entry.riskLevel == "Nulo") {
-                                iconUrl = "../../../assets/icons/Naciente-nulo.png";
-                            }
-                            //Riesgo Bajo
-                            else if (entry.riskLevel == "Bajo") {
-                                iconUrl = "../../../assets/icons/Naciente-bajo.png";
-
-                            }
-                            //Riesgo Intermedio
-                            else if (entry.riskLevel == "Intermedio") {
-                                iconUrl = "../../../assets/icons/Naciente-intermedio.png";
-
-                            }
-                            //Riesgo Alto
-                            else if (entry.riskLevel == "Alto") {
-                                iconUrl = "../../../assets/icons/Naciente-alto.png";
-
-                            }
-                            //Riesgo Muy alto
-                            else if (entry.riskLevel == "Muy Alto") {
-                                iconUrl = "../../../assets/icons/Naciente-muyalto.png";
-
-                            }
-
-                        }
-                        else{
-                            iconUrl = "../../../assets/icons/Naciente-publico.png";
-                        }
-                    }
-                    else{
-                        iconUrl = "../../../assets/icons/Naciente-publico.png";
-                    }
-                }
-
-
-                var infraestmarker = {
-                    $key : entry.$key,
-                    name: entry.name,
-                    lat: entry.lat,
-                    long: entry.long,
-                    iconUrl: iconUrl,
-                    asadaname: entry.asada.name,
-                    risk: entry.risk,
-                    riskLevel: entry.riskLevel,
-                    province: province,
-                    phonenumber: phonenumber,
-                    asada : { id:entry.asada.id }
-                }
-                this.infraestCaptacionkmarkers.push(infraestmarker);
+            if (entry.asada.id == asadaid && entry.type == "Tanque") {
+                this.cantidadTanques = this.cantidadTanques + 1;
             }
 
         }
-
     }
 
+    evalCantCaptacion(asadaid: string) {
+
+        this.cantidadCaptaciones = 0;
+        for (let entry of this.allList) {
+            if (entry.asada.id == asadaid && (entry.type == "CaptacionNaciente" || entry.type == "CaptacionSuperficial")) {
+                this.cantidadCaptaciones = this.cantidadCaptaciones + 1;
+            }
+
+        }
+    }
+
+    evalCantSistemasClr(asadaid: string) {
+
+        this.cantidadCloracion = 0;
+        for (let entry of this.allList) {
+            if (entry.asada.id == asadaid && entry.type == "SistemaCloracion") {
+                this.cantidadCloracion = this.cantidadCloracion + 1;
+            }
+
+        }
+    }
 }
 
+
+interface genericInfraestructure {
+    $key?: string;
+    name: string;
+    lat: number;
+    long: number;
+    iconConfig: {
+        url: string,
+        scaledSize: {
+            height: number,
+            width: number
+        }
+    };
+    visible: boolean;
+    province: string;
+    //asadaname: string;
+    risk: number;
+    riskLevel: string;
+    phonenumber: string;
+    type?: string;
+    asada: {
+        id: string;
+        name: string;
+    };
+}
 
 
 interface asadastructure {
@@ -549,7 +800,14 @@ interface asadastructure {
     name: string;
     lat: number;
     long: number;
-    iconUrl: string;
+    iconConfig: {
+        url: string,
+        scaledSize: {
+            height: number,
+            width: number
+        }
+    };
+    visible: boolean,
     province: string;
     state: string; //Canton
     district: string;
@@ -564,37 +822,3 @@ interface asadastructure {
     showInfoWindow: boolean;
 }
 
-interface infraestructureTank {
-    $key?: string;
-    name: string;
-    lat: number;
-    long: number;
-    iconUrl: string;
-    asadaname: string;
-    risk: number;
-    riskLevel: string;
-    province: string;
-    phonenumber: string;
-    type?:string;
-    asada:{
-        id: string;
-    };
-}
-
-
-interface infraestructureCaptacion {
-    $key?: string;
-    name: string;
-    lat: number;
-    long: number;
-    iconUrl: string;
-    asadaname: string;
-    risk: number;
-    riskLevel: string;
-    province: string;
-    phonenumber: string;
-    type?:string;
-    asada:{
-        id: string;
-    };
-}
