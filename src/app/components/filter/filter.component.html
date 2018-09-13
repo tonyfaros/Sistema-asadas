@@ -1,0 +1,156 @@
+<div class="filter-component  col-xs-12">
+  <div class="col-xs-9 col-sm-10 filter-panel collapse" id="panelFiltros">
+    <div class="col-md-12 darken-background " *ngIf="!(activeRiskFilter || activeLocationFilter || activeCategoryFilter)">
+      <div class="card panel">
+        <header>No hay parametros de filtro disponibles</header>
+      </div>
+    </div>
+    <div class="col-md-12 row  darken-background filter-config-panel" id="panelConfigFiltros" *ngIf="(activeRiskFilter || activeLocationFilter || activeCategoryFilter)">
+      <!--INICIO FILTRO POR RIESGO-->
+      <div  class="col-xs-11 col-sm-{{filterColSize}} float-right" *ngIf="activeRiskFilter">
+        <div class="card panel filter-container">
+          <div class="card-head filter-head card-head-xs  collapsed" data-toggle="collapse" data-parent="#panelConfigFiltros" data-target="#filtroRiesgos">
+            <header>Riesgos</header>
+            <div class="tools">
+              <a class="btn btn-icon-toggle"><i class="fa fa-angle-down"></i></a>
+            </div>
+          </div>
+
+          <div id="filtroRiesgos" class="panel-group collapse">
+            <div class="card-body filter-body risk-checkbox-group">
+              <header>
+                <div class="checkbox checkbox-styled checkbox-danger">
+                  <label><input type="checkbox" checked (click)="RiskfilterCheckboxChange($event, 'Muy Alto')"><span> Muy
+                      Alto
+                    </span></label>
+                </div>
+                <div class="checkbox checkbox-styled checkbox-warning">
+                  <label><input type="checkbox" checked (click)="RiskfilterCheckboxChange($event, 'Alto')"><span> Alto</span></label>
+                </div>
+                <div class="checkbox checkbox-styled checkbox-yellow">
+                  <label><input type="checkbox" checked (click)="RiskfilterCheckboxChange($event, 'Intermedio')"><span> Intermedio</span></label>
+                </div>
+                <div class="checkbox checkbox-styled checkbox-lime">
+                  <label><input type="checkbox" checked (click)="RiskfilterCheckboxChange($event, 'Bajo')"><span> Bajo</span></label>
+                </div>
+                <div class="checkbox checkbox-styled checkbox-success">
+                  <label><input type="checkbox" checked (click)="RiskfilterCheckboxChange($event, 'Nulo')"><span> Nulo</span></label>
+                </div>
+                <div class="checkbox checkbox-styled checkbox-default-dark">
+                  <label><input type="checkbox" checked (click)="RiskfilterCheckboxChange($event, 'No se capta')"><span>No
+                      captado</span></label>
+                </div>
+              </header>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--FIN FILTRO POR RIESGO-->
+      <!--INICIO FILTRO POR CATEGORIA-->
+      <div class="col-xs-11 col-sm-{{filterColSize}}  float-right" *ngIf="activeCategoryFilter">
+        <div class="card panel filter-container">
+          <div class="card-head filter-head card-head-xs collapsed" data-toggle="collapse" data-parent="#panelConfigFiltros" data-target="#filtroCategorias">
+            <header>Categorias</header>
+            <div class="tools">
+              <a class="btn btn-icon-toggle"><i class="fa fa-angle-down"></i></a>
+            </div>
+          </div>
+          <div id="filtroCategorias" class="panel-group collapse">
+            <div class="card-body filter-body">
+              <header>
+                <div class="checkbox checkbox-styled checkbox-default-dark">
+                  <label><input type="checkbox" checked (click)="CategoryfilterCheckboxChange($event, 'Asada')"><span> Oficina
+                      de ASADA</span></label>
+                </div>
+                <div class="checkbox checkbox-styled checkbox-default-dark">
+                  <label><input type="checkbox" checked (click)="CategoryfilterCheckboxChange($event, 'Tanque')"><span> Tanque
+                      de almacenamiento</span></label>
+                </div>
+                <div class="checkbox checkbox-styled checkbox-default-dark">
+                  <label><input type="checkbox" checked (click)="CategoryfilterCheckboxChange($event, 'Cloracion')"><span>
+                      Sistema de cloración</span></label>
+                </div>
+                <div class="checkbox checkbox-styled checkbox-default-dark">
+                  <label><input type="checkbox" checked (click)="CategoryfilterCheckboxChange($event, 'CaptacionNaciente')"><span>
+                      Captación de naciente</span></label>
+                </div>
+                <div class="checkbox checkbox-styled checkbox-default-dark">
+                  <label><input type="checkbox" checked (click)="CategoryfilterCheckboxChange($event, 'CaptacionSuperficial')"><span>
+                      Toma de agua superficial</span></label>
+                </div>
+              </header>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--FIN FILTRO POR CATEGORIA-->
+      <!--INICIO FILTRO POR LOCACION-->
+      <div class="col-xs-11 col-sm-{{filterColSize}}  float-right" *ngIf="activeLocationFilter">
+        <div class="card panel filter-container">
+          <div class="card-head filter-head card-head-xs collapsed" data-toggle="collapse" data-parent="#panelConfigFiltros" data-target="#filtroProvincias">
+            <header>Provincias</header>
+            <div class="tools">
+              <a class="btn btn-icon-toggle"><i class="fa fa-angle-down"></i></a>
+            </div>
+          </div>
+          <div id="filtroProvincias" class="panel-group collapse filter-locaciones-container ">
+            <div class="card-body filter-body">
+              <div *ngFor="let prov of locaciones.provincias" class="card panel darken-background">
+                <div class="card-head card-head-xs">
+                  <header>
+                    <div class="checkbox checkbox-styled checkbox-default-dark">
+                      <label>
+                        <input type="checkbox" [(ngModel)]="prov.active" (click)="LocationfilterCheckboxChange($event, prov)"><span>{{prov.name}}</span>
+                      </label>
+                    </div>
+                  </header>
+                  <div class="tools collapsed" data-toggle="collapse" data-parent="#filtroProvincias" [attr.data-target]="'#filtro'+prov.key">
+                    <a class="btn btn-icon-toggle"><i class="fa fa-angle-down"></i></a>
+                  </div>
+                </div>
+                <div [id]="'filtro'+prov.key" *ngIf="prov.active" class="panel-group collapse">
+                  <div class="card-body filter-body">
+                    <div *ngFor="let cant of prov.cantones" class="card panel darken-background">
+                      <div class="card-head card-head-xs">
+                        <header>
+                          <div class="checkbox checkbox-styled checkbox-default-dark">
+                            <label>
+                              <input type="checkbox" [disabled]="!prov.active" [(ngModel)]="cant.active" (click)="LocationfilterCheckboxChange($event, cant)">
+                              <span>{{cant.name}}</span>
+                            </label>
+                          </div>
+                        </header>
+                        <div class="tools collapsed" data-toggle="collapse" data-parent="#filtroProvincias" [attr.data-target]="'#filtro'+prov.key+'-'+cant.key">
+                          <a class="btn btn-icon-toggle"><i class="fa fa-angle-down"></i></a>
+                        </div>
+                      </div>
+                      <div [id]="'filtro'+prov.key+'-'+cant.key" *ngIf="cant.active" class="panel-group collapse">
+                        <div class="card-head card-head-xs filter-head">
+                          <header>
+                            <div class="checkbox checkbox-styled checkbox-default-dark">
+                              <label class="col-xs-12" *ngFor="let dist of cant.distritos">
+                                <input type="checkbox" [disabled]="!prov.active && !cant.active" [(ngModel)]="dist.active" (click)="LocationfilterCheckboxChange($event, dist)">
+                                <span>{{dist.name}}</span>
+                              </label>
+                            </div>
+                          </header>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--FIN FILTRO POR LOCACION-->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-3 col-sm-2 filter-btn-panel">
+    <button *ngIf="activeFilterButton" class="btn ink-reaction btn-raised btn-primary collapsed filter-btn" data-toggle="collapse"
+      data-parent="#panelConfigFiltros" data-target="#panelFiltros">
+      <i class="fa fa-angle-left"></i> Filtros
+    </button>
+  </div>
+</div>

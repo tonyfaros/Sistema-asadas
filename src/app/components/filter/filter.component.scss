@@ -1,0 +1,100 @@
+
+.filter-component{
+    margin: 5px 0px;
+    padding: 0px!important;
+    min-height: 50px;
+    min-width: 0px;
+    z-index: 200;
+}
+
+.filter-panel{
+    padding-right:0px;
+    float: right!important;
+    right: 100px;
+    z-index: 200;
+    position: absolute;
+}
+.filter-config-panel{
+    max-height: 55px;
+}
+
+.filter-btn-panel{
+    min-width: 90px;
+    max-width: 100px;
+    float: right;
+    margin: 5px;
+    padding: 0px;
+    z-index: 200;
+}
+.filter-btn{
+    margin: 0px;
+    float: right!important;
+}
+.float-right{
+    float: right;
+}  
+.float-left{
+    float: left;
+}  
+
+.filter-container{
+    float: right!important;
+    background-color:rgba(254, 254, 255, 0.849);
+    color: rgb(25, 25, 26);
+    padding: 2px!important;
+    margin: 5px 2px;
+    z-index: 200;
+    width: 100%;
+}
+
+.filter-body{
+    padding: 0px 5px 0px 5px;
+    z-index: 200;
+}
+
+
+.filter-head{
+    padding: 0px 4px;
+}
+header{
+    padding: 2px!important 2px!important;
+}
+.tools{
+    padding-right: 0px!important;
+}
+
+.darken-background{
+    background-color:rgba(71, 71, 94, 0.301);
+    //background-color:rgba(216, 19, 140, 0.849);
+    color:inherit;
+}
+
+.header-thin{
+    padding: 2px 20px;
+}
+.filter-locaciones-container{
+    max-height: 400px!important;
+    overflow: auto!important;
+}
+
+.canton-container{
+    background-color:rgba(200,200,200,0.5);
+}
+.distrito-container{
+    background-color:rgba(200,200,200,0.5);
+}
+
+.risk-checkbox-group .checkbox-styled.checkbox-yellow label input:checked ~ span:before {
+    border-color: #FFEB3B !important;
+    cursor: pointer;
+  }
+  
+  .risk-checkbox-group .checkbox-styled.checkbox-lime label input:checked ~ span:before {
+    border-color: #CDDC39 !important;
+    cursor: pointer;
+  }
+
+  .checkbox-styled:not(ie8).disabled ~ span{
+      border-color: gray!important;
+      color:gray!important;
+  }

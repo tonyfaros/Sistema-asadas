@@ -70,6 +70,7 @@ import { CompareAsadasComponent } from './components/compare-asadas/compare-asad
 import { BitacoraComponent } from './components/bitacora/bitacora.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ReporteComponent } from './components/reporte/reporte.component';
+import { FilterComponent } from './components/filter/filter.component';
 import { TomaDatosComponent } from './components/toma-datos/toma-datos.component';
 import { AdmUsuariosComponent } from './components/adm-usuarios/adm-usuarios.component';
 
@@ -117,6 +118,7 @@ import { AdmUsuariosComponent } from './components/adm-usuarios/adm-usuarios.com
     ReporteComponent,
     TomaDatosComponent,
     AdmUsuariosComponent,
+    FilterComponent,
   ],
   imports: [
     DatepickerModule,
@@ -158,4 +160,8 @@ import { AdmUsuariosComponent } from './components/adm-usuarios/adm-usuarios.com
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class AppModule { }
+
+export class AppModule { 
+
+}
+
