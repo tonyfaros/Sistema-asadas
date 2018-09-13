@@ -103,7 +103,7 @@ export class MapGoogleComponent implements OnInit {
         el.scrollIntoView();
 
     }
-    
+
     generateSnitMap() {
 
         const markerSource = new ol.source.Vector();
@@ -204,7 +204,7 @@ export class MapGoogleComponent implements OnInit {
             var lonLat = ol.proj.toLonLat(event.coordinate);
             addMarker(lonLat[0], lonLat[1]);
         });
-        
+
 
         addMarker(0.5, 46);
 
@@ -411,9 +411,8 @@ export class MapGoogleComponent implements OnInit {
                 infra.visible = showInfra;
             }
             for (let asada of this.asadasmarkers) {
-                var showAsada = false;
-                var filtLoc: provincia[] = this.filterConfiguration.locaciones.provincias;
-                var filtCat: filterParam[] = this.filterConfiguration.categorias;
+                var showAsada = true;
+
                 if (showAsada && filtCat) {
                     filtCat.forEach(param => {
                         if (param.value.toLowerCase() == "asada") {
@@ -424,22 +423,22 @@ export class MapGoogleComponent implements OnInit {
                 if (showAsada && filtLoc) {
                     filtLoc.forEach(prov => {
                         if (prov.name.toLowerCase() == asada.province.toLowerCase()) {
-                            showAsada = prov.active;
-                            /*prov.cantones.forEach(cant => {
+                            showAsada = showAsada&&prov.active;
+                            prov.cantones.forEach(cant => {
                                 if(cant.name.toLowerCase()==asada.state.toLowerCase()){
-                                    prov.cantones.forEach(dist => {
-                                        if(cant.name.toLowerCase()==asada.state.toLowerCase()){
-                                            showAsada = prov.active&&cant.active&&dist.active;
+                                    showAsada = showAsada&&cant.active;
+                                    cant.distritos.forEach(dist => {
+                                        if(dist.name.toLowerCase()==asada.district.toLowerCase()){
+                                            showAsada = showAsada&&dist.active;
                                         }
                                     });
                                 }
-                            });*/
-
-                            this.getMarckersInfraestructurasAsada(asada).forEach(infra => {
-                                if (infra) {
-                                    infra.visible = infra.visible && showAsada;
-                                }
                             });
+                        }
+                    });
+                    this.getMarckersInfraestructurasAsada(asada).forEach(infra => {
+                        if (infra) {
+                            infra.visible = infra.visible && showAsada;
                         }
                     });
                 }

@@ -14,9 +14,10 @@ export class FilterComponent implements OnInit {
   private riesgos: filterParam[];
   private filterColSize=12;
   public filterConfiguration: filterConfig;
-  constructor(private LocServ: LocationsService) {
 
-   }
+
+  constructor(private LocServ: LocationsService,) {
+  }
 
   @Output() notify: EventEmitter<filterConfig> = new EventEmitter<filterConfig>();
   @Input() activeLocationFilter: boolean = true;
@@ -24,49 +25,31 @@ export class FilterComponent implements OnInit {
   @Input() activeCategoryFilter: boolean = true;
   @Input() activeFilterButton: boolean = true;
 
-  private check: boolean = true;
 
   ngOnInit() {   
-    //como el calculo es independiente de si los valores cambian, es posible que el bug que produce que no se actualicen
-    //los tamaños en los contenedores de filtros sea provocado porque en ejecucion los valores booleanos de visualizacion
-    //cambian, no obstante no se recalcula el valor del tamaño de los contenedores
-    //puede solucionarse justificando los contenedores para evitar el calculo del tamaño
-    var filterCount=0;
-    if(this.activeLocationFilter) {
-      filterCount++;
-    }
-    console.log("---------->"+filterCount);
-    
-    if(this.activeCategoryFilter) 
-    {
-      filterCount++;
-    }
-    console.log("---------->"+filterCount);
-
-    if(this.activeRiskFilter)
-    { 
-      filterCount++;
-    }
-    console.log("---------->"+filterCount);
-
-
-    this.filterColSize=12/filterCount;
-    console.log("---------->"+this.activeLocationFilter);
-    console.log("---------->"+this.activeCategoryFilter);
-    console.log("---------->"+this.activeRiskFilter);
-    console.log("------------------->"+this.filterColSize);
-
     this.updateLocations();
     this.updateCategorias();
     this.updateRiesgos();
+    this.updateFiltersSize();
+  } 
+
+  ngOnChanges(){
+    this.updateFiltersSize();
   }
-  
-  
+
+  updateFiltersSize(){
+    var filterCount=0;
+    filterCount=filterCount+Number(this.activeLocationFilter);
+    filterCount=filterCount+Number(this.activeCategoryFilter);
+    filterCount=filterCount+Number(this.activeRiskFilter);
+    this.filterColSize=12/filterCount;
+  }
 
   updateLocations() {
     this.locaciones = this.LocServ.getLocations();
     this.locaciones = this.LocServ.activateLocations(this.locaciones);
   }
+
   updateRiesgos() {
     this.riesgos = [
       { value: "Muy Alto", active: true },
@@ -133,8 +116,7 @@ export class FilterComponent implements OnInit {
         filterParm.active = event.target.checked;
 
       } catch (ex) {
-        filterParm.active = true;
-        event.target.checked = true;
+        event.target.checked = event.target.checked;
       }
       this.notifyChange();
     }
@@ -168,6 +150,13 @@ export class FilterComponent implements OnInit {
   notifyChange() {
     this.generateFilterConfiguration();
     this.notify.emit(this.filterConfiguration);
+  }
+  
+  autohide(){
+    setTimeout(function () {
+      document.getElementById('foo').style.display='none';
+  }, 10000);
+  return false;
   }
 
 }
