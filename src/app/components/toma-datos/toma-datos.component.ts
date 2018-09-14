@@ -26,12 +26,11 @@ export class TomaDatosComponent implements OnInit {
       this.filteredList2 = filteredList2;
       });
 
-    var tomaDatosList = new Array();
-    db.list('tomaDatos')
+   
+    db.list('/tomaDatos')
     .subscribe(filteredList => {
       this.filteredList = filteredList;
-      
-      //console.log(this.filteredList2);
+      var tomaDatosList = new Array();
       for (var i = 0; i < this.filteredList.length; i++){
         var toma_datos = {
           'key':'',
@@ -50,16 +49,14 @@ export class TomaDatosComponent implements OnInit {
           toma_datos.Infraestructura = "3";
   
           tomaDatosList.push(toma_datos);
-          console.log(toma_datos);
-        }
           
-        
-      }
+        }
+      }console.log(tomaDatosList.length);
+      
       this.filteredList = tomaDatosList;
-
       
     });
-
+    
 
    }
 
@@ -89,8 +86,8 @@ export class TomaDatosComponent implements OnInit {
   }
 
   create(){
-    var id = Number(this.filteredList[this.filteredList.length-1]["id"])+1;
     
+    var id = Number(this.filteredList[this.filteredList.length-1]["id"])+1;
     
     const tomaDatos: TomaDatos = new TomaDatos();
     this.todayDate = new Date();
@@ -103,10 +100,5 @@ export class TomaDatosComponent implements OnInit {
     tomaDatos.idEstudiante = this.User;
 
     this.addNewTomaDatos(tomaDatos);
-
-
-
   }
-
-
 }
