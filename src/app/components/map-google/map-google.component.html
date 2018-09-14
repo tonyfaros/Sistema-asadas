@@ -1,11 +1,16 @@
 <section>
 
-
+  <div id="map" class="map"></div>
+  <div id="popup" class="ol-popup">
+    <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+    <div id="popup-content"></div>
+  </div>
 
   <div class="section-header">
     <h2 id="mapa-title" class="text-default-bright col-xs-12 col-md-3" >Mapa de ASADAs</h2>
+    <button (click)="activateSnitMap()" >snitMap</button>
+    <button (click)="activateGoogleMap()">googleMap</button>
   </div>
-
   <div class="section-body">
     <!-- Begin Body Section -->
     <div class="content">
@@ -25,11 +30,11 @@
                 </app-filter>
                 
               </div>
-              <div id="snitMap" class="col-xs-12 snitMap" ></div>
+              <div id="snitMap" class="col-xs-12 snitMap" [hidden]='!snitMapActivation'></div>
               
               <!-- Begin Card Map -->
-              <agm-map #gm [(latitude)]="lat" id="googleMap" [(longitude)]="lng" [(zoom)]="zoom" [scrollwheel]="false" [mapTypeId]="'terrain'"
-                [gestureHandling]="'cooperative'" [mapTypeControl]="'true'" [hidden]='true'>
+              <agm-map #gm [(latitude)]="centerLat" id="googleMap" [(longitude)]="centerLng" [(zoom)]="mapZoom" [scrollwheel]="false" [mapTypeId]="'terrain'"
+                [gestureHandling]="'cooperative'" [mapTypeControl]="'true'" [hidden]='!googleMapActivation'>
 
                 <!-- MARKER PARA INFRAESTRUCTURAS-->
                 <div *ngFor="let m of infraestructuremarkers">
@@ -86,6 +91,7 @@
                     </agm-info-window>
                   </agm-marker>
                 </div>
+                
 
               </agm-map>
             </div>
