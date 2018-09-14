@@ -34,10 +34,8 @@
 
 			<!-- BEGIN SEARCH BAR -->
 			<div class="card-body style-primary no-y-padding no-x-padding">
-
-
-				<div class="col-xs-12">
-					<app-filter [activeLocationFilter]="true" [activeCategoryFilter]="true" [activeRiskFilter]="searchType=='infraestructura'"
+				<div class="col-xs-12  filter-container">
+					<app-filter [activeLocationFilter]="true" [activeCategoryFilter]="searchType=='infraestructura'" [activeRiskFilter]="searchType=='infraestructura'"
 					 [activeFilterButton]="true" (notify)='filterNotity($event)'>
 					</app-filter>
 

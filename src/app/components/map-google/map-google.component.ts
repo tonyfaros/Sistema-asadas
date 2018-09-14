@@ -16,8 +16,8 @@ import { UserService } from "app/common/service/user.service";
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { Subscription } from "rxjs/Subscription";
-import { filterConfig, filterParam } from '../filter/filter.component';
-import { locaciones, provincia } from '../../common/service/locations.service';
+import { filterConfig, filterParam, locaciones, location, provincia, canton, distrito } from '../filter/filter.component';
+
 
 /*
 import Map from 'ol/map';
@@ -116,6 +116,7 @@ export class MapGoogleComponent implements OnInit {
                 src: 'assets/icons/Naciente.png'
             }))
         });
+
         var format = "image/png";
 
         var vectorIcon = new ol.layer.Vector({
@@ -182,35 +183,23 @@ export class MapGoogleComponent implements OnInit {
             })
         });
 
-
-        function addMarker(lon, lat) {
-            console.log('lon:', lon);
-            console.log('lat:', lat);
-
-            var iconFeatures = [];
-
-            var iconFeature = new ol.Feature({
-                geometry: new ol.geom.Point(ol.proj.transform([lon, lat], 'EPSG:4326',
-                    'EPSG:3857')),
-                name: 'Null Island',
-                population: 4000,
-                rainfall: 500
-            });
-
-            markerSource.addFeature(iconFeature);
-        }
-
-        map.on('singleclick', function (event) {
-            var lonLat = ol.proj.toLonLat(event.coordinate);
-            addMarker(lonLat[0], lonLat[1]);
-        });
-
-
-        addMarker(0.5, 46);
-
-
+        this.addMarker(0.5, 46);
+    
 
     }
+    
+    addMarker(lon, lat) {
+        var iconFeatures = [];
+
+        var iconFeature = new ol.Feature({
+            geometry: new ol.geom.Point(ol.proj.transform([lon, lat], 'EPSG:4326',
+                'EPSG:3857')),
+            name: 'Null Island'
+        });
+
+        markerSource.addFeature(iconFeature);
+    }
+
 
     generateSnitMapOLD() {
 

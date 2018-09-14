@@ -1,5 +1,6 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
-import { LocationsService, locaciones, location, provincia, canton } from "app/common/service/locations.service";
+import { LocationsService, locaciones, location, provincia, canton, distrito } from "app/common/service/locations.service";
+export {  LocationsService, locaciones, location, provincia, canton, distrito } from "app/common/service/locations.service";
 
 @Component({
   selector: 'app-filter',

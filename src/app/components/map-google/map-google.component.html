@@ -25,11 +25,11 @@
                 </app-filter>
                 
               </div>
-              <div id="snitMap" class="col-xs-12 snitMap" *ngIf="false"></div>
+              <div id="snitMap" class="col-xs-12 snitMap" ></div>
               
               <!-- Begin Card Map -->
               <agm-map #gm [(latitude)]="lat" id="googleMap" [(longitude)]="lng" [(zoom)]="zoom" [scrollwheel]="false" [mapTypeId]="'terrain'"
-                [gestureHandling]="'cooperative'" [mapTypeControl]="'true'">
+                [gestureHandling]="'cooperative'" [mapTypeControl]="'true'" [hidden]='true'>
 
                 <!-- MARKER PARA INFRAESTRUCTURAS-->
                 <div *ngFor="let m of infraestructuremarkers">
