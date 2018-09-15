@@ -1,14 +1,45 @@
 <section>
 
-  <div id="map" class="map"></div>
-  <div id="popup" class="ol-popup">
-    <a href="#" id="popup-closer" class="ol-popup-closer"></a>
-    <div id="popup-content"></div>
+
+  <div id="popup" class="ol-popup ">
+    <a id="popup-closer" class="ol-popup-closer"></a>
+
+    <div id="popup-content">
+      <div id=infraInfo>
+        <div class="iw-title">
+          <button type="button" id="popup-asadabutton" class="btn btn-block ink-reaction btn-link">button</button>
+        </div>
+        <div id="popup-info" class="iw-subTitle">
+          <!-- <span id="popup-asadaname"></span>
+          <span id="popup-province"></span>
+          +(506) <span id="popup-phonenumber"></span> -->
+        </div>
+        <div id='popup-extraButtons'>
+          <button id='popup-ISRS' type="button" class="btn btn-icon-toggle" data-toggle="modal" data-target="#InfoModal" data-placement="top"
+            data-original-title="Ver">ISRS</button> -
+          <button id='popup-ISAR' type="button" class="btn ink-reaction btn-icon-toggle" data-toggle="modal" data-target="#InfoModal2"
+            data-placement="top" data-original-title="Ver">ISAR</button>
+          <div id='popup-extraInfo'>
+          </div>
+        </div>
+
+      </div>
+      <div id=sadaInfo *ngIf="snitSelectedMarker && snitSelectedMarker.type=='Asada'">
+        
+      </div>
+    </div>
+  </div>
+  <div style="color:gainsboro;">
+    currentlong: {{currentLng}} currnetlat {{currentLat}}
+    <strong>
+      long: {{centerLng}} lat {{centerLat}}
+    </strong>
   </div>
 
+
   <div class="section-header">
-    <h2 id="mapa-title" class="text-default-bright col-xs-12 col-md-3" >Mapa de ASADAs</h2>
-    <button (click)="activateSnitMap()" >snitMap</button>
+    <h2 id="mapa-title" class="text-default-bright col-xs-12 col-md-3">Mapa de ASADAs</h2>
+    <button (click)="activateSnitMap()">snitMap</button>
     <button (click)="activateGoogleMap()">googleMap</button>
   </div>
   <div class="section-body">
@@ -18,23 +49,18 @@
         <!-- MAPA -->
         <div class="col-md-12">
           <div class="fullMap" id="map-canvas">
-            <div class="no-padding border-gray">
+            <div class="no-padding">
               <div class="col-xs-12">
-                <app-filter 
-                  [activeLocationFilter]="true" 
-                  [activeCategoryFilter]="true" 
-                  [activeRiskFilter]="(isLoggedIn == true)" 
-                  [activeFilterButton]="true" 
-                  (notify)='filterNotity($event)'
-                  style="position:absolute">
+                <app-filter [activeLocationFilter]="true" [activeCategoryFilter]="true" [activeRiskFilter]="(isLoggedIn == true)" [activeFilterButton]="true"
+                  (notify)='filterNotify($event)' style="position:absolute">
                 </app-filter>
-                
+
               </div>
               <div id="snitMap" class="col-xs-12 snitMap" [hidden]='!snitMapActivation'></div>
-              
+
               <!-- Begin Card Map -->
-              <agm-map #gm [(latitude)]="centerLat" id="googleMap" [(longitude)]="centerLng" [(zoom)]="mapZoom" [scrollwheel]="false" [mapTypeId]="'terrain'"
-                [gestureHandling]="'cooperative'" [mapTypeControl]="'true'" [hidden]='!googleMapActivation'>
+              <agm-map #googleMap [(latitude)]="currentLat" id="googleMap" [(longitude)]="currentLng" [(zoom)]="currentZoom" [scrollwheel]="false"
+                [mapTypeId]="'terrain'" [gestureHandling]="'cooperative'" [mapTypeControl]="'true'" [hidden]='!googleMapActivation'>
 
                 <!-- MARKER PARA INFRAESTRUCTURAS-->
                 <div *ngFor="let m of infraestructuremarkers">
@@ -48,19 +74,21 @@
                           {{m.asada.name}}
                           <br>{{m.province}}
                           <br>+(506) {{m.phonenumber}}<br>
-                        </div><br>
-                        <strong *ngIf="(isLoggedIn == true && m.asada && m.asada.id == AsadaUser) || (isLoggedIn == true && this.UserRol == 'Super Administrador')">Nivel
-                          de riesgo: </strong>
-                        <span *ngIf="(isLoggedIn == true && m.asada && m.asada.id == AsadaUser) || (isLoggedIn == true && this.UserRol == 'Super Administrador')">
-                          {{m.riskLevel}}</span>
-                        <br>
+                          <br>
+                          <strong *ngIf="(isLoggedIn == true && m.asada && m.asada.id == AsadaUser) || (isLoggedIn == true && this.UserRol == 'Super Administrador')">Nivel
+                            de riesgo: </strong>
+                          <span *ngIf="(isLoggedIn == true && m.asada && m.asada.id == AsadaUser) || (isLoggedIn == true && this.UserRol == 'Super Administrador')">
+                            {{m.riskLevel}}</span>
+                          <br>
+                        </div>
                       </div>
                     </agm-info-window>
                   </agm-marker>
                 </div>
 
                 <div *ngFor="let m of asadasmarkers">
-                  <agm-marker *ngIf="m.visible" [(latitude)]="m.lat" [(longitude)]="m.long" [(iconUrl)]="m.iconConfig" [(zIndex)]="m.zIndex" (markerClick)="markerClick(); lastOpen?.close(); lastOpen = infoWindow;">
+                  <agm-marker *ngIf="m.visible" [(latitude)]="m.lat" [(longitude)]="m.long" [(iconUrl)]="m.iconConfig" [(zIndex)]="m.zIndex"
+                    (markerClick)="markerClick(); lastOpen?.close(); lastOpen = infoWindow;">
                     <agm-info-window #infoWindow class="infowindow" [isOpen]="m.showInfoWindow">
                       <div id="iw-container">
 
@@ -91,7 +119,7 @@
                     </agm-info-window>
                   </agm-marker>
                 </div>
-                
+
 
               </agm-map>
             </div>
@@ -182,16 +210,16 @@
                   <div class="card-head card-head-xs collapsed">
                     <header>
                       <div style=" display: inline-block;">
-                        
-                        <img src="../../..../../../assets/icons/Naciente.png" alt="" style="width:22px;"/>
+
+                        <img src="../../..../../../assets/icons/Naciente.png" alt="" style="width:22px;" />
                         <span> Captación Superficial o naciente </span>
                       </div>
                       <div style=" display: inline-block;">
-                        <img src="../../..../../../assets/icons/oficina.png" alt="" style="width:22px;"/>
+                        <img src="../../..../../../assets/icons/oficina.png" alt="" style="width:22px;" />
                         <span> Oficina ASADA </span>
                       </div>
                       <div style=" display: inline-block;">
-                        <img src="../../..../../../assets/icons/Tanque.png" alt=""  style="width:22px;"/>
+                        <img src="../../..../../../assets/icons/Tanque.png" alt="" style="width:22px;" />
                         <span> Tanques de Agua </span>
                       </div>
                     </header>
