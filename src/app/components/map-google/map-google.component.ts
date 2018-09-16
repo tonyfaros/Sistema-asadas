@@ -86,7 +86,7 @@ export class MapGoogleComponent implements OnInit {
     private popupOverlay: ol.Overlay;
     private snitMapView: ol.View;
 
-    private snitSelectedMarker:any;
+    public snitSelectedElement:any;
 
     //---------------------Atributos Mapas google
     @ViewChild('googleMap') googleMap: AgmMap;
@@ -260,7 +260,7 @@ export class MapGoogleComponent implements OnInit {
             element: container,
             autoPan: true,
             positioning: 'top-center',
-            offset: [0, -10],
+            //offset: [0, -10],
             stopEvent: false
         });
 
@@ -296,15 +296,22 @@ export class MapGoogleComponent implements OnInit {
 
         var genericMap: any = this.snitMap;
         genericMap.on('singleclick', function (evt) {
-
+            scope.snitSelectedElement=undefined;
             var feature = genericMap.forEachFeatureAtPixel(
                 evt.pixel,
                 function (ft, layer) { return ft; }
             );
             if (feature) {
                 var element = feature.get('element');
-                try { scope.fillSnitPopup(element); }
-                catch (ex) {  alert(ex); scope.popupOverlay.setPosition(undefined); }
+                try {
+                    scope.snitSelectedElement=element;
+                    if (element && element.type) {
+                        scope.popupOverlay.setPosition(ol.proj.fromLonLat([element.long, element.lat]));
+                    }
+                    else{
+                        scope.popupOverlay.setPosition(undefined);
+                    }
+                } catch (ex) { alert(ex);scope.popupOverlay.setPosition(undefined); }
             }
             else {
                 scope.popupOverlay.setPosition(undefined);
@@ -321,61 +328,12 @@ export class MapGoogleComponent implements OnInit {
 
     }
     fillSnitPopup(elm) {
-
-        var scope = this;
-        var container: any = document.getElementById('popup');
-        var closer = document.getElementById('popup-closer');
-        var infoTag = document.getElementById('popup-info');
-        var buttonTag = document.getElementById('popup-asadabutton');
-        var extraButtonsTag = document.getElementById('popup-extraButtons');
-        var isrsButtonTag = document.getElementById('popup-ISRS');
-        var isarButtonTag = document.getElementById('popup-ISAR');
-        var extraInfoTag = document.getElementById('popup-extraInfo');
-
         try {
             if (elm && elm.type) {
-                buttonTag.innerText = elm.name;
-                if (elm.type == "Asada") {
-                    
-                    alert(elm.type);
-                    buttonTag.onclick = function (MouseEvent) { scope.redirectASADA(elm); }
-                    infoTag.innerHTML =
-                    elm.province+", "+elm.state+", "+elm.district+
-                    "<br>+(506)"+elm.phonenumber+"<br>"
-                    isrsButtonTag.onclick = function (MouseEvent) { scope.setDetails(elm); }
-                    isarButtonTag.onclick = function (MouseEvent) { scope.setDetails(elm); }
-                    extraInfoTag.innerHTML=
-                    "<br><br>"+
-                    "<strong>Tipo de zona: </strong><span>"+elm.zonetyp+"</span><br>"+
-                    "<strong>Número de abonados: </strong><span>"+ elm.numbersubscribed+"</span><br>"+
-                    "<strong>Población abastecida: </strong><span>"+ elm.population+"</span><br>"+
-                    "<strong>Tipos de Abastecimiento: </strong><br>"+
-                    "<ul>"+
-                    "<li>Captaciones Superficiales:"+ elm.cantSuperficial+"</li>"+
-                    "<li>Tanques:"+ elm.cantTanques+"</li>"+
-                    "<li>Sistemas de Cloración:"+ elm.cantCloraci+"</li>"+
-                    "</ul>"
-                    extraButtonsTag.hidden=false;
-                    extraInfoTag.hidden=false;
-
-                }
-                else {
-                    buttonTag.onclick = function (MouseEvent) { scope.redirectInfraestructure(elm); }
-                    infoTag.innerHTML =
-                    elm.asada.name + '<br>' +
-                    elm.province + '<br>' +
-                        '+506 ' + elm.phonenumber+'<br>';
-                    if((this.isLoggedIn == true && elm.asada && elm.asada.id == this.AsadaUser) || (this.isLoggedIn == true && this.UserRol == 'Super Administrador')){
-                        infoTag.innerHTML=infoTag.innerHTML+
-                        "<strong> Nivel de riesgo: </strong>"+
-                        "<span>"+elm.riskLevel+"</span>";
-                    }
-                    extraButtonsTag.hidden=true;
-                    extraInfoTag.hidden=true;
-                    extraInfoTag.innerHTML='';
-                }
-                this.popupOverlay.setPosition(ol.proj.fromLonLat([this.currentLng, this.currentLat]));
-                return;
+                this.popupOverlay.setPosition(ol.proj.fromLonLat([elm.long, elm.lat]));
+            }
+            else{
+                this.popupOverlay.setPosition(undefined);
             }
         } catch (ex) { alert(ex);this.popupOverlay.setPosition(undefined); }
     }

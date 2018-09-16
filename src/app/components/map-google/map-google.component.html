@@ -5,30 +5,52 @@
     <a id="popup-closer" class="ol-popup-closer"></a>
 
     <div id="popup-content">
-      <div id=infraInfo>
+      <div id=infraInfo *ngIf="snitSelectedElement && snitSelectedElement.type!='Asada'">
         <div class="iw-title">
-          <button type="button" id="popup-asadabutton" class="btn btn-block ink-reaction btn-link">button</button>
+          <button (click)="redirectInfraestructure(snitSelectedElement)" type="button" class="btn btn-block ink-reaction btn-link">{{snitSelectedElement.name}}</button>
         </div>
-        <div id="popup-info" class="iw-subTitle">
-          <!-- <span id="popup-asadaname"></span>
-          <span id="popup-province"></span>
-          +(506) <span id="popup-phonenumber"></span> -->
+        <div class="iw-subTitle">
+          {{snitSelectedElement.asada.name}}
+          <br>{{snitSelectedElement.province}}
+          <br>+(506) {{snitSelectedElement.phonenumber}}<br>
+          <br>
+          <strong *ngIf="(isLoggedIn == true && snitSelectedElement.asada && snitSelectedElement.asada.id == AsadaUser) || (isLoggedIn == true && this.UserRol == 'Super Administrador')">Nivel
+            de riesgo: </strong>
+          <span *ngIf="(isLoggedIn == true && snitSelectedElement.asada && snitSelectedElement.asada.id == AsadaUser) || (isLoggedIn == true && this.UserRol == 'Super Administrador')">
+            {{snitSelectedElement.riskLevel}}</span>
+          <br>
         </div>
-        <div id='popup-extraButtons'>
-          <button id='popup-ISRS' type="button" class="btn btn-icon-toggle" data-toggle="modal" data-target="#InfoModal" data-placement="top"
-            data-original-title="Ver">ISRS</button> -
-          <button id='popup-ISAR' type="button" class="btn ink-reaction btn-icon-toggle" data-toggle="modal" data-target="#InfoModal2"
-            data-placement="top" data-original-title="Ver">ISAR</button>
-          <div id='popup-extraInfo'>
-          </div>
-        </div>
-
       </div>
-      <div id=sadaInfo *ngIf="snitSelectedMarker && snitSelectedMarker.type=='Asada'">
-        
+      <div id=sadaInfo *ngIf="snitSelectedElement && snitSelectedElement.type=='Asada'">
+        <div class="iw-title">
+          <button (click)="redirectASADA(snitSelectedElement)" class="btn btn-link ink-reaction btn-warning">{{snitSelectedElement.name}}</button>
+        </div>
+        <div class="iw-content">
+          <div class="iw-subTitle">
+            {{snitSelectedElement.province}}, {{snitSelectedElement.state}}, {{snitSelectedElement.district}}
+            <br>+(506) {{snitSelectedElement.phonenumber}}<br>
+          </div><br>
+          <button (click)="setDetails(snitSelectedElement)" type="button" class="btn btn-icon-toggle" data-toggle="modal" data-target="#InfoModal"
+            data-placement="top" data-original-title="Ver">ISRS</button> -
+          <button (click)="setDetails(snitSelectedElement)" type="button" class="btn ink-reaction btn-icon-toggle" data-toggle="modal"
+            data-target="#InfoModal2" data-placement="top" data-original-title="Ver">ISAR</button>
+          <br><br>
+          <strong>Tipo de zona: </strong><span> {{snitSelectedElement.zonetype}}</span><br>
+          <strong>Número de abonados: </strong><span> {{snitSelectedElement.numbersubscribed}}</span><br>
+          <strong>Población abastecida: </strong><span> {{snitSelectedElement.population}}</span><br>
+          <strong>Tipos de Abastecimiento: </strong><br>
+          <ul>
+            <li>Captaciones Superficiales: {{snitSelectedElement.cantSuperficial}}</li>
+            <li>Tanques: {{snitSelectedElement.cantTanques}}</li>
+            <li>Sistemas de Cloración: {{snitSelectedElement.cantCloraci}}</li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
+
+
+
   <div style="color:gainsboro;">
     currentlong: {{currentLng}} currnetlat {{currentLat}}
     <strong>
@@ -39,8 +61,6 @@
 
   <div class="section-header">
     <h2 id="mapa-title" class="text-default-bright col-xs-12 col-md-3">Mapa de ASADAs</h2>
-    <button (click)="activateSnitMap()">snitMap</button>
-    <button (click)="activateGoogleMap()">googleMap</button>
   </div>
   <div class="section-body">
     <!-- Begin Body Section -->
@@ -56,8 +76,36 @@
                 </app-filter>
 
               </div>
-              <div id="snitMap" class="col-xs-12 snitMap" [hidden]='!snitMapActivation'></div>
+              <div class="lateral-map-panel" style="background-color:deepskyblue">
+                <div class="map-layers">
 
+                  <button type="button" class="layer-btn btn ink-reaction btn-floating-action btn-default-light collapsed" data-toggle="dropdown">
+                    <i class="md md-layers"></i>
+                  </button>
+                  <ul class="dropdown-menu animation-expand layer-options">
+                      <button class="layer-btn col-xs-10" (click)="activateSnitMap()">snitMap</button><br>
+                      <div [hidden]="!snitMapActivation" >
+                        <input id='input' type="checkbox">
+                        <label for="input">prueba</label>
+                      </div>
+                      <button class="layer-btn col-xs-10" (click)="activateGoogleMap()">googleMap</button>
+
+                    <li class="text-center">
+                      
+                    </li>
+                    <li class="text-center">
+                    </li>
+                  </ul>
+                  <!--end .dropdown-menu -->
+                  <!--end .dropdown -->
+
+
+
+
+
+                </div>
+              </div>
+              <div id="snitMap" class="col-xs-12 snitMap" [hidden]='!snitMapActivation'></div>
               <!-- Begin Card Map -->
               <agm-map #googleMap [(latitude)]="currentLat" id="googleMap" [(longitude)]="currentLng" [(zoom)]="currentZoom" [scrollwheel]="false"
                 [mapTypeId]="'terrain'" [gestureHandling]="'cooperative'" [mapTypeControl]="'true'" [hidden]='!googleMapActivation'>
@@ -104,7 +152,6 @@
                             data-original-title="Ver">ISRS</button> -
                           <button (click)="setDetails(m)" type="button" class="btn ink-reaction btn-icon-toggle" data-toggle="modal" data-target="#InfoModal2"
                             data-placement="top" data-original-title="Ver">ISAR</button>
-                          <br><br>
                           <strong>Tipo de zona: </strong><span> {{m.zonetype}}</span><br>
                           <strong>Número de abonados: </strong><span> {{m.numbersubscribed}}</span><br>
                           <strong>Población abastecida: </strong><span> {{m.population}}</span><br>
@@ -119,76 +166,75 @@
                     </agm-info-window>
                   </agm-marker>
                 </div>
-
-
               </agm-map>
+
             </div>
             <!-- End Card Map -->
           </div>
           <!-- End FullMap -->
         </div>
         <!-- END Mapa -->
-        <!-- FILTERBOX -->
       </div>
-      <!-- END row-->
+      <!-- FILTERBOX -->
+    </div>
+    <!-- END row-->
 
-      <div class="row">
-        <!-- ASADA Table -->
-        <div class="col-md-9"><br>
-          <div class="asada-table">
-            <div class="card style-default-light">
-              <div class="nano" style="height: 400px;">
-                <div class="nano-content">
-                  <div class="card-body height-8" style="height: auto;">
-                    <!--<div><div>-->
-                    <div class="card-body">
-                      <div class="table-responsive">
-                        <!-- <table class="table table-condensed table-hover" [mfData]="asadasmarkers" #mf="mfDataTable" [mfRowsOnPage]="10">-->
-                        <table class="table table-condensed table-hover">
-                          <thead>
-                            <tr>
-                              <th style="width: 30%">Nombre
-                                <!-- <mfDefaultSorter by="nombre">Nombre</mfDefaultSorter> -->
-                              </th>
-                              <th style="width: 30%">Ubicación
-                                <!-- <mfDefaultSorter by="ubicacion">Ubicación</mfDefaultSorter>-->
-                              </th>
-                              <th style="width: 10%">Tanques
-                                <!-- <mfDefaultSorter by="tanques">Tanques</mfDefaultSorter>-->
-                              </th>
-                              <th style="width: 10%">Captaciones
-                                <!-- <mfDefaultSorter by="captaciones">Captaciones</mfDefaultSorter>-->
-                              </th>
-                              <th style="width: 10%">Cloración
-                                <!-- <mfDefaultSorter by="cloracion">Cloración</mfDefaultSorter>-->
-                              </th>
-                              <th style="width: 10%">Opciones
-                                <!-- <mfDefaultSorter by="opciones">Opciones</mfDefaultSorter>-->
-                              </th>
-                            </tr>
-                            <!--<tr>
+    <div class="row">
+      <!-- ASADA Table -->
+      <div class="col-md-9"><br>
+        <div class="asada-table">
+          <div class="card style-default-light">
+            <div class="nano" style="height: 400px;">
+              <div class="nano-content">
+                <div class="card-body height-8" style="height: auto;">
+                  <!--<div><div>-->
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <!-- <table class="table table-condensed table-hover" [mfData]="asadasmarkers" #mf="mfDataTable" [mfRowsOnPage]="10">-->
+                      <table class="table table-condensed table-hover">
+                        <thead>
+                          <tr>
+                            <th style="width: 30%">Nombre
+                              <!-- <mfDefaultSorter by="nombre">Nombre</mfDefaultSorter> -->
+                            </th>
+                            <th style="width: 30%">Ubicación
+                              <!-- <mfDefaultSorter by="ubicacion">Ubicación</mfDefaultSorter>-->
+                            </th>
+                            <th style="width: 10%">Tanques
+                              <!-- <mfDefaultSorter by="tanques">Tanques</mfDefaultSorter>-->
+                            </th>
+                            <th style="width: 10%">Captaciones
+                              <!-- <mfDefaultSorter by="captaciones">Captaciones</mfDefaultSorter>-->
+                            </th>
+                            <th style="width: 10%">Cloración
+                              <!-- <mfDefaultSorter by="cloracion">Cloración</mfDefaultSorter>-->
+                            </th>
+                            <th style="width: 10%">Opciones
+                              <!-- <mfDefaultSorter by="opciones">Opciones</mfDefaultSorter>-->
+                            </th>
+                          </tr>
+                          <!--<tr>
                               <th colspan="5">
                                   Filter by name:
                                   <input class="form-control" [(ngModel)]="filterQuery"/>
                               </th>
                             </tr> -->
-                          </thead>
-                          <tbody>
-                            <tr *ngFor="let m of asadasmarkers" [hidden]="!m.visible">
-                              <td><button (click)="redirectASADA(m)" class="btn btn-link btn-xs ink-reaction">{{m.name}}</button></td>
-                              <td>{{m.province}}, {{m.state}}, {{m.district}}</td>
-                              <td>{{m.cantTanques}}</td>
-                              <td>{{m.cantSuperficial}}</td>
-                              <td>{{m.cantCloraci}}</td>
-                              <td>
-                                <button (click)="m.showInfoWindow = !m.showInfoWindow; scroll('mapa-title')" class="btn ink-reaction btn-floating-action btn-xs btn-danger">
-                                  <i class="fa fa-map-marker"></i>
-                                </button>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let m of asadasmarkers" [hidden]="!m.visible">
+                            <td><button (click)="redirectASADA(m)" class="btn btn-link btn-xs ink-reaction">{{m.name}}</button></td>
+                            <td>{{m.province}}, {{m.state}}, {{m.district}}</td>
+                            <td>{{m.cantTanques}}</td>
+                            <td>{{m.cantSuperficial}}</td>
+                            <td>{{m.cantCloraci}}</td>
+                            <td>
+                              <button (click)="m.showInfoWindow = !m.showInfoWindow; scroll('mapa-title')" class="btn ink-reaction btn-floating-action btn-xs btn-danger">
+                                <i class="fa fa-map-marker"></i>
+                              </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
                   </div>
                 </div>
@@ -196,34 +242,34 @@
             </div>
           </div>
         </div>
-        <div class="col-md-3" id="panelSimbologia">
-          <div class="card panel filter-container col-md-12 ">
-            <div class="card-head card-head-xs collapsed" data-toggle="collapse" data-parent="#panelSimbologia" data-target="#simbologia">
-              <header>Simbologia<span clas="md-local-offer"></span></header>
-              <div class="tools">
-                <a class="btn btn-icon-toggle"><i class="fa fa-angle-down"></i></a>
-              </div>
+      </div>
+      <div class="col-md-3" id="panelSimbologia">
+        <div class="card panel filter-container col-md-12 ">
+          <div class="card-head card-head-xs collapsed" data-toggle="collapse" data-parent="#panelSimbologia" data-target="#simbologia">
+            <header>Simbologia<span clas="md-local-offer"></span></header>
+            <div class="tools">
+              <a class="btn btn-icon-toggle"><i class="fa fa-angle-down"></i></a>
             </div>
-            <div id="simbologia" class="panel-group collapse">
-              <div class="card-body">
-                <div class="card panel">
-                  <div class="card-head card-head-xs collapsed">
-                    <header>
-                      <div style=" display: inline-block;">
+          </div>
+          <div id="simbologia" class="panel-group collapse">
+            <div class="card-body">
+              <div class="card panel">
+                <div class="card-head card-head-xs collapsed">
+                  <header>
+                    <div style=" display: inline-block;">
 
-                        <img src="../../..../../../assets/icons/Naciente.png" alt="" style="width:22px;" />
-                        <span> Captación Superficial o naciente </span>
-                      </div>
-                      <div style=" display: inline-block;">
-                        <img src="../../..../../../assets/icons/oficina.png" alt="" style="width:22px;" />
-                        <span> Oficina ASADA </span>
-                      </div>
-                      <div style=" display: inline-block;">
-                        <img src="../../..../../../assets/icons/Tanque.png" alt="" style="width:22px;" />
-                        <span> Tanques de Agua </span>
-                      </div>
-                    </header>
-                  </div>
+                      <img src="../../..../../../assets/icons/Naciente.png" alt="" style="width:22px;" />
+                      <span> Captación Superficial o naciente </span>
+                    </div>
+                    <div style=" display: inline-block;">
+                      <img src="../../..../../../assets/icons/oficina.png" alt="" style="width:22px;" />
+                      <span> Oficina ASADA </span>
+                    </div>
+                    <div style=" display: inline-block;">
+                      <img src="../../..../../../assets/icons/Tanque.png" alt="" style="width:22px;" />
+                      <span> Tanques de Agua </span>
+                    </div>
+                  </header>
                 </div>
               </div>
             </div>
