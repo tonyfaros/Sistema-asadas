@@ -77,16 +77,19 @@ export class MapGoogleComponent implements OnInit {
     //---------------------Atributos Mapas Snit
     private snitMap: ol.Map;
     private markerSource: ol.source.Vector;
+
     private capaDistrital: ol.layer.Tile;
     private capaCantonal: ol.layer.Tile;
     private capaProvincial: ol.layer.Tile;
     private capaDetalle: ol.layer.Tile;
     private capaOSM: ol.layer.Tile;
+    private listCapas: capaMapaSnit[];
+
     private vectorIcon: ol.layer.Vector;
     private popupOverlay: ol.Overlay;
     private snitMapView: ol.View;
 
-    public snitSelectedElement:any;
+    public snitSelectedElement: any;
 
     //---------------------Atributos Mapas google
     @ViewChild('googleMap') googleMap: AgmMap;
@@ -239,6 +242,13 @@ export class MapGoogleComponent implements OnInit {
         this.capaOSM = new ol.layer.Tile({
             source: new ol.source.OSM()
         });
+        this.listCapas=[
+            {keyName:"capaOsm",name:"Capa Normal",active:true,layer:this.capaOSM},
+            {keyName:"capaProvincial",name:"Capa Provincial",active:true,layer:this.capaProvincial},
+            {keyName:"capaCantonal",name:"Capa Cantonal",active:true,layer:this.capaCantonal},
+            {keyName:"capaDistrital",name:"Capa Distrital",active:false,layer:this.capaDistrital}
+            //{keyName:"capaDetalle",name:"Capa Detalle",layer:this.capaDetalle}
+        ]
 
         this.snitMapView = new ol.View({
             center: ol.proj.fromLonLat([this.centerLng, this.centerLat]),
@@ -274,13 +284,17 @@ export class MapGoogleComponent implements OnInit {
         var layers = [
             new ol.layer.Group({
                 layers: [
-                    //capaDistrital,
                     this.capaOSM,
+                    this.capaDistrital,
                     this.capaCantonal,
                     this.capaProvincial,
                     this.vectorIcon
                 ]
-            })]
+            })];
+            
+        this.listCapas.forEach(layer => {
+            layer.layer.setVisible(layer.active);
+        });
 
 
         this.snitMap = new ol.Map({
@@ -296,7 +310,7 @@ export class MapGoogleComponent implements OnInit {
 
         var genericMap: any = this.snitMap;
         genericMap.on('singleclick', function (evt) {
-            scope.snitSelectedElement=undefined;
+            scope.snitSelectedElement = undefined;
             var feature = genericMap.forEachFeatureAtPixel(
                 evt.pixel,
                 function (ft, layer) { return ft; }
@@ -304,14 +318,14 @@ export class MapGoogleComponent implements OnInit {
             if (feature) {
                 var element = feature.get('element');
                 try {
-                    scope.snitSelectedElement=element;
+                    scope.snitSelectedElement = element;
                     if (element && element.type) {
                         scope.popupOverlay.setPosition(ol.proj.fromLonLat([element.long, element.lat]));
                     }
-                    else{
+                    else {
                         scope.popupOverlay.setPosition(undefined);
                     }
-                } catch (ex) { alert(ex);scope.popupOverlay.setPosition(undefined); }
+                } catch (ex) { alert(ex); scope.popupOverlay.setPosition(undefined); }
             }
             else {
                 scope.popupOverlay.setPosition(undefined);
@@ -327,15 +341,24 @@ export class MapGoogleComponent implements OnInit {
         });
 
     }
+    toggleLayer(event, layer: capaMapaSnit) {
+        var active: boolean = event.target.checked
+       if(layer){
+           layer.active=active;
+           layer.layer.setVisible(active);
+       }
+
+    }
+
     fillSnitPopup(elm) {
         try {
             if (elm && elm.type) {
                 this.popupOverlay.setPosition(ol.proj.fromLonLat([elm.long, elm.lat]));
             }
-            else{
+            else {
                 this.popupOverlay.setPosition(undefined);
             }
-        } catch (ex) { alert(ex);this.popupOverlay.setPosition(undefined); }
+        } catch (ex) { alert(ex); this.popupOverlay.setPosition(undefined); }
     }
 
     updateSnitMapCenter() {
@@ -722,7 +745,7 @@ export class MapGoogleComponent implements OnInit {
                 cantCloraci: cantCloraci,
                 showInfoWindow: false,
                 zIndex: 100,
-                type:'Asada'
+                type: 'Asada'
             }
 
             this.asadasmarkers.push(newAsadaMarker);
@@ -762,6 +785,13 @@ export class MapGoogleComponent implements OnInit {
 
         }
     }
+}
+interface capaMapaSnit{
+    keyName: string,
+    name:string,
+    active:boolean,
+    description?:string,
+    layer: ol.layer.Tile;
 }
 
 
@@ -816,6 +846,6 @@ interface asadastructure {
     cantSuperficial: number;
     cantCloraci: number;
     showInfoWindow: boolean;
-    type:string;
+    type: string;
 }
 

@@ -32,17 +32,29 @@ app-filter{
   position: absolute!important;
 
 }
+.layer-btn-container{
+  width: 50px;
+  float: right;
+}
+.layer-container{
+  width: 170px;
+}
+.layer-card{
+  margin: 0px!important;
+}
+
 .map-layers{
   top: 65px;
-  right: 0px;
+  right: 30px;
   float: right;
+  max-width: 240px;
+  height: 0px;
   position: relative;
   z-index: 100;
 }
 
 .layer-btn{
-  margin: 15px;
-  float: right;
+  margin: 2px 3px!important;
 }
 
 .darken-background{
