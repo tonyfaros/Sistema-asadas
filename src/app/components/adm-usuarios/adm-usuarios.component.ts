@@ -10,6 +10,7 @@ import { AngularFireService } from '../../common/service/angularFire.service';
 import { User } from '../../common/model/User';
 import 'rxjs/add/operator/map';
 import * as CryptoJS from 'crypto-js';
+//import $ from "jquery";
 
 
 @Component({
@@ -28,6 +29,7 @@ export class AdmUsuariosComponent implements OnInit {
 
 
   private User = '';
+  private usuarioEliminar = '';
   
   
   
@@ -87,6 +89,10 @@ export class AdmUsuariosComponent implements OnInit {
 
  //let r = Math.random().toString(36).substring(7);
 
+  openModal(key){
+    this.usuarioEliminar = key;
+  }
+
   addUsuario(){
 		const usuario: User = new User();
 
@@ -107,11 +113,11 @@ export class AdmUsuariosComponent implements OnInit {
 		this.angularFireService.addNewUsuario(pUsuario);
 	}
 
-  deleteUsuario(pKey){
-    this.angularFireService.deleteUsuario(pKey);
+  deleteUsuario(){
+    this.angularFireService.deleteUsuario(this.usuarioEliminar);
   }
 
-
+  
   
   /*
   delete(elem: any): void {

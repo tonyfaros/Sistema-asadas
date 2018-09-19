@@ -68,6 +68,7 @@ export class UserService {
   addUser(uid, request) {
     const user = this.af.database.object(`/usuarios/${uid.$key}`);
     user.set(request);
+    
   }
   createAsadaRequest(userId: String, asadaId: String,
     userName: string, asadaName: string, rol: string) {

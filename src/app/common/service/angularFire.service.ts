@@ -2,12 +2,51 @@ import { Injectable } from '@angular/core';
 import {AngularFire, FirebaseListObservable, FirebaseObjectObservable} from "angularfire2/index"
 import { Asada } from '../../common/model/Asada';
 
+import * as CryptoJS from 'crypto-js';
+
 @Injectable()
 export class AngularFireService {
-
+	key = CryptoJS.enc.Utf8.parse('7061737323313233');
+	iv = CryptoJS.enc.Utf8.parse('7061737323313233');
 	constructor(private af: AngularFire){
 	}
 
+
+
+
+	encrypt(pEncrypt){
+		
+		var encrypted = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(pEncrypt), this.key,
+			{
+				keySize: 128 / 8,
+				iv: this.iv,
+				mode: CryptoJS.mode.CBC,
+				padding: CryptoJS.pad.Pkcs7
+			});
+			return encrypted;
+	}
+	decrypt(encrypted){
+		var decrypted = CryptoJS.AES.decrypt(encrypted, this.key, {
+			keySize: 128 / 8,
+			iv: this.iv,
+			mode: CryptoJS.mode.CBC,
+			padding: CryptoJS.pad.Pkcs7
+		});
+	/*
+		console.log('Encrypted :' + encrypted);
+		console.log('Key :' + encrypted.key);
+		console.log('Salt :' + encrypted.salt);
+		console.log('iv :' + encrypted.iv);
+		console.log('Decrypted : ' + decrypted);
+		console.log('utf8 = ' + decrypted.toString(CryptoJS.enc.Utf8));
+		*/
+	
+		return decrypted;
+	
+	  }
+
+	
+	
 	getUsuario(pKey: String):FirebaseObjectObservable<any>  {
 		const Obj$: FirebaseObjectObservable<any> = 
 			this.af.database.object('usuarios/'+pKey);
@@ -57,7 +96,10 @@ export class AngularFireService {
 			this.af.database.list('asadas').push(pAsada).catch((error)=>console.log(error));
 	 }
 
-
+	 getProfesor():FirebaseListObservable<any>  {
+		const Obj$: FirebaseListObservable<any> = this.af.database.list('usuarios');
+		return Obj$;
+	}
 	 addNewUsuario(pUsuario):void{
 			this.af.database.list('usuarios').push(pUsuario).catch((error)=>console.log(error));
 	 }

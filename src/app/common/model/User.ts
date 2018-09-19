@@ -11,5 +11,7 @@ export class User {
         state:string;
         rol:string;
     };
+    profesor:string;
+    estado:string;
     
 }

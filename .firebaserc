@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "sistemaasadas"
+    "default": "sistemaasadas",
+    "staging": "sistemaasadas"
   }
 }

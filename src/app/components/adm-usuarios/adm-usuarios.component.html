@@ -3,8 +3,7 @@
     <div class="section-body contain-xl">
         <div class="section-header">
             <h2 class="text-default-bright">Administracion de Usuarios</h2>
-            <label>encrypted</label>
-            <div id="demo1"></div>
+            
             
           </div>
           <!-- BEGIN SEARCH BAR -->
@@ -12,8 +11,9 @@
           
             <form class="form form-inverse">
               <div class="form-group">
+                <!--
                 <button type="button" class="btn ink-reaction btn-raised btn-primary-dark " data-toggle="modal" data-target="#formModal">Nuevo usuario</button>
-                
+                -->
               </div>
               <!--end .form-group -->
             </form>
@@ -55,7 +55,7 @@
                         <td><a class="opacity-75" >{{element.correo}}</a></td>
                         <td><a class="opacity-75">{{element.rol}}</a></td>
                         <td class="text-right">
-                            <button *ngIf = "User!=element.$key" type="button" class="btn btn-icon-toggle" (click)="deleteUsuario(element.$key)" data-toggle="tooltip" data-placement="top" data-original-title="Copy row"><i class="fa fa-trash"></i></button>
+                            <button *ngIf = "User!=element.$key" type="button" class="btn btn-icon-toggle" data-toggle="modal" (click)="openModal(element.$key)" data-target="#simpleModal" data-placement="top" data-original-title="Copy row"><i class="fa fa-trash"></i></button>
                           </td>
                        
 
@@ -71,6 +71,7 @@
         <!-- END TAB CONTENT -->
       </div>
     </div>
+
     <!-- BEGIN FORM MODAL MARKUP -->
 
 <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="formModalLabel" aria-hidden="true">
@@ -139,6 +140,27 @@
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
   <!-- END FORM MODAL MARKUP -->
+
+
+  <!-- BEGIN SIMPLE MODAL MARKUP -->
+<div class="modal fade" id="simpleModal" tabindex="-1" role="dialog" aria-labelledby="simpleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" style="color:#4CAF50" id="simpleModalLabel">Eliminar usuario</h4>
+        </div>
+        <div class="modal-body">
+          <p>¿Está seguro que desea eliminar a este usuario?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteUsuario()">Eliminar</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+  <!-- END SIMPLE MODAL MARKUP -->
   
   </section>
   

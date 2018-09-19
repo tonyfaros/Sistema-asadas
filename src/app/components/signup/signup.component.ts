@@ -15,8 +15,9 @@ import { User } from "app/common/model/User";
 export class SignupComponent implements OnInit {
   passwordConfirmation: string;
   error: Error;
-  asadaDB;
-  asadaSelected;
+  usuariosDB;
+  profesorDB;
+  profesorSelected;
   userDetailsForm: FormGroup;
   userDb: User;
   public rol;
@@ -29,93 +30,117 @@ export class SignupComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getAsada();
+    this.getProfesor();
     this.emptyForm();
-    this.rol = '';
+
+    
   }
 
   onSubmit(): void {
+    console.log();
+    console.log(this.userDetailsForm.value);
     var newUser = this.userDetailsForm.value;
+    
     if (this.validateData(newUser)) {
-      this.af.auth.createUser({
-        email: newUser.email,
-        password: newUser.password
-      }).then(
-        (success) => {
-          this.saveUserDetails(success.uid, newUser);
-          this.router.navigate(['/LoginPage'])
-        }).catch(
-        (error) => {
-          console.log(error);
-          this.error = error;
-        }
-        )
+      
+      this.angularFireService.decrypt(this.angularFireService.encrypt(newUser.password));
+      this.saveUserDetails(newUser);
+      this.router.navigate(['/LoginPage'])
+
     }
   }
-  validateData(newUser) {
 
+  existeCorreo(pCorreo){
+    console.log("ooo "+this.usuariosDB.length)
+    for(var i = 0;i<this.usuariosDB.length;i++){
+      console.log(this.usuariosDB[i]['correo']);
+      if(pCorreo == this.usuariosDB[i]['correo'] && this.usuariosDB[i]['rol']!='Super Administrador')
+        return true;
+    }
+    return false;
+  }
+
+  validateData(newUser) {
+    console.log("prueba " + newUser.profesor + " b");
+    if(this.existeCorreo(newUser.email)){
+      this.formErrors.email = 'Este correo ya ha sido registrado anteriormente'
+      return false;
+    }
     if (newUser.password != newUser.passwordConfirmation) {
       this.formErrors.passwordConfirmation = 'La confirmación no coincide con la contraseña.'
       return false;
     }
-    if (this.asadaSelected && this.asadaSelected.$key != null && this.rol == '') {
-      this.formErrors.rol = 'Es necesario especificar el tipo de acceso que se quiere para la asada';
+    if (newUser.rol == "") {
+      
+      this.formErrors.rol = 'Es necesario especificar el tipo de acceso';
+      return false;
+    }
+    if (newUser.rol!= "Profesor" && !newUser.profesor) {
+      console.log("prueba");
+      this.formErrors.profesorSelected = 'Es necesario especificar el profesor encargado';
       return false;
     }
     this.formErrors.passwordConfirmation = null;
     this.formErrors.rol = null;
+    this.formErrors.profesorSelected= null;
     return true;
 
   }
-  getAsada(): void {
-    this.angularFireService.getAsadas().subscribe(
+
+  
+
+  getProfesor(): void {
+    var profesoresList = new Array();
+    this.angularFireService.getProfesor().subscribe(
       results => {
-        this.asadaDB = results;
+        this.usuariosDB = results;
+
+        for(var i = 0; i<Object.keys(results).length;i++){
+          //console.log(results[i]["rol"]);
+          if(results[i]["rol"] == "Profesor")
+            profesoresList.push(results[i]);
+        }
+        this.profesorDB  = profesoresList;
       }
     );
   }
 
-  saveUserDetails(uid, newUser) {
+  
+
+  saveUserDetails(newUser) {
     this.userDb = new User();
     this.userDb.apellidos = newUser.userLastName;
     this.userDb.nombre = newUser.userName;
-    this.createUser(uid);
-    if (this.asadaSelected && this.asadaSelected.$key != null) {
-      this.generateAsadaRequest(uid);
-      this.userDb.asada = {
-        name: this.asadaSelected.name,
-        id: this.asadaSelected.$key,
-        state: `Solicitando permiso para ${this.rol} de la asada.`,
-        rol: this.rol
-      }
-    }
-    this.updateUser(uid);
+    this.userDb.rol = newUser.rol;
+    this.userDb.password = ''+this.angularFireService.encrypt(newUser.password);
+    this.userDb.estado = 'Pendiente';
+    this.userDb.profesor = newUser.profesor;
+    this.userDb.correo = newUser.email;
+
+    this.addNewUsuario(this.userDb);
+    
     this.ngOnInit();
   }
-  createUser(uid) {
-    this.userService.addUser(this.userDb, uid);
-  }
-  updateUser(uid): void {
-    this.userService.updateUserDetails(uid, this.userDb);
-  }
-  generateAsadaRequest(uid) {
-    this.userService.createAsadaRequest(uid, this.asadaSelected.$key,
-      this.userDb.nombre, this.asadaSelected.name, this.rol);
-  }
+
+  addNewUsuario(pUsuario) {
+		this.angularFireService.addNewUsuario(pUsuario);
+	}
+
   emptyForm(): void {
     this.userDetailsForm = this.fb.group({
       'userLastName': ['', Validators.required],
       'userName': ['', Validators.required],
-      'asadaName': ['', Validators.required],
       'email': ['', Validators.required],
       'password': ['', Validators.required],
       'passwordConfirmation': ['', Validators.required],
-      'rol': ['']
+      'rol': ['',Validators.required],
+      'profesor':['',Validators.required]
     });
     this.userDetailsForm.valueChanges
       .subscribe(data => this.onValueChanged(data));
     this.onValueChanged(); // (re)set validation messages now
   }
+
   onValueChanged(data?: any) {
     if (!this.userDetailsForm) { return; }
     const form = this.userDetailsForm;
@@ -135,13 +160,11 @@ export class SignupComponent implements OnInit {
   formErrors = {
     'userName': '',
     'userLastName': '',
-    'asadaName': '',
     'email': '',
     'password': '',
     'passwordConfirmation': '',
-    'rol': ''
-
-
+    'rol': '',
+    'profesorSelected':''
   };
   validationMessages = {
     'userName': {
@@ -149,9 +172,6 @@ export class SignupComponent implements OnInit {
     },
     'userLastName': {
       'required': 'Apellidos requeridos'
-    },
-    'asadaName': {
-      'required': 'Asada requerida'
     },
     'email': {
       'required': 'Correo requerido'
@@ -165,6 +185,9 @@ export class SignupComponent implements OnInit {
     'rol': {
       'required': 'Tipo de acceso requerido'
     },
+    'profesorSelected': {
+      'required': 'Profesor encargado requerido'
+    }
   };
 
 }
