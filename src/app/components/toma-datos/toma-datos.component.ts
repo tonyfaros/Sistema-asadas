@@ -4,26 +4,34 @@ import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'a
 import { AngularFireService } from '../../common/service/angularFire.service';
 import { TomaDatos } from '../../common/model/TomaDatos';
 import { FirebaseAuthState } from 'angularfire2/index';
-import { DatePipe } from '@angular/common'
-
+import { DatePipe } from '@angular/common';
+import { Infrastructure } from '../../common/model/Infrastructure';
+import { MapGoogleService } from '../map-google/map-google.service';
 @Component({
   selector: 'app-toma-datos',
   templateUrl: './toma-datos.component.html',
   styleUrls: ['./toma-datos.component.scss'],
-  providers: [AngularFireService,DatePipe]
+  providers: [AngularFireService,DatePipe,MapGoogleService]
 })
 export class TomaDatosComponent implements OnInit {
 
+  private infraestructureList: Infrastructure[];
   filteredList2: any[];
   asadaSelected: string = '';
   todayDate: Date;
   filteredList: any[];
+  
+  public cantidadTanques = 0;
+  public cantidadCaptaciones = 0;
+  public cantidadCloracion = 0;
 
-  constructor(db: AngularFireDatabase, private af: AngularFire,private angularFireService: AngularFireService,private datepipe: DatePipe) {
-    this.filteredList = [];
+  constructor(private mapService: MapGoogleService, db: AngularFireDatabase, private af: AngularFire,private angularFireService: AngularFireService,private datepipe: DatePipe) {
+    this.infraestructureList = [];
     db.list('asadas')
     .subscribe(filteredList2 => {
       this.filteredList2 = filteredList2;
+      this.getInfraestructures();
+      
       });
 
    
@@ -46,12 +54,12 @@ export class TomaDatosComponent implements OnInit {
           toma_datos.Asada = this.filteredList[i]["nameAsada"];
           toma_datos.Fecha = this.filteredList[i]["dateCreated"];
           toma_datos.Estado = this.filteredList[i]["status"];
-          toma_datos.Infraestructura = "3";
-  
+          toma_datos.Infraestructura = '3';
           tomaDatosList.push(toma_datos);
-          
+
         }
-      }console.log(tomaDatosList.length);
+
+      }
       
       this.filteredList = tomaDatosList;
       
@@ -59,6 +67,38 @@ export class TomaDatosComponent implements OnInit {
     
 
    }
+
+   calculateInfraestructure(){
+    console.log(this.infraestructureList.length);
+     for(let tomaDatosEl of this.filteredList){
+      
+     for (let asada of this.filteredList2){
+      
+       if(tomaDatosEl.Asada == asada.name){
+        var key;
+        key = asada.$key;
+        this.evalCantCaptacion(key);
+        this.evalCantSistemasClr(key);
+        this.evalCantTanques(key);
+        tomaDatosEl.Infraestructura = this.cantidadCaptaciones + this.cantidadCloracion + this.cantidadTanques;
+        }  
+     }
+   }
+  }
+
+   
+
+   getInfraestructures(): void {
+    this.mapService.getInfrastructures()
+        .subscribe(
+            results => {
+                this.infraestructureList = results;
+                
+                this.calculateInfraestructure();
+            }
+        );
+    
+}
 
    private User = '';
 
@@ -101,4 +141,43 @@ export class TomaDatosComponent implements OnInit {
 
     this.addNewTomaDatos(tomaDatos);
   }
+
+
+  evalCantTanques(asadaid: string) {
+
+    this.cantidadTanques = 0;
+    for (let entry of this.infraestructureList) {
+        if (entry.asada.id == asadaid && entry.type == "Tanque") {
+            this.cantidadTanques = this.cantidadTanques + 1;
+        }
+
+    }
+}
+
+evalCantCaptacion(asadaid: string) {
+
+    this.cantidadCaptaciones = 0;
+    for (let entry of this.infraestructureList) {
+        if (entry.asada.id == asadaid && (entry.type == "CaptacionNaciente" || entry.type == "CaptacionSuperficial")) {
+            this.cantidadCaptaciones = this.cantidadCaptaciones + 1;
+        }
+
+    }
+}
+
+evalCantSistemasClr(asadaid: string) {
+
+    this.cantidadCloracion = 0;
+    for (let entry of this.infraestructureList) {
+        if (entry.asada.id == asadaid && entry.type == "SistemaCloracion") {
+            this.cantidadCloracion = this.cantidadCloracion + 1;
+        }
+
+    }
+}
+
+
+
+  
+
 }

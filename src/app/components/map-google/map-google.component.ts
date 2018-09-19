@@ -1,7 +1,7 @@
 /* gabygarro (06/09/17): Esta página, junto con map-google.component y about-us.component
 tienen un work around descrito en el issue https://github.com/angular/angular/issues/6595 */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ApplicationRef } from '@angular/core';
