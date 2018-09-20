@@ -130,8 +130,9 @@ export class MapGoogleComponent implements OnInit {
         });
         this.googleMapReady();
         this.generateSnitMap();
+        this.activateGoogleMap();
         //--------------------------------temporal
-        this.activateSnitMap();
+        this.activateGoogleMap();
         //-----------------------------------
     }
 
@@ -318,12 +319,7 @@ export class MapGoogleComponent implements OnInit {
                 var element = feature.get('element');
                 try {
                     scope.snitSelectedElement = element;
-                    if (element && element.type) {
-                        scope.popupOverlay.setPosition(ol.proj.fromLonLat([element.long, element.lat]));
-                    }
-                    else {
-                        scope.popupOverlay.setPosition(undefined);
-                    }
+                    scope.openSnitElementPopUp(element)
                 } catch (ex) { alert(ex); scope.popupOverlay.setPosition(undefined); }
             }
             else {
@@ -410,6 +406,24 @@ export class MapGoogleComponent implements OnInit {
         }
         return iconFeature;
     }
+    openSnitElementPopUp(element:any){
+        this.snitSelectedElement=element;
+        
+        if (this.popupOverlay && element && element.type) {
+            this.popupOverlay.setPosition(ol.proj.fromLonLat([element.long, element.lat]));
+        }
+        else {
+            alert("null")
+            this.popupOverlay.setPosition(undefined);
+        }
+    }
+    
+    showInfoWindow(asada: any){
+        asada.showInfoWindow=true
+        //if(this.googleMapActivation){
+            this.openSnitElementPopUp(asada)
+        //}
+    }
 
     filterNotify(filConf: filterConfig) {
         this.filterConfiguration = filConf;
@@ -453,9 +467,10 @@ export class MapGoogleComponent implements OnInit {
                     });
                 }
                 if (showAsada && filtLoc) {
+
                     filtLoc.forEach(prov => {
                         if (prov.name.toLowerCase() == asada.province.toLowerCase()) {
-                            showAsada = showAsada && prov.active;
+                            showAsada = prov.active;
                             prov.cantones.forEach(cant => {
                                 if (cant.name.toLowerCase() == asada.state.toLowerCase()) {
                                     showAsada = showAsada && cant.active;
