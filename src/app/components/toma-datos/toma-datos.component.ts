@@ -54,7 +54,6 @@ export class TomaDatosComponent implements OnInit {
           toma_datos.Asada = this.filteredList[i]["nameAsada"];
           toma_datos.Fecha = this.filteredList[i]["dateCreated"];
           toma_datos.Estado = this.filteredList[i]["status"];
-          toma_datos.Infraestructura = '3';
           tomaDatosList.push(toma_datos);
 
         }
