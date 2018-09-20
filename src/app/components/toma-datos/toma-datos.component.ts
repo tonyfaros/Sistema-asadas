@@ -7,6 +7,7 @@ import { FirebaseAuthState } from 'angularfire2/index';
 import { DatePipe } from '@angular/common';
 import { Infrastructure } from '../../common/model/Infrastructure';
 import { MapGoogleService } from '../map-google/map-google.service';
+import { LegendEntryComponent } from '@swimlane/ngx-charts';
 @Component({
   selector: 'app-toma-datos',
   templateUrl: './toma-datos.component.html',
@@ -63,25 +64,24 @@ export class TomaDatosComponent implements OnInit {
       this.filteredList = tomaDatosList;
       
     });
-    
 
    }
 
    calculateInfraestructure(){
     console.log(this.infraestructureList.length);
-     for(let tomaDatosEl of this.filteredList){
-      
-     for (let asada of this.filteredList2){
-      
-       if(tomaDatosEl.Asada == asada.name){
-        var key;
-        key = asada.$key;
-        this.evalCantCaptacion(key);
-        this.evalCantSistemasClr(key);
-        this.evalCantTanques(key);
-        tomaDatosEl.Infraestructura = this.cantidadCaptaciones + this.cantidadCloracion + this.cantidadTanques;
-        }  
-     }
+    for(let tomaDatosEl of this.filteredList){
+    
+    for (let asada of this.filteredList2){
+    
+      if(tomaDatosEl.Asada == asada.name){
+      var key;
+      key = asada.$key;
+      this.evalCantCaptacion(key);
+      this.evalCantSistemasClr(key);
+      this.evalCantTanques(key);
+      tomaDatosEl.Infraestructura = this.cantidadCaptaciones + this.cantidadCloracion + this.cantidadTanques;
+      }  
+    }
    }
   }
 
@@ -131,15 +131,25 @@ export class TomaDatosComponent implements OnInit {
     const tomaDatos: TomaDatos = new TomaDatos();
     this.todayDate = new Date();
     let latest_date =this.datepipe.transform(this.todayDate, 'yyyy-MM-dd');
-
+    const infraestructuras = [/*{id: '', res1: '',res2: '',res3: '',res4: ''
+  ,res5: '',res6: '',res7: '',res8: '',res9: '',res10: ''}*/]
     tomaDatos.dateCreated = latest_date;
     tomaDatos.idToma= id.toString();
     tomaDatos.nameAsada = this.asadaSelected;
     tomaDatos.status = 'Pendiente';
     tomaDatos.idEstudiante = this.User;
+    infraestructuras.id = this.returnInfraesOfAsada(this.asadaSelected);
+    tomaDatos.infraestructuras = infraestructuras;
 
     this.addNewTomaDatos(tomaDatos);
   }
+
+  returnInfraesOfAsada(id: string): string  {
+    
+    return '';
+  }
+
+
 
 
   evalCantTanques(asadaid: string) {
@@ -148,6 +158,7 @@ export class TomaDatosComponent implements OnInit {
     for (let entry of this.infraestructureList) {
         if (entry.asada.id == asadaid && entry.type == "Tanque") {
             this.cantidadTanques = this.cantidadTanques + 1;
+            
         }
 
     }
