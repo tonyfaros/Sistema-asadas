@@ -25,8 +25,8 @@ import * as ol from 'openlayers';
     selector: 'app-map-google',
     templateUrl: './map-google.component.html',
     styleUrls: ['./map-google.component.scss'],
-    providers: [MapGoogleService, UserService],
-    encapsulation: ViewEncapsulation.None,
+    providers: [MapGoogleService, UserService]//,
+    // encapsulation: ViewEncapsulation.None,
 })
 
 export class MapGoogleComponent implements OnInit {
@@ -242,11 +242,11 @@ export class MapGoogleComponent implements OnInit {
         this.capaOSM = new ol.layer.Tile({
             source: new ol.source.OSM()
         });
-        this.listCapas=[
-            {keyName:"capaOsm",name:"Capa Normal",active:true,layer:this.capaOSM},
-            {keyName:"capaProvincial",name:"Capa Provincial",active:true,layer:this.capaProvincial},
-            {keyName:"capaCantonal",name:"Capa Cantonal",active:true,layer:this.capaCantonal},
-            {keyName:"capaDistrital",name:"Capa Distrital",active:false,layer:this.capaDistrital}
+        this.listCapas = [
+            { keyName: "capaOsm", name: "Capa Normal", active: true, layer: this.capaOSM },
+            { keyName: "capaProvincial", name: "Capa Provincial", active: true, layer: this.capaProvincial },
+            { keyName: "capaCantonal", name: "Capa Cantonal", active: true, layer: this.capaCantonal },
+            { keyName: "capaDistrital", name: "Capa Distrital", active: false, layer: this.capaDistrital }
             //{keyName:"capaDetalle",name:"Capa Detalle",layer:this.capaDetalle}
         ]
 
@@ -271,7 +271,6 @@ export class MapGoogleComponent implements OnInit {
             autoPan: true,
             positioning: 'top-center',
             //offset: [0, -10],
-            stopEvent: false
         });
 
         closer.onclick = function () {
@@ -291,7 +290,7 @@ export class MapGoogleComponent implements OnInit {
                     this.vectorIcon
                 ]
             })];
-            
+
         this.listCapas.forEach(layer => {
             layer.layer.setVisible(layer.active);
         });
@@ -343,10 +342,10 @@ export class MapGoogleComponent implements OnInit {
     }
     toggleLayer(event, layer: capaMapaSnit) {
         var active: boolean = event.target.checked
-       if(layer){
-           layer.active=active;
-           layer.layer.setVisible(active);
-       }
+        if (layer) {
+            layer.active = active;
+            layer.layer.setVisible(active);
+        }
 
     }
 
@@ -786,11 +785,11 @@ export class MapGoogleComponent implements OnInit {
         }
     }
 }
-interface capaMapaSnit{
+interface capaMapaSnit {
     keyName: string,
-    name:string,
-    active:boolean,
-    description?:string,
+    name: string,
+    active: boolean,
+    description?: string,
     layer: ol.layer.Tile;
 }
 

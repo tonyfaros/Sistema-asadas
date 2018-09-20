@@ -14,16 +14,16 @@
             <div class="no-padding">
 
               <div class="col-xs-12">
-                <app-filter [activeLocationFilter]="true" [activeCategoryFilter]="true" [activeRiskFilter]="(isLoggedIn == true)" [activeFilterButton]="true"
-                  (notify)='filterNotify($event)' style="position:absolute">
+                <app-filter [activeLocationFilter]="true" [activeCategoryFilter]="true" [activeRiskFilter]="(isLoggedIn == true)"
+                  [activeFilterButton]="true" (notify)='filterNotify($event)' style="position:absolute">
                 </app-filter>
               </div>
-              <div class="lateral-map-panel" style="background-color:deepskyblue">
+              <div class="lateral-map-panel">
 
                 <div class="map-layers row">
                   <div class="layer-btn-container">
-                    <button type="button" class="layer-btn btn ink-reaction btn-floating-action btn-default-light collapsed" data-toggle="collapse"
-                      data-parent="map-canvas" data-target="#layer-container">
+                    <button type="button" class="layer-btn btn ink-reaction btn-floating-action btn-default-light collapsed"
+                      data-toggle="collapse" data-parent="map-canvas" data-target="#layer-container">
                       <i class="md md-layers"></i>
                     </button>
                   </div>
@@ -48,7 +48,7 @@
                           </button><br>
                           <div *ngIf="snitMapActivation && listCapas">
                             <Strong>Opciones:</Strong>
-                            <div *ngFor="let layer of listCapas" class="checkbox checkbox-styled checkbox-default-dark">
+                            <div *ngFor="let layer of listCapas" class="checkbox checkbox-styled checkbox-primary-dark">
                               <label><input type="checkbox" [(ngModel)]="layer.active" (click)="toggleLayer($event, layer)">
                                 <span>{{layer.name}}</span>
                               </label>
@@ -68,12 +68,14 @@
               </div>
               <div id="snitMap" class="col-xs-12 snitMap" [hidden]='!snitMapActivation'></div>
               <!-- Begin Card Map -->
-              <agm-map #googleMap [(latitude)]="currentLat" id="googleMap" [(longitude)]="currentLng" [(zoom)]="currentZoom" [scrollwheel]="false"
-                [mapTypeId]="'terrain'" [gestureHandling]="'cooperative'" [mapTypeControl]="'true'" [hidden]='!googleMapActivation'>
+              <agm-map #googleMap [(latitude)]="currentLat" id="googleMap" [(longitude)]="currentLng" [(zoom)]="currentZoom"
+                [scrollwheel]="false" [mapTypeId]="'terrain'" [gestureHandling]="'cooperative'" [mapTypeControl]="'true'"
+                [hidden]='!googleMapActivation'>
 
                 <!-- MARKER PARA INFRAESTRUCTURAS-->
                 <div *ngFor="let m of infraestructuremarkers">
-                  <agm-marker *ngIf="m.visible" [(latitude)]="m.lat" [(longitude)]="m.long" (zIndex)="1" [(iconUrl)]="m.iconConfig" (markerClick)="markerClick(); lastOpen?.close(); lastOpen = infoWindow;">
+                  <agm-marker *ngIf="m.visible" [(latitude)]="m.lat" [(longitude)]="m.long" (zIndex)="1" [(iconUrl)]="m.iconConfig"
+                    (markerClick)="markerClick(); lastOpen?.close(); lastOpen = infoWindow;">
                     <agm-info-window #infoWindow>
                       <div id="iw-container">
                         <div class="iw-title">
@@ -96,8 +98,8 @@
                 </div>
 
                 <div *ngFor="let m of asadasmarkers">
-                  <agm-marker *ngIf="m.visible" [(latitude)]="m.lat" [(longitude)]="m.long" [(iconUrl)]="m.iconConfig" [(zIndex)]="m.zIndex"
-                    (markerClick)="markerClick(); lastOpen?.close(); lastOpen = infoWindow;">
+                  <agm-marker *ngIf="m.visible" [(latitude)]="m.lat" [(longitude)]="m.long" [(iconUrl)]="m.iconConfig"
+                    [(zIndex)]="m.zIndex" (markerClick)="markerClick(); lastOpen?.close(); lastOpen = infoWindow;">
                     <agm-info-window #infoWindow class="infowindow" [isOpen]="m.showInfoWindow">
                       <div id="iw-container">
 
@@ -109,10 +111,11 @@
                             {{m.province}}, {{m.state}}, {{m.district}}
                             <br>+(506) {{m.phonenumber}}<br>
                           </div>
-                          <button (click)="setDetails(m)" type="button" class="btn btn-icon-toggle" data-toggle="modal" data-target="#InfoModal" data-placement="top"
-                            data-original-title="Ver">ISRS</button> -
-                          <button (click)="setDetails(m)" type="button" class="btn ink-reaction btn-icon-toggle" data-toggle="modal" data-target="#InfoModal2"
-                            data-placement="top" data-original-title="Ver">ISAR</button>
+                          <button (click)="setDetails(m)" type="button" class="btn btn-icon-toggle" data-toggle="modal"
+                            data-target="#InfoModal" data-placement="top" data-original-title="Ver">ISRS</button> -
+                          <button (click)="setDetails(m)" type="button" class="btn ink-reaction btn-icon-toggle"
+                            data-toggle="modal" data-target="#InfoModal2" data-placement="top" data-original-title="Ver">ISAR</button>
+
                           <strong>Tipo de zona: </strong><span> {{m.zonetype}}</span><br>
                           <strong>Número de abonados: </strong><span> {{m.numbersubscribed}}</span><br>
                           <strong>Población abastecida: </strong><span> {{m.population}}</span><br>
@@ -206,7 +209,8 @@
       </div>
       <div class="col-md-3" id="panelSimbologia">
         <div class="card panel filter-container col-md-12 ">
-          <div class="card-head card-head-xs collapsed" data-toggle="collapse" data-parent="#panelSimbologia" data-target="#simbologia">
+          <div class="card-head card-head-xs collapsed" data-toggle="collapse" data-parent="#panelSimbologia"
+            data-target="#simbologia">
             <header>Simbologia<span clas="md-local-offer"></span></header>
             <div class="tools">
               <a class="btn btn-icon-toggle"><i class="fa fa-angle-down"></i></a>
@@ -318,21 +322,27 @@
           <div class="iw-subTitle">
             {{snitSelectedElement.province}}, {{snitSelectedElement.state}}, {{snitSelectedElement.district}}
             <br>+(506) {{snitSelectedElement.phonenumber}}<br>
-          </div><br>
-          <button (click)="setDetails(snitSelectedElement)" type="button" class="btn btn-icon-toggle" data-toggle="modal" data-target="#InfoModal"
-            data-placement="top" data-original-title="Ver">ISRS</button> -
-          <button (click)="setDetails(snitSelectedElement)" type="button" class="btn ink-reaction btn-icon-toggle" data-toggle="modal"
-            data-target="#InfoModal2" data-placement="top" data-original-title="Ver">ISAR</button>
-          <br><br>
-          <strong>Tipo de zona: </strong><span> {{snitSelectedElement.zonetype}}</span><br>
-          <strong>Número de abonados: </strong><span> {{snitSelectedElement.numbersubscribed}}</span><br>
-          <strong>Población abastecida: </strong><span> {{snitSelectedElement.population}}</span><br>
-          <strong>Tipos de Abastecimiento: </strong><br>
-          <ul>
-            <li>Captaciones Superficiales: {{snitSelectedElement.cantSuperficial}}</li>
-            <li>Tanques: {{snitSelectedElement.cantTanques}}</li>
-            <li>Sistemas de Cloración: {{snitSelectedElement.cantCloraci}}</li>
-          </ul>
+          </div>
+          <div class="text-center">
+            <button (click)="setDetails(snitSelectedElement)" type="button" class="btn btn-icon-toggle" data-toggle="modal"
+              data-target="#InfoModal" data-placement="top" data-original-title="Ver">ISRS</button> -
+            <button (click)="setDetails(snitSelectedElement)" type="button" class="btn ink-reaction btn-icon-toggle"
+              data-toggle="modal" data-target="#InfoModal2" data-placement="top" data-original-title="Ver">ISAR</button>
+          </div>
+          <div class="iw-subTitle font-size-13">
+            <strong>Tipo de zona: </strong> <span> {{snitSelectedElement.zonetype}}</span>
+            <br>
+            <span> <strong>Número de abonados: </strong>{{snitSelectedElement.numbersubscribed}}</span>
+            <br>
+            <span> <strong>Población abastecida: </strong>{{snitSelectedElement.population}}</span>
+            <br>
+            <strong>Tipos de Abastecimiento: </strong>
+            <ul>
+              <li>Captaciones Superficiales: {{snitSelectedElement.cantSuperficial}}</li>
+              <li>Tanques: {{snitSelectedElement.cantTanques}}</li>
+              <li>Sistemas de Cloración: {{snitSelectedElement.cantCloraci}}</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
