@@ -323,7 +323,7 @@ export class MapGoogleComponent implements OnInit {
         });*/
         this.snitMap = new ol.Map({
             controls: ol.control.defaults().extend([
-                new ol.control.ScaleLine()
+                new ol.control.ScaleLine({units:'metric'})
             ]),
             target: 'snitMap',
             overlays: [this.popupOverlay],
@@ -331,7 +331,6 @@ export class MapGoogleComponent implements OnInit {
             view: this.snitMapView
 
         });
-        alert(this.snitMapView.getZoom());
         var genericMap: any = this.snitMap;
         genericMap.on('singleclick', function (evt) {
             scope.snitSelectedElement = undefined;
