@@ -8,6 +8,7 @@ import { DatePipe } from '@angular/common';
 import { Infrastructure } from '../../common/model/Infrastructure';
 import { MapGoogleService } from '../map-google/map-google.service';
 import { LegendEntryComponent } from '@swimlane/ngx-charts';
+import { TomaInfra } from '../../common/model/TomaInfra';
 @Component({
   selector: 'app-toma-datos',
   templateUrl: './toma-datos.component.html',
@@ -17,10 +18,11 @@ import { LegendEntryComponent } from '@swimlane/ngx-charts';
 export class TomaDatosComponent implements OnInit {
 
   private infraestructureList: Infrastructure[];
-  filteredList2: any[];
+  asadasList: any[];
   asadaSelected: string = '';
   todayDate: Date;
-  filteredList: any[];
+  tomaDatosList: any[];
+  
   
   public cantidadTanques = 0;
   public cantidadCaptaciones = 0;
@@ -29,18 +31,18 @@ export class TomaDatosComponent implements OnInit {
   constructor(private mapService: MapGoogleService, db: AngularFireDatabase, private af: AngularFire,private angularFireService: AngularFireService,private datepipe: DatePipe) {
     this.infraestructureList = [];
     db.list('asadas')
-    .subscribe(filteredList2 => {
-      this.filteredList2 = filteredList2;
+    .subscribe(asadasList => {
+      this.asadasList = asadasList;
       this.getInfraestructures();
       
       });
 
    
     db.list('/tomaDatos')
-    .subscribe(filteredList => {
-      this.filteredList = filteredList;
+    .subscribe(tomaDatosList => {
+      this.tomaDatosList = tomaDatosList;
       var tomaDatosList = new Array();
-      for (var i = 0; i < this.filteredList.length; i++){
+      for (var i = 0; i < this.tomaDatosList.length; i++){
         var toma_datos = {
           'key':'',
           'id':'',
@@ -49,19 +51,19 @@ export class TomaDatosComponent implements OnInit {
           'Estado': '',
           'Infraestructura': ''
         }
-        if(this.filteredList[i]["idEstudiante"] == this.User){
-          toma_datos.key = this.filteredList[i]["$key"];  
-          toma_datos.id = this.filteredList[i]["idToma"]; 
-          toma_datos.Asada = this.filteredList[i]["nameAsada"];
-          toma_datos.Fecha = this.filteredList[i]["dateCreated"];
-          toma_datos.Estado = this.filteredList[i]["status"];
+        if(this.tomaDatosList[i]["idEstudiante"] == this.User){
+          toma_datos.key = this.tomaDatosList[i]["$key"];  
+          toma_datos.id = this.tomaDatosList[i]["idToma"]; 
+          toma_datos.Asada = this.tomaDatosList[i]["nameAsada"];
+          toma_datos.Fecha = this.tomaDatosList[i]["dateCreated"];
+          toma_datos.Estado = this.tomaDatosList[i]["status"];
           tomaDatosList.push(toma_datos);
 
         }
 
       }
       
-      this.filteredList = tomaDatosList;
+      this.tomaDatosList = tomaDatosList;
       
     });
 
@@ -69,9 +71,9 @@ export class TomaDatosComponent implements OnInit {
 
    calculateInfraestructure(){
     console.log(this.infraestructureList.length);
-    for(let tomaDatosEl of this.filteredList){
+    for(let tomaDatosEl of this.tomaDatosList){
     
-    for (let asada of this.filteredList2){
+    for (let asada of this.asadasList){
     
       if(tomaDatosEl.Asada == asada.name){
       var key;
@@ -126,31 +128,39 @@ export class TomaDatosComponent implements OnInit {
 
   create(){
     
-    var id = Number(this.filteredList[this.filteredList.length-1]["id"])+1;
+    var id = Number(this.tomaDatosList[this.tomaDatosList.length-1]["id"])+1;
     
     const tomaDatos: TomaDatos = new TomaDatos();
     this.todayDate = new Date();
     let latest_date =this.datepipe.transform(this.todayDate, 'yyyy-MM-dd');
-    const infraestructuras = [/*{id: '', res1: '',res2: '',res3: '',res4: ''
-  ,res5: '',res6: '',res7: '',res8: '',res9: '',res10: ''}*/]
+
     tomaDatos.dateCreated = latest_date;
     tomaDatos.idToma= id.toString();
     tomaDatos.nameAsada = this.asadaSelected;
     tomaDatos.status = 'Pendiente';
     tomaDatos.idEstudiante = this.User;
-    infraestructuras.id = this.returnInfraesOfAsada(this.asadaSelected);
-    tomaDatos.infraestructuras = infraestructuras;
+    tomaDatos.infraestructuras = this.returnInfraesOfAsada(this.asadaSelected);
 
     this.addNewTomaDatos(tomaDatos);
   }
 
-  returnInfraesOfAsada(id: string): string  {
+  
+
+  returnInfraesOfAsada(id: string){
+    var listInfra: TomaInfra[] = [];
+    for (let infra of this.infraestructureList){
+      
+      var infraTemp = new TomaInfra();
+
+      if (infra.asada.name === id){
+        
+        infraTemp.id = infra.$key;
+        listInfra.push(infraTemp);
+      }
+    }
+    return listInfra;
     
-    return '';
   }
-
-
-
 
   evalCantTanques(asadaid: string) {
 
@@ -185,9 +195,6 @@ evalCantSistemasClr(asadaid: string) {
 
     }
 }
-
-
-
   
 
 }

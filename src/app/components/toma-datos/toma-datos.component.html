@@ -45,7 +45,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let element of filteredList">
+                    <tr *ngFor="let element of tomaDatosList">
                       <td><a class="opacity-75">{{element.id}}</a></td>
                       <td><a class="opacity-75">{{element.Asada}}</a></td>
                       <td><a class="opacity-75" >{{element.Fecha}}</a></td>
@@ -80,7 +80,7 @@
 
                     <select class="form-control" (change)="asadaHandler($event)"> <!-- <== changed -->
                       
-                      <option *ngFor="let element of filteredList2" [ngValue]="element">{{element.name}}</option>
+                      <option *ngFor="let element of asadasList" [ngValue]="element">{{element.name}}</option>
                     </select>
                     
                 </div>
