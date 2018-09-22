@@ -322,13 +322,9 @@
           <div class="iw-subTitle">
             {{snitSelectedElement.province}}, {{snitSelectedElement.state}}, {{snitSelectedElement.district}}
             <br>+(506) {{snitSelectedElement.phonenumber}}<br>
+            
           </div>
-          <div class="text-center">
-            <button (click)="setDetails(snitSelectedElement)" type="button" class="btn btn-icon-toggle" data-toggle="modal"
-              data-target="#InfoModal" data-placement="top" data-original-title="Ver">ISRS</button> -
-            <button (click)="setDetails(snitSelectedElement)" type="button" class="btn ink-reaction btn-icon-toggle"
-              data-toggle="modal" data-target="#InfoModal2" data-placement="top" data-original-title="Ver">ISAR</button>
-          </div>
+          <div class="separator"></div>
           <div class="iw-subTitle font-size-13">
             <strong>Tipo de zona: </strong> <span> {{snitSelectedElement.zonetype}}</span>
             <br>

@@ -1,3 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 
-font-family: 'Lora', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+/* font-family: 'Lora', 'Helvetica Neue', Helvetica, Arial, sans-serif; */
+
+div .separator{
+    width: 80%;
+    height: 1px;
+    max-height: 1px;
+    background-color: rgba(128, 128, 128, 0.3);
+    margin: 6px 10%;
+  }
