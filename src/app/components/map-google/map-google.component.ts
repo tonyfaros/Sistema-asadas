@@ -137,10 +137,6 @@ export class MapGoogleComponent implements OnInit {
         //-----------------------------------
     }
 
-    private scroll(id) {
-        let el = document.getElementById(id);
-        el.scrollIntoView();
-    }
 
     googleMapReady() {
         if (this.googleMap) {
@@ -169,7 +165,7 @@ export class MapGoogleComponent implements OnInit {
     initSnitMapAssets() {
 
         this.markerSource = new ol.source.Vector(
-            
+
         );
         var format = "image/png";
 
@@ -182,7 +178,7 @@ export class MapGoogleComponent implements OnInit {
                     scale: 0.33,
                     src: url,
                 })
-                
+
             });
 
             return style;
@@ -262,12 +258,20 @@ export class MapGoogleComponent implements OnInit {
             { keyName: "capaDetalle", name: "Capa Detalle", active: true, layer: this.capaDetalle },
             { keyName: "capaUrbana", name: "Capa Urbana", active: true, layer: this.capaUrbana }
         ]
-
+        /*
         this.snitMapView = new ol.View({
             center: ol.proj.fromLonLat([this.centerLng, this.centerLat]),
             zoom: this.mapZoom,
             minZoom: this.mapMinZoom
         });
+        */
+        this.snitMapView = new ol.View({
+            projection: 'EPSG:4326',
+            center: [this.currentLng, this.currentLat],
+            zoom: this.currentZoom,
+            minZoom: this.mapMinZoom
+        });
+
         this.clearSnitMarkers();
     }
 
@@ -294,8 +298,6 @@ export class MapGoogleComponent implements OnInit {
 
         this.initSnitMapAssets()
         var layers = [
-            new ol.layer.Group({
-                layers: [
                     this.capaOSM,
                     this.capaDetalle,
                     this.capaUrbana,
@@ -303,19 +305,12 @@ export class MapGoogleComponent implements OnInit {
                     this.capaCantonal,
                     this.capaProvincial,
                     this.vectorIcon
-                ]
-            })];
+                ];
 
         this.listCapas.forEach(layer => {
             layer.layer.setVisible(layer.active);
         });
 
-        this.snitMapView = new ol.View({
-            projection: 'EPSG:4326',
-            center: [this.currentLng,this.currentLat],
-            zoom: this.currentZoom
-            
-          })
         /*new ol.View({
             center: ol.proj.fromLonLat([this.centerLng, this.centerLat]),
             zoom: this.mapZoom,
@@ -323,7 +318,7 @@ export class MapGoogleComponent implements OnInit {
         });*/
         this.snitMap = new ol.Map({
             controls: ol.control.defaults().extend([
-                new ol.control.ScaleLine({units:'metric'})
+                new ol.control.ScaleLine({ units: 'metric' })
             ]),
             target: 'snitMap',
             overlays: [this.popupOverlay],
@@ -379,10 +374,18 @@ export class MapGoogleComponent implements OnInit {
         } catch (ex) { alert(ex); this.popupOverlay.setPosition(undefined); }
     }
 
+    centerMapOnMarker(element: any) {
+        if (element) {
+            this.currentLng = element.long;
+            this.currentLat = element.lat;
+        }
+        this.updateSnitMapCenter();
+    }
+
     updateSnitMapCenter() {
         if (this.snitMapView) {
             this.snitMapView.setCenter([this.currentLng, this.currentLat]),//ol.proj.fromLonLat([this.currentLng, this.currentLat]));
-            this.snitMapView.setZoom(this.currentZoom);
+                this.snitMapView.setZoom(this.currentZoom);
         }
     }
 
@@ -391,6 +394,7 @@ export class MapGoogleComponent implements OnInit {
         this.addInfraSnitMarkers();
         this.addAsadaSnitMarkers();
     }
+
     clearSnitMarkers() {
         this.markerSource.clear();
         this.markerSource.refresh();
@@ -419,7 +423,7 @@ export class MapGoogleComponent implements OnInit {
     createFeature(url: string, name: string, lngLatCoords: [number, number], element?: any): ol.Feature {
         var iconFeature = new ol.Feature({
             geometry: new ol.geom.Point(lngLatCoords),//ol.proj.transform(lngLatCoords, 'EPSG:4326',
-                //'EPSG:3857')),
+            //'EPSG:3857')),
             name: name,
 
         });
@@ -429,6 +433,7 @@ export class MapGoogleComponent implements OnInit {
         }
         return iconFeature;
     }
+
     openSnitElementPopUp(element: any) {
         this.snitSelectedElement = element;
 
@@ -436,7 +441,6 @@ export class MapGoogleComponent implements OnInit {
             this.popupOverlay.setPosition([element.long, element.lat]);//ol.proj.fromLonLat([element.long, element.lat]));
         }
         else {
-            alert("null")
             this.popupOverlay.setPosition(undefined);
         }
     }
@@ -444,8 +448,9 @@ export class MapGoogleComponent implements OnInit {
     showInfoWindow(asada: any) {
         asada.showInfoWindow = true
         //if(this.googleMapActivation){
-        this.openSnitElementPopUp(asada)
+        this.openSnitElementPopUp(asada);
         //}
+        this.centerMapOnMarker(asada);
     }
 
     filterNotify(filConf: filterConfig) {
@@ -575,6 +580,21 @@ export class MapGoogleComponent implements OnInit {
     cancelModal() {
         this.loadgraphic = false;
     }
+    
+    scrollTop() {
+        var cosParameter = window.scrollY / 2,
+            scrollCount = 0,
+            oldTimestamp = performance.now();
+        function step(newTimestamp) {
+            scrollCount += Math.PI / (500 / (newTimestamp - oldTimestamp));
+            if (scrollCount >= Math.PI) window.scrollTo(0, 0);
+            if (window.scrollY === 0) return;
+            window.scrollTo(0, Math.round(cosParameter + cosParameter * Math.cos(scrollCount)));
+            oldTimestamp = newTimestamp;
+            window.requestAnimationFrame(step);
+        }
+        window.requestAnimationFrame(step);
+    }
 
     redirectASADA(elem: asadastructure) {
         this.router.navigate(["/asadaDetails/" + elem.$key]);
@@ -600,12 +620,6 @@ export class MapGoogleComponent implements OnInit {
                 break;
             }
         }
-    }
-
-    private visible: boolean = true;
-
-    markerClick() {
-        this.visible = !this.visible;
     }
 
     addInfraestructureMarker() {
