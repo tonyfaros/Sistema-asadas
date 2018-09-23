@@ -9,3 +9,187 @@ div .separator{
     background-color: rgba(128, 128, 128, 0.3);
     margin: 6px 10%;
   }
+/*   
+div .loading{
+    background-image: url("./assets/");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background-color: rgba(71, 71, 94, 0.301)
+  }
+   */
+
+  
+/*---------------------------------------Loading---------------------------*/
+.loading {
+    position: absolute;
+    max-width: 100%!important;
+    width: 100vw!important;
+    height: 100%!important;
+    z-index: 999;
+    background-color: rgba(30, 30, 32, 0.301);
+    color: whitesmoke;
+    font-size: 14px;
+    left: 0;
+    padding: inherit!important;
+    -moz-box-sizing: border-box!important;
+    -webkit-box-sizing: border-box!important;
+    box-sizing: border-box!important;
+  }
+  .loading  .loading-spinner {
+    border: 2px solid #f3f3f3 !important;
+    border-radius: 50%;
+    border-top: 2px solid #2D2D2D !important;
+
+    height: 40px!important;
+    width: 40px!important;
+    left: calc(50% - 20px);
+    opacity: inherit;
+    position: absolute;
+    top: calc(50% - 40px);
+
+    -webkit-animation: spinner 1s infinite linear;
+    -moz-animation: spinner 1s infinite linear;
+    -ms-animation: spinner 1s infinite linear;
+    -o-animation: spinner 1s infinite linear;
+    animation: spinner 1s infinite linear;
+  }
+  
+  .loading  .loading-timeout-message{
+    position: absolute;
+    opacity: 0;  
+    top: calc(50% + 10px)!important;
+    width: 100%;
+    text-align: center;
+    -webkit-animation: timeout 20s normal forwards;
+    -moz-animation: timeout 20s normal forwards;
+    -ms-animation: timeout 20s normal forwards;
+    -o-animation: timeout 20s normal forwards;
+    animation: timeout 20s normal forwards; 
+    animation-iteration-count: 1
+  }
+  
+@-webkit-keyframes timeout {
+    
+    1% {
+        opacity: 0;  
+    }
+    96% {
+        opacity: 0;  
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@-moz-keyframes timeout {
+    
+    1% {
+        opacity: 0;  
+    }
+    
+    99% {
+        opacity: 0;  
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@-o-keyframes timeout {
+    
+    
+    1% {
+        opacity: 0;  
+    }
+    99% {
+        opacity: 0;  
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes timeout {
+    
+    1% {
+        opacity: 0;  
+    }
+    99% {
+        opacity: 0;  
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+
+  
+@-webkit-keyframes spinner {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@-moz-keyframes spinner {
+    0% {
+        -moz-transform: rotate(0deg);
+    }
+
+    100% {
+        -moz-transform: rotate(360deg);
+    }
+}
+
+@-o-keyframes spinner {
+    0% {
+        -o-transform: rotate(0deg);
+    }
+
+    100% {
+        -o-transform: rotate(360deg);
+    }
+}
+
+@keyframes spinner {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+
+
+
+/*---------------------------------------------------------*/
+.font-xm {
+    font-size: 9px !important;
+}
+
+.font-sm {
+    font-size: 13px !important;
+}
+
+.font-md {
+    font-size: 16px !important;
+}
+
+.font-lg {
+    font-size: 25px !important;
+}
+
+.font-lg {
+    font-size: 30px !important;
+}
+/* Animation */

@@ -207,11 +207,11 @@ export class SearchComponent implements OnInit, OnDestroy {
 				}
 			}
 			this.filteredList = filteredListTemp;
-			if(this.filteredList.length<75){
-				console.log(this.filteredList);
-				console.log(filtCat);
-				console.log(filtRie);
-			}
+			// if(this.filteredList.length<75){
+			// 	console.log(this.filteredList);
+			// 	console.log(filtCat);
+			// 	console.log(filtRie);
+			// }
 		}
 
 	}

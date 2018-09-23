@@ -2,139 +2,150 @@
 
   <div class="section-header">
     <h2 id="mapa-title" class="text-default-bright col-xs-12 col-md-3">Mapa de ASADAs</h2>
+
   </div>
   <div class="section-body">
-
     <!-- Begin Body Section -->
     <div class="content">
       <div class="row">
+
         <!-- MAPA -->
-        <div class="col-md-12">
-          <div class="fullMap" id="map-canvas">
-            <div class="no-padding">
 
-              <div class="col-xs-12">
-                <app-filter [activeLocationFilter]="true" [activeCategoryFilter]="true" [activeRiskFilter]="(isLoggedIn == true)"
-                  [activeFilterButton]="true" (notify)='filterNotify($event)' style="position:absolute">
-                </app-filter>
+        <div class="col-xs-11 col-sm-12 maps-content" id="map-canvas">
+
+          <div *ngIf="!dataLoaded" class="loading">
+            <div class="loading-spinner">
+            </div>
+            <div class="loading-timeout-message">
+
+              <div class="reload-message">
+                <h4 class="text-warning"> La carga de datos esta tardando más de lo normal.</h4>
+                <br>Recargar la página podria solucionar el problema <a class="btn btn-icon-toggle btn-refresh" onClick="window.location.reload()"><i
+                    class="fa fa-refresh"></i></a>
               </div>
-              <div class="lateral-map-panel">
-
-                <div class="map-layers row">
-                  <div class="layer-btn-container">
-                    <button type="button" class="layer-btn btn ink-reaction btn-floating-action btn-default-light collapsed"
-                      data-toggle="collapse" data-parent="map-canvas" data-target="#layer-container">
-                      <i class="md md-layers"></i>
-                    </button>
-                  </div>
-
-                  <div id="layer-container" class="timeline-entry layer-container collapse">
-                    <div class="card style-default-light layer-card">
-                      <div class="card-body small-padding">
-                        <span class="opacity-50">
-                          Capas
-                        </span>
-                      </div>
-                      <!--end .card-body -->
-                      <div class="card-body small-padding">
-                        <div>
-                          <button class="btn ink-reaction style-default-bright layer-btn col-xs-11" (click)="activateGoogleMap()">
-                            <i *ngIf="!snitMapActivation" class="fa fa-check"></i>Mapas Google
-                          </button>
-                        </div>
-                        <div>
-                          <button class="btn ink-reaction style-default-bright layer-btn col-xs-11" (click)="activateSnitMap()">
-                            <i *ngIf="snitMapActivation" class="fa fa-check"></i>Mapas SNIT
-                          </button><br>
-                          <div *ngIf="snitMapActivation && listCapas">
-                            <Strong>Opciones:</Strong>
-                            <div *ngFor="let layer of listCapas" class="checkbox checkbox-styled checkbox-primary-dark">
-                              <label><input type="checkbox" [(ngModel)]="layer.active" (click)="toggleLayer($event, layer)">
-                                <span>{{layer.name}}</span>
-                              </label>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <!--end .card-body -->
-                    </div>
-                    <!--end .card -->
-                  </div>
-                  <!--end .timeline-entry -->
-
-                </div>
-              </div>
-              <div id="snitMap" class="col-xs-12 snitMap" [hidden]='!snitMapActivation'></div>
-              <!-- Begin Card Map -->
-              <agm-map #googleMap [(latitude)]="currentLat" id="googleMap" [(longitude)]="currentLng" [(zoom)]="currentZoom"
-                [scrollwheel]="false" [mapTypeId]="'terrain'" [gestureHandling]="'cooperative'" [mapTypeControl]="'true'"
-                [hidden]='!googleMapActivation' [(minZoom)]="mapMinZoom">
-
-                <!-- MARKER PARA INFRAESTRUCTURAS-->
-                <div *ngFor="let m of infraestructuremarkers">
-                  <agm-marker *ngIf="m.visible" [(latitude)]="m.lat" [(longitude)]="m.long" (zIndex)="1" [(iconUrl)]="m.iconConfig"
-                    (markerClick)="lastOpen?.close(); lastOpen = infoWindow;">
-                    <agm-info-window #infoWindow>
-                      <div id="iw-container">
-                        <div class="iw-title">
-                          <button (click)="redirectInfraestructure(m)" type="button" class="btn btn-block ink-reaction btn-link">{{m.name}}</button>
-                        </div>
-                        <div class="iw-subTitle">
-                          {{m.asada.name}}
-                          <br>{{m.province}}
-                          <br>+(506) {{m.phonenumber}}<br>
-                          <br>
-                          <strong *ngIf="(isLoggedIn == true && m.asada && m.asada.id == AsadaUser) || (isLoggedIn == true && this.UserRol == 'Super Administrador')">Nivel
-                            de riesgo: </strong>
-                          <span *ngIf="(isLoggedIn == true && m.asada && m.asada.id == AsadaUser) || (isLoggedIn == true && this.UserRol == 'Super Administrador')">
-                            {{m.riskLevel}}</span>
-                          <br>
-                        </div>
-                      </div>
-                    </agm-info-window>
-                  </agm-marker>
-                </div>
-
-                <div *ngFor="let m of asadasmarkers">
-                  <agm-marker *ngIf="m.visible" [(latitude)]="m.lat" [(longitude)]="m.long" [(iconUrl)]="m.iconConfig"
-                    [(zIndex)]="m.zIndex" (markerClick)="lastOpen?.close(); lastOpen = infoWindow;">
-                    <agm-info-window #infoWindow class="infowindow" [isOpen]="m.showInfoWindow">
-
-                        <div id="iw-container">
-                            <div class="iw-title">
-                                <button (click)="redirectASADA(m)" class="btn btn-link ink-reaction btn-warning">{{m.name}}</button>
-                            </div>
-                            <div class="iw-content">
-                                <div class="iw-subTitle">
-                                  {{m.province}}, {{m.state}}, {{m.district}}
-                                  <br>+(506) {{m.phonenumber}}<br>
-                                </div>
-                              <div class="separator"></div>
-                              <div class="iw-subTitle font-size-13">
-                                <strong>Tipo de zona: </strong> <span> {{m.zonetype}}</span>
-                                <br>
-                                <span> <strong>Número de abonados: </strong>{{m.numbersubscribed}}</span>
-                                <br>
-                                <span> <strong>Población abastecida: </strong>{{m.population}}</span>
-                                <br>
-                                <strong>Tipos de Abastecimiento: </strong>
-                                <ul>
-                                  <li>Captaciones Superficiales: {{m.cantSuperficial}}</li>
-                                  <li>Tanques: {{m.cantTanques}}</li>
-                                  <li>Sistemas de Cloración: {{m.cantCloraci}}</li>
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
-
-                    </agm-info-window>
-                  </agm-marker>
-                </div>
-              </agm-map>
 
             </div>
-            <!-- End Card Map -->
           </div>
+
+          <div class="col-xs-12">
+            <app-filter [activeLocationFilter]="true" [activeCategoryFilter]="true" [activeRiskFilter]="(isLoggedIn == true)"
+              [activeFilterButton]="true" (notify)='filterNotify($event)' style="position:absolute">
+            </app-filter>
+          </div>
+          <div class="lateral-map-panel">
+
+            <div class="map-layers row">
+
+              <div class="layer-btn-container">
+                <button type="button" class="layer-btn btn ink-reaction btn-floating-action btn-default-light collapsed"
+                  data-toggle="collapse" data-parent="map-canvas" data-target="#layer-container">
+                  <i class="md md-layers"></i>
+                </button>
+              </div>
+
+              <div id="layer-container" class="timeline-entry layer-container collapse">
+                <div class="card style-default-light layer-card">
+                  <div class="card-body small-padding">
+                    <span class="opacity-50">
+                      Capas
+                    </span>
+                  </div>
+                  <!--end .card-body -->
+                  <div class="card-body small-padding">
+                    <div>
+                      <button class="btn ink-reaction style-default-bright layer-btn col-xs-11" (click)="activateGoogleMap()">
+                        <i *ngIf="!snitMapActivation" class="fa fa-check"></i>Mapas Google
+                      </button>
+                    </div>
+                    <div>
+                      <button class="btn ink-reaction style-default-bright layer-btn col-xs-11" (click)="activateSnitMap()">
+                        <i *ngIf="snitMapActivation" class="fa fa-check"></i>Mapas SNIT
+                      </button><br>
+                      <div *ngIf="snitMapActivation && layersGroupList">
+                        <Strong>Opciones:</Strong>
+                        <div *ngFor="let group of layersGroupList" class="checkbox checkbox-styled checkbox-primary-dark">
+                          <label><input type="checkbox" [(ngModel)]="group.active" (click)="toggleLayerGroup($event, group)">
+                            <span>{{group.name}}</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--end .card-body -->
+                </div>
+                <!--end .card -->
+              </div>
+              <!--end .timeline-entry -->
+
+            </div>
+          </div>
+          <div id="snitMap" class="col-xs-12 snitMap" [hidden]='!snitMapActivation'></div>
+          <agm-map #googleMap [(latitude)]="currentLat" id="googleMap" [(longitude)]="currentLng" [(zoom)]="currentZoom"
+            [scrollwheel]="false" [mapTypeId]="'terrain'" [gestureHandling]="'cooperative'" [mapTypeControl]="'true'"
+            [hidden]='!googleMapActivation' [(minZoom)]="mapMinZoom">
+
+            <!-- MARKER PARA INFRAESTRUCTURAS-->
+            <div *ngFor="let m of infraestructuremarkers">
+              <agm-marker *ngIf="m.visible" [(latitude)]="m.lat" [(longitude)]="m.long" (zIndex)="1" [(iconUrl)]="m.iconConfig"
+                (markerClick)="lastOpen?.close(); lastOpen = infoWindow;">
+                <agm-info-window #infoWindow>
+                  <div id="iw-container">
+                    <div class="iw-title">
+                      <button (click)="redirectInfraestructure(m)" type="button" class="btn btn-block ink-reaction btn-link">{{m.name}}</button>
+                    </div>
+                    <div class="iw-subTitle">
+                      {{m.asada.name}}
+                      <br>{{m.province}}
+                      <br>+(506) {{m.phonenumber}}<br>
+                      <br>
+                      <strong *ngIf="(isLoggedIn == true && m.asada && m.asada.id == AsadaUser) || (isLoggedIn == true && this.UserRol == 'Super Administrador')">Nivel
+                        de riesgo: </strong>
+                      <span *ngIf="(isLoggedIn == true && m.asada && m.asada.id == AsadaUser) || (isLoggedIn == true && this.UserRol == 'Super Administrador')">
+                        {{m.riskLevel}}</span>
+                      <br>
+                    </div>
+                  </div>
+                </agm-info-window>
+              </agm-marker>
+            </div>
+            <div *ngFor="let m of asadasmarkers">
+              <agm-marker *ngIf="m.visible" [(latitude)]="m.lat" [(longitude)]="m.long" [(iconUrl)]="m.iconConfig"
+                [(zIndex)]="m.zIndex" (markerClick)="lastOpen?.close(); lastOpen = infoWindow;">
+                <agm-info-window #infoWindow class="infowindow" [isOpen]="m.showInfoWindow">
+
+                  <div id="iw-container">
+                    <div class="iw-title">
+                      <button (click)="redirectASADA(m)" class="btn btn-link ink-reaction btn-warning">{{m.name}}</button>
+                    </div>
+                    <div class="iw-content">
+                      <div class="iw-subTitle">
+                        {{m.province}}, {{m.state}}, {{m.district}}
+                        <br>+(506) {{m.phonenumber}}<br>
+                      </div>
+                      <div class="separator"></div>
+                      <div class="iw-subTitle font-size-13">
+                        <strong>Tipo de zona: </strong> <span> {{m.zonetype}}</span>
+                        <br>
+                        <span> <strong>Número de abonados: </strong>{{m.numbersubscribed}}</span>
+                        <br>
+                        <span> <strong>Población abastecida: </strong>{{m.population}}</span>
+                        <br>
+                        <strong>Tipos de Abastecimiento: </strong>
+                        <ul>
+                          <li>Captaciones Superficiales: {{m.cantSuperficial}}</li>
+                          <li>Tanques: {{m.cantTanques}}</li>
+                          <li>Sistemas de Cloración: {{m.cantCloraci}}</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                </agm-info-window>
+              </agm-marker>
+            </div>
+          </agm-map>
+
+          <!-- End Card Map -->
           <!-- End FullMap -->
         </div>
         <!-- END Mapa -->
@@ -149,8 +160,24 @@
         <div class="asada-table">
           <div class="card style-default-light">
             <div class="nano" style="height: 400px;">
+
+                <div *ngIf="!dataLoaded" class="loading">
+                    <div class="loading-spinner">
+                    </div>
+                    <div class="loading-timeout-message">
+        
+                      <div class="reload-message">
+                        <h4 class="text-warning"> La carga de datos esta tardando más de lo normal.</h4>
+                        <br>Recargar la página podria solucionar el problema <a class="btn btn-icon-toggle btn-refresh" onClick="window.location.reload()"><i
+                            class="fa fa-refresh"></i></a>
+                      </div>
+        
+                    </div>
+                  </div>
+
               <div class="nano-content">
                 <div class="card-body height-8" style="height: auto;">
+
                   <!--<div><div>-->
                   <div class="card-body">
                     <div class="table-responsive">
@@ -312,7 +339,7 @@
           <div class="iw-subTitle">
             {{snitSelectedElement.province}}, {{snitSelectedElement.state}}, {{snitSelectedElement.district}}
             <br>+(506) {{snitSelectedElement.phonenumber}}<br>
-            
+
           </div>
           <div class="separator"></div>
           <div class="iw-subTitle font-size-13">

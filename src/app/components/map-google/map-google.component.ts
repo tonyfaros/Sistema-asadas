@@ -1,7 +1,7 @@
 /* gabygarro (06/09/17): Esta página, junto con map-google.component y about-us.component
 tienen un work around descrito en el issue https://github.com/angular/angular/issues/6595 */
 
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, group } from '@angular/core';
 import { AgmMap } from '@agm/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ApplicationRef } from '@angular/core';
@@ -42,9 +42,9 @@ export class MapGoogleComponent implements OnInit {
     public UserRol: string;
     public loadgraphic: boolean;
 
-    public cantidadTanques = 0;
-    public cantidadCaptaciones = 0;
-    public cantidadCloracion = 0;
+    // public cantidadTanques = 0;
+    // public cantidadCaptaciones = 0;
+    // public cantidadCloracion = 0;
     public lastOpen: any;
 
     //---------------------Atributos Autenticacion
@@ -73,24 +73,70 @@ export class MapGoogleComponent implements OnInit {
     //MAPS ACTIVATIONS TOGGLE
     private googleMapActivation: boolean = false;
     private snitMapActivation: boolean = false;
+    private dataLoaded: boolean = false;
 
     //---------------------Atributos Mapas Snit
     private snitMap: ol.Map;
     private markerSource: ol.source.Vector;
 
-    private capaDistrital: ol.layer.Tile;
-    private capaCantonal: ol.layer.Tile;
-    private capaProvincial: ol.layer.Tile;
-    private capaDetalle: ol.layer.Tile;
-    private capaUrbana: ol.layer.Tile;
-    private capaOSM: ol.layer.Tile;
-    private listCapas: capaMapaSnit[];
+    private capaDistrital: snitMapLayer;
+    private capaCantonal: snitMapLayer;
+    private capaProvincial: snitMapLayer;
+    private capaDetalle: snitMapLayer;
+    private capaUrbana: snitMapLayer;
+    private capaOSM: snitMapLayer;
+
+    private layersGroupList: snitMapLayerGroup[];
 
     private vectorIcon: ol.layer.Vector;
     private popupOverlay: ol.Overlay;
     private snitMapView: ol.View;
 
     public snitSelectedElement: any;
+
+    private layerData: any = {
+        'capaDistrital': {
+            'url': 'http://geos.snitcr.go.cr/be/IGN_5/wms?',
+            params: {
+                'LAYERS': 'limitedistrital_5k', 'VERSION': '1.1.1',
+                'TILED': true,
+                'FORMAT': 'image/png',
+                'TRANSPARENT': true,
+            }
+        },
+        'capaCantonal': {
+            'url': 'http://geos.snitcr.go.cr/be/IGN_5/wms?',
+            params: {
+                'LAYERS': ['limitecantonal_5k'], 'VERSION': '1.1.1',
+                'TILED': true,
+                'FORMAT': 'image/png',
+                'TRANSPARENT': true,
+            }
+        },
+        'capaProvincial': {
+            'url': 'http://geos.snitcr.go.cr/be/IGN_5/wms?',
+            params: {
+                'LAYERS': 'limiteprovincial_5k', 'VERSION': '1.1.1',
+                'TILED': true,
+                'FORMAT': 'image/png',
+                'TRANSPARENT': true,
+            }
+        },
+        'capaDetalle': {
+            url: 'http://geos0.snitcr.go.cr/cgi-bin/web?map=hojas50.map&SERVICE=WMS&version=1.1.1&request=GetCapabilities',
+            params: {
+                'LAYERS': 'hojas_50', 'TILED': true,
+            },
+            serverType: 'geoserver',
+            transition: 0
+        },
+        'capaUrbana': {
+            url: 'http://geos.snitcr.go.cr/be/IGN_5/wms?',
+            params: { 'LAYERS': 'urbano_5000', 'TILED': true },
+            serverType: 'geoserver',
+            transition: 0
+        }
+    };
 
     //---------------------Atributos Mapas google
     @ViewChild('googleMap') googleMap: AgmMap;
@@ -99,7 +145,6 @@ export class MapGoogleComponent implements OnInit {
     //----------------------Atributos Filtrado de elementos
     public filterConfiguration: filterConfig;
 
-
     constructor(private mapService: MapGoogleService, private af: AngularFire, private userService: UserService, private router: Router, private route: ActivatedRoute) {
         this.allList = [];
         this.AsadasList = [];
@@ -107,7 +152,6 @@ export class MapGoogleComponent implements OnInit {
         this.infraestructuremarkers = [];
         this.asadasmarkers = [];
     }
-
 
     ngOnInit() {
         this.googleMapActivation = true;
@@ -129,24 +173,38 @@ export class MapGoogleComponent implements OnInit {
                 this.getResultAsadasTemp();
             }
         });
-        this.googleMapReady();
+        this.googleOnMapReady();
         this.generateSnitMap();
-        this.activateGoogleMap();
+        this.updateLocalStorageInfo();
         //--------------------------------temporal
-        this.activateSnitMap();
+        //this.activateSnitMap();
         //-----------------------------------
     }
+    updateLocalStorageInfo() {
+        var initialMap = localStorage["initialMap"];
+        switch (initialMap) {
+            case 'snitMap': {
+                this.activateSnitMap(); break
+            }
+            case 'googleMap': {
+                this.activateGoogleMap(); break
+            }
+            default:{
+                localStorage["initialMap"] = 'googleMap';break;
+            }
+        }
+    }
 
-
-    googleMapReady() {
+    googleOnMapReady() {
         if (this.googleMap) {
             this.googleMap.mapReady.subscribe(map => {
                 this.isGoogleMapReady = true;
             });
         }
-    }
+    } 
 
     activateGoogleMap() {
+        localStorage["initialMap"]='googleMap';
         this.googleMapActivation = true;
         this.snitMapActivation = !this.googleMapActivation;
     }
@@ -158,29 +216,24 @@ export class MapGoogleComponent implements OnInit {
             this.currentZoom = this.googleMap.zoom;
             this.updateSnitMapCenter();
         }
+        localStorage["initialMap"]='snitMap';
         this.snitMapActivation = true;
         this.googleMapActivation = !this.snitMapActivation;
     }
 
     initSnitMapAssets() {
-
-        this.markerSource = new ol.source.Vector(
-
-        );
-        var format = "image/png";
+        var scope = this;
+        this.markerSource = new ol.source.Vector();
 
         function markerStyle(feature) {
             var url = feature.get('url');
-
             var style = new ol.style.Style({
                 image: new ol.style.Icon({
                     anchor: [0.5, 0.5],
                     scale: 0.33,
                     src: url,
                 })
-
             });
-
             return style;
         }
 
@@ -188,83 +241,77 @@ export class MapGoogleComponent implements OnInit {
             source: this.markerSource,
             style: markerStyle
         });
-        this.capaDistrital = new ol.layer.Tile({
-            source: new ol.source.TileWMS(({
-                'url': 'http://geos.snitcr.go.cr/be/IGN_5/wms?',
-                params: {
-                    'LAYERS': 'limitedistrital_5k', 'VERSION': '1.1.1',
-                    'TILED': true,
-                    'FORMAT': format,
-                    'TRANSPARENT': true,
-                    'SRS': 'EPSG:4326',
-                    'gridSet': 'CRTM05'
-                }
-            }))
-        });
-        this.capaCantonal = new ol.layer.Tile({
-            source: new ol.source.TileWMS(({
-                'url': 'http://geos.snitcr.go.cr/be/IGN_5/wms?',
-                params: {
-                    'LAYERS': ['limitecantonal_5k'], 'VERSION': '1.1.1',
-                    'TILED': true,
-                    'FORMAT': format,
-                    'TRANSPARENT': true,
-                    'SRS': 'EPSG:4326',
-                    'gridSet': 'CRTM05'
-                }
-            }))
-        });
-        this.capaProvincial = new ol.layer.Tile({
-            source: new ol.source.TileWMS(({
-                'url': 'http://geos.snitcr.go.cr/be/IGN_5/wms?',
-                params: {
-                    'LAYERS': 'limiteprovincial_5k', 'VERSION': '1.1.1',
-                    'TILED': true,
-                    'FORMAT': format,
-                    'TRANSPARENT': true,
-                    'SRS': 'EPSG:4326',
-                    'gridSet': 'CRTM05'
-                }
-            }))
-        });
-        this.capaDetalle = new ol.layer.Tile({
-            source: new ol.source.TileWMS({
-                url: 'http://geos0.snitcr.go.cr/cgi-bin/web?map=hojas50.map&SERVICE=WMS&version=1.1.1&request=GetCapabilities',
-                params: {
-                    'LAYERS': 'hojas_50', 'TILED': true,
-                    'gridSet': 'CRTM05'
-                },
-                serverType: 'geoserver',
-                transition: 0,
-            })
-        });
-        this.capaUrbana = new ol.layer.Tile({
-            source: new ol.source.TileWMS({
-                url: 'http://geos.snitcr.go.cr/be/IGN_5/wms?',
-                params: { 'LAYERS': 'urbano_5000', 'TILED': true },
-                serverType: 'geoserver',
-                transition: 0
-            })
+
+        var container: any = document.getElementById('popup');
+        var closer = document.getElementById('popup-closer');
+        closer.onclick = function () {
+            scope.popupOverlay.setPosition(undefined);
+            closer.blur();
+            return false;
+        };
+        this.popupOverlay = new ol.Overlay({
+            element: container,
+            autoPan: true,
+            autoPanMargin:20,
+            positioning: 'top-center'
         });
 
-        this.capaOSM = new ol.layer.Tile({
-            source: new ol.source.OSM()
-        });
-        this.listCapas = [
-            { keyName: "capaOsm", name: "Capa Base", active: true, layer: this.capaOSM },
-            { keyName: "capaProvincial", name: "Capa Provincial", active: true, layer: this.capaProvincial },
-            { keyName: "capaCantonal", name: "Capa Cantonal", active: true, layer: this.capaCantonal },
-            { keyName: "capaDistrital", name: "Capa Distrital", active: false, layer: this.capaDistrital },
-            { keyName: "capaDetalle", name: "Capa Detalle", active: true, layer: this.capaDetalle },
-            { keyName: "capaUrbana", name: "Capa Urbana", active: true, layer: this.capaUrbana }
-        ]
-        /*
-        this.snitMapView = new ol.View({
-            center: ol.proj.fromLonLat([this.centerLng, this.centerLat]),
-            zoom: this.mapZoom,
-            minZoom: this.mapMinZoom
-        });
-        */
+        this.capaDistrital = {
+            keyName: 'capaDistrital',
+            name: 'Capa Distrital',
+            active: false,
+            description: 'Capa de división distrital',
+            layer: undefined
+        };
+        this.capaCantonal = {
+            keyName: 'capaCantonal',
+            name: 'Capa Cantonal',
+            active: true,
+            description: 'Capa de división cantonal',
+            layer: undefined
+        };
+        this.capaProvincial = {
+            keyName: 'capaProvincial',
+            name: 'Capa Provincial',
+            active: true,
+            description: 'Capa de división provincial',
+            layer: undefined
+        };
+        this.capaDetalle = {
+            keyName: 'capaDetalle',
+            name: 'Capa de detalle',
+            active: false,
+            description: 'Capa de Mosaicos Topográficos',
+            layer: undefined
+        };
+        this.capaUrbana = {
+            keyName: 'capaUrbana',
+            name: 'Capa Urbana',
+            active: true,
+            description: 'Capa de detalle urbano',
+            layer: undefined
+        };
+        this.capaOSM = {
+            keyName: 'capaOSM',
+            name: 'Capa Urbana',
+            active: true,
+            description: 'Capa de detalle urbano',
+            layer: undefined
+        };
+        this.initLayer(this.capaDistrital);
+        this.initLayer(this.capaCantonal);
+        this.initLayer(this.capaProvincial);
+        this.initLayer(this.capaDetalle);
+        this.initLayer(this.capaUrbana);
+        this.initLayer(this.capaOSM);
+
+        this.layersGroupList = [
+            { keyName: "grupoDetalle", name: "Capa Detalle", active: this.capaDetalle.active, layers: [this.capaDetalle] },
+            { keyName: "grupoBase", name: "Capa Base", active: true, layers: [this.capaOSM, this.capaUrbana] },
+            { keyName: "grupoDistrital", name: "Capa Distrital", active: this.capaDistrital.active, layers: [this.capaDistrital] },
+            { keyName: "grupoCantonal", name: "Capa Cantonal", active: this.capaCantonal.active, layers: [this.capaCantonal] },
+            { keyName: "grupoProvincial", name: "Capa Provincial", active: this.capaProvincial.active, layers: [this.capaProvincial] }
+        ];
         this.snitMapView = new ol.View({
             projection: 'EPSG:4326',
             center: [this.currentLng, this.currentLat],
@@ -275,57 +322,55 @@ export class MapGoogleComponent implements OnInit {
         this.clearSnitMarkers();
     }
 
+    initLayer(layer: snitMapLayer) {
+        try {
+            if (layer && !layer.layer) {
+                var source = this.layerData[layer.keyName];
+                if (layer.keyName == "capaOSM") {
+                    layer.layer = new ol.layer.Tile({
+                        source: new ol.source.OSM()
+                    }); return;
+                }
+                if (source) {
+                    layer.layer = new ol.layer.Tile({
+                        source: new ol.source.TileWMS(source)
+                    });
+                }
+                layer.layer.setVisible(layer.active);
+            }
+        } catch (ex) { console.log("error0--->" + ex) }
+    }
     generateSnitMap() {
         var scope = this;
 
-        var container: any = document.getElementById('popup');
-        var closer = document.getElementById('popup-closer');
-        var infoTag = document.getElementById('popup-info');
-        var buttonTag = document.getElementById('popup-asadabutton');
-
-        this.popupOverlay = new ol.Overlay({
-            element: container,
-            autoPan: true,
-            positioning: 'top-center',
-            //offset: [0, -10],
-        });
-
-        closer.onclick = function () {
-            scope.popupOverlay.setPosition(undefined);
-            closer.blur();
-            return false;
-        };
-
         this.initSnitMapAssets()
-        var layers = [
-                    this.capaOSM,
-                    this.capaDetalle,
-                    this.capaUrbana,
-                    this.capaDistrital,
-                    this.capaCantonal,
-                    this.capaProvincial,
-                    this.vectorIcon
-                ];
+        var layers = [];
+        try {
+            this.layersGroupList.forEach(group => {
+                group.layers.forEach(layer => {
+                    if (layer.layer) {
+                        layers.push(layer.layer)
+                    }
+                });
+            });
 
-        this.listCapas.forEach(layer => {
-            layer.layer.setVisible(layer.active);
-        });
+        } catch (ex) { console.log("error1--->" + ex) }
 
-        /*new ol.View({
-            center: ol.proj.fromLonLat([this.centerLng, this.centerLat]),
-            zoom: this.mapZoom,
-            minZoom: this.mapMinZoom
-        });*/
-        this.snitMap = new ol.Map({
-            controls: ol.control.defaults().extend([
-                new ol.control.ScaleLine({ units: 'metric' })
-            ]),
-            target: 'snitMap',
-            overlays: [this.popupOverlay],
-            layers: layers,
-            view: this.snitMapView
+        layers.push(this.vectorIcon);
 
-        });
+        try {
+            this.snitMap = new ol.Map({
+                controls: ol.control.defaults().extend([
+                    new ol.control.ScaleLine({ units: 'metric' })
+                ]),
+                target: 'snitMap',
+                overlays: [this.popupOverlay],
+                layers: layers,
+                view: this.snitMapView
+
+            });
+        } catch (ex) { console.log("error2--->" + ex) }
+
         var genericMap: any = this.snitMap;
         genericMap.on('singleclick', function (evt) {
             scope.snitSelectedElement = undefined;
@@ -354,13 +399,17 @@ export class MapGoogleComponent implements OnInit {
         });
 
     }
-    toggleLayer(event, layer: capaMapaSnit) {
+    toggleLayerGroup(event, group: snitMapLayerGroup) {
         var active: boolean = event.target.checked
-        if (layer) {
-            layer.active = active;
-            layer.layer.setVisible(active);
+        if (group) {
+            group.active = active;
+            group.layers.forEach(layer => {
+                if (layer.layer) {
+                    layer.active = group.active;
+                    layer.layer.setVisible(layer.active);
+                }
+            });
         }
-
     }
 
     fillSnitPopup(elm) {
@@ -447,9 +496,7 @@ export class MapGoogleComponent implements OnInit {
 
     showInfoWindow(asada: any) {
         asada.showInfoWindow = true
-        //if(this.googleMapActivation){
         this.openSnitElementPopUp(asada);
-        //}
         this.centerMapOnMarker(asada);
     }
 
@@ -486,16 +533,7 @@ export class MapGoogleComponent implements OnInit {
             }
             for (let asada of this.asadasmarkers) {
                 var showAsada = true;
-
-                if (showAsada && filtCat) {
-                    filtCat.forEach(param => {
-                        if (param.value.toLowerCase() == "asada") {
-                            showAsada = param.active;
-                        }
-                    });
-                }
                 if (showAsada && filtLoc) {
-
                     filtLoc.forEach(prov => {
                         if (prov.name.toLowerCase() == asada.province.toLowerCase()) {
                             showAsada = prov.active;
@@ -517,10 +555,16 @@ export class MapGoogleComponent implements OnInit {
                         }
                     });
                 }
+                if (showAsada && filtCat) {
+                    filtCat.forEach(param => {
+                        if (param.value.toLowerCase() == "asada") {
+                            showAsada = param.active;
+                        }
+                    });
+                }
                 asada.visible = showAsada;
             }
         }
-
     }
 
     getMarkersInfraestructurasAsada(asada: asadastructure): genericInfraestructure[] {
@@ -561,9 +605,11 @@ export class MapGoogleComponent implements OnInit {
                     this.addInfraestructureMarker();
                     this.getResultAsadas();
                     this.updateSnitMarkers();
+                    this.dataLoaded = true;
                 }
             );
     }
+    
 
     setDetails(elem: asadastructure) {
 
@@ -580,7 +626,7 @@ export class MapGoogleComponent implements OnInit {
     cancelModal() {
         this.loadgraphic = false;
     }
-    
+
     scrollTop() {
         var cosParameter = window.scrollY / 2,
             scrollCount = 0,
@@ -721,42 +767,7 @@ export class MapGoogleComponent implements OnInit {
 
     addASADASMarkers() {
         for (let asadaElement of this.AsadasList) {
-
-            var key;
-            var name;
-            var lat;
-            var long;
-            var iconUrl;
-            var province;
-            var district;
-            var state;
-            var phonenumber;
-            var population;
-            var numbersubscribed;
-            var zonetype;
-            var cantTanques;
-            var cantSuperficial;
-            var cantCloraci;
-
-            key = asadaElement.$key;
-            name = asadaElement.name;
-            lat = asadaElement.office.lat;
-            long = asadaElement.office.long;
-            province = asadaElement.province;
-            district = asadaElement.subDistrict;
-            state = asadaElement.district;
-            phonenumber = asadaElement.phoneNumber;
-            population = asadaElement.population;
-            numbersubscribed = asadaElement.numberSubscribed;
-            zonetype = asadaElement.zoneType;
-
-            this.evalCantTanques(key);
-            this.evalCantCaptacion(key);
-            this.evalCantSistemasClr(key);
-            cantTanques = this.cantidadTanques;
-            cantSuperficial = this.cantidadCaptaciones;
-            cantCloraci = this.cantidadCloracion;
-
+            var iconUrl = "";
             if (this.isLoggedIn) {
                 if (this.AsadaUser == asadaElement.$key || this.UserRol == "Super Administrador") {
                     iconUrl = "../../../assets/icons/oficina.png";
@@ -768,13 +779,11 @@ export class MapGoogleComponent implements OnInit {
             else {
                 iconUrl = "../../../assets/icons/oficina.png";
             }
-
-
             var newAsadaMarker = {
-                $key: key,
-                name: name,
-                lat: lat,
-                long: long,
+                $key: asadaElement.$key,
+                name: asadaElement.name,
+                lat: asadaElement.office.lat,
+                long: asadaElement.office.long,
                 iconConfig: {
                     url: iconUrl,
                     scaledSize: {
@@ -784,16 +793,16 @@ export class MapGoogleComponent implements OnInit {
                     anchor: { x: this.markerSize / 2, y: this.markerSize / 2 },
                 },
                 visible: true,
-                province: province,
-                state: state,
-                district: district,
-                population: population,
-                phonenumber: phonenumber,
-                zonetype: zonetype,
-                numbersubscribed: numbersubscribed,
-                cantTanques: cantTanques,
-                cantSuperficial: cantSuperficial,
-                cantCloraci: cantCloraci,
+                province: asadaElement.province,
+                state: asadaElement.district,
+                district: asadaElement.subDistrict,
+                population: asadaElement.population,
+                phonenumber: asadaElement.phoneNumber,
+                zonetype: asadaElement.zoneType,
+                numbersubscribed: asadaElement.numberSubscribed,
+                cantTanques: this.evalCantTanques(asadaElement.$key),
+                cantSuperficial: this.evalCantCaptacion(asadaElement.$key),
+                cantCloraci: this.evalCantSistemasClr(asadaElement.$key),
                 showInfoWindow: false,
                 zIndex: 100,
                 type: 'Asada'
@@ -801,49 +810,42 @@ export class MapGoogleComponent implements OnInit {
 
             this.asadasmarkers.push(newAsadaMarker);
         }
-
     }
 
     evalCantTanques(asadaid: string) {
-
-        this.cantidadTanques = 0;
-        for (let entry of this.allList) {
-            if (entry.asada.id == asadaid && entry.type == "Tanque") {
-                this.cantidadTanques = this.cantidadTanques + 1;
-            }
-
-        }
+        var list = this.allList.filter(element =>
+            (element.asada.id == asadaid && element.type == "Tanque"));
+        return list.length;
     }
 
     evalCantCaptacion(asadaid: string) {
 
-        this.cantidadCaptaciones = 0;
-        for (let entry of this.allList) {
-            if (entry.asada.id == asadaid && (entry.type == "CaptacionNaciente" || entry.type == "CaptacionSuperficial")) {
-                this.cantidadCaptaciones = this.cantidadCaptaciones + 1;
-            }
-
-        }
+        var list = this.allList.filter(element =>
+            (element.asada.id == asadaid && (element.type == "CaptacionNaciente" || element.type == "CaptacionSuperficial")));
+        return list.length;
     }
 
     evalCantSistemasClr(asadaid: string) {
-
-        this.cantidadCloracion = 0;
-        for (let entry of this.allList) {
-            if (entry.asada.id == asadaid && entry.type == "SistemaCloracion") {
-                this.cantidadCloracion = this.cantidadCloracion + 1;
-            }
-
-        }
+        var list = this.allList.filter(element =>
+            (element.asada.id == asadaid && element.type == "SistemaCloracion"));
+        return list.length;
     }
 }
-interface capaMapaSnit {
+interface snitMapLayerGroup {
+    keyName: string,
+    name: string,
+    active: boolean,
+    description?: string,
+    layers: snitMapLayer[];
+}
+interface snitMapLayer {
     keyName: string,
     name: string,
     active: boolean,
     description?: string,
     layer: ol.layer.Tile;
 }
+
 
 
 interface genericInfraestructure {
