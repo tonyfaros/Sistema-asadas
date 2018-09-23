@@ -8,11 +8,12 @@ import * as CryptoJS from 'crypto-js';
 export class AngularFireService {
 	key = CryptoJS.enc.Utf8.parse('7061737323313233');
 	iv = CryptoJS.enc.Utf8.parse('7061737323313233');
+
+
 	constructor(private af: AngularFire){
 	}
 
-
-
+	
 
 	encrypt(pEncrypt){
 		
@@ -41,7 +42,7 @@ export class AngularFireService {
 		console.log('utf8 = ' + decrypted.toString(CryptoJS.enc.Utf8));
 		*/
 	
-		return decrypted;
+		return decrypted.toString(CryptoJS.enc.Utf8);
 	
 	  }
 
@@ -96,7 +97,7 @@ export class AngularFireService {
 			this.af.database.list('asadas').push(pAsada).catch((error)=>console.log(error));
 	 }
 
-	 getProfesor():FirebaseListObservable<any>  {
+	 getUsuarios():FirebaseListObservable<any>  {
 		const Obj$: FirebaseListObservable<any> = this.af.database.list('usuarios');
 		return Obj$;
 	}
@@ -106,7 +107,8 @@ export class AngularFireService {
 
 	 deleteUsuario(pKey:string){
      	this.af.database.object('usuarios/'+pKey).remove();
-   	}
+	   }
+	   
 
 	addNewTomaDatos(tomaDatos):void{
 		this.af.database.list('tomaDatos').push(tomaDatos).catch((error)=>console.log(error));

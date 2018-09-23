@@ -5,13 +5,14 @@ export class User {
     correo: string;
     rol: string;
     password: string;
+    passwordf:string;
     asada?: {
         name: string;
         id: string;
         state:string;
         rol:string;
     };
-    profesor:string;
+    profesor?:string;
     estado:string;
     
 }

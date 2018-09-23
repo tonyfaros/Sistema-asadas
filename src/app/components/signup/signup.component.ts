@@ -20,6 +20,7 @@ export class SignupComponent implements OnInit {
   profesorSelected;
   userDetailsForm: FormGroup;
   userDb: User;
+  reescribir;
   public rol;
   constructor(private af: AngularFire,
     private router: Router,
@@ -30,40 +31,64 @@ export class SignupComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.reescribir = '';
     this.getProfesor();
     this.emptyForm();
-
-    
   }
 
+
   onSubmit(): void {
-    console.log();
     console.log(this.userDetailsForm.value);
     var newUser = this.userDetailsForm.value;
-    
-    if (this.validateData(newUser)) {
+    this.existeCorreo(newUser.email);
+    if(this.reescribir!=''){
+      this.userService.updateUser(newUser,this.reescribir);
+      this.router.navigate(['/LoginPage']);
       
-      this.angularFireService.decrypt(this.angularFireService.encrypt(newUser.password));
-      this.saveUserDetails(newUser);
-      this.router.navigate(['/LoginPage'])
-
     }
+    else{
+      if (this.validateData(newUser)) {
+       
+        this.af.auth.createUser({
+          email: newUser.email,
+          password: newUser.password
+        }).then(
+          (success) => {
+            this.angularFireService.decrypt(this.angularFireService.encrypt(newUser.password));
+            this.saveUserDetails(newUser,success.uid);
+            this.router.navigate(['/LoginPage']);
+          }).catch(
+          (error) => {
+            console.log(error);
+            this.error = error;
+          })
+      }}
+  
   }
 
   existeCorreo(pCorreo){
-    console.log("ooo "+this.usuariosDB.length)
     for(var i = 0;i<this.usuariosDB.length;i++){
       console.log(this.usuariosDB[i]['correo']);
-      if(pCorreo == this.usuariosDB[i]['correo'] && this.usuariosDB[i]['rol']!='Super Administrador')
+      if(pCorreo == this.usuariosDB[i]['correo']){
+        if(this.usuariosDB[i]['estado'] == "Rechazado" || this.usuariosDB[i]['estado'] == "Borrado"){
+          this.reescribir = this.usuariosDB[i]['$key'];
+          return false;
+        }
         return true;
+      }
     }
     return false;
   }
 
   validateData(newUser) {
-    console.log("prueba " + newUser.profesor + " b");
+    console.log(newUser.profesor);
     if(this.existeCorreo(newUser.email)){
+      
       this.formErrors.email = 'Este correo ya ha sido registrado anteriormente'
+      return false;
+    }
+    if((newUser.password).length<6){
+      this.formErrors.password = 'La contraseña debe tener mínimo 6 caracteres'
       return false;
     }
     if (newUser.password != newUser.passwordConfirmation) {
@@ -90,14 +115,14 @@ export class SignupComponent implements OnInit {
   
 
   getProfesor(): void {
-    var profesoresList = new Array();
-    this.angularFireService.getProfesor().subscribe(
+    
+    this.angularFireService.getUsuarios().subscribe(
       results => {
+        var profesoresList = new Array();
         this.usuariosDB = results;
 
         for(var i = 0; i<Object.keys(results).length;i++){
-          //console.log(results[i]["rol"]);
-          if(results[i]["rol"] == "Profesor")
+          if(results[i]["rol"] == "Profesor" && results[i]["estado"] == "Aprobado")
             profesoresList.push(results[i]);
         }
         this.profesorDB  = profesoresList;
@@ -107,8 +132,9 @@ export class SignupComponent implements OnInit {
 
   
 
-  saveUserDetails(newUser) {
+  saveUserDetails(newUser,uid) {
     this.userDb = new User();
+    this.userDb.$key = uid;
     this.userDb.apellidos = newUser.userLastName;
     this.userDb.nombre = newUser.userName;
     this.userDb.rol = newUser.rol;
@@ -116,8 +142,11 @@ export class SignupComponent implements OnInit {
     this.userDb.estado = 'Pendiente';
     this.userDb.profesor = newUser.profesor;
     this.userDb.correo = newUser.email;
+    this.userDb.passwordf = ''+this.angularFireService.encrypt(newUser.password);
 
-    this.addNewUsuario(this.userDb);
+    this.userService.addUser(this.userDb, uid);
+    this.userService.updateUserNew(this.userDb);
+    //this.addNewUsuario(this.userDb);
     
     this.ngOnInit();
   }
