@@ -10,13 +10,14 @@ import { Asada } from '../../common/model/Asada';
 import { AngularFireService } from '../../common/service/angularFire.service';
 import { ToasterService, ToasterConfig } from 'angular2-toaster';
 import { SearchService } from 'app/components/add-asada/search.service';
+import { LocationsService } from '../../common/service/locations.service';
 
 
 @Component({
 	selector: 'app-add-asada',
 	templateUrl: './add-asada.component.html',
 	styleUrls: ['./add-asada.component.scss'],
-	providers: [SearchService,AngularFireService, GeolocationService, ToasterService]
+	providers: [SearchService,AngularFireService, GeolocationService, ToasterService,LocationsService]
 })
 export class AddAsadaComponent implements OnInit {
 	/*   		 Html variables    */
@@ -24,7 +25,7 @@ export class AddAsadaComponent implements OnInit {
 	public adminEntity: RadioOption[] = [{ display: 'A y A', value: 'AYA' }, { display: 'Municipal', value: 'Minucipal' }, { display: 'Asada', value: 'Asada' }, { display: 'Privado', value: 'Privado' }];
 	public zoneType: RadioOption[] = [{ display: 'Urbana', value: 'Urbana' }, { display: 'Rural', value: 'Rural' }];
 	public WaterControlProgram: RadioOption[] = [{ display: 'Si', value: 'Si' }, { display: 'No', value: 'No' }];
-	public crProvince = ["San Jose", "Heredia", "Cartago", "Limon", "Alajuela", "Guanacaste", "Putarenas"];
+	public crProvince = [];
 	private listAsadas: any[];
 	// the object that handles the form
 	public addAsadaForm: FormGroup;
@@ -71,16 +72,14 @@ export class AddAsadaComponent implements OnInit {
 
 		const office = { lat: this.newAsada.officeLatitude, long: this.newAsada.officeLongitude };
 		const AsadaTags: string = this.newAsada.asadaName + " "
-			+ this.newAsada.province + " " + 
+			+ this.newAsada.location.province.name + " " + 
 			this.newAsada.numberSubscribed + " Asada";
 		const date = { day: this.dueDate.getDate(), month: this.dueDate.getMonth() + 1, year: this.dueDate.getFullYear() };
 		const asada: Asada = new Asada();
 
 			asada.name = this.newAsada.asadaName; 
 			asada.tags = AsadaTags;
-			asada.province = this.newAsada.province; 
-			asada.district = this.newAsada.district; 
-			asada.subDistrict = this.newAsada.subDistrict; 
+			
 			asada.location = this.newAsada.location; 
 			asada.geoCode = Number(this.newAsada.geoCode);
 			asada.inCharge = this.newAsada.inCharge; 

@@ -3,11 +3,19 @@ export class Asada{
     idAsada: string;
     name: string;
     tags: string;
-    province: string;
-    district: string;
-    subDistrict: string;
+    // location:{
+    //     province: {code:number,name:string};
+    //     canton:  {code:number,name:string};
+    //     district:  {code:number,name:string};
+    //     address: string;
+    // }
+    location:{ 
+        province: {code:number,name:string};
+        canton:  {code:number,name:string};
+        district:  {code:number,name:string};
+        address: string;
+    }
     geoCode: number;
-    location: string;
     inCharge: string;
     phoneNumber: string;
     email: string;

@@ -16,7 +16,7 @@ import { UserService } from "app/common/service/user.service";
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { Subscription } from "rxjs/Subscription";
-import { filterConfig, filterParam, locaciones, location, provincia, canton, distrito } from '../filter/filter.component';
+import { filterConfig, filterParam,LocationsService, locaciones, location, provincia, canton, distrito } from '../filter/filter.component';
 
 import * as ol from 'openlayers';
 
@@ -25,7 +25,7 @@ import * as ol from 'openlayers';
     selector: 'app-map-google',
     templateUrl: './map-google.component.html',
     styleUrls: ['./map-google.component.scss'],
-    providers: [MapGoogleService, UserService]//,
+    providers: [MapGoogleService, UserService,LocationsService]//,
     // encapsulation: ViewEncapsulation.None,
 })
 
@@ -145,7 +145,7 @@ export class MapGoogleComponent implements OnInit {
     //----------------------Atributos Filtrado de elementos
     public filterConfiguration: filterConfig;
 
-    constructor(private mapService: MapGoogleService, private af: AngularFire, private userService: UserService, private router: Router, private route: ActivatedRoute) {
+    constructor(private mapService: MapGoogleService, private af: AngularFire, private userService: UserService, private router: Router, private route: ActivatedRoute,private locationService:LocationsService) {
         this.allList = [];
         this.AsadasList = [];
         this.AsadasListTemp = [];
@@ -535,13 +535,13 @@ export class MapGoogleComponent implements OnInit {
                 var showAsada = true;
                 if (showAsada && filtLoc) {
                     filtLoc.forEach(prov => {
-                        if (prov.name.toLowerCase() == asada.province.toLowerCase()) {
+                        if (prov.key == asada.location.province.code) {
                             showAsada = prov.active;
                             prov.cantones.forEach(cant => {
-                                if (cant.name.toLowerCase() == asada.state.toLowerCase()) {
+                                if (cant.key == asada.location.canton.code) {
                                     showAsada = showAsada && cant.active;
                                     cant.distritos.forEach(dist => {
-                                        if (dist.name.toLowerCase() == asada.district.toLowerCase()) {
+                                        if (cant.key == asada.location.canton.code) {
                                             showAsada = showAsada && dist.active;
                                         }
                                     });
@@ -693,7 +693,7 @@ export class MapGoogleComponent implements OnInit {
 
                     if (asadaElement.$key == idasada) {
 
-                        province = asadaElement.province;
+                        province = asadaElement.location.province.name;
                         phonenumber = asadaElement.phoneNumber;
 
                         break;
@@ -735,7 +735,7 @@ export class MapGoogleComponent implements OnInit {
                 }
                 else {
                     iconUrl = "../../../assets/icons/" + iconType + "-publico.png";
-                }
+                } 
                 var infraestmarker = {
                     $key: entry.$key,
                     name: entry.name,
@@ -793,9 +793,8 @@ export class MapGoogleComponent implements OnInit {
                     anchor: { x: this.markerSize / 2, y: this.markerSize / 2 },
                 },
                 visible: true,
-                province: asadaElement.province,
-                state: asadaElement.district,
-                district: asadaElement.subDistrict,
+                
+                location:asadaElement.location,
                 population: asadaElement.population,
                 phonenumber: asadaElement.phoneNumber,
                 zonetype: asadaElement.zoneType,
@@ -887,9 +886,12 @@ interface asadastructure {
         }
     };
     visible: boolean,
-    province: string;
-    state: string; //Canton
-    district: string;
+    location:{
+        province: {code:number,name:string};
+        canton:  {code:number,name:string};
+        district:  {code:number,name:string};
+        address: string;
+    }
     population: number;
     phonenumber: string;
     //email: string;

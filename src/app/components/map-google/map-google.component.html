@@ -119,7 +119,7 @@
                     </div>
                     <div class="iw-content">
                       <div class="iw-subTitle">
-                        {{m.province}}, {{m.state}}, {{m.district}}
+                        {{m.location.province.name}}, {{m.location.canton.name}}, {{m.location.district.name}}
                         <br>+(506) {{m.phonenumber}}<br>
                       </div>
                       <div class="separator"></div>
@@ -208,7 +208,7 @@
                         <tbody>
                           <tr *ngFor="let m of asadasmarkers" [hidden]="!m.visible">
                             <td><button (click)="redirectASADA(m)" class="btn btn-link btn-xs ink-reaction">{{m.name}}</button></td>
-                            <td>{{m.province}}, {{m.state}}, {{m.district}}</td>
+                            <td>{{m.location.province.name}}, {{m.location.canton.name}}, {{m.location.district.name}}</td>
                             <td>{{m.cantTanques}}</td>
                             <td>{{m.cantSuperficial}}</td>
                             <td>{{m.cantCloraci}}</td>
@@ -337,8 +337,8 @@
         </div>
         <div class="iw-content">
           <div class="iw-subTitle">
-            {{snitSelectedElement.province}}, {{snitSelectedElement.state}}, {{snitSelectedElement.district}}
-            <br>+(506) {{snitSelectedElement.phonenumber}}<br>
+              {{snitSelectedElement.location.province.name}}, {{snitSelectedElement.location.canton.name}}, {{snitSelectedElement.location.district.name}}
+              <br>+(506) {{snitSelectedElement.phonenumber}}<br>
 
           </div>
           <div class="separator"></div>

@@ -21,14 +21,14 @@ import { AngularFireService } from 'app/common/service/angularFire.service';
 import { ExportService } from "app/common/service/export.service";
 import { UserService } from "app/common/service/user.service";
 import { SearchService } from './search.service';
-import { filterConfig, filterParam, locaciones, location, provincia, canton, distrito } from '../filter/filter.component';
+import { filterConfig, filterParam,LocationsService, locaciones, location, provincia, canton, distrito } from '../filter/filter.component';
 
 
 @Component({
 	selector: 'app-search',
 	templateUrl: './search.component.html',
 	styleUrls: ['./search.component.scss'],
-	providers: [SearchService, ExportService, UserService, AngularFireService]
+	providers: [SearchService, ExportService, UserService, AngularFireService,LocationsService]
 })
 export class SearchComponent implements OnInit, OnDestroy {
 	@Input() type: string;
@@ -71,7 +71,8 @@ export class SearchComponent implements OnInit, OnDestroy {
 		private exportService: ExportService,
 		private af: AngularFire,
 		private angularFireService: AngularFireService,
-		private papa: PapaParseService) {
+		private papa: PapaParseService,
+		private locationService:LocationsService) {
 
 		this.storageRef = firebaseApp.storage().ref();
 
@@ -187,7 +188,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
 				if (showElement && asada && filtLoc) {
 					filtLoc.forEach(prov => {
-						if (prov.name.toLowerCase() == asada.province.toLowerCase()) {
+						if (prov.name.toLowerCase() == asada.locacion.province.toLowerCase()) {
 							showElement = showElement && prov.active;
 							prov.cantones.forEach(cant => {
 								if (cant.name.toLowerCase() == asada.district.toLowerCase()) {
@@ -699,7 +700,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 		var asada = new Asada();
 
 		for (let asadaCSV of res) {
-
+ 
 			asada = new Asada();
 
 			if (asadaCSV[0] != "") {
@@ -709,25 +710,31 @@ export class SearchComponent implements OnInit, OnDestroy {
 				asada.phoneNumber = asadaCSV[3];
 				asada.legalResponsableWorkersName = asadaCSV[4];
 				asada.legalResponsablePhone = asadaCSV[5];
-				asada.province = asadaCSV[6];
-				asada.district = asadaCSV[7];
-				asada.subDistrict = asadaCSV[8];
-				asada.location = asadaCSV[9];
-				asada.zoneType = asadaCSV[12];
-				asada.adminEntity = asadaCSV[13];
-				asada.adminEntityName = asadaCSV[14];
-				asada.waterProgram = asadaCSV[15];
-				asada.numberSubscribed = asadaCSV[16];
-				asada.population = asadaCSV[17];
-				asada.fountains = asadaCSV[18];
-				asada.nascent = asadaCSV[19];
-				asada.superficial = asadaCSV[20];
-				asada.waterWells = asadaCSV[21];
-				asada.conductionMaterial = asadaCSV[22];
-				asada.tanksNumber = asadaCSV[23];
-				asada.supplyMechanisms = asadaCSV[24];
-				asada.desinfection = asadaCSV[25];
-				asada.systemType = asadaCSV[26];
+				asada.location={
+					province:{code:asadaCSV[7],
+						name:this.locationService.getProvinciaName(asadaCSV[7])},
+					canton:{code: asadaCSV[9],
+						name:this.locationService.getCantonName(asadaCSV[7],asadaCSV[9])},
+					district:{code: asadaCSV[11],
+						name:this.locationService.getDistritoName(asadaCSV[7],asadaCSV[9],asadaCSV[11])},
+					address:asadaCSV[12]
+				}
+
+				asada.zoneType = asadaCSV[15];
+				asada.adminEntity = asadaCSV[16];
+				asada.adminEntityName = asadaCSV[17];
+				asada.waterProgram = asadaCSV[18];
+				asada.numberSubscribed = asadaCSV[19];
+				asada.population = asadaCSV[20];
+				asada.fountains = asadaCSV[21];
+				asada.nascent = asadaCSV[22];
+				asada.superficial = asadaCSV[23];
+				asada.waterWells = asadaCSV[24];
+				asada.conductionMaterial = asadaCSV[25];
+				asada.tanksNumber = asadaCSV[26];
+				asada.supplyMechanisms = asadaCSV[27];
+				asada.desinfection = asadaCSV[28];
+				asada.systemType = asadaCSV[29];
 
 				if (asada.date != "") {
 					var parts = asada.date.split('/');
@@ -747,11 +754,11 @@ export class SearchComponent implements OnInit, OnDestroy {
 
 
 				asada.office = {
-					lat: Number(asadaCSV[11]),
-					long: Number(asadaCSV[10])
+					lat: Number(asadaCSV[14]),
+					long: Number(asadaCSV[13])
 				};
 				asada.type = 'asada';
-				asada.tags = asada.name + " " + asada.province + " "
+				asada.tags = asada.name + " " + asada.location.province.name + " "
 					+ asada.numberSubscribed + " Asada";
 				asada.idAsada = 'ASA' + this.allList.length;
 				asadas.push(asada);
@@ -842,9 +849,6 @@ export class SearchComponent implements OnInit, OnDestroy {
 		asada.phoneNumber = ele.phoneNumber;
 		asada.legalResponsableWorkersName = ele.legalResponsableWorkersName;
 		asada.legalResponsablePhone = ele.legalResponsablePhone;
-		asada.province = ele.province;
-		asada.district = ele.district;
-		asada.subDistrict = ele.subDistrict;
 		asada.location = ele.location;
 		asada.zoneType = ele.zoneType;
 		asada.adminEntity = ele.adminEntity;

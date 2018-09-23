@@ -1,8 +1,14 @@
 export class AsadaForm{
-    subDistrict: string;
-    district: string;
+    location:{ 
+        province: {code:number,name:string};
+        canton:  {code:number,name:string};
+        district:  {code:number,name:string};
+        address: string;
+    }
+    //subDistrict: string;
+    //district: string;
     asadaName: string;
-    province: string;
+    //province: string;
     geoCode: number;
     officeLatitude: number;
     officeLongitude: number;
@@ -15,7 +21,7 @@ export class AsadaForm{
     concessionNumber: string;
     concessionDue?: string;
     minaeRegister: string;
-    location: string;
+    //location: string;
     adminEntity: string;
     inCharge: string;
     waterProgram: string;
