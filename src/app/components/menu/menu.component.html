@@ -34,7 +34,7 @@
 
 					</li>
 
-					<li class="gui-folder" *ngIf="isLoggedIn && userAccess.rol =='Super Administrador'" >
+					<li class="gui-folder" *ngIf="isLoggedIn " >
 						<a routerLink="/dashboard" >
 							<div class="gui-icon"><i class="fa fa-tachometer"></i></div>
 							<span class="title">Dashboard</span>
@@ -48,24 +48,18 @@
 							<span class="title">ASADAs</span>
 						</a>
 						<ul>
-							<li *ngIf="isLoggedIn && userAccess.rol =='Super Administrador'" >	
+							<li *ngIf="isLoggedIn && userAccess.rol != 'Estudiante'" >	
 								<a routerLink="/addAsada">
 									<span class="title"><i class="glyphicon glyphicon-plus"></i> Agregar ASADA</span>
 								</a>
 							</li>
 
-							<li *ngIf="isLoggedIn && userAccess.rol =='Super Administrador'" >	
+							<li *ngIf="isLoggedIn " >	
 									<a routerLink="/compare-asadas">
 										<span class="title"><i class="fa fa-clone"></i> Comparar ASADAs</span>
 									</a>
 								</li>
 							
-
-							<li *ngIf="isAdmin">	
-								<a [routerLink]=myASADALink>
-									<span class="title"><i class="fa fa-building"></i> Mi ASADA</span>
-								</a>
-							</li>
 
 						</ul>
 					</li>
@@ -85,14 +79,7 @@
 						</a>
 						<ul></ul>
 					</li>
-					<li class="gui-folder" *ngIf="isLoggedIn && userAccess.rol =='Administración'" >
-						<a routerLink="/reporte" >
-							<div class="gui-icon"><i class="fa fa-book"></i></div>
-							<span class="title">Reportes</span>
-						</a>
-						<ul></ul>
-					</li>
-					<li class="gui-folder" *ngIf="isLoggedIn && userAccess.rol =='Super Administrador' || userAccess.rol =='Estudiante'" >
+					<li class="gui-folder" *ngIf="isLoggedIn" >
 						<a routerLink="/tomaDatos" >
 							<div class="gui-icon"><i class="glyphicon glyphicon-list-alt"></i></div>
 							<span class="title">Toma de datos</span>
