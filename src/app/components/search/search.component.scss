@@ -8,6 +8,53 @@ app-filter{
     padding: 5px 15px!important;
     color:black;
 }
+
+.fixed-header tbody {
+    display: block;
+    max-height: 400px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+  
+  .fixed-header thead,
+  .fixed-header tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+  }
+  .fixed-header tr{
+      min-width: 130!important;
+  }
+// .fixed-header{
+//     width: 100%;
+//     table-layout: fixed;
+//     border-collapse: collapse;
+// }
+
+// .fixed-header tbody{
+//     display:block;
+//     width: 100%;
+//     overflow-y: auto;
+//     height: 400px;
+//   }
+
+//   .fixed-header thead{
+//     display:block;
+//     width: 100%;
+//     overflow:unset;
+//   }
+
+// .fixed-header thead tr {
+//    display: block;
+// }
+ 
+
+// .fixed-header th, .fixed-header td {
+//   padding: 5px;
+//   text-align: left;
+//   width: 200px;
+// }
+
 .no-y-padding{
     padding-top: 0px;
     padding-bottom: 0px;

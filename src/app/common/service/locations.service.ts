@@ -44,6 +44,7 @@ export class LocationsService {
     }
     return provincias;
   }
+
   getProvinciaName(numProv: number): string {
     var prov = this.getProvincia(numProv);
     if (prov)

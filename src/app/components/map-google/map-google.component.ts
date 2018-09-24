@@ -541,7 +541,7 @@ export class MapGoogleComponent implements OnInit {
                                 if (cant.key == asada.location.canton.code) {
                                     showAsada = showAsada && cant.active;
                                     cant.distritos.forEach(dist => {
-                                        if (cant.key == asada.location.canton.code) {
+                                        if (dist.key == asada.location.district.code) {
                                             showAsada = showAsada && dist.active;
                                         }
                                     });
@@ -806,7 +806,7 @@ export class MapGoogleComponent implements OnInit {
                 zIndex: 100,
                 type: 'Asada'
             }
-
+            
             this.asadasmarkers.push(newAsadaMarker);
         }
     }

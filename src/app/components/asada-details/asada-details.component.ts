@@ -18,13 +18,14 @@ import { RadioOption } from '../../common/model/radioOption-class';
 import { RolAccess } from '../../common/model/RolAccess';
 import { Infrastructure } from '../../common/model/Infrastructure';
 import { ExportService } from "app/common/service/export.service";
+import { LocationsService, provincia, canton, distrito } from 'app/common/service/locations.service';
 
 
 @Component({
 	selector: 'app-asada-details',
 	templateUrl: './asada-details.component.html',
 	styleUrls: ['./asada-details.component.scss'],
-	providers: [AngularFireService, GeolocationService, UserService, ExportService]
+	providers: [AngularFireService, GeolocationService, UserService, ExportService,LocationsService]
 })
 export class AsadaDetailsComponent implements OnInit {
 
@@ -32,7 +33,10 @@ export class AsadaDetailsComponent implements OnInit {
 	public adminEntity: RadioOption[] = [{ display: 'A y A', value: 'AYA' }, { display: 'Municipal', value: 'Minucipal' }, { display: 'Asada', value: 'Asada' }, { display: 'Privado', value: 'Privado' }];
 	public zoneType: RadioOption[] = [{ display: 'Urbana', value: 'Urbana' }, { display: 'Rural', value: 'Rural' }, { display: 'Urbano-Rural', value: 'Urbano-Rural' }];
 	public WaterControlProgram: RadioOption[] = [{ display: 'Si', value: 'Si' }, { display: 'No', value: 'No' }];
-	public crProvince = ["San Jose", "Heredia", "Cartago", "Limon", "Alajuela", "Guanacaste", "Putarenas"];
+	public locations:provincia[]=[];// ["San Jose", "Heredia", "Cartago", "Limon", "Alajuela", "Guanacaste", "Putarenas"];
+	private selectedProvince:number;
+	private selectedCanton:number;
+	private selectedDistrict:number;
 
 	public detailAsadaForm: FormGroup;
 	public readOnlyMode: boolean = true;
@@ -62,7 +66,9 @@ export class AsadaDetailsComponent implements OnInit {
 		private router: Router,
 		private angularFireService: AngularFireService,
 		private fb: FormBuilder,
-		private exportService: ExportService) {
+		private exportService: ExportService,
+		private locationService:LocationsService) {
+		this.locations=this.locationService.locations.provincias;
 	}
 
 	
@@ -116,6 +122,14 @@ export class AsadaDetailsComponent implements OnInit {
 			}
 		});
 	}
+	provinceSelectorChange(){
+		this.selectedCanton=1;
+		this.selectedDistrict=1;
+	}
+	cantonSelectorChange(){
+		this.selectedDistrict=1;
+	}
+
 	export() {
 		this.exportService.exportAsada(this.asadaDB);
 	}
@@ -123,8 +137,6 @@ export class AsadaDetailsComponent implements OnInit {
 	onSubmit2() {
 		
 	}
-
-	
 
 	onSubmit() {
 		this.newAsada = this.detailAsadaForm.value;
@@ -135,21 +147,26 @@ export class AsadaDetailsComponent implements OnInit {
 		this.asadaDB.concessionDue.year = this.dueDate.getFullYear();
 
 		this.asadaDB.name = this.newAsada.asadaName;
-		this.asadaDB.province = this.newAsada.province;
-		this.asadaDB.district = this.newAsada.district;
-		this.asadaDB.subDistrict = this.newAsada.subDistrict;
+		var provName=this.locationService.getProvinciaName(this.newAsada.province);
+		var cantName=this.locationService.getCantonName(this.newAsada.province,this.newAsada.canton);
+		var DistName=this.locationService.getDistritoName(this.newAsada.province,this.newAsada.canton,this.newAsada.district);
+		this.asadaDB.location={
+		    province: {code:this.newAsada.province,name:provName},
+		    canton:  {code:this.newAsada.canton,name:cantName},
+		    district:  {code:this.newAsada.district,name:DistName},
+		    address: this.newAsada.address
+		};
 		this.asadaDB.geoCode = Number(this.newAsada.geoCode);
-		this.asadaDB.numberSubscribed = Number(this.newAsada.numberSubscribed);
+		this.asadaDB.inCharge = this.newAsada.inCharge;
 		this.asadaDB.phoneNumber = this.newAsada.phoneNumber;
+		this.asadaDB.email = this.newAsada.email;
+		this.asadaDB.numberSubscribed = Number(this.newAsada.numberSubscribed);
 		this.asadaDB.population = Number(this.newAsada.population);
 		this.asadaDB.zoneType = this.newAsada.zoneType;
-		this.asadaDB.email = this.newAsada.email;
 		this.asadaDB.concessionNumber = this.newAsada.concessionNumber;
 		this.asadaDB.minaeRegistration = this.newAsada.minaeRegister;
-		this.asadaDB.location = this.newAsada.location;
 		this.asadaDB.waterProgram = this.newAsada.waterProgram;
 		this.asadaDB.adminEntity = this.newAsada.adminEntity;
-		this.asadaDB.inCharge = this.newAsada.inCharge;
 
 		var asadaUpdatedItems = {
 			concessionDue: {
@@ -158,9 +175,6 @@ export class AsadaDetailsComponent implements OnInit {
 				year: this.asadaDB.concessionDue.year
 			},
 			name: this.asadaDB.name,
-			province: this.asadaDB.province,
-			district: this.asadaDB.district,
-			subDistrict: this.asadaDB.subDistrict,
 			geoCode: this.asadaDB.geoCode,
 			numberSubscribed: this.asadaDB.numberSubscribed,
 			phoneNumber: this.asadaDB.phoneNumber,
@@ -190,7 +204,7 @@ export class AsadaDetailsComponent implements OnInit {
 				if (this.asadaDB && this.asadaDB.concessionDue) {
 					this.dueDate = new Date(this.asadaDB.concessionDue.year, this.asadaDB.concessionDue.month - 1, this.asadaDB.concessionDue.day, 0, 0, 0, 0);
 
-					this.builForm();
+					this.buildForm();
 				}
 
 			}
@@ -229,8 +243,6 @@ export class AsadaDetailsComponent implements OnInit {
 	}
 
 
-	/* 		HTML METHODS		*/
-
 	goBack(): void {
 		setTimeout(() => {
 			this.ngOnInit();
@@ -252,13 +264,13 @@ export class AsadaDetailsComponent implements OnInit {
 		this.ngOnInit();
 	}
 
-	builForm(): void {
+	buildForm(): void {
 
 		this.detailAsadaForm = this.fb.group({
 			'asadaName': [this.asadaDB.name, Validators.required],
-			'province': [this.asadaDB.province, Validators.required],
-			'district': [this.asadaDB.district, Validators.required],
-			'subDistrict': [this.asadaDB.subDistrict, Validators.required],
+			'province': [this.asadaDB.location.province.code, Validators.required],
+			'canton': [this.asadaDB.location.canton.code, Validators.required],
+			'district': [this.asadaDB.location.district.code, Validators.required],
 			'geoCode': [this.asadaDB.geoCode, Validators.required],
 			'numberSubscribed': [this.asadaDB.numberSubscribed, Validators.required],
 			'phoneNumber': [this.asadaDB.phoneNumber, Validators.required],
@@ -267,7 +279,7 @@ export class AsadaDetailsComponent implements OnInit {
 			'email': [this.asadaDB.email, Validators.required],
 			'concessionNumber': [this.asadaDB.concessionNumber, Validators.required],
 			'minaeRegister': [this.asadaDB.minaeRegistration, Validators.required],
-			'location': [this.asadaDB.location, Validators.required],
+			'address': [this.asadaDB.location.address, Validators.required],
 			'waterProgram': [this.asadaDB.waterProgram],
 			'adminEntity': [this.asadaDB.adminEntity],
 			'inCharge': [this.asadaDB.inCharge, Validators.required],
@@ -275,18 +287,22 @@ export class AsadaDetailsComponent implements OnInit {
 			'officeLatitude': [this.asadaDB.office.lat, Validators.required],
 			'officeLongitude': [this.asadaDB.office.long, Validators.required]
 		});
+		this.selectedProvince=this.asadaDB.location.province.code;
+		this.selectedCanton=this.asadaDB.location.canton.code;
+		this.selectedDistrict=this.asadaDB.location.district.code;
 		this.detailAsadaForm.valueChanges
 			.subscribe(data => this.onValueChanged(data));
 		this.onValueChanged(); // (re)set validation messages now
+
 	}
 
 
 	emptyForm(): void {
 		this.detailAsadaForm = this.fb.group({
 			'asadaName': ['', Validators.required],
-			'province': ['', Validators.required],
-			'district': ['', Validators.required],
-			'subDistrict': ['', Validators.required],
+			'province': [1, Validators.required],
+			'canton': [1, Validators.required],
+			'district': [1, Validators.required],
 			'geoCode': ['', Validators.required],
 			'numberSubscribed': ['', Validators.required],
 			'phoneNumber': ['', Validators.required],
@@ -295,7 +311,7 @@ export class AsadaDetailsComponent implements OnInit {
 			'email': ['', Validators.required],
 			'concessionNumber': ['', Validators.required],
 			'minaeRegister': ['', Validators.required],
-			'location': ['', Validators.required],
+			'address': ['', Validators.required],
 			'waterProgram': [''],
 			'adminEntity': [''],
 			'inCharge': ['', Validators.required],
@@ -327,8 +343,8 @@ export class AsadaDetailsComponent implements OnInit {
 	formErrors = {
 		'asadaName': '',
 		'province': '',
+		'canton': '',
 		'district': '',
-		'subDistrict': '',
 		'geoCode': '',
 		'numberSubscribed': '',
 		'phoneNumber': '',
@@ -336,7 +352,7 @@ export class AsadaDetailsComponent implements OnInit {
 		'email': '',
 		'concessionNumber': '',
 		'minaeRegister': '',
-		'location': '',
+		'address': '',
 		'inCharge': '',
 		'officeLatitude': '',
 		'officeLongitude': ''
@@ -349,10 +365,10 @@ export class AsadaDetailsComponent implements OnInit {
 		'province': {
 			'required': 'Provincia requerido'
 		},
-		'district': {
+		'canton': {
 			'required': 'Canton requerido'
 		},
-		'subDistrict': {
+		'district': {
 			'required': 'Distrito requerido'
 		},
 		'geoCode': {
@@ -379,7 +395,7 @@ export class AsadaDetailsComponent implements OnInit {
 		'minaeRegister': {
 			'required': 'Numero de registro requerido'
 		},
-		'location': {
+		'address': {
 			'required': 'Locacion requerida'
 		}
 	};

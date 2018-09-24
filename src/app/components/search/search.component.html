@@ -1,4 +1,5 @@
 <section>
+	
 	<div class="section-header">
 		<ol class="breadcrumb">
 			<li *ngIf="searchType=='asadas'" class="active">
@@ -77,11 +78,11 @@
 
 							<!-- END PAGE HEADER -->
 
-							<div *ngIf="searchType=='asadas'">
-								<table class="table table-hover">
+							<div *ngIf="searchType=='asadas'" class="scroll-table">
+								<table class="table table-hover fixed-header">
 									<thead>
 										<tr>
-											<th>
+											<th class="col-xs-1">
 												<div class="checkbox checkbox-styled tile-text">
 													<label>
 														<input type="checkbox" [(ngModel)]="allSelection" (change)="selectAll()">
@@ -90,17 +91,17 @@
 													</label>
 												</div>
 											</th>
-											<th class="text-medium text-lg text-primary sorting">Nombre</th>
-											<th class="text-medium text-lg text-primary">Provincia</th>
-											<th class="text-medium text-lg text-primary">Cantón</th>
-											<th class="text-medium text-lg text-primary">Distrito</th>
-											<th *ngIf="optionsAllowed == true" class="text-medium text-lg text-primary">Cargar Infraestructuras</th>
-											<th *ngIf="optionsAllowed == true" class="text-right text-lg text-primary">Opciones</th>
+											<th class="col-xs-2 text-medium text-lg text-primary sorting">Nombre</th>
+											<th class="col-xs-2 text-medium text-lg text-primary">Provincia</th>
+											<th class="col-xs-2 text-medium text-lg text-primary">Cantón</th>
+											<th class="col-xs-2 text-medium text-lg text-primary">Distrito</th>
+											<th *ngIf="optionsAllowed == true" class="col-xs-2 text-medium text-lg text-primary">Cargar Infraestructuras</th>
+											<th *ngIf="optionsAllowed == true" class="col-xs-1 text-right text-lg text-primary">Opciones</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr *ngFor="let element of filteredList">
-											<td>
+											<td class="col-xs-1">
 												<div class="checkbox checkbox-styled tile-text">
 													<label>
 														<input type="checkbox" [(ngModel)]="element.isActive">
@@ -109,17 +110,17 @@
 													</label>
 												</div>
 											</td>
-											<td><a class="custom-pointer" (click)=openDetails(element)>{{element.name}}</a></td>
-											<td><a class="opacity-75">{{element.province}}</a></td>
-											<td><a class="opacity-75">{{element.district}}</a></td>
-											<td><a class="opacity-75">{{element.subDistrict}}</a></td>
-											<td *ngIf="optionsAllowed == true">
+											<td class="col-xs-2"><a class="custom-pointer" (click)=openDetails(element)>{{element.name}}</a></td>
+											<td class="col-xs-2"><a class="opacity-75">{{element.location.province.name}}</a></td>
+											<td class="col-xs-2"><a class="opacity-75">{{element.location.canton.name}}</a></td>
+											<td class="col-xs-2"><a class="opacity-75">{{element.location.district.name}}</a></td>
+											<td *ngIf="optionsAllowed == true" class="col-xs-2" >
 												<button *ngIf="element.allowedToEdit==true" class="btn ink-reaction btn-raised btn-primary btn-loading-state" (click)="uploadInfraestructura(element)"
 												 data-toggle="modal" data-target="#upload-infraestructuras" data-placement="top" data-original-title="Subir">
 													Importar
 												</button>
 											</td>
-											<td *ngIf="optionsAllowed == true" class="text-right">
+											<td *ngIf="optionsAllowed == true" class="col-xs-1 text-right">
 												<button *ngIf="element.allowedToEdit==true" (click)="modifyInfo(element)" type="button" class="btn btn-icon-toggle" data-toggle="tooltip"
 												 data-placement="top" data-original-title="Copy row"><i class="fa fa-pencil"></i></button>
 											</td>
