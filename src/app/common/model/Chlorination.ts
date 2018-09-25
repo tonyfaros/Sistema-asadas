@@ -7,6 +7,7 @@ export class Chlorination implements Infrastructure{
     $key?: string;
     name: string;
     risk: number;
+    mainImg: FirebaseImg;
     img: FirebaseImg [];
     type: string;
     asada:{

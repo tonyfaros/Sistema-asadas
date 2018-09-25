@@ -13,6 +13,7 @@ export class DistributionLine implements Infrastructure {
     riskValues: number[];
     siNumber: number;
     riskLevel: string;
+    mainImg: FirebaseImg;
     img: FirebaseImg [];
 
     asada:{

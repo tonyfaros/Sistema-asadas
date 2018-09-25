@@ -1,5 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { FirebaseApp } from 'angularfire2';
+import { Infrastructure } from '../model/Infrastructure';
 
 @Injectable()
 export class StorageFirebaseService {
@@ -9,7 +10,10 @@ export class StorageFirebaseService {
     constructor(@Inject(FirebaseApp) firebaseApp: any){
         this.storageRef = firebaseApp.storage().ref();
 	}
-    		
+	
+	upload(image,keyInfra:string,keyTomaDatos:string){
+		
+	}
 
     uploadImage (pImage){
         const uploadTask: firebase.storage.UploadTask = this.storageRef.child('infrastructure/'+pImage.name+Date.now()).put(pImage);
@@ -21,7 +25,6 @@ export class StorageFirebaseService {
                 return downloadURL;
 			}
 		);
-
 	}
 
 }

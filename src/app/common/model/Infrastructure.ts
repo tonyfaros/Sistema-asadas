@@ -7,6 +7,7 @@ export interface Infrastructure{
     name: string;
     risk: number;
     riskLevel: string;
+    mainImg: FirebaseImg;
     img: FirebaseImg [];
     type: string;
     asada:{
