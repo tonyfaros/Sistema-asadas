@@ -5,17 +5,22 @@ import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'a
 import { FirebaseAuthState } from 'angularfire2/index';
 import { Observable } from 'rxjs';
 
-
+import { Router } from '@angular/router';
 import { AngularFireService } from '../../common/service/angularFire.service'; 
 import { User } from '../../common/model/User';
 import 'rxjs/add/operator/map';
+import * as CryptoJS from 'crypto-js';
+//import $ from "jquery";
+import { GetUserDetailsService } from "app/components/profile-header/get-user-details.service";
+import { UserService } from "app/common/service/user.service";
+import { RolAccess } from '../../common/model/RolAccess';
 
 
 @Component({
   selector: 'app-adm-usuarios',
   templateUrl: './adm-usuarios.component.html',
   styleUrls: ['./adm-usuarios.component.scss'],
-  providers:[AngularFireService]
+  providers:[UserService,AngularFireService,GetUserDetailsService, UserService]
 })
 export class AdmUsuariosComponent implements OnInit {
   filteredList: any[];
@@ -24,33 +29,65 @@ export class AdmUsuariosComponent implements OnInit {
   
   projects: Observable<any[]>;
   customers: FirebaseObjectObservable<any[]>;
+  
 
+  userRol;
+  private User;
+  private usuarioEliminar = '';
+  
+  
+  
+  constructor(private userService: UserService,
+    db: AngularFireDatabase,
+    private getUserDetailsService: GetUserDetailsService, 
+    private af: AngularFire,
+    private angularFireService: AngularFireService,
+    private router: Router) { 
 
-  private User = '';
-  
-  
-  
-  constructor(db: AngularFireDatabase, private af: AngularFire,private angularFireService: AngularFireService) { 
-    var usuarios = new Array();
-   
-    db.list('usuarios')
-    .subscribe(filteredList => {
-      this.filteredList = filteredList;
-      
-      console.log(this.filteredList);
-    });
-    
+    var usuarios = new Array(); 
 
   }
   user: FirebaseAuthState;
 
 
   ngOnInit() {
-        this.af.auth.subscribe(user => {
-
-      this.user = user;
-      this.User = this.user.uid;
+    
+      this.af.auth.subscribe(user => {
+        this.user = user;
+        this.User = this.user.uid;
     });
+    var userDetails = this.getUserDetailsService.getUserDetails(this.user.uid);
+    userDetails.subscribe(
+      results => {
+        this.userRol = results.rol;
+
+  });
+  if(this.userRol!="Super Administrador" && this.userRol!="Profesor"){
+    this.router.navigate(['/'])
+  }
+
+  this.angularFireService.getUsuarios().subscribe(
+    results => {
+      var usuariosList = new Array();
+
+      if(this.userRol=="Profesor"){
+        for(var i = 0;i<results.length;i++){
+          if(results[i]['profesor'] == this.user.uid){
+            if(results[i]['estado'] == "Aprobado"){
+              usuariosList.push(results[i]);
+            }
+          }	
+        }
+      }
+      else
+        usuariosList = results;
+      this.filteredList  = usuariosList;
+    });
+}
+
+
+  openModal(key){
+    this.usuarioEliminar = key;
   }
 
   addUsuario(){
@@ -60,6 +97,11 @@ export class AdmUsuariosComponent implements OnInit {
 			usuario.apellidos = (<HTMLInputElement>document.getElementById('apellidos')).value; 
 			usuario.correo = (<HTMLInputElement>document.getElementById('correo')).value; 
 			usuario.rol = (<HTMLInputElement>document.getElementById('rol')).value; 
+      //usuario.password = this.encrypt();
+
+     
+      
+
 			
 		this.addNewUsuario(usuario);
   }
@@ -68,10 +110,12 @@ export class AdmUsuariosComponent implements OnInit {
 		this.angularFireService.addNewUsuario(pUsuario);
 	}
 
-  deleteUsuario(pKey){
-    this.angularFireService.deleteUsuario(pKey);
+  deleteUsuario(){
+    this.userService.updateUserState(this.usuarioEliminar,"Borrado");
+
   }
 
+  
   
   /*
   delete(elem: any): void {

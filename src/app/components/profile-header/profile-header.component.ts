@@ -18,6 +18,7 @@ export class ProfileHeaderComponent implements OnInit {
 	private asada = '';
 	private numRequest = 0;
 	private numnotif = 0;
+	
 
 	private allList: Notification[];
 	private filterList: Notification[];
@@ -34,24 +35,28 @@ export class ProfileHeaderComponent implements OnInit {
 	}
 	user: FirebaseAuthState;
 	isLoggedIn: boolean;
+	
 	ngOnInit() {
 		this.af.auth.subscribe(user => {
 			if (user) {
 				// user logged in
 				this.user = user;
-				this.getRolAccess();
+				
 				this.getRequests();
 				this.isLoggedIn = true;
 				var userDetails = this.getUserDetailsService.getUserDetails(this.user.uid);
 				userDetails.subscribe(
 					results => {
+						if(results.estado == "Aprobado"){
 						this.userName = results.nombre + ' ' + results.apellidos;
+						this.userRol = results.rol;
 						this.allList = [];
 						this.filterList = [];
 						this.getNotifications();
-						if (this.userRol != "Super Administrador") {
-							this.asada = results.asada.name;
-						}
+					}
+					else{
+						this.logout();
+					}
 					}
 				);
 
@@ -74,9 +79,30 @@ export class ProfileHeaderComponent implements OnInit {
 		)
 	}
 	getRequests() {
-		this.userService.getAsadasRequests().subscribe(
+		
+		this.userService.getUsuarios().subscribe(
 			results => {
-				this.numRequest = results.length;
+				var usuariosList = new Array();
+				if(this.userRol == "Super Administrador"){
+					for(var i = 0;i<results.length;i++){
+						if(results[i]['rol'] == "Profesor"){ //*No estoy segura si solo profes o estudiantes tambien */
+							if(results[i]['estado'] == "Pendiente"){
+								usuariosList.push(results[i]);
+							}
+						}	
+					}
+				}
+				else{
+					for(var i = 0;i<results.length;i++){
+						if(results[i]['profesor'] == this.user.uid){
+							if(results[i]['estado'] == "Pendiente"){
+								usuariosList.push(results[i]);
+							}
+						}	
+					}
+				}
+				console.log(usuariosList);
+				this.numRequest = Object.keys(usuariosList).length;
 			}
 		)
 	}

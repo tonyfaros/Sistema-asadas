@@ -27,6 +27,11 @@ export class UserService {
     }).catch((error) => console.log("Error actualizando datos " + error));
   }
 
+  getUsuarios():FirebaseListObservable<any>  {
+		const Obj$: FirebaseListObservable<any> = this.af.database.list('usuarios');
+		return Obj$;
+  }
+  
   getUser(pKey: String): FirebaseObjectObservable<any> {
     const Obj$: FirebaseObjectObservable<any> =
       this.af.database.object('usuarios/' + pKey);
@@ -68,6 +73,7 @@ export class UserService {
   addUser(uid, request) {
     const user = this.af.database.object(`/usuarios/${uid.$key}`);
     user.set(request);
+    
   }
   createAsadaRequest(userId: String, asadaId: String,
     userName: string, asadaName: string, rol: string) {
@@ -122,21 +128,56 @@ export class UserService {
       });
   }
 
-  updateUserAsadaState(request, message, newRol) {
+  updateUserNew(request){
+    this.updateUserDetails(request.$key, {
+      apellidos: request.apellidos,
+      nombre: request.nombre,
+      estado:"Pendiente",
+      correo:request.correo,
+      password:request.password,
+      passwordf:request.passwordf,
+      profesor:request.profesor,
+      rol:request.rol
+    });
+
+  }
+
+
+  updateUser(request,uid) {
     var isCalled = false;
-    var subscription = this.getUser(request.usuario).subscribe(
+    var subscription = this.getUser(uid).subscribe(
       results => {
         if (!isCalled) {
-          results.asada.state = message;
+          this.updateUserDetails(results.$key, {
+            apellidos: request.userLastName,
+            nombre: request.userName,
+            estado:"Pendiente",
+            correo:results.correo,
+            password:request.password,
+            passwordf:results.passwordf,
+            profesor:request.profesor,
+            rol:request.rol
+          });
+          isCalled = true;
+        }
+      }
+    );
+  }
+
+  updateUserState(request,estado) {
+    var isCalled = false;
+    var subscription = this.getUser(request).subscribe(
+      results => {
+        if (!isCalled) {
           this.updateUserDetails(results.$key, {
             apellidos: results.apellidos,
             nombre: results.nombre,
-            asada: {
-              id: results.asada.id,
-              name: results.asada.name,
-              rol: newRol,
-              state: message
-            }
+            estado:estado,
+            correo:results.correo,
+            password:results.password,
+            passwordf:results.passwordf,
+            profesor:results.profesor,
+            rol:results.rol
           });
           isCalled = true;
         }
@@ -146,25 +187,27 @@ export class UserService {
   deleteAccessRequest(key: String) {
     this.af.database.object('asadaRequests/' + key).remove();
   }
+  /*
   acceptRequest(uid, request) {
     //delete the request
     //update the state in user details
     //update roles table
-    this.createRolAccess(uid, request);
-    var message = `Permiso de ${request.rol} de la asada.`;
-    var newRol = request.rol;
-    this.updateUserAsadaState(request, message, newRol);
-    this.deleteAccessRequest(request.$key);
-  }
+    //this.createRolAccess(uid, request);
+    //var message = `Permiso de ${request.rol} de la asada.`;
+    //var newRol = request.rol;
+    this.updateUserState(uid);
+    //this.deleteAccessRequest(request.$key);
+  }*/
+
   declineRequest(request) {
     var message = 'Solicitud de asada denegada.'
     var newRol = ''
-    this.updateUserAsadaState(request, message, newRol);
+    //this.updateUserAsadaState(request, message, newRol);
     this.deleteAccessRequest(request.$key);
   }
 
   deleteUser(pKey: String){
-    this.af.database.object('rolAccess/' + pKey).remove();
+    //this.af.database.object('rolAccess/' + pKey).remove();
     this.af.database.object('usuarios/' + pKey).remove();
    }
 

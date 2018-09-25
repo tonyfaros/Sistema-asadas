@@ -13,16 +13,19 @@
 					<li *ngFor="let request of requests" class="tile">
 						<a class="tile-content ink-reaction">
 							<div class="tile-text">
-								{{request.userName}}
+								{{request.nombre + ' ' + request.apellidos}}
 								<small>
-									Solicita permisos de {{request.rol}} de la asada: {{request.asadaName}} 
+									{{request.correo}} 
+								</small>
+								<small>
+									Solicita permisos de {{request.rol}} 
 								</small>
 							</div>
 						</a>
 						<a (click)="approve(request)" class="btn btn-flat ink-reaction">
 							<i class="glyphicon glyphicon-ok"></i>
 						</a>
-						<a (click)="denyRequest(request)" class="btn btn-flat ink-reaction">
+						<a (click)="denyRequest(request)" class="btn btn-flat ink-reaction deny">
 							<i class="glyphicon glyphicon-remove"></i>
 						</a>
 					</li>
