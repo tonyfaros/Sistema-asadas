@@ -9,9 +9,12 @@ import { Infrastructure } from '../../common/model/Infrastructure';
 import { MapGoogleService } from '../map-google/map-google.service';
 import { LegendEntryComponent } from '@swimlane/ngx-charts';
 import { TomaInfra } from '../../common/model/TomaInfra';
+import { Router, ActivatedRoute } from '@angular/router';
+
 @Component({
   selector: 'app-toma-datos',
   templateUrl: './toma-datos.component.html',
+
   styleUrls: ['./toma-datos.component.scss'],
   providers: [AngularFireService,DatePipe,MapGoogleService]
 })
@@ -28,7 +31,7 @@ export class TomaDatosComponent implements OnInit {
   public cantidadCaptaciones = 0;
   public cantidadCloracion = 0;
 
-  constructor(private mapService: MapGoogleService, db: AngularFireDatabase, private af: AngularFire,private angularFireService: AngularFireService,private datepipe: DatePipe) {
+  constructor(private mapService: MapGoogleService, private router: Router, db: AngularFireDatabase, private af: AngularFire,private angularFireService: AngularFireService,private datepipe: DatePipe) {
     this.infraestructureList = [];
     db.list('asadas')
     .subscribe(asadasList => {
@@ -69,8 +72,12 @@ export class TomaDatosComponent implements OnInit {
 
    }
 
+   openInfraList(elem){
+     console.log("yes");
+    this.router.navigate(['/tomaDatosInfra',elem]);
+   }
+
    calculateInfraestructure(){
-    console.log(this.infraestructureList.length);
     for(let tomaDatosEl of this.tomaDatosList){
     
     for (let asada of this.asadasList){
@@ -105,6 +112,7 @@ export class TomaDatosComponent implements OnInit {
 
    user: FirebaseAuthState;
 
+  cList: Array<any>;
 
   ngOnInit() {
       this.af.auth.subscribe(user => {
@@ -112,6 +120,8 @@ export class TomaDatosComponent implements OnInit {
       this.user = user;
       this.User = this.user.uid;
       
+     // this.data.currentList.subscribe(cList => this.cList = cList);
+     // this.data.currentList.subscribe(listParm => this.infraestructureList)
     });}
 
  
@@ -127,9 +137,12 @@ export class TomaDatosComponent implements OnInit {
   }
 
   create(){
-    
-    var id = Number(this.tomaDatosList[this.tomaDatosList.length-1]["id"])+1;
-    
+    var id = 0;
+
+    if(this.tomaDatosList[this.tomaDatosList.length-1] != null){
+       id = Number(this.tomaDatosList[this.tomaDatosList.length-1]["id"])+1;
+    }
+
     const tomaDatos: TomaDatos = new TomaDatos();
     this.todayDate = new Date();
     let latest_date =this.datepipe.transform(this.todayDate, 'yyyy-MM-dd');
@@ -145,7 +158,6 @@ export class TomaDatosComponent implements OnInit {
   }
 
   
-
   returnInfraesOfAsada(id: string){
     var listInfra: TomaInfra[] = [];
     for (let infra of this.infraestructureList){
@@ -195,6 +207,7 @@ evalCantSistemasClr(asadaid: string) {
 
     }
 }
+
   
 
 }

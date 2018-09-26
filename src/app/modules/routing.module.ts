@@ -32,6 +32,7 @@ import { NascentDetailsComponent } from '../components/nascent-details/nascent-d
 import { GraphicsComponent } from '../components/graphics/graphics.component';
 import { DetailsSuperficialWaterComponent } from '../components/details-superficial-water/details-superficial-water.component';
 import { GraphicdetailsComponent } from '../components/graphicdetails/graphicdetails.component';
+import { TomaDatosInfraComponent } from '../components/toma-datos-infra/toma-datos-infra.component';
 //Gaby
 import { CompareAsadasComponent } from '../components/compare-asadas/compare-asadas.component'
 import { DashboardComponent } from '../components/dashboard/dashboard.component'
@@ -79,6 +80,7 @@ const appRoutes: Routes = [
   { path: 'CaptacionSuperficialDetails/:id/:action', component: DetailsSuperficialWaterComponent },
   { path: 'GraphicDetails/:id/:graphictype/:idgraphic', component: GraphicdetailsComponent },
   { path: 'GraphicDetails/:id/:graphictype', component: GraphicdetailsComponent },
+  { path: 'tomaDatosInfra/:id', component: TomaDatosInfraComponent },
   //Gaby
   { path: 'compare-asadas', component: CompareAsadasComponent },
   { path: 'dashboard', component: DashboardComponent },

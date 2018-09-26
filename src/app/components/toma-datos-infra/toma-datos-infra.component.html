@@ -1,0 +1,22 @@
+
+<section>
+  
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th class="text-medium text-lg text-primary sorting">Nombre</th>
+        <th class="text-medium text-lg text-primary sorting">Tipo</th>
+        <th class="text-medium text-lg text-primary sorting">Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let infra of infraFiltered">
+        <td><a class="opacity-75">{{infra.name}}</a></td>
+        <td><a class="opacity-75">{{infra.type}}</a></td>
+        <td><a class="opacity-75">Completado</a></td>
+        
+      </tr>
+    </tbody>
+  </table>
+
+</section>
