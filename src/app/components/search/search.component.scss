@@ -4,6 +4,57 @@ app-filter{
     right: 0px;
     float: left;
   }
+
+.riskBorder-MuyAlto{
+    border-left: thin solid ;
+    border-left-width: 3px;
+    border-left-color: #e54133;
+}
+
+.riskBorder-Alto{
+    border-left: thin solid ;
+    border-left-width: 3px;
+    border-left-color: #ec9620;
+}
+.riskBorder-Intermedio{
+    border-left: thin solid ;
+    border-left-width: 3px;
+    border-left-color: #f9eb39;
+}
+.riskBorder-Bajo{
+    border-left: thin solid ;
+    border-left-width: 3px;
+    border-left-color: #cddc38;
+}
+.riskBorder-Nulo{
+    
+    border-left: thin solid ;
+    border-left-width: 3px;
+    border-left-color: #53af50;
+}
+
+.riskBorder-noInfo{
+    border-left: thin solid ;
+    border-left-width: 3px;
+    border-left-color: rgb(25, 27, 26)
+}
+// .riskBorder{
+//     width: 2px;
+// }
+// .riskBorder a{
+//     display: :none;
+// }
+
+// .riskBorder:hover{
+//     width: 20px;
+//     font-size: 10px;
+// }
+// .riskBorder a:hover{
+//     display: :none;
+// }
+
+
+
 .table-panel{
     padding: 5px 15px!important;
     color:black;
@@ -25,6 +76,10 @@ app-filter{
   .fixed-header tr{
       min-width: 130!important;
   }
+
+
+
+
 // .fixed-header{
 //     width: 100%;
 //     table-layout: fixed;

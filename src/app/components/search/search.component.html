@@ -1,5 +1,5 @@
 <section>
-	
+
 	<div class="section-header">
 		<ol class="breadcrumb">
 			<li *ngIf="searchType=='asadas'" class="active">
@@ -36,8 +36,8 @@
 			<!-- BEGIN SEARCH BAR -->
 			<div class="card-body style-primary no-y-padding no-x-padding">
 				<div class="col-xs-12  filter-container">
-					<app-filter [activeLocationFilter]="true" [activeCategoryFilter]="searchType=='infraestructura'" [activeRiskFilter]="searchType=='infraestructura'"
-					 [activeFilterButton]="true" (notify)='filterNotity($event)'>
+					<app-filter [activeLocationFilter]="true" [activeCategoryFilter]="searchType=='infraestructura'"
+					 [activeRiskFilter]="searchType=='infraestructura'" [activeFilterButton]="true" (notify)='filterNotity($event)'>
 					</app-filter>
 
 				</div>
@@ -63,7 +63,8 @@
 									<div class="form-group">
 										<div class="input-group input-group-lg">
 											<div class="input-group-content">
-												<input type="text" class="form-control dirty" id="searchInput" placeholder="busqueda" (keyup)="search(input.value)" #input>
+												<input type="text" class="form-control dirty" id="searchInput" placeholder="busqueda" (keyup)="search(input.value)"
+												 #input>
 												<div class="form-control-line"></div>
 												<div class="line"></div>
 
@@ -115,15 +116,16 @@
 											<td class="col-xs-2"><a class="opacity-75">{{element.location.province.name}}</a></td>
 											<td class="col-xs-2"><a class="opacity-75">{{element.location.canton.name}}</a></td>
 											<td class="col-xs-2"><a class="opacity-75">{{element.location.district.name}}</a></td>
-											<td *ngIf="optionsAllowed == true" class="col-xs-2" >
-												<button *ngIf="element.allowedToEdit==true" class="btn ink-reaction btn-raised btn-primary btn-loading-state" (click)="uploadInfraestructura(element)"
-												 data-toggle="modal" data-target="#upload-infraestructuras" data-placement="top" data-original-title="Subir">
+											<td *ngIf="optionsAllowed == true" class="col-xs-2">
+												<button *ngIf="element.allowedToEdit==true" class="btn ink-reaction btn-raised btn-primary btn-loading-state"
+												 (click)="uploadInfraestructura(element)" data-toggle="modal" data-target="#upload-infraestructuras"
+												 data-placement="top" data-original-title="Subir">
 													Importar
 												</button>
 											</td>
 											<td *ngIf="optionsAllowed == true" class="col-xs-1 text-right">
-												<button *ngIf="element.allowedToEdit==true" (click)="modifyInfo(element)" type="button" class="btn btn-icon-toggle" data-toggle="tooltip"
-												 data-placement="top" data-original-title="Copy row"><i class="fa fa-pencil"></i></button>
+												<button *ngIf="element.allowedToEdit==true" (click)="modifyInfo(element)" type="button" class="btn btn-icon-toggle"
+												 data-toggle="tooltip" data-placement="top" data-original-title="Copy row"><i class="fa fa-pencil"></i></button>
 											</td>
 										</tr>
 									</tbody>
@@ -134,6 +136,7 @@
 								<table class="table table-hover">
 									<thead>
 										<tr>
+											<!-- <th></th> -->
 											<th>
 												<div class="checkbox checkbox-styled tile-text">
 													<label>
@@ -152,7 +155,10 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr *ngFor="let element of filteredList">
+										<tr *ngFor="let element of filteredList" class="riskBorder-{{element.riskLevel? element.riskLevel.replace(' ',''):'noInfo'}}">
+											<!-- <td class="riskBorder riskBorder-{{element.riskLevel? element.riskLevel.replace(' ',''):'noInfo'}}">
+												<a>{{element.riskLevel?element.riskLevel:'Sin info'}}</a>
+											</td> -->
 											<td>
 												<div class="checkbox checkbox-styled tile-text">
 													<label>
@@ -171,7 +177,14 @@
 													<img class="img-circle width-2" src="../../../assets/img/default-image.png" alt="" />
 												</div>
 											</td>
-											<td><a class="custom-pointer" (click)=openDetails(element)>{{element.name}}</a></td>
+											<td>
+												<a *ngIf="element.name && element.name!=''" class="custom-pointer" (click)=openDetails(element)>
+													{{element.name}}</a>
+
+												<a *ngIf="!element.name || element.name==''" class="custom-pointer">
+													*Sin Definir</a>
+											</td>
+											
 											<td><a class="opacity-75">{{element.asada.name}}</a></td>
 											<td><a class="opacity-75">{{element.type}}</a></td>
 
