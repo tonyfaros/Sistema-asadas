@@ -133,11 +133,11 @@
 							</div>
 							<!-- BEGIN RESULT LIST -->
 							<div *ngIf="searchType=='infraestructura'">
-								<table class="table table-hover">
+								<table class="table table-hover  fixed-header">
 									<thead>
 										<tr>
-											<!-- <th></th> -->
-											<th>
+											<!-- <th></th>Z -->
+											<th class="col-xs-1">
 												<div class="checkbox checkbox-styled tile-text">
 													<label>
 														<input type="checkbox" [(ngModel)]="allSelection" (change)="selectAll()">
@@ -146,12 +146,12 @@
 													</label>
 												</div>
 											</th>
-											<th></th>
-											<th class="text-medium text-lg text-primary sorting">Nombre</th>
-											<th class="text-medium text-lg text-primary sorting">Asada</th>
-											<th class="text-medium text-lg text-primary sorting">Tipo</th>
+											<th class="col-xs-2"></th>
+											<th class="text-medium text-lg text-primary sorting col-xs-2">Nombre</th>
+											<th class="text-medium text-lg text-primary sorting col-xs-3">Asada</th>
+											<th class="text-medium text-lg text-primary sorting col-xs-2">Tipo</th>
 
-											<th *ngIf="optionsAllowed==true" class="text-right text-lg text-primary">Opciones</th>
+											<th *ngIf="optionsAllowed==true" class="text-right text-lg text-primary col-xs-2">Opciones</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -159,7 +159,7 @@
 											<!-- <td class="riskBorder riskBorder-{{element.riskLevel? element.riskLevel.replace(' ',''):'noInfo'}}">
 												<a>{{element.riskLevel?element.riskLevel:'Sin info'}}</a>
 											</td> -->
-											<td>
+											<td class="col-xs-1">
 												<div class="checkbox checkbox-styled tile-text">
 													<label>
 														<input [disabled]="element.allowedToEdit==false" type="checkbox" [(ngModel)]="element.isActive">
@@ -168,7 +168,7 @@
 													</label>
 												</div>
 											</td>
-											<td>
+											<td class="col-xs-2">
 												<div *ngIf="element.mainImg">
 													<img class="img-circle width-2" [src]="element.mainImg.url" alt="" />
 												</div>
@@ -177,7 +177,7 @@
 													<img class="img-circle width-2" src="../../../assets/img/default-image.png" alt="" />
 												</div>
 											</td>
-											<td>
+											<td class="col-xs-2">
 												<a *ngIf="element.name && element.name!=''" class="custom-pointer" (click)=openDetails(element)>
 													{{element.name}}</a>
 
@@ -185,10 +185,10 @@
 													*Sin Definir</a>
 											</td>
 											
-											<td><a class="opacity-75">{{element.asada.name}}</a></td>
-											<td><a class="opacity-75">{{element.type}}</a></td>
+											<td class="col-xs-3"><a class="opacity-75">{{element.asada.name}}</a></td>
+											<td class="col-xs-2"><a class="opacity-75">{{element.type}}</a></td>
 
-											<td *ngIf="optionsAllowed == true" class="text-right">
+											<td *ngIf="optionsAllowed == true" class="text-right col-xs-2">
 												<button *ngIf="element.allowedToEvaluate==true" (click)="evaluate(element)" type="button" class="btn btn-icon-toggle"><i
 													 class="fa fa-list-alt" content="Evaluar Riesgo"></i></button>
 												<button *ngIf="element.allowedToEdit==true" (click)="modifyInfo(element)" type="button" class="btn btn-icon-toggle"><i
