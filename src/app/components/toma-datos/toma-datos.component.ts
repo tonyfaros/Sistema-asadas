@@ -7,39 +7,45 @@ import { FirebaseAuthState } from 'angularfire2/index';
 import { DatePipe } from '@angular/common';
 import { Infrastructure } from '../../common/model/Infrastructure';
 import { MapGoogleService } from '../map-google/map-google.service';
+import { LegendEntryComponent } from '@swimlane/ngx-charts';
+import { TomaInfra } from '../../common/model/TomaInfra';
+import { Router, ActivatedRoute } from '@angular/router';
+
 @Component({
   selector: 'app-toma-datos',
   templateUrl: './toma-datos.component.html',
+
   styleUrls: ['./toma-datos.component.scss'],
   providers: [AngularFireService,DatePipe,MapGoogleService]
 })
 export class TomaDatosComponent implements OnInit {
 
   private infraestructureList: Infrastructure[];
-  filteredList2: any[];
+  asadasList: any[];
   asadaSelected: string = '';
   todayDate: Date;
-  filteredList: any[];
+  tomaDatosList: any[];
+  
   
   public cantidadTanques = 0;
   public cantidadCaptaciones = 0;
   public cantidadCloracion = 0;
 
-  constructor(private mapService: MapGoogleService, db: AngularFireDatabase, private af: AngularFire,private angularFireService: AngularFireService,private datepipe: DatePipe) {
+  constructor(private mapService: MapGoogleService, private router: Router, db: AngularFireDatabase, private af: AngularFire,private angularFireService: AngularFireService,private datepipe: DatePipe) {
     this.infraestructureList = [];
     db.list('asadas')
-    .subscribe(filteredList2 => {
-      this.filteredList2 = filteredList2;
+    .subscribe(asadasList => {
+      this.asadasList = asadasList;
       this.getInfraestructures();
       
       });
 
    
     db.list('/tomaDatos')
-    .subscribe(filteredList => {
-      this.filteredList = filteredList;
+    .subscribe(tomaDatosList => {
+      this.tomaDatosList = tomaDatosList;
       var tomaDatosList = new Array();
-      for (var i = 0; i < this.filteredList.length; i++){
+      for (var i = 0; i < this.tomaDatosList.length; i++){
         var toma_datos = {
           'key':'',
           'id':'',
@@ -48,40 +54,43 @@ export class TomaDatosComponent implements OnInit {
           'Estado': '',
           'Infraestructura': ''
         }
-        if(this.filteredList[i]["idEstudiante"] == this.User){
-          toma_datos.key = this.filteredList[i]["$key"];  
-          toma_datos.id = this.filteredList[i]["idToma"]; 
-          toma_datos.Asada = this.filteredList[i]["nameAsada"];
-          toma_datos.Fecha = this.filteredList[i]["dateCreated"];
-          toma_datos.Estado = this.filteredList[i]["status"];
+        if(this.tomaDatosList[i]["idEstudiante"] == this.User){
+          toma_datos.key = this.tomaDatosList[i]["$key"];  
+          toma_datos.id = this.tomaDatosList[i]["idToma"]; 
+          toma_datos.Asada = this.tomaDatosList[i]["nameAsada"];
+          toma_datos.Fecha = this.tomaDatosList[i]["dateCreated"];
+          toma_datos.Estado = this.tomaDatosList[i]["status"];
           tomaDatosList.push(toma_datos);
 
         }
 
       }
       
-      this.filteredList = tomaDatosList;
+      this.tomaDatosList = tomaDatosList;
       
     });
-    
 
    }
 
+   openInfraList(elem){
+     console.log("yes");
+    this.router.navigate(['/tomaDatosInfra',elem]);
+   }
+
    calculateInfraestructure(){
-    console.log(this.infraestructureList.length);
-     for(let tomaDatosEl of this.filteredList){
-      
-     for (let asada of this.filteredList2){
-      
-       if(tomaDatosEl.Asada == asada.name){
-        var key;
-        key = asada.$key;
-        this.evalCantCaptacion(key);
-        this.evalCantSistemasClr(key);
-        this.evalCantTanques(key);
-        tomaDatosEl.Infraestructura = this.cantidadCaptaciones + this.cantidadCloracion + this.cantidadTanques;
-        }  
-     }
+    for(let tomaDatosEl of this.tomaDatosList){
+    
+    for (let asada of this.asadasList){
+    
+      if(tomaDatosEl.Asada == asada.name){
+      var key;
+      key = asada.$key;
+      this.evalCantCaptacion(key);
+      this.evalCantSistemasClr(key);
+      this.evalCantTanques(key);
+      tomaDatosEl.Infraestructura = this.cantidadCaptaciones + this.cantidadCloracion + this.cantidadTanques;
+      }  
+    }
    }
   }
 
@@ -102,6 +111,7 @@ export class TomaDatosComponent implements OnInit {
 
    user: FirebaseAuthState;
 
+  cList: Array<any>;
 
   ngOnInit() {
       this.af.auth.subscribe(user => {
@@ -109,6 +119,8 @@ export class TomaDatosComponent implements OnInit {
       this.user = user;
       this.User = this.user.uid;
       
+     // this.data.currentList.subscribe(cList => this.cList = cList);
+     // this.data.currentList.subscribe(listParm => this.infraestructureList)
     });}
 
  
@@ -124,9 +136,12 @@ export class TomaDatosComponent implements OnInit {
   }
 
   create(){
-    
-    var id = Number(this.filteredList[this.filteredList.length-1]["id"])+1;
-    
+    var id = 0;
+
+    if(this.tomaDatosList[this.tomaDatosList.length-1] != null){
+       id = Number(this.tomaDatosList[this.tomaDatosList.length-1]["id"])+1;
+    }
+
     const tomaDatos: TomaDatos = new TomaDatos();
     this.todayDate = new Date();
     let latest_date =this.datepipe.transform(this.todayDate, 'yyyy-MM-dd');
@@ -136,10 +151,27 @@ export class TomaDatosComponent implements OnInit {
     tomaDatos.nameAsada = this.asadaSelected;
     tomaDatos.status = 'Pendiente';
     tomaDatos.idEstudiante = this.User;
+    tomaDatos.infraestructuras = this.returnInfraesOfAsada(this.asadaSelected);
 
     this.addNewTomaDatos(tomaDatos);
   }
 
+  
+  returnInfraesOfAsada(id: string){
+    var listInfra: TomaInfra[] = [];
+    for (let infra of this.infraestructureList){
+      
+      var infraTemp = new TomaInfra();
+
+      if (infra.asada.name === id){
+        
+        infraTemp.id = infra.$key;
+        listInfra.push(infraTemp);
+      }
+    }
+    return listInfra;
+    
+  }
 
   evalCantTanques(asadaid: string) {
 
@@ -147,6 +179,7 @@ export class TomaDatosComponent implements OnInit {
     for (let entry of this.infraestructureList) {
         if (entry.asada.id == asadaid && entry.type == "Tanque") {
             this.cantidadTanques = this.cantidadTanques + 1;
+            
         }
 
     }
@@ -173,8 +206,6 @@ evalCantSistemasClr(asadaid: string) {
 
     }
 }
-
-
 
   
 

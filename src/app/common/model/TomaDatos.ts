@@ -1,3 +1,5 @@
+import { TomaInfra } from "./TomaInfra";
+
 export class TomaDatos{
     $key?: string;
     idToma: string;
@@ -5,4 +7,5 @@ export class TomaDatos{
     dateCreated: string;
     status: string;
     idEstudiante: string;
+    infraestructuras: TomaInfra[];
 }

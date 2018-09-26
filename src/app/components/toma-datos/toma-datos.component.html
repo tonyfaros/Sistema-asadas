@@ -10,7 +10,7 @@
         
           <form class="form form-inverse">
             <div class="form-group">
-              <button type="button" class="btn ink-reaction btn-raised btn-primary-dark " data-toggle="modal" data-target="#formModal">Nueva toma</button>
+              <button type="button" class="btn ink-reaction btn-raised btn-primary-dark "  data-toggle="modal" data-target="#formModal">Nueva toma</button>
               
             </div>
             <!--end .form-group -->
@@ -45,14 +45,15 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let element of filteredList">
+                    <tr *ngFor="let element of tomaDatosList">
+                          
                       <td><a class="opacity-75">{{element.id}}</a></td>
                       <td><a class="opacity-75">{{element.Asada}}</a></td>
                       <td><a class="opacity-75" >{{element.Fecha}}</a></td>
                       <td><a class="opacity-75">{{element.Infraestructura}}</a></td>
-                      <td><a [style.color]="element.Estado === 'Pendiente' ? 'orange' : element.Estado === 'Aceptado' ? 'green' : 'red'">{{element.Estado}}</a></td>
+                      <td><a [style.color]="element.Estado === 'Pendiente' ? 'orange' : element.Estado === 'Aceptado' ? 'green' : 'red'"><b>{{element.Estado}}</b></a></td>
                       <td class="text-right">
-                            <button *ngIf = "element.Estado!='Aceptado'" type="button" class="btn btn-icon-toggle"  data-toggle="tooltip" data-placement="top" data-original-title="Copy row"><i class="fa fa-arrow-right"></i></button>
+                            <button *ngIf = "element.Estado!='Aceptado'" type="button" class="btn btn-icon-toggle" [routerLink]="['/tomaDatosInfra',element.key]"  data-toggle="tooltip" data-placement="top" data-original-title="Copy row"><i class="fa fa-arrow-right"></i></button>
                           </td>
                     </tr>
                   </tbody>
@@ -80,7 +81,7 @@
 
                     <select class="form-control" (change)="asadaHandler($event)"> <!-- <== changed -->
                       
-                      <option *ngFor="let element of filteredList2" [ngValue]="element">{{element.name}}</option>
+                      <option *ngFor="let element of asadasList" [ngValue]="element">{{element.name}}</option>
                     </select>
                     
                 </div>
@@ -99,3 +100,6 @@
     <!-- END FORM MODAL MARKUP -->
 
 </section>
+
+
+

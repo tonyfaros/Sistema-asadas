@@ -1,0 +1,32 @@
+
+<section>
+  
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th class="text-medium text-lg text-primary sorting">Nombre</th>
+        <th class="text-medium text-lg text-primary sorting">Tipo</th>
+        <th class="text-medium text-lg text-primary sorting">Formulario</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let infra of infraFiltered" >
+        <td><a class="opacity-75">{{infra.name}}</a></td>
+        <td><a class="opacity-75">{{infra.type}}</a></td>
+          <td >
+            <button   type="button" class="btn btn-icon-toggle"  (click)="evaluate(infra)" data-toggle="tooltip" data-placement="top" data-original-title="Copy row"><i class="fa fa-arrow-right"></i></button>
+          </td>
+      </tr>
+    </tbody>
+  </table>
+
+</section>
+
+<!-- *ngIf = "element.Estado!='Aceptado'"
+
+  
+[routerLink]="['/tomaDatosInfra',element.key]"
+
+[style.color]="infraestructureList[i]['res1'] === '' ? 'green' : 'red'"
+
+-->
