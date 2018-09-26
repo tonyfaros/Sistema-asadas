@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router} from '@angular/router';
 import { AngularFireService } from '../../common/service/angularFire.service';
 import {AngularFireDatabase} from 'angularfire2/database';
 import { MapGoogleService } from '../map-google/map-google.service';
@@ -18,7 +18,7 @@ export class TomaDatosInfraComponent implements OnInit {
   infraestructureList: any[] = [];
   infraFiltered: any[] = [];
 
-  constructor(private mapService: MapGoogleService, private _Activatedroute:ActivatedRoute, db: AngularFireDatabase ) {
+  constructor(private mapService: MapGoogleService, private _Activatedroute:ActivatedRoute, db: AngularFireDatabase,private router: Router, ) {
 
     this.id=this._Activatedroute.snapshot.params['id'];
     db.list('/tomaDatos')
@@ -65,6 +65,10 @@ export class TomaDatosInfraComponent implements OnInit {
             }
         );
     
+}
+
+evaluate(elem: any): void {
+  this.router.navigate(['/evalSERSA', elem.type, elem.$key]);
 }
 
  
