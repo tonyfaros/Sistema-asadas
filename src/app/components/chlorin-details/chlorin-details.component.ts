@@ -252,7 +252,7 @@ export class ChlorinDetailsComponent implements OnInit {
 					downloadURL = uploadTask.snapshot.downloadURL;
 
 					const newImage : FirebaseImg = {fileName: newFilename, url: downloadURL, description: '' };
-						
+					
 					if (this.infraDB.img) {
 						this.infraDB.img.push(newImage);
 					} else {
@@ -478,46 +478,8 @@ export class ChlorinDetailsComponent implements OnInit {
 		);
 	}
 
-	updateInfrastructure(pId, pInfra): void {
-		var newInfra = {
-			tags: pInfra.tags,
-			name: pInfra.name,
-  			risk: pInfra.risk,
-    		img: ((pInfra.img == undefined) ? [] : pInfra.img),
-    		type: pInfra.type,
-    		asada:{
-        		name: pInfra.asada.name,
-        		id: pInfra.asada.id
-    		},
-    		lat: pInfra.lat,
-    		long: pInfra.long,
-  			details:{
-    			inCharge: pInfra.details.inCharge,
-    			aqueductName: pInfra.details.aqueductName,
-    			aqueductInCharge: pInfra.details.aqueductInCharge,
-    			ubication: pInfra.details.ubication,
-    			chlorinType: pInfra.details.chlorinType,
-    			dosageType: pInfra.details.dosageType,
-    			installationDate: {
-        			day: pInfra.details.installationDate.day,
-        			month: pInfra.details.installationDate.month,
-        			year: pInfra.details.installationDate.year
-    			},
-    			AqueductCreationDate: {
-        			day: pInfra.details.AqueductCreationDate.day,
-        			month: pInfra.details.AqueductCreationDate.month,
-        			year: pInfra.details.AqueductCreationDate.year
-    			}
-  			},
-  			location: pInfra.location,
-  			dateInstalled: pInfra.dateInstalled,
-  			riskNames: pInfra.riskNames,
-  			riskValues: pInfra.riskValues,
-  			siNumber: pInfra.siNumber,
-  			riskLevel: pInfra.riskLevel,
-  			dateCreated: pInfra.dateCreated
-		};
-		this.angularFireService.updateInfrastructure(pId, newInfra);
+	updateInfrastructure(pId, pInfra:Chlorination): void {
+		this.angularFireService.updateInfrastructure(pId, pInfra);
 	}
 
 	delete() {

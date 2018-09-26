@@ -516,7 +516,9 @@ export class MapGoogleComponent implements OnInit {
                 var showInfra = true;
                 if (showInfra && filtRie) {
                     for (let param of filtRie) {
-                        if (param.value.toLowerCase() == infra.riskLevel.toLowerCase()) {
+                        if((!infra.riskLevel && (param.value.toLowerCase() == "noinfo")) ||
+                            (infra.riskLevel && (param.value.toLowerCase() == infra.riskLevel.toLowerCase()))
+                        ){
                             showInfra = param.active;
                             break;
                         }
@@ -779,7 +781,7 @@ export class MapGoogleComponent implements OnInit {
             else {
                 iconUrl = "../../../assets/icons/oficina.png";
             }
-            var newAsadaMarker = {
+            var newAsadaMarker:asadastructure = {
                 $key: asadaElement.$key,
                 name: asadaElement.name,
                 lat: asadaElement.office.lat,
@@ -801,7 +803,7 @@ export class MapGoogleComponent implements OnInit {
                 numbersubscribed: asadaElement.numberSubscribed,
                 cantTanques: this.evalCantTanques(asadaElement.$key),
                 cantSuperficial: this.evalCantCaptacion(asadaElement.$key),
-                cantCloraci: this.evalCantSistemasClr(asadaElement.$key),
+                cantCloracion: this.evalCantSistemasClr(asadaElement.$key),
                 showInfoWindow: false,
                 zIndex: 100,
                 type: 'Asada'
@@ -857,7 +859,8 @@ interface genericInfraestructure {
         scaledSize: {
             height: number,
             width: number
-        }
+        },
+        anchor:{x:any,y:any}
     };
     visible: boolean;
     province: string;
@@ -883,7 +886,8 @@ interface asadastructure {
         scaledSize: {
             height: number,
             width: number
-        }
+        },
+        anchor:{x:any,y:any}
     };
     visible: boolean,
     location:{
@@ -899,8 +903,9 @@ interface asadastructure {
     numbersubscribed: number;
     cantTanques: number;
     cantSuperficial: number;
-    cantCloraci: number;
+    cantCloracion: number;
     showInfoWindow: boolean;
     type: string;
+    zIndex:number;
 }
 

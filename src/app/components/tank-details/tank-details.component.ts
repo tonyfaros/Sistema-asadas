@@ -44,7 +44,7 @@ export class TankDetailsComponent implements OnInit, OnDestroy {
     /*    Html variables    */
     // radio button options
     public tankType: RadioOption[] = [{ display: 'Elevado', value: 'Elevado' }, { display: 'A nivel', value: 'Nivel' }, { display: 'Enterrado', value: 'Enterrado' }, { display: 'Semi-enterrado', value: 'Semi' }];
-    public tankMaterial: RadioOption[] = [{ display: 'Contreto', value: 'Contreto' }, { display: 'Metalico', value: 'Metalico' }, { display: 'Plastico', value: 'Plastico' }];
+    public tankMaterial: RadioOption[] = [{ display: 'Contreto', value: 'Contreto' }, { display: 'Metálico', value: 'Metalico' }, { display: 'Plástico', value: 'Plastico' }];
     public cleaningFrec: RadioOption[] = [{ display: 'Anual', value: 'Anual' }, { display: 'Semestral', value: 'Semestral' }, { display: 'Trimestral', value: 'Trimestral' }, { display: 'Mensual', value: 'Mensual' }, { display: 'Otra', value: 'Otra' }, { display: 'No se sabe/Nunca', value: 'NA' }];
     public measureUnit: RadioOption[] = [{ display: 'metros cubicos', value: 'metro3' }, { display: 'litros', value: 'litro' }];
 
@@ -107,7 +107,7 @@ export class TankDetailsComponent implements OnInit, OnDestroy {
                 this.readOnlyMode = params['action'] == 'edit' ? false : true;
                 this.getInfrastuctures(this.infrastructureId);
             });
-
+        
         //Gets the actual login
         this.angularFire.auth.subscribe(user => {
             if (user) {
@@ -138,6 +138,7 @@ export class TankDetailsComponent implements OnInit, OnDestroy {
                 this.isAdmin = false;
             }
         });
+        this.toUploadImages=[];
 
     }
 
@@ -166,68 +167,7 @@ export class TankDetailsComponent implements OnInit, OnDestroy {
             );
     }
 
-
-    updateInfrastructure(pId, pInfra): void {
-        var newInfra = {
-            tags: pInfra.tags,
-            name: pInfra.name,
-            risk: pInfra.risk,
-            img: ((pInfra.img == undefined) ? [] : pInfra.img),
-            type: pInfra.type,
-            asada:{
-                name: pInfra.asada.name,
-                id: pInfra.asada.id,
-            },
-            lat: pInfra.lat,
-            long: pInfra.long,
-            details: {
-                aqueductName: pInfra.details.aqueductName,
-                cleaning: pInfra.details.cleaning,
-                inCharge: pInfra.details.inCharge,
-                material: pInfra.details.material,
-                registerNo: pInfra.details.registerNo,
-                tankType: pInfra.details.tankType,
-                direction:pInfra.details.direction,
-                volume: {
-                    amount: pInfra.details.volume.amount,
-                    unit: pInfra.details.volume.unit
-                },
-                creationDate: {
-                    day: pInfra.details.creationDate.day,
-                    month: pInfra.details.creationDate.month,
-                    year: pInfra.details.creationDate.year
-                }
-            },
-            riskNames: pInfra.riskNames,
-            riskValues: pInfra.riskValues,
-            siNumber: pInfra.siNumber,
-            riskLevel: pInfra.riskLevel,
-            sector: pInfra.sector,
-            dateCreated: pInfra.dateCreated
-        };
-        this.angularFireService.updateInfrastructure(pId, newInfra);
-    }
-
-    delete() {
-        this.deleteAllImages();
-        this.angularFireService.deleteInfrastructure(this.infrastructureId);
-        this.router.navigate(['/asadaDetails', this.infraDB.asada.id]);
-    }
-
-
-
-    /*    HTML methods    */
-
-    goBack(): void {
-        setTimeout(() => {
-            this.ngOnInit();
-        },
-            1500);
-
-    }
-    export() {
-        this.exportService.exportInfrastructure(this.infraDB)
-    }
+    private toUploadImages: FirebaseImg[];
 
     onSubmit() {
 
@@ -254,8 +194,34 @@ export class TankDetailsComponent implements OnInit, OnDestroy {
             this.infraDB.asada.id;
 
         this.updateInfrastructure(this.infrastructureId, this.infraDB);
-        this.goBack();
+        this.reload();
     }
+    
+    updateInfrastructure(pId, pInfra): void {
+        this.angularFireService.updateInfrastructure(pId, pInfra);
+    }
+
+    delete() {
+        this.deleteAllImages();
+        this.angularFireService.deleteInfrastructure(this.infrastructureId);
+        this.router.navigate(['/asadaDetails', this.infraDB.asada.id]);
+    }
+
+
+
+    /*    HTML methods    */
+
+    goBack(): void {
+        setTimeout(() => {
+            this.ngOnInit();
+        },
+            1500);
+
+    }
+    export() {
+        this.exportService.exportInfrastructure(this.infraDB)
+    }
+
 
     reload() {
         this.router.navigate(['/' + this.infraDB.type + 'Details', this.infrastructureId]);
@@ -305,8 +271,8 @@ export class TankDetailsComponent implements OnInit, OnDestroy {
                     } else {
                         this.infraDB.img = [newImage];
                     }
-
-                    this.updateInfrastructure(this.infrastructureId, this.infraDB);
+                    console.log(this.infraDB);
+                    //this.updateInfrastructure(this.infrastructureId, this.infraDB);
                 }
             );
 
@@ -370,16 +336,22 @@ export class TankDetailsComponent implements OnInit, OnDestroy {
                 if (image.fileName == this.imgMarkedEdit.fileName) {
 
                     image.description = pDescription;
-                    this.updateInfrastructure(this.infrastructureId, this.infraDB);
+                    //this.updateInfrastructure(this.infrastructureId, this.infraDB);
                     this.popSuccessToast('Descripción agregada');
                     this.imgMarkedEdit = null;
 
                 }
-
             }
         }
-
     }
+
+    chooseSelectedImage() {
+        if (this.imgMarkedEdit) {
+            this.infraDB.mainImg=this.imgMarkedEdit;
+            this.imgMarkedEdit = null;
+            this.popSuccessToast('Imagen principal seleccionada');
+        }
+    }  
 
     cancelEditImg() {
         this.imgMarkedEdit = null;

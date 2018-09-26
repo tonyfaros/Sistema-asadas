@@ -7,7 +7,6 @@ export class SuperficialWater implements Infrastructure{
     name: string;
     risk: number;
     mainImg: FirebaseImg;
-    mainImage: FirebaseImg;
     img: FirebaseImg [];
     type: string;
     asada:{

@@ -283,6 +283,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 				+ this.selectedItem.id,
 			name: res[index + 1],
 			risk: 0,
+			mainImg:undefined,
 			img: [],
 			type: "CaptacionSuperficial",
 			asada: {
@@ -444,6 +445,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 				+ this.selectedItem.id,
 			name: res[index],
 			risk: 0,
+			mainImg:undefined,
 			img: [],
 			type: "TanqueQG",
 			asada: {

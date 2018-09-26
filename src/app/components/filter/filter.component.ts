@@ -53,22 +53,22 @@ export class FilterComponent implements OnInit {
 
   updateRiesgos() {
     this.riesgos = [
-      { value: "Muy Alto", active: true },
-      { value: "Alto", active: true },
-      { value: "Intermedio", active: true },
-      { value: "Bajo", active: true },
-      { value: "Nulo", active: true },
-      { value: "No se capta", active: true }
+      { value: "Muy Alto",description:"Muy Alto", active: true },
+      { value: "Alto",description:"Alto", active: true },
+      { value: "Intermedio",description:"Intermedio", active: true },
+      { value: "Bajo",description:"Bajo", active: true },
+      { value: "Nulo",description:"Nulo", active: true },
+      { value: "noInfo",description:"Sin información", active: true }
     ]
   }
 
   updateCategorias() {
     this.categorias = [
-      { value: "Tanque", active: true },
-      { value: "Asada", active: true },
-      { value: "CaptacionSuperficial", active: true },
-      { value: "CaptacionNaciente", active: true },
-      { value: "Naciente", active: true }
+      { value: "Tanque",description:"Tanque", active: true },
+      { value: "Asada",description:"Asada", active: true },
+      { value: "CaptacionSuperficial",description:"Captación Superficial", active: true },
+      { value: "CaptacionNaciente",description:"Captación Naciente", active: true },
+      { value: "Naciente",description:"Naciente", active: true }
     ]
   }
 
@@ -170,5 +170,6 @@ export interface filterConfig {
 
 export interface filterParam {
   value: string;
+  description:string;
   active: boolean;
 }

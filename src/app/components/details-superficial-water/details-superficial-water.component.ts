@@ -180,11 +180,12 @@ export class DetailsSuperficialWaterComponent implements OnInit {
 	}
 
 
-	updateInfrastructure(pId, pInfra): void {
-		var newInfra = {
+	updateInfrastructure(pId, pInfra:SuperficialWater): void {
+		var newInfra:SuperficialWater = {
 			tags: pInfra.tags,
 			name: pInfra.name,
-    		risk: pInfra.risk,
+			risk: pInfra.risk,
+			mainImg:pInfra.mainImg,
     		img: ((pInfra.img == undefined) ? [] : pInfra.img),
     		type: pInfra.type,
     		asada:{
@@ -260,7 +261,7 @@ export class DetailsSuperficialWaterComponent implements OnInit {
 				() => {
 					downloadURL = uploadTask.snapshot.downloadURL;
 
-					const newImage: FirebaseImg = { fileName: newFilename, url: downloadURL, description: '' };
+					const newImage : FirebaseImg = {fileName: newFilename, url: downloadURL, description: '' };
 
 					if (this.infraDB.img) {
 						this.infraDB.img.push(newImage);

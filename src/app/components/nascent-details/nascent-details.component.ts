@@ -27,6 +27,7 @@ import { AngularFireService } from '../../common/service/angularFire.service';
 import { GeolocationService } from '../../common/service/Geolocation.service';
 import { UserService } from "app/common/service/user.service";
 import { ExportService } from "app/common/service/export.service";
+import { Chlorination } from '../../common/model/Chlorination';
 
 @Component({
 	selector: 'app-nascent-details',
@@ -160,7 +161,6 @@ export class NascentDetailsComponent implements OnInit {
 		this.exportService.exportInfrastructure(this.infraDB);
 	}
 
-	/*    DB methods    */
 
 	getInfrastuctures(pId): void {
 		this.angularFireService.getInfrastructure(pId)
@@ -180,34 +180,7 @@ export class NascentDetailsComponent implements OnInit {
 	}
 
 	updateInfrastructure(pId, pInfra): void {
-		var newInfra = {
-			tags: pInfra.tags,
-    		name: pInfra.name,
-    		risk: pInfra.risk,
-    		img:((pInfra.img == undefined) ? [] : pInfra.img),
-    		type: pInfra.type,
-    		asada:{
-        		name: pInfra.asada.name,
-        		id: pInfra.asada.id
-    		},
-    		lat: pInfra.lat,
-    		long: pInfra.long,
-    		details:{
-        		aqueductName: pInfra.details.aqueductName,
-        		aqueductInCharge: pInfra.details.aqueductInCharge,
-        		inCharge: pInfra.details.inCharge,
-        		registerMINAE: pInfra.details.registerMINAE,
-        		nascentType: pInfra.details.nascentType,
-        		registerARS: pInfra.details.registerARS,
-
-    		},
-    		dateCreated: pInfra.dateCreated,
-    		riskNames: pInfra.riskNames,
-    		riskValues: pInfra.riskValues,
-    		siNumber: pInfra.siNumber,
-    		riskLevel: pInfra.riskLevel
-		};
-		this.angularFireService.updateInfrastructure(pId, newInfra);
+		this.angularFireService.updateInfrastructure(pId, pInfra);
 	}
 
 	delete() {
@@ -259,7 +232,7 @@ export class NascentDetailsComponent implements OnInit {
 				() => {
 					downloadURL = uploadTask.snapshot.downloadURL;
 
-					const newImage: FirebaseImg = { fileName: newFilename, url: downloadURL, description: '' };
+					const newImage : FirebaseImg = {fileName: newFilename, url: downloadURL, description: '' };
 
 					if (this.infraDB.img) {
 						this.infraDB.img.push(newImage);

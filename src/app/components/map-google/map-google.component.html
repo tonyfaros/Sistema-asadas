@@ -98,10 +98,11 @@
                       <br>{{m.province}}
                       <br>+(506) {{m.phonenumber}}<br>
                       <br>
-                      <strong *ngIf="(isLoggedIn == true && m.asada && m.asada.id == AsadaUser) || (isLoggedIn == true && this.UserRol == 'Super Administrador')">Nivel
-                        de riesgo: </strong>
-                      <span *ngIf="(isLoggedIn == true && m.asada && m.asada.id == AsadaUser) || (isLoggedIn == true && this.UserRol == 'Super Administrador')">
-                        {{m.riskLevel}}</span>
+                      <div *ngIf="(isLoggedIn == true && m.asada && m.asada.id == AsadaUser) || (isLoggedIn == true && this.UserRol == 'Super Administrador')">
+                          <strong >Nivel de riesgo: </strong>
+                              <span *ngIf="m.riskLevel">{{m.riskLevel}}</span>
+                              <span *ngIf="!m.riskLevel">Sin Información</span>
+                      </div>
                       <br>
                     </div>
                   </div>
@@ -134,7 +135,7 @@
                         <ul>
                           <li>Captaciones Superficiales: {{m.cantSuperficial}}</li>
                           <li>Tanques: {{m.cantTanques}}</li>
-                          <li>Sistemas de Cloración: {{m.cantCloraci}}</li>
+                          <li>Sistemas de Cloración: {{m.cantCloracion}}</li>
                         </ul>
                       </div>
                     </div>
@@ -211,7 +212,7 @@
                             <td>{{m.location.province.name}}, {{m.location.canton.name}}, {{m.location.district.name}}</td>
                             <td>{{m.cantTanques}}</td>
                             <td>{{m.cantSuperficial}}</td>
-                            <td>{{m.cantCloraci}}</td>
+                            <td>{{m.cantCloracion}}</td>
                             <td>
                               <button (click)="showInfoWindow(m); scrollTop()" class="btn ink-reaction btn-floating-action btn-xs btn-danger">
                                 <i class="fa fa-map-marker"></i>
@@ -324,10 +325,12 @@
           <br>{{snitSelectedElement.province}}
           <br>+(506) {{snitSelectedElement.phonenumber}}<br>
           <br>
-          <strong *ngIf="(isLoggedIn == true && snitSelectedElement.asada && snitSelectedElement.asada.id == AsadaUser) || (isLoggedIn == true && this.UserRol == 'Super Administrador')">Nivel
-            de riesgo: </strong>
-          <span *ngIf="(isLoggedIn == true && snitSelectedElement.asada && snitSelectedElement.asada.id == AsadaUser) || (isLoggedIn == true && this.UserRol == 'Super Administrador')">
-            {{snitSelectedElement.riskLevel}}</span>
+          <div *ngIf="(isLoggedIn == true && snitSelectedElement.asada && snitSelectedElement.asada.id == AsadaUser) || (isLoggedIn == true && this.UserRol == 'Super Administrador')">
+              <strong >Nivel
+                  de riesgo: </strong>
+                  <span *ngIf="snitSelectedElement.riskLevel">{{snitSelectedElement.riskLevel}}</span>
+                  <span *ngIf="!snitSelectedElement.riskLevel">Sin Información</span>
+          </div>
           <br>
         </div>
       </div>
@@ -353,7 +356,7 @@
             <ul>
               <li>Captaciones Superficiales: {{snitSelectedElement.cantSuperficial}}</li>
               <li>Tanques: {{snitSelectedElement.cantTanques}}</li>
-              <li>Sistemas de Cloración: {{snitSelectedElement.cantCloraci}}</li>
+              <li>Sistemas de Cloración: {{snitSelectedElement.cantCloracion}}</li>
             </ul>
           </div>
         </div>
