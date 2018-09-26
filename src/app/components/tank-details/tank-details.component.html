@@ -292,7 +292,7 @@
                 <div style="float: right" *ngIf="readOnlyMode == false">
                   <div class="fileUpload btn btn-success">
                     <span> <span class="glyphicon glyphicon-plus"></span> Agregar una imagen</span>
-                    <input type="file" class="upload" accept="image/*" (change)="uploadFile($event)" />
+                    <input type="file" class="upload" accept="image/*" (change)="loadImage($event)" />
                   </div>
 
                   <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#EliminateImage">

@@ -101,6 +101,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
 
 	loadLocalAttributes() {
+		this.nonfilteredList=[];
 		this.filteredList = [];
 		this.allList = [];
 		this.allAsadas=[];
@@ -124,12 +125,14 @@ export class SearchComponent implements OnInit, OnDestroy {
 		this.filteredList.forEach(element => {
 			element.isActive = this.allSelection && element.allowedToEdit == true;
 		});
+		this.nonfilteredList=this.filteredList
 	}
 
 	ngOnDestroy(): void {
 		if (this.sub != null)
 			this.sub.unsubscribe();
 		this.filteredList = [];
+		this.nonfilteredList=[];
 		this.allList = [];
 	}
 
@@ -161,14 +164,17 @@ export class SearchComponent implements OnInit, OnDestroy {
 			var filtLoc: provincia[] = this.filterConfiguration.locaciones.provincias;
 			var filtCat: filterParam[] = this.filterConfiguration.categorias;
 			var filtRie: filterParam[] = this.filterConfiguration.riesgos;
-
-			for (let element of this.filteredList) {
+			for (let element of this.nonfilteredList) {
 				var showElement = true;
 				var asada: any;//Funciona como pivot para realizar el filtro de busqueda por locacion
 				if (element && this.searchType == 'infraestructura' && element.type != 'asada') {
 					if (showElement && filtRie) {
 						for (let param of filtRie) {
-							if (element.riskLevel && param.value.toLowerCase() == element.riskLevel.toLowerCase()) {
+							var evaluated=(element.riskLevel!=undefined && element.riskLevel!="" && element.riskLevel.toLowerCase()!="noinfo");
+							
+							if( (!evaluated && (param.value.toLowerCase() == "noinfo") )||
+								(evaluated && element.riskLevel && (param.value.toLowerCase() == element.riskLevel.toLowerCase()))
+							){
 								showElement = param.active;
 								break;
 							}
@@ -178,6 +184,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 						filtCat.forEach(param => {
 							if ((element.type && param.value.toLowerCase() == element.type.toLowerCase())) {
 								showElement = showElement && param.active;
+								// console.log('aplicando Filtro de categoria');
 							}
 						});
 					}
@@ -185,36 +192,35 @@ export class SearchComponent implements OnInit, OnDestroy {
 				} else {// no es infraestructura
 					asada = element;
 				}
-
 				if (showElement && asada && filtLoc) {
 					filtLoc.forEach(prov => {
-						if (prov.name.toLowerCase() == asada.locacion.province.toLowerCase()) {
+						// try{
+						if (prov.key == asada.location.province.code) {
 							showElement = showElement && prov.active;
 							prov.cantones.forEach(cant => {
-								if (cant.name.toLowerCase() == asada.district.toLowerCase()) {
+								if (cant.key == asada.location.canton.code) {
 									showElement = showElement && cant.active;
 									cant.distritos.forEach(dist => {
-										if (dist.name.toLowerCase() == asada.subDistrict.toLowerCase()) {
+										if (dist.key == asada.district) {
 											showElement = showElement && dist.active;
+											// console.log('aplicando Filtro de ubicacion');
 										}
 									});
 								}
 							});
 						}
+					// }
+					// catch(ex){
+					// 	console.log(ex);
+					// 	console.log(asada);}
 					});
 				}
 				if (showElement) {
 					filteredListTemp.push(element);
 				}
 			}
-			this.filteredList = filteredListTemp;
-			// if(this.filteredList.length<75){
-			// 	console.log(this.filteredList);
-			// 	console.log(filtCat);
-			// 	console.log(filtRie);
-			// }
+			this.filteredList=filteredListTemp;
 		}
-
 	}
 	findInfraestructurasFromAsada(id): any[] {
 		var infraAsada: any[] = [];
@@ -236,31 +242,36 @@ export class SearchComponent implements OnInit, OnDestroy {
 		}
 		return element;
 	}
+	private nonfilteredList=[];
+	search(search: string) {
+		this.filteredList = this.allList.filter(
+			elem => elem.tags.toUpperCase().includes(search.toUpperCase())
+			
+		);
+		this.nonfilteredList=this.filteredList;
+		this.updateFiltersVisibilty();
+	}
 
 
 	getResult(searchType: string): void {
-		this.allList = this.filteredList = [];
+		this.allList = this.filteredList = this.nonfilteredList= [];
 		
 		this.searchFirebase = this.searchService.search('asadas');
 		this.searchFirebase.subscribe(
 			results => {
 				this.allAsadas=results;
-				console.log("------->asadas  ");
-				console.log(this.allAsadas);
 			}
 		);
 
 		this.searchFirebase = this.searchService.search(searchType);
 		this.searchFirebase.subscribe(
 			results => {
-				this.allList = this.filteredList = results;
+				this.allList = this.filteredList = this.nonfilteredList= results;
 				
 				if (this.sort != null) {
 					this.search(this.sort);
 				}
 				this.setOptions(this.filteredList);
-				console.log("------->infraes  ");
-				console.log(this.allList);
 
 			}
 		);
@@ -1330,12 +1341,6 @@ export class SearchComponent implements OnInit, OnDestroy {
 				element.allowedToEvaluate = false;
 			}
 		});
-	}
-	search(search: string) {
-		this.filteredList = this.allList.filter(
-			elem => elem.tags.toUpperCase().includes(search.toUpperCase())
-		);
-		this.updateFiltersVisibilty();
 	}
 
 	export() {

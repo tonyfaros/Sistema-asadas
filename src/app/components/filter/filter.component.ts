@@ -66,6 +66,7 @@ export class FilterComponent implements OnInit {
     this.categorias = [
       { value: "Tanque",description:"Tanque", active: true },
       { value: "Asada",description:"Asada", active: true },
+      { value : "SistemaCloracion",description: "Sistema Cloración", active:true},
       { value: "CaptacionSuperficial",description:"Captación Superficial", active: true },
       { value: "CaptacionNaciente",description:"Captación Naciente", active: true },
       { value: "Naciente",description:"Naciente", active: true }
