@@ -9,34 +9,45 @@ app-filter{
     border-left: thin solid ;
     border-left-width: 3px;
     border-left-color: #e54133;
+    background: linear-gradient(to left, white,white 99.2%, #e54133 100%);
 }
 
 .riskBorder-Alto{
     border-left: thin solid ;
     border-left-width: 3px;
     border-left-color: #ec9620;
+    background: linear-gradient(to left, white,white 99.2%, #ec9620 100%);
+
+    // background-image: linear-gradient(to right, #ec9620 , white);
 }
 .riskBorder-Intermedio{
     border-left: thin solid ;
     border-left-width: 3px;
     border-left-color: #f9eb39;
+    background: linear-gradient(to left, white,white 99.2%, #f9eb39 100%);
+
+    // background-image: linear-gradient(to right, #f9eb39 , white);
 }
 .riskBorder-Bajo{
     border-left: thin solid ;
     border-left-width: 3px;
     border-left-color: #53af50;
+    background: linear-gradient(to left, white,white 99.2%, #53af50 100%);
+
+    // background-image: linear-gradient(to right, #53af50 , white);
 }
 .riskBorder-Nulo{
-    
     border-left: thin solid ;
     border-left-width: 3px;
-    border-left-color: #063f61;
+    border-left-color: #0156c4;
+    background: linear-gradient(to left, white,white 99.2%, #0156c4 100%);
+
 }
 
 .riskBorder-noInfo{
     border-left: thin solid ;
     border-left-width: 3px;
-    border-left-color: rgb(25, 27, 26)
+    border-left-color: rgb(25, 27, 26);
 }
 // .riskBorder{
 //     width: 2px;

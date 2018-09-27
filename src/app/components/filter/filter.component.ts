@@ -61,11 +61,31 @@ export class FilterComponent implements OnInit {
       { value: "noInfo",description:"Sin información", active: true }
     ]
   }
+  toggleAllRiesgos(active:boolean){
+    if( this.riesgos){
+      this.riesgos.forEach(rie=>{rie.active=active})
+    }
+    this.notifyChange();
+  }
+  toggleAllCategorias(active:boolean){
+    if( this.categorias){
+      this.categorias.forEach(cat=>{cat.active=active})
+    }
+    this.notifyChange();
+  }
+  toggleAllLocaciones(active:boolean){
+    if( this.locaciones){
+      this.locaciones.provincias.forEach(prov=>{this.recursiveLocationActiveToggle(prov,active);})
+    }
+    this.notifyChange();
+  }
 
   updateCategorias() {
     this.categorias = [
+      { value: "Asada",description:"Oficina de Asada", active: true },
       { value: "Tanque",description:"Tanque", active: true },
-      { value: "Asada",description:"Asada", active: true },
+      { value: "SistemaDistribucion",description:"Sistema Distribución", active:true},
+      { value: "TanqueQG",description:"Tanque Quebrada Gradiente", active:true},
       { value : "SistemaCloracion",description: "Sistema Cloración", active:true},
       { value: "CaptacionSuperficial",description:"Captación Superficial", active: true },
       { value: "CaptacionNaciente",description:"Captación Naciente", active: true },
@@ -118,10 +138,12 @@ export class FilterComponent implements OnInit {
         filterParm.active = event.target.checked;
 
       } catch (ex) {
-        event.target.checked = event.target.checked;
+        filterParm.active = true;
+        event.target.checked = true;
       }
       this.notifyChange();
     }
+    
   }
 
   private RiskfilterCheckboxChange(event, value: string) {
@@ -135,6 +157,7 @@ export class FilterComponent implements OnInit {
       try {
         filterParm.active = event.target.checked;
       } catch (ex) {
+        
         filterParm.active = true;
         event.target.checked = true;
       }

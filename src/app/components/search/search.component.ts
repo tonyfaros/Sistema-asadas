@@ -151,7 +151,6 @@ export class SearchComponent implements OnInit, OnDestroy {
 		this.selectedItem = elem.$key;
 
 	}
-
 	filterNotity(filConf: filterConfig) {
 		this.filterConfiguration = filConf;
 		this.updateFiltersVisibilty();

@@ -35,7 +35,11 @@
 }  
 .float-left{
     float: left;
-}  
+}
+.button-left{
+    position:absolute; 
+    right:5px;
+}
 
 .filter-container{
     float: right!important;
@@ -84,13 +88,35 @@ header{
     background-color:rgba(200,200,200,0.5);
 }
 
-.risk-checkbox-group .checkbox-styled.checkbox-yellow label input:checked ~ span:before {
-    border-color: #FFEB3B !important;
+
+
+//-----------------------------Checks nivel de riesgo
+.risk-checkbox-group .checkbox-styled.checkbox-MuyAlto label input:checked ~ span:before {
+    border-color: #e54133 !important;
     cursor: pointer;
   }
   
-  .risk-checkbox-group .checkbox-styled.checkbox-lime label input:checked ~ span:before {
-    border-color: #CDDC39 !important;
+  .risk-checkbox-group .checkbox-styled.checkbox-Alto label input:checked ~ span:before {
+    border-color: #ec9620 !important;
+    cursor: pointer;
+  }
+  
+.risk-checkbox-group .checkbox-styled.checkbox-Intermedio label input:checked ~ span:before {
+    border-color: #f9eb39 !important;
+    cursor: pointer;
+  }
+  
+  .risk-checkbox-group .checkbox-styled.checkbox-Bajo label input:checked ~ span:before {
+    border-color: #53af50 !important;
+    cursor: pointer;
+  }
+.risk-checkbox-group .checkbox-styled.checkbox-Nulo label input:checked ~ span:before {
+    border-color: #0156c4 !important;
+    cursor: pointer;
+  }
+  
+  .risk-checkbox-group .checkbox-styled.checkbox-noInfo label input:checked ~ span:before {
+    border-color: rgb(25, 27, 26)!important;
     cursor: pointer;
   }
 
