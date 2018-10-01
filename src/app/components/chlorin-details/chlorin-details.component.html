@@ -238,14 +238,14 @@
 
           <!-- BEGIN IMAGE UPLOAD -->
 
-          <div class="card">
+          <div class="card" *ngIf="false">
             <div class="card-head style-warning">
               <header> Imagenes</header>
             </div>
             <div class="card-body">
 
               <div *ngIf="this.infraDB && this.infraDB.img">
-                <modal-gallery [modalImages]="imagesObservable" [showDownloadButton]="true" [downloadable]="true" [showExtUrlButton]="true"></modal-gallery>
+                <modal-gallery [modalImages]="imagesObservable" [showDownloadButton]="true" [downloadable]="true" [loadingConfig]="true" [showExtUrlButton]="true"></modal-gallery>
               </div>
 
               <div *ngIf="this.infraDB && !this.infraDB.img">
@@ -269,7 +269,6 @@
 
               </div>
             </div>
-            <!--end .card-body -->
           </div>
           <!--end .card -->
 
@@ -323,7 +322,11 @@
       </div>
       <!--end .card -->
     </form>
+    <button (click)="prueba()">change test</button>
 
+    <app-infrastructure-gallery [editMode]='editmode' [infrastructure]='this.infraDB' 
+    (selectedImageChanged)='selectedImageChanged($event)' ></app-infrastructure-gallery>
+    
     <!-- Modal -->
     <div id="SaveModal" class="modal fade" role="dialog">
       <div class="modal-dialog">

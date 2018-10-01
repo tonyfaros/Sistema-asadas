@@ -13,7 +13,7 @@ import { FirebaseImg } from '../../common/model/FirebaseImg';
 /*		Modules		*/
 import * as firebase from 'firebase';
 import { FirebaseApp, AngularFire, FirebaseAuthState } from 'angularfire2';
-import { Image, Action, ImageModalEvent, Description } from 'angular-modal-gallery';
+import { Image, Action, ImageModalEvent, Description, } from 'angular-modal-gallery';
 import { ToasterService, ToasterConfig } from 'angular2-toaster';
 
 import 'rxjs/Rx';
@@ -27,6 +27,7 @@ import { GeolocationService } from '../../common/service/Geolocation.service';
 import { AngularFireService } from '../../common/service/angularFire.service';
 import { UserService } from "app/common/service/user.service";
 import { ExportService } from "app/common/service/export.service";
+import { Infrastructure } from '../../common/model/Infrastructure';
 
 @Component({
 	selector: 'app-chlorin-details',
@@ -129,7 +130,15 @@ export class ChlorinDetailsComponent implements OnInit {
 		private exportService: ExportService) {
 			this.storageRef = firebaseApp.storage().ref();
 		 }
+	private editmode=true;
+	prueba(){
+		this.editmode=!this.editmode;
+	}
 
+	selectedImageChanged(infrastructure:Infrastructure) {
+		alert("selectedImageChanged "+infrastructure.name);
+	}
+	
 	ngOnInit() {
 		this.sub = this.route.params
 			.subscribe((params: Params) => {
@@ -495,9 +504,10 @@ export class ChlorinDetailsComponent implements OnInit {
 	public imagesObservable: Observable<Array<Image>>;
 
 	createImgList(): void {
+		var img:ImageModalEvent;
+		
 
 		this.imagesArray = [];
-
 		for (let image of this.infraDB.img) {
 			this.imagesArray.push(new Image(
 				image.url,
