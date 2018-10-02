@@ -38,11 +38,12 @@ export class SignupComponent implements OnInit {
 
 
   onSubmit(): void {
-    console.log(this.userDetailsForm.value);
+    //console.log(this.userDetailsForm.value);
     var newUser = this.userDetailsForm.value;
     this.existeCorreo(newUser.email);
     if(this.reescribir!=''){
-      this.userService.updateUser(newUser,this.reescribir);
+      newUser.password = this.angularFireService.encrypt(newUser.password);
+      this.userService.updateUser(newUser,this.reescribir,"Pendiente");
       this.router.navigate(['/LoginPage']);
       
     }
@@ -106,6 +107,7 @@ export class SignupComponent implements OnInit {
       return false;
     }
     this.formErrors.passwordConfirmation = null;
+    this.formErrors.email = null;
     this.formErrors.rol = null;
     this.formErrors.profesorSelected= null;
     return true;
