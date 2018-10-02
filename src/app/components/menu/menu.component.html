@@ -48,7 +48,7 @@
 							<span class="title">ASADAs</span>
 						</a>
 						<ul>
-							<li *ngIf="isLoggedIn && userAccess.rol != 'Estudiante'" >	
+							<li *ngIf="isLoggedIn && userAccess.rol == 'Super Administrador' || userAccess.rol == 'Profesor'" >	
 								<a routerLink="/addAsada">
 									<span class="title"><i class="glyphicon glyphicon-plus"></i> Agregar ASADA</span>
 								</a>
@@ -80,7 +80,7 @@
 						<ul></ul>
 					</li>
 					<li class="gui-folder" *ngIf="isLoggedIn" >
-						<a routerLink="/tomaDatos" >
+   						<a routerLink="/tomaDatos" >
 							<div class="gui-icon"><i class="glyphicon glyphicon-list-alt"></i></div>
 							<span class="title">Toma de datos</span>
 						</a>

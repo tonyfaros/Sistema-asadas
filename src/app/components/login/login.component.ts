@@ -6,12 +6,14 @@ import { ToasterService, ToasterConfig } from "angular2-toaster/angular2-toaster
 import { AngularFireService } from "app/common/service/angularFire.service";
 
 import { FirebaseAuthState } from 'angularfire2/index';
+import { User } from '../../common/model/User';
+import { UserService } from "app/common/service/user.service";
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  providers: [AngularFireService]
+  providers: [UserService,AngularFireService]
 })
 export class LoginComponent implements OnInit {
   usuariosDB;
@@ -19,12 +21,15 @@ export class LoginComponent implements OnInit {
   email: string;
   loginFrom: FormGroup;
   pass;
-  private error = '';
+  userDb: User;
+  error: Error;
+  private error_ = '';
   public toastConfig: ToasterConfig = new ToasterConfig({
 		positionClass: 'toast-bottom-center',
 		limit: 5
 	});
-  constructor(private af: AngularFire,
+  constructor(private userService: UserService,
+    private af: AngularFire,
     private router: Router,
     private fb: FormBuilder, 
     private toasterService: ToasterService,
@@ -45,20 +50,59 @@ export class LoginComponent implements OnInit {
           
           if(this.usuariosDB[i]['estado'] == "Pendiente"){
             this.formErrors.login = 'Esta cuenta sigue sin ser aprobada'
-            console.log('Esta cuenta sigue sin ser aprobada');
             return false;
           }
-          if(this.usuariosDB[i]['estado'] == "Aprobado"){
+          else if(this.usuariosDB[i]['estado'] == "Aprobado"){
             this.pass = this.angularFireService.decrypt(this.usuariosDB[i]['passwordf']);
-            //console.log(this.pass);
             return true;
+          }
+          else if(this.usuariosDB[i]['estado'] == "Preaprobado"){
+            if(this.angularFireService.decrypt(this.usuariosDB[i]['password']) == pUser.password){
+              this.pass = this.usuariosDB[i]['correo'];
+              var newUser = this.usuariosDB[i];
+              this.angularFireService.deleteUsuario(this.usuariosDB[i]['$key']);
+              this.af.auth.createUser({
+                email: newUser.correo,
+                password: newUser.correo
+              }).then(
+                (success) => {
+                  this.saveUserDetails(newUser,success.uid);
+                  return false;
+      
+                }).catch(
+                (error) => {
+                  console.log(error);
+                  this.error = error;
+                  
+                })
+                return false;
+            }
           }
         } 
       }
     }
     this.formErrors.login = 'Alguno de los datos es incorrecto'
-      console.log('Alguno de los datos es incorrecto');
       return false;
+  }
+
+  saveUserDetails(newUser,uid) {
+    this.userDb = new User();
+    
+    this.userDb.$key = uid;
+    this.userDb.apellidos = newUser.apellidos;
+    this.userDb.nombre = newUser.nombre;
+    this.userDb.rol = newUser.rol;
+    this.userDb.password = newUser.password;
+    this.userDb.estado = 'Aprobado';
+    this.userDb.profesor = newUser.profesor;
+    this.userDb.correo = newUser.correo;
+    this.userDb.passwordf = newUser.passwordf;
+  
+    this.userService.addUser(this.userDb, uid);
+    this.userService.updateUserNew(this.userDb);
+    //this.ngOnInit();
+    //document.getElementById("cerrar").click();
+    
   }
 
   getUsuarios(): void {
@@ -70,6 +114,10 @@ export class LoginComponent implements OnInit {
       }
     );
   }
+
+  addNewUsuario(pUsuario) {
+		this.angularFireService.addNewUsuario(pUsuario);
+	}
 
   emptyForm(): void {
     this.loginFrom = this.fb.group({
@@ -134,27 +182,26 @@ export class LoginComponent implements OnInit {
           method: AuthMethods.Password,
         }).then(
         (success) => {
-
-          this.router.navigate(['/'])
+          this.router.navigate(['/']);
         }).catch(
         (err: firebase.FirebaseError) => {
-          console.log('Error on Login')
+          console.log('Error on Login');
           console.log(err);
           switch (err.code) {
             case 'auth/invalid-email':
-              this.error = 'El formato del correo no es valido';
+              this.error_ = 'El formato del correo no es valido';
               break;
             case 'auth/network-request-failed':
-              this.error = 'Revise su conexión a internet';
+              this.error_ = 'Revise su conexión a internet';
               break;
             case 'auth/user-not-found':
-              this.error = 'El correo no corresponde a ningún usuario registrado en el sistema';
+              this.error_ = 'El correo no corresponde a ningún usuario registrado en el sistema';
               break;
             default:
-              this.error = 'Error al iniciar sesión';
+              this.error_ = 'Error al iniciar sesión';
 
           }
-          this.popToast(this.error);
+          this.popToast(this.error_);
 
 
         })

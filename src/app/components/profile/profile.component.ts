@@ -23,16 +23,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
 	public readOnlyMode: boolean = true;
 	public userDetailsForm: FormGroup;
 
-	public asadaSelected;
 	public userName: string;
 	public userLastName: string;
 	public userRol: string;
 	public userRole: string;
-	public isAsada: boolean
 	/*  DB variables   */
 	public userDb: User;
 	public rol:string;
-	public asadaDB;//: Asada[]; 
 	constructor(
 		private userService: UserService,
 		private fb: FormBuilder,
@@ -50,140 +47,130 @@ export class ProfileComponent implements OnInit, OnDestroy {
 				this.userId = user.uid;
 				this.isLoggedIn = true;
 				this.getUserDetails();
-				this.getRolAccess(user.uid);
-
 			}
 			else {
 				// user not logged in
 				this.isLoggedIn = false;
-
 			}
 		});
 		this.readOnlyMode = true;
-
-
-
 	}
 	
 	ngOnDestroy(): void {
 	}
-	getRolAccess(uid){
-		this.userService.getRolAccess(uid).subscribe(
-			results => {
-				this.rol = results.rol;
-				this.userRol = results.rol;
-			}
-		)
-	}
+
 	getUserDetails() {
 		var userDetails = this.getUserDetailsService.getUserDetails(this.user.uid);
 		userDetails.subscribe(
 			results => {
 				this.userDb = results;
 				this.userName = results.nombre;
-
+				this.userRol = results.rol;
 				this.userLastName = results.apellidos;
-				if (this.userDb.asada != null) {
-					this.isAsada = true;
-					this.asadaSelected = this.userDb.asada;
-				}
-				else {
-					this.isAsada = false;
-					this.asadaSelected = { name: 'Sin asada' };
-				}
-
-				this.getAsada();
+			
 				this.buildForm();
 			});
 	}
-	getAsada(): void {
-		this.angularFireService.getAsadas().subscribe(
-			results => {
-				this.asadaDB = results;
-				for (let asadaLElem of this.asadaDB) {
-					if (asadaLElem.$key == this.asadaSelected.id) {
-						this.asadaSelected = asadaLElem;
-					}
-				}
-			}
-		);
-	}
+	
 	updateUser(): void {
-		this.userService.updateUserDetails(this.user.uid, this.userDb);
+		if(this.userDb.rol != "Estudiante")
+			this.userDb.profesor = '';
+
+		this.userService.updateUserDetails(this.userDb.$key, {
+            apellidos: this.userDb.apellidos,
+            nombre: this.userDb.nombre,
+            estado:this.userDb.estado,
+            correo:this.userDb.correo,
+            password:this.userDb.password,
+            passwordf:this.userDb.passwordf,
+            profesor:this.userDb.profesor,
+            rol:this.userDb.rol
+          });
 	}
 
-	changeAsadaValue(pAsada) {
-		this.asadaSelected.name = pAsada;
-
-		for (let asadaLElem of this.asadaDB) {
-			if (asadaLElem.name == pAsada) {
-				this.asadaSelected.id = asadaLElem.$key;
-			}
+	cambiarPass(){
+		var newUser = this.userDetailsForm.value;
+		
+		if (this.verifyForm(newUser)) {
+			this.userDb.password = ''+this.angularFireService.encrypt(newUser.newpassword);
+			this.updateUser();
+			this.ngOnInit();
+			document.getElementById("cerrar").click();
 		}
+		
 	}
+
 	changeToEdit() {
 		this.readOnlyMode = false;
 	}
+
 	cancelChanges() {
 		this.ngOnInit();
 	}
+
 	onSubmit() {
 		var newUser = this.userDetailsForm.value;
 		this.userDb.apellidos = newUser.userLastName;
 		this.userDb.nombre = newUser.userName;
-		if (this.verifyForm()) {
-			if (this.userDb.asada && this.userDb.asada.id != this.asadaSelected.$key ||
-				(this.userDb.asada == null && this.asadaSelected.$key != null)
-			) {
-				this.generateAsadaRequest();
-				this.userDb.asada = {
-					name: this.asadaSelected.name,
-					id: this.asadaSelected.$key,
-					state: `Solicitando permiso para ${this.rol} de la asada.`,
-					rol: this.rol
-				}
 
-			}
+
+		
 			this.updateUser();
 			this.ngOnInit();
-		}
+		
 	}
-	verifyForm() {
-		if (this.asadaSelected.$key != null && this.rol == ''){
-			this.formErrors.rol = 'Es necesario especificar el tipo de acceso que se quiere para la asada';
+
+	verifyForm(newUser) {
+		if(this.angularFireService.encrypt(newUser.password)+'' != this.userDb.password){
+			this.formErrors.password = 'Contraseña incorrecta.'
 			return false;
-		}
+		  }
+		if((newUser.newpassword).length<6){
+			this.formErrors.newpassword = 'La contraseña debe tener mínimo 6 caracteres'
+			return false;
+		  }
+		  if (newUser.newpassword != newUser.passwordConfirmation) {
+			this.formErrors.passwordConfirmation = 'La confirmación no coincide con la contraseña.'
+			return false;
+		  }
+		  
+
+		this.formErrors.passwordConfirmation = null;
+		this.formErrors.password = null;
+		this.formErrors.newpassword = null;
+
 		return true;
 	}
-	generateAsadaRequest() {
-		this.userService.createAsadaRequest(this.userId, this.asadaSelected.$key,
-			this.userDb.nombre, this.asadaSelected.name, this.rol);
-	}
+
 	buildForm(): void {
 		this.userDetailsForm = this.fb.group({
 			'userLastName': [this.userDb.apellidos, Validators.required],
 			'userName': [this.userDb.nombre, Validators.required],
-			'asadaName': [this.asadaSelected.name],
-			'asadaState': [this.isAsada == true ? this.userDb.asada.state : ''],
-			'rol': [this.isAsada == true ? this.userDb.asada.rol : '']
+			'rol': [this.userDb.rol],
+			'password':[''],
+			'newpassword':[''],
+			'passwordConfirmation':['']
 		});
-		if (this.isAsada == true)
-			this.asadaSelected = this.userDb.asada;
+		
 		this.userDetailsForm.valueChanges
 			.subscribe(data => this.onValueChanged(data));
 		this.onValueChanged(); // (re)set validation messages now
 	}
+
 	emptyForm(): void {
 		this.userDetailsForm = this.fb.group({
 			'userLastName': ['', Validators.required],
 			'userName': ['', Validators.required],
-			'asadaName': [''],
-			'rol': ['']
+			'rol': [''],
+			'password':['',Validators.required],
+			'newpassword':['',Validators.required],
+			'passwordConfirmation':['',Validators.required]
 		});
 		this.userDetailsForm.valueChanges
 			.subscribe(data => this.onValueChanged(data));
 		this.onValueChanged(); // (re)set validation messages now
 	}
+
 	onValueChanged(data?: any) {
 		if (!this.userDetailsForm) { return; }
 		const form = this.userDetailsForm;
@@ -199,12 +186,16 @@ export class ProfileComponent implements OnInit, OnDestroy {
 			}
 		}
 	}
+
 	formErrors = {
 		'userName': '',
 		'userLastName': '',
-		'asadaName': '',
-		'rol': ''
+		'rol': '',
+		'password':'',
+		'newpassword':'',
+		'passwordConfirmation': ''
 	};
+	
 	validationMessages = {
 		'userName': {
 			'required': 'Nombre requerido'
@@ -212,13 +203,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
 		'userLastName': {
 			'required': 'Apellidos requeridos'
 		},
-		'asadaName': {
-			'required': 'Asada requerida'
-		},
 		'rol': {
 			'required': 'Tipo de acceso requerido'
 		},
-
+		'password': {
+			'required': 'Contraseña actual requerida'
+		},
+		'newpassword': {
+			'required': 'Nueva contraseña requerida'
+		},
+		'passwordConfirmation': {
+			'required': 'Confimación de contraseña requerida'
+		  }
 	};
 
 }
