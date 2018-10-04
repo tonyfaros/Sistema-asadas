@@ -18,18 +18,20 @@
     <div *ngIf='infrastructure'>
       <div class="card-head">
         <ul class="nav nav-tabs" data-toggle="tabs">
-          <li [class.active]="tabIndex==0"><a (click)="changeTabIndex(0)" >Subir</a></li>
-          <li  [class.active]="tabIndex==1"><a (click)="changeTabIndex(1)">Seleccionar</a></li>
+          <li [class.active]="tabIndex==0"><a (click)="changeTabIndex(0)">Subir</a></li>
+          <li [class.active]="tabIndex==1"><a (click)="changeTabIndex(1)">Seleccionar</a></li>
         </ul>
       </div>
       <!--end .card-head -->
       <div class="card-body tab-content">
         <div class="tab-pane" [class.active]="tabIndex==0" id="tab-subir">
+          <div class="album-thumbnails">
             <span> <span class="glyphicon glyphicon-plus"></span> Agregar una imagen</span>
             <input type="file" class="upload" accept="image/*" (change)="uploadFile($event)" />
-            <img class="effect gallery-image" [src]="uploadedImageUrl" *ngIf="uploadedImageUrl" />
-            <img class="effect gallery-image" src="../../assets/icons/image-not-found.png" *ngIf="!uploadedImageUrl" />
+            <img class="effect gallery-image" [src]="uploadedImageUrl" *ngIf="uploadedImageUrl" width="64px" />
+            <img class="effect gallery-image" src="../../assets/icons/image-not-found.png"  width="64px" *ngIf="!uploadedImageUrl" />
 
+          </div>
         </div>
         <div class="tab-pane" [class.active]="tabIndex==1" id="tab-seleccionar">
 
@@ -69,7 +71,7 @@
 
   <div class="card-actionbar" *ngIf="editMode">
     <div class="card-actionbar-row">
-      <button type="button" class="btn ink-reaction btn-raised btn-accent-dark" (click)="saveSelectedImageAsMain()">
+      <button type="button" *ngIf="(tabIndex==0 && imageToUpload) || (tabIndex==1 && selectedImage)" class="btn ink-reaction btn-raised btn-accent-dark" (click)="saveSelectedImageAsMain()">
         Guardar Cambios
       </button>
 

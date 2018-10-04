@@ -1,10 +1,13 @@
-import { Component, OnInit, Output, DoCheck, Input, HostListener, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, Inject, DoCheck, Input, HostListener, EventEmitter } from '@angular/core';
 import { Infrastructure } from 'app/common/model/Infrastructure';
 import { FirebaseImg } from 'app/common/model/FirebaseImg';
 import { Chlorination } from '../../common/model/Chlorination';
 
 import { AngularFireService } from '../../common/service/angularFire.service';
-const lodash=require('lodash');
+import * as firebase from 'firebase';
+import { FirebaseApp } from 'angularfire2';
+
+const lodash = require('lodash');
 
 @Component({
   selector: 'app-infrastructure-gallery',
@@ -22,13 +25,18 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
   private selectedIndex: number;
   private indexString: string = "";
 
-  private tabIndex=0;
+  private tabIndex = 0;
+  private imageToUpload: File;
 
+  private storageRef;
 
   constructor(
+    @Inject(FirebaseApp) firebaseApp: any,
     private angularFireService: AngularFireService, ) {
     this.indexString = ".";
     this.selectedIndex = 0;
+
+    this.storageRef = firebaseApp.storage().ref();
   }
 
   @Output() selectedImageChanged: EventEmitter<FirebaseImg> = new EventEmitter<FirebaseImg>();
@@ -37,27 +45,53 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
 
   @Input() public infrastructure: Chlorination;
   @Input() editMode: boolean = false;
-  
+
 
   ngOnInit() {
     this.updateGallery();
   }
 
   saveSelectedImageAsMain() {
-    try {
-      if (this.infrastructure && this.infrastructure.$key && this.selectedImage) {
+    if (this.tabIndex == 0) {
+      this.uploadMainImage();
+    }
+    else {
+      try {
+        if (this.infrastructure && this.infrastructure.$key && this.selectedImage) {
           this.angularFireService.updateMainImage(this.infrastructure.$key, this.selectedImage);
           this.notifyChange();
+        }
       }
+      catch (ex) { console.log(ex); }
     }
-    catch (ex) { console.log(ex); }
   }
   ngDoCheck() {
     this.updateGallery();
   }
 
-  saveUploadedImageAsMain() {
+  uploadMainImage() {
+    if (this.infrastructure && this.infrastructure.$key && this.imageToUpload) {
+      const uploadTask: firebase.storage.UploadTask = this.storageRef.child('infrastructure/'+this.infrastructure.$key+'/mainImage/mainImage').put(this.imageToUpload);
+      let downloadURL: string;
+      uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+        (snapshot) => {
+        },
+        (error) => { },
+        () => {
+          downloadURL = uploadTask.snapshot.downloadURL;
 
+          const newImage: FirebaseImg = { fileName: "mainImage", url: downloadURL, description: 'Imagen Subida' };
+          this.selectedImage=newImage;
+          console.log(newImage);
+          try {
+            this.angularFireService.updateMainImage(this.infrastructure.$key,newImage);
+            this.notifyImageUploaded();
+          }
+          catch (ex) { console.log(ex); }
+
+        }
+      );
+    }
   }
 
   createThumbail() {
@@ -67,37 +101,39 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
   removeMainImage() {
 
   }
-  
-	uploadFile(event) {
-		let eventObj: MSInputMethodContext = <MSInputMethodContext>event;
-		let target: HTMLInputElement = <HTMLInputElement>eventObj.target;
+
+  uploadFile(event) {
+    let eventObj: MSInputMethodContext = <MSInputMethodContext>event;
+    let target: HTMLInputElement = <HTMLInputElement>eventObj.target;
     let files: FileList = target.files;
-    console.log(files);
-		this.loadImage(files[0]);
-	}
-  
-  loadImage(file){
-    var reader = new FileReader();
-    reader.onload = this.mageIsLoaded;
-    reader.readAsDataURL(file);
+    this.imageToUpload = files[0];
+    this.loadImage(files[0]);
+    console.log(files[0]);
   }
-  private uploadedImageUrl:string;
+
+  loadImage(file) {
+    var reader = new FileReader();
+    reader.onload = this.imageIsLoaded;
+    reader.readAsDataURL(file);
+
+  }
+  private uploadedImageUrl: string;
 
   imageIsLoaded(event) {
     console.log(event.target.result);
-    this.uploadedImageUrl=event.target.result;
+    this.uploadedImageUrl = event.target.result;
   };
 
   notifyChange() {
     this.selectedImageChanged.emit(this.selectedImage);
   }
 
-  notifyCancel(){
+  notifyCancel() {
     this.cancel.emit(this.infrastructure);
   }
 
-  notifyImageUploaded(){
-
+  notifyImageUploaded() {
+    this.notifyChange();
   }
 
   toggleEdit() {
@@ -110,12 +146,12 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
     if (!this.editMode) {
       this.selectedImage = undefined;
     }
-    else{
-      if(!this.selectedImage && this.infrastructure && this.infrastructure.mainImg){
-        this.infrastructure.img.forEach(image=>{
-            if(lodash.isEqual(image, this.infrastructure.mainImg)){
-              this.markAsSelected(image);
-            }
+    else {
+      if (!this.selectedImage && this.infrastructure && this.infrastructure.mainImg) {
+        this.infrastructure.img.forEach(image => {
+          if (lodash.isEqual(image, this.infrastructure.mainImg)) {
+            this.markAsSelected(image);
+          }
         });
       }
     }
@@ -200,29 +236,29 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
     }
   }
 
-  changeTabIndex(index:number){
-    this.tabIndex=index;
+  changeTabIndex(index: number) {
+    this.tabIndex = index;
   }
   @HostListener('document:keydown', ['$event']) onKeydownHandler(event: KeyboardEvent) {
-    var Enter=13;
-    var Esc=27;
-    var Right=39;
-    var left=37;
-    if(this.fullmode){
-      switch (event.keyCode){
-        case Esc:{
+    var Enter = 13;
+    var Esc = 27;
+    var Right = 39;
+    var left = 37;
+    if (this.fullmode) {
+      switch (event.keyCode) {
+        case Esc: {
           this.closeFullMode();
           break;
         }
-        case Right:{
+        case Right: {
           this.fullModeMoveRight();
           break;
         }
-        case left:{
+        case left: {
           this.fullModeMoveLeft();
           break;
         }
-        default:break
+        default: break
       }
     }
   }

@@ -132,9 +132,6 @@ export class ChlorinDetailsComponent implements OnInit {
 		this.storageRef = firebaseApp.storage().ref();
 	}
 	private editmode = true;
-	prueba() {
-		this.editmode = !this.editmode;
-	}
 
 
 	ngOnInit() {
@@ -238,6 +235,9 @@ export class ChlorinDetailsComponent implements OnInit {
 		let files: FileList = target.files;
 		this.imageFile = files[0];
 		this.uploadImage();
+	}
+	selectedImageChanged(event){
+		alert("La imagen principal ha sido actualizada correctamente");
 	}
 
 	uploadImage() {

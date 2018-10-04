@@ -233,6 +233,10 @@
               <!--end .card -->
 
             </div>
+            
+          <app-infrastructure-gallery [editMode]='editmode' [infrastructure]='this.infraDB' zinde
+          (selectedImageChanged)='selectedImageChanged($event)' ></app-infrastructure-gallery>
+          
           </div>
           <!-- END LOCATION -->
 
@@ -279,11 +283,6 @@
 
               <div *ngIf="readOnlyMode == false">
                 
-                <button type="button" class="btn ink-reaction btn-raised btn-accent-dark" data-toggle="modal" data-target="#SaveModal">
-                    Guardar CambiosTEMP
-                    <div class="ink" style="top: 20px; left: 51.75px;"></div>
-                  </button>
-
                 <button type="button" class="btn ink-reaction btn-raised btn-primary" data-toggle="modal" data-target="#SaveModal" [disabled]="!detailChlorinForm.valid || !AqueductCreationDate || !SistemInstallDate">
                   Guardar Cambios
                   <div class="ink" style="top: 20px; left: 51.75px;"></div>
@@ -329,9 +328,6 @@
       <!--end .card -->
     </form>
 
-    <app-infrastructure-gallery [editMode]='editmode' [infrastructure]='this.infraDB' 
-    (selectedImageChanged)='selectedImageChanged($event)' ></app-infrastructure-gallery>
-    
     <!-- Modal -->
     <div id="SaveModal" class="modal fade" role="dialog">
       <div class="modal-dialog">
