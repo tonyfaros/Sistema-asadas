@@ -2,9 +2,9 @@
   <div class="card-head">
     <header *ngIf="!editMode">Evidencias de tomas de datos</header>
     <header *ngIf="editMode">Seleccione la foto principal</header>
-    <button class="btn btn-icon-toggle pull-right full-mode-toggle top-right" *ngIf="!emptyGallery" 
-      (click)="openFullMode()"><i class="md md-fullscreen"></i></button>
-      <!-- <button (click)="toggleEdit()">p1</button> -->
+    <button class="btn btn-icon-toggle pull-right full-mode-toggle top-right" *ngIf="!emptyGallery" (click)="openFullMode()"><i
+        class="md md-fullscreen"></i></button>
+    <!-- <button (click)="toggleEdit()">p1</button> -->
 
   </div>
   <div class="card-body style-default-bright gallery-content">
@@ -16,32 +16,67 @@
       </article>
     </div>
     <div *ngIf='infrastructure'>
-      <article *ngIf="emptyGallery" class="margin-bottom-xxl">
-        <p class="lead">
-          No existe fotos guardadas para esta infraestructura.
-        </p>
-      </article>
-      <div *ngIf="!emptyGallery" class="row">
-        <div *ngIf="!editMode" class="album-thumbnails">
-          <a *ngFor="let image of infrastructure.img" class="card" (click)="markAsCurrent(image)">
-            <div>
-              <img [src]="image.url" alt="Image" />
-            </div>
-          </a>
+      <div class="card-head">
+        <ul class="nav nav-tabs" data-toggle="tabs">
+          <li [class.active]="tabIndex==0"><a (click)="changeTabIndex(0)" >Subir</a></li>
+          <li  [class.active]="tabIndex==1"><a (click)="changeTabIndex(1)">Seleccionar</a></li>
+        </ul>
+      </div>
+      <!--end .card-head -->
+      <div class="card-body tab-content">
+        <div class="tab-pane" [class.active]="tabIndex==0" id="tab-subir">
+            <span> <span class="glyphicon glyphicon-plus"></span> Agregar una imagen</span>
+            <input type="file" class="upload" accept="image/*" (change)="uploadFile($event)" />
+            <img class="effect gallery-image" [src]="uploadedImageUrl" *ngIf="uploadedImageUrl" />
+            <img class="effect gallery-image" src="../../assets/icons/image-not-found.png" *ngIf="!uploadedImageUrl" />
+
         </div>
-        <div *ngIf="editMode" class="album-thumbnails">
-          <a *ngFor="let image of infrastructure.img" class="card" (click)="markAsSelected(image)">
-            <div>
-              <img [src]="image.url" alt="Image" [class.selected]="image==selectedImage" />
-              <div class="selected-indicator centered-content">
-                  <i class="fa fa-check top-right"></i>
-                  <button  class="btn btn-icon-toggle full-mode-toggle-centered" *ngIf="image==selectedImage" 
-                    (click)="openFullMode()"><i class="md md-fullscreen"></i></button>
-              </div>
+        <div class="tab-pane" [class.active]="tabIndex==1" id="tab-seleccionar">
+
+
+          <article *ngIf="emptyGallery" class="margin-bottom-xxl">
+            <p class="lead">
+              No existe fotos guardadas para esta infraestructura.
+            </p>
+          </article>
+          <div *ngIf="!emptyGallery" class="row">
+            <div *ngIf="!editMode" class="album-thumbnails">
+              <a *ngFor="let image of infrastructure.img" class="card" (click)="markAsCurrent(image)">
+                <div>
+                  <img [src]="image.url" alt="Image" />
+                </div>
+              </a>
             </div>
-          </a>
+            <div *ngIf="editMode" class="album-thumbnails">
+              <a *ngFor="let image of infrastructure.img" class="card" (click)="markAsSelected(image)">
+                <div>
+                  <img [src]="image.url" alt="Image" [class.selected]="image==selectedImage" />
+                  <div class="selected-indicator centered-content">
+                    <i class="fa fa-check top-right"></i>
+                    <button class="btn btn-icon-toggle full-mode-toggle-centered" *ngIf="image==selectedImage" (click)="openFullMode()"><i
+                        class="md md-fullscreen"></i></button>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+
         </div>
       </div>
+
+    </div>
+  </div>
+
+  <div class="card-actionbar" *ngIf="editMode">
+    <div class="card-actionbar-row">
+      <button type="button" class="btn ink-reaction btn-raised btn-accent-dark" (click)="saveSelectedImageAsMain()">
+        Guardar Cambios
+      </button>
+
+      <button type="button" class="btn ink-reaction btn-raised btn-default-dark" (click)="cancel()">
+        Volver
+      </button>
+
     </div>
   </div>
 </div>

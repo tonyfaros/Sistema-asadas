@@ -168,6 +168,8 @@ export class DetailsSuperficialWaterComponent implements OnInit {
 			results => {
 
 				this.infraDB = results;
+				console.log("INIT-------------------------------");
+				console.log(this.infraDB);
 				if (this.infraDB && this.infraDB.details) {
 					this.buildFormSuperficialW();
 
@@ -185,7 +187,8 @@ export class DetailsSuperficialWaterComponent implements OnInit {
 			tags: pInfra.tags,
 			name: pInfra.name,
 			risk: pInfra.risk,
-			mainImg:pInfra.mainImg,
+			// mainImg:pInfra.mainImg,
+			mainImg:{url:"",description:"",fileName:""},
     		img: ((pInfra.img == undefined) ? [] : pInfra.img),
     		type: pInfra.type,
     		asada:{
@@ -332,7 +335,6 @@ export class DetailsSuperficialWaterComponent implements OnInit {
 					this.updateInfrastructure(this.infrastructureId, this.infraDB);
 					this.popSuccessToast('Descripción agregada');
 					this.imgMarkedEdit = null;
-
 				}
 
 			}

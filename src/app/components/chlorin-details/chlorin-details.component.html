@@ -278,6 +278,12 @@
             <div class="card-actionbar-row">
 
               <div *ngIf="readOnlyMode == false">
+                
+                <button type="button" class="btn ink-reaction btn-raised btn-accent-dark" data-toggle="modal" data-target="#SaveModal">
+                    Guardar CambiosTEMP
+                    <div class="ink" style="top: 20px; left: 51.75px;"></div>
+                  </button>
+
                 <button type="button" class="btn ink-reaction btn-raised btn-primary" data-toggle="modal" data-target="#SaveModal" [disabled]="!detailChlorinForm.valid || !AqueductCreationDate || !SistemInstallDate">
                   Guardar Cambios
                   <div class="ink" style="top: 20px; left: 51.75px;"></div>
@@ -322,7 +328,6 @@
       </div>
       <!--end .card -->
     </form>
-    <button (click)="prueba()">change test</button>
 
     <app-infrastructure-gallery [editMode]='editmode' [infrastructure]='this.infraDB' 
     (selectedImageChanged)='selectedImageChanged($event)' ></app-infrastructure-gallery>

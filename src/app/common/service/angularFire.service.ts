@@ -56,18 +56,35 @@ export class AngularFireService {
 
 	getInfrastructure(pKey: String):FirebaseObjectObservable<any>  {
        const Obj$: FirebaseObjectObservable<any> = 
-	   	this.af.database.object('infraestructura/'+pKey);
+		this.af.database.object('infraestructura/'+pKey);
        return Obj$;
 	 }
 	 getInfrastuctures():FirebaseListObservable<any>  {
-
 		const Obj$: FirebaseListObservable<any> = this.af.database.list('infraestructura');
 	 	return Obj$;
 	}
 
+	updateMainImage(pKey:string,image):FirebaseObjectObservable<any>  {
+		var Obj$: FirebaseObjectObservable<any>;
+		try{
+			Obj$ = this.af.database.object('infraestructura/'+pKey+'/mainImg');
+			if(Obj$){
+				Obj$.update(image);
+			}
+			else{
+				Obj$.set(image);
+			}
+			
+			return Obj$;
+		}
+		catch(ex){
+			return Obj$;
+		}
+	}
+
 	 updateInfrastructure(pKey: String, pInfra){
 		const Obj$ = this.getInfrastructure(pKey);
-		Obj$.update(pInfra).catch((error)=>console.log("Error actualizando datos " + error));
+		Obj$.update(pInfra).catch(error=>{console.log("Error actualizando datos " + error)});
 	 }
 
 	deleteInfrastructure(pKey:string){
