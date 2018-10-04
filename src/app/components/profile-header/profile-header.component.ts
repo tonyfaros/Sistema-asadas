@@ -54,6 +54,10 @@ export class ProfileHeaderComponent implements OnInit {
 						this.filterList = [];
 						this.getNotifications();
 					}
+					else if(results.estado == undefined){
+						this.router.navigate(['/'])
+
+					}
 					else{
 						this.logout();
 					}
