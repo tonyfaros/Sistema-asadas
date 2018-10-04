@@ -2,22 +2,32 @@
   <div class="col-lg-12">
     <form class="form" (ngSubmit)="onSubmit()" [formGroup]="detailChlorinForm">
       <div class="card">
+
         <div class="card-head style-primary" *ngIf="readOnlyMode == true">
           <header>Detalles del sistema de cloración</header>
         </div>
 
         <div class="card-head style-primary" *ngIf="readOnlyMode == false">
           <header>Editar de sistemas de cloración</header>
+
+
         </div>
         <!-- BEGIN TEXT PLACE -->
         <div class="card-body">
           <div class="row">
 
+            <div class="col-xs-2">
+                <a class=" pull-left" (click)="showGalleryModal()">
+                  <img class="img-circle " [src]="infraDB.mainImg.url" width="64px" height="64px" *ngIf="infraDB && infraDB.mainImg && infraDB.mainImg.url">
+                  <img class="img-circle" src="../../assets/icons/image-not-found.png" height="64px" width="64px" *ngIf="!(infraDB && infraDB.mainImg && infraDB.mainImg.url)">
+                </a>
+            </div>
 
-            <div class="col-sm-6">
+
+            <div class="col-sm-4">
               <div class="form-group">
-                <input type="text" class="form-control" [readonly]="readOnlyMode == true" id="aqueductName" formControlName="aqueductName"
-                  required>
+                <input type="text" class="form-control" [readonly]="readOnlyMode == true" id="aqueductName"
+                  formControlName="aqueductName" required>
                 <label for="aqueductName">Nombre Acueducto</label>
               </div>
 
@@ -30,8 +40,8 @@
 
             <div class="col-sm-6">
               <div class="form-group">
-                <input type="text" class="form-control" [readonly]="readOnlyMode == true" id="aqueductInCharge" formControlName="aqueductInCharge"
-                  required>
+                <input type="text" class="form-control" [readonly]="readOnlyMode == true" id="aqueductInCharge"
+                  formControlName="aqueductInCharge" required>
                 <label for="aqueductInCharge">Encargado del acueducto</label>
               </div>
               <!-- Error message -->
@@ -48,8 +58,8 @@
 
             <div class="col-sm-6">
               <div class="form-group">
-                <input type="text" class="form-control" [readonly]="readOnlyMode == true" id="chlorinName" formControlName="chlorinName"
-                  required>
+                <input type="text" class="form-control" [readonly]="readOnlyMode == true" id="chlorinName"
+                  formControlName="chlorinName" required>
                 <label for="chlorinName">Nombre de sistema de cloración</label>
               </div>
 
@@ -62,7 +72,8 @@
 
             <div class="col-sm-6">
               <div class="form-group">
-                <input type="text" class="form-control" [readonly]="readOnlyMode == true" id="ubication" formControlName="ubication" requerired>
+                <input type="text" class="form-control" [readonly]="readOnlyMode == true" id="ubication"
+                  formControlName="ubication" requerired>
                 <label for="ubication">Ubicación</label>
               </div>
 
@@ -87,7 +98,8 @@
 
             <div class="col-sm-6">
               <div class="form-group">
-                <input type="text" class="form-control" [readonly]="readOnlyMode == true" id="inCharge" formControlName="inCharge" required>
+                <input type="text" class="form-control" [readonly]="readOnlyMode == true" id="inCharge" formControlName="inCharge"
+                  required>
                 <label for="inCharge">Funcionario</label>
               </div>
 
@@ -106,13 +118,14 @@
             <div class="col-sm-6">
               <div class="form-group" *ngIf="readOnlyMode == false">
                 <material-datepicker [(date)]="AqueductCreationDate"></material-datepicker>
-                <label for="AqueductCreationDate">Fecha  de construcción del acueducto</label>
+                <label for="AqueductCreationDate">Fecha de construcción del acueducto</label>
               </div>
 
 
               <div class="form-group" *ngIf="readOnlyMode == true">
-                <input type="text" class="form-control dirty" [readonly]="readOnlyMode == true" id="AqueductCreationDate" formControlName="AqueductCreationDate">
-                <label for="AqueductCreationDate">Fecha  de construcción del acueducto</label>
+                <input type="text" class="form-control dirty" [readonly]="readOnlyMode == true" id="AqueductCreationDate"
+                  formControlName="AqueductCreationDate">
+                <label for="AqueductCreationDate">Fecha de construcción del acueducto</label>
               </div>
             </div>
 
@@ -125,7 +138,8 @@
 
 
               <div class="form-group" *ngIf="readOnlyMode == true">
-                <input type="text" class="form-control dirty" [readonly]="readOnlyMode == true" id="instalationDate" formControlName="instalationDate">
+                <input type="text" class="form-control dirty" [readonly]="readOnlyMode == true" id="instalationDate"
+                  formControlName="instalationDate">
                 <label for="instalationDate">Fecha de instalacion del sistema de cloración</label>
               </div>
             </div>
@@ -154,9 +168,9 @@
               <label class="col-sm-6 control-label">Tipo de sistema del cloración</label>
               <div class="col-lg-12">
                 <label *ngFor="let chlorin of chlorinType" class="radio-inline radio-styled">
-              <input type="radio" value={{chlorin.value}} formControlName="chlorinType" >
-              <span>{{chlorin.display}}</span>
-            </label>
+                  <input type="radio" value={{chlorin.value}} formControlName="chlorinType">
+                  <span>{{chlorin.display}}</span>
+                </label>
               </div>
               <!--end .col -->
             </div>
@@ -177,9 +191,9 @@
               <label class="col-sm-6 control-label">Tipo de dosificación</label>
               <div class="col-lg-12">
                 <label *ngFor="let dosage of dosageType; let idx = index" class="radio-inline radio-styled">
-              <input type="radio"  value={{dosage.value}} formControlName="dosageType" >
-              <span>{{dosage.display}}</span>
-            </label>
+                  <input type="radio" value={{dosage.value}} formControlName="dosageType">
+                  <span>{{dosage.display}}</span>
+                </label>
               </div>
               <!--end .col -->
             </div>
@@ -205,7 +219,8 @@
                 </div>
                 <div class="card-body">
                   <div class="form-group">
-                    <input type="number" step="any" class="form-control dirty" formControlName="latitude" [readonly]="readOnlyMode == true" required>
+                    <input type="number" step="any" class="form-control dirty" formControlName="latitude" [readonly]="readOnlyMode == true"
+                      required>
                     <label>Latitud</label>
                   </div>
 
@@ -225,7 +240,8 @@
                     {{ formErrors.longitude }}
                   </div>
                   <div *ngIf="readOnlyMode == false">
-                    <button type="button" (click)="getGeoLocation()" class="btn btn-raised btn-default-light ink-reaction"><i class="md md-my-location"></i>Ubicación actual</button>
+                    <button type="button" (click)="getGeoLocation()" class="btn btn-raised btn-default-light ink-reaction"><i
+                        class="md md-my-location"></i>Ubicación actual</button>
                   </div>
                 </div>
                 <!--end .card-body -->
@@ -233,10 +249,7 @@
               <!--end .card -->
 
             </div>
-            
-          <app-infrastructure-gallery [editMode]='editmode' [infrastructure]='this.infraDB' zinde
-          (selectedImageChanged)='selectedImageChanged($event)' ></app-infrastructure-gallery>
-          
+
           </div>
           <!-- END LOCATION -->
 
@@ -249,7 +262,8 @@
             <div class="card-body">
 
               <div *ngIf="this.infraDB && this.infraDB.img">
-                <modal-gallery [modalImages]="imagesObservable" [showDownloadButton]="true" [downloadable]="true" [loadingConfig]="true" [showExtUrlButton]="true"></modal-gallery>
+                <modal-gallery [modalImages]="imagesObservable" [showDownloadButton]="true" [downloadable]="true"
+                  [loadingConfig]="true" [showExtUrlButton]="true"></modal-gallery>
               </div>
 
               <div *ngIf="this.infraDB && !this.infraDB.img">
@@ -263,13 +277,13 @@
                 </div>
 
                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#EliminateImage">
-                     <span class="glyphicon glyphicon-minus"></span> Eliminar imagen
-                    </button>
+                  <span class="glyphicon glyphicon-minus"></span> Eliminar imagen
+                </button>
 
 
                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#EditImage">
-                     <span class="glyphicon glyphicon-pencil"></span> Editar descripción
-                    </button>
+                  <span class="glyphicon glyphicon-pencil"></span> Editar descripción
+                </button>
 
               </div>
             </div>
@@ -282,8 +296,9 @@
             <div class="card-actionbar-row">
 
               <div *ngIf="readOnlyMode == false">
-                
-                <button type="button" class="btn ink-reaction btn-raised btn-primary" data-toggle="modal" data-target="#SaveModal" [disabled]="!detailChlorinForm.valid || !AqueductCreationDate || !SistemInstallDate">
+
+                <button type="button" class="btn ink-reaction btn-raised btn-primary" data-toggle="modal" data-target="#SaveModal"
+                  [disabled]="!detailChlorinForm.valid || !AqueductCreationDate || !SistemInstallDate">
                   Guardar Cambios
                   <div class="ink" style="top: 20px; left: 51.75px;"></div>
                 </button>
@@ -300,16 +315,19 @@
               </div>
 
               <div *ngIf="readOnlyMode == true">
-                <button type="button" class="btn ink-reaction btn-raised btn-primary" *ngIf="readOnlyMode == true" (click)="changeToEdit()">
+                <button type="button" class="btn ink-reaction btn-raised btn-primary" *ngIf="readOnlyMode == true"
+                  (click)="changeToEdit()">
                   Editar
                   <div class="ink" style="top: 20px; left: 51.75px;"></div>
                 </button>
-                <button type="button" class="btn ink-reaction btn-raised btn-primary btn-loading-state" *ngIf="readOnlyMode == true" (click)="export()">
+                <button type="button" class="btn ink-reaction btn-raised btn-primary btn-loading-state" *ngIf="readOnlyMode == true"
+                  (click)="export()">
                   Exportar
                   <div class="ink" style="top: 20px; left: 51.75px;"></div>
                 </button>
 
-                <button type="button" class="btn ink-reaction btn-raised btn-warning" *ngIf="readOnlyMode == true" (click)="openEvaluation()">
+                <button type="button" class="btn ink-reaction btn-raised btn-warning" *ngIf="readOnlyMode == true"
+                  (click)="openEvaluation()">
                   Evaluar
                   <div class="ink" style="top: 20px; left: 51.75px;"></div>
                 </button>
@@ -327,6 +345,27 @@
       </div>
       <!--end .card -->
     </form>
+    <div *ngIf="showGallery">
+      <app-infrastructure-gallery id="gallery" [editMode]='editmode' [infrastructure]='this.infraDB' (selectedImageChanged)='selectedImageChanged($event)'>
+      </app-infrastructure-gallery>
+
+    </div>
+
+
+    <!-- <a data-toggle="modal" data-target="#modal-gallery">
+        <img [src]="infraDB.mainImg.url" width="32px" *ngIf="infraDB && infraDB.mainImg && infraDB.mainImg.url">
+        <img src="../../assets/icons/image-not-found.png"  width="32px" *ngIf="!(infraDB && infraDB.mainImg && infraDB.mainImg.url)">
+    </a>
+
+    <div id="modal-gallery" class="modal modal-wide fade">
+        <div class="modal-dialog">
+          <div class="modal-content">
+          <app-infrastructure-gallery [editMode]='editmode' [infrastructure]='this.infraDB' (selectedImageChanged)='selectedImageChanged($event)'></app-infrastructure-gallery>
+        </div>
+      </div>
+    </div> -->
+
+
 
     <!-- Modal -->
     <div id="SaveModal" class="modal fade" role="dialog">
@@ -386,8 +425,8 @@
             <h4 class="text-danger">Una vez es eliminada, no se podra recuperar</h4>
 
             <div class="row" *ngIf="this.infraDB && this.infraDB.img">
-                <img *ngFor="let image of this.infraDB.img" class="pull-left width-3" [class.redBorder]="image==imgMarkedDel" [src]="image.url"
-                  alt="" (click)="markForDelete(image)">
+              <img *ngFor="let image of this.infraDB.img" class="pull-left width-3" [class.redBorder]="image==imgMarkedDel"
+                [src]="image.url" alt="" (click)="markForDelete(image)">
             </div>
 
           </div>
@@ -415,8 +454,8 @@
             <h3>Selecione la imagen que desea editar la descripción</h3>
 
             <div class="row" *ngIf="this.infraDB && this.infraDB.img">
-              <img *ngFor="let image of this.infraDB.img" class="pull-left width-3" [class.redBorder]="image==imgMarkedEdit" [src]="image.url"
-                alt="" (click)="markForEdition(image)">
+              <img *ngFor="let image of this.infraDB.img" class="pull-left width-3" [class.redBorder]="image==imgMarkedEdit"
+                [src]="image.url" alt="" (click)="markForEdition(image)">
             </div>
 
             <br>
@@ -456,8 +495,8 @@
             <h3>Selecione la imagen que desea editar la descripción</h3>
 
             <div class="row" *ngIf="this.infraDB && this.infraDB.img">
-              <img *ngFor="let image of this.infraDB.img" class="pull-left width-3" [class.redBorder]="image==imgMarkedEdit" [src]="image.url"
-                alt="" (click)="markForEdition(image)">
+              <img *ngFor="let image of this.infraDB.img" class="pull-left width-3" [class.redBorder]="image==imgMarkedEdit"
+                [src]="image.url" alt="" (click)="markForEdition(image)">
             </div>
 
             <br>

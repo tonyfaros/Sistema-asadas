@@ -236,8 +236,13 @@ export class ChlorinDetailsComponent implements OnInit {
 		this.imageFile = files[0];
 		this.uploadImage();
 	}
+	private showGallery=false;
+	showGalleryModal(){
+		this.showGallery=true;
+	}
 	selectedImageChanged(event){
 		alert("La imagen principal ha sido actualizada correctamente");
+		this.showGallery=false;
 	}
 
 	uploadImage() {
