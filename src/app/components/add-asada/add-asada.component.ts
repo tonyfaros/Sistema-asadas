@@ -26,9 +26,9 @@ export class AddAsadaComponent implements OnInit {
 	public zoneType: RadioOption[] = [{ display: 'Urbana', value: 'Urbana' }, { display: 'Rural', value: 'Rural' }];
 	public WaterControlProgram: RadioOption[] = [{ display: 'Si', value: 'Si' }, { display: 'No', value: 'No' }];
 	public locations:provincia[]=[];// ["San Jose", "Heredia", "Cartago", "Limon", "Alajuela", "Guanacaste", "Putarenas"];
-	private selectedProvince:number=1;
-	private selectedCanton:number=1;
-	private selectedDistrict:number=1;
+	public selectedProvince:number=1;
+	public selectedCanton:number=1;
+	public selectedDistrict:number=1;
 	
 	private listAsadas: any[];
 	// the object that handles the form

@@ -53,15 +53,15 @@ export class MapGoogleComponent implements OnInit {
 
     //---------------------Atributos generales Mapas
     //START POSITION
-    private centerLat: number = 9.852275;
-    private centerLng: number = -83.9004535;
+    public centerLat: number = 9.852275;
+    public centerLng: number = -83.9004535;
     //CURRENT POSITION
-    private currentLat: number = this.centerLat;
-    private currentLng: number = this.centerLng;
+    public currentLat: number = this.centerLat;
+    public currentLng: number = this.centerLng;
     //ZOOM LEVEL
-    private mapZoom: number = 9;
-    private mapMinZoom: number = 7;
-    private currentZoom: number = this.mapZoom;
+    public mapZoom: number = 9;
+    public mapMinZoom: number = 7;
+    public currentZoom: number = this.mapZoom;
 
     //MAP MARKER SIZE
     private markerSize = 28;
@@ -71,9 +71,9 @@ export class MapGoogleComponent implements OnInit {
     infraestructuremarkers: genericInfraestructure[];
 
     //MAPS ACTIVATIONS TOGGLE
-    private googleMapActivation: boolean = false;
-    private snitMapActivation: boolean = false;
-    private dataLoaded: boolean = false;
+    public googleMapActivation: boolean = false;
+    public snitMapActivation: boolean = false;
+    public dataLoaded: boolean = false;
 
     //---------------------Atributos Mapas Snit
     private snitMap: ol.Map;
@@ -86,7 +86,7 @@ export class MapGoogleComponent implements OnInit {
     private capaUrbana: snitMapLayer;
     private capaOSM: snitMapLayer;
 
-    private layersGroupList: snitMapLayerGroup[];
+    public layersGroupList: snitMapLayerGroup[];
 
     private vectorIcon: ol.layer.Vector;
     private popupOverlay: ol.Overlay;

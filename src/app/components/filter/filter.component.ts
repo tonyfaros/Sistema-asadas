@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input, SimpleChange, SimpleChanges } from '@angular/core';
 import { LocationsService, locaciones, location, provincia, canton, distrito } from "app/common/service/locations.service";
 export {  LocationsService, locaciones, location, provincia, canton, distrito } from "app/common/service/locations.service";
 
@@ -17,7 +17,7 @@ export class FilterComponent implements OnInit {
   public filterConfiguration: filterConfig;
 
 
-  constructor(private LocServ: LocationsService,) {
+  constructor(private LocServ: LocationsService) {
   }
 
   @Output() notify: EventEmitter<filterConfig> = new EventEmitter<filterConfig>();
@@ -34,7 +34,7 @@ export class FilterComponent implements OnInit {
     this.updateFiltersSize();
   } 
 
-  ngOnChanges(){
+  ngOnChanges(changes:SimpleChanges){
     this.updateFiltersSize();
   }
 

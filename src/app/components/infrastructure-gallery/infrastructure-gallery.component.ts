@@ -17,15 +17,15 @@ const lodash = require('lodash');
 })
 export class InfrastructureGalleryComponent implements OnInit, DoCheck {
 
-  private fullmode: boolean = false;
+  public fullmode: boolean = false;
 
-  private emptyGallery: boolean = true;
-  private selectedImage: FirebaseImg;
-  private currentImage: FirebaseImg;
-  private selectedIndex: number;
-  private indexString: string = "";
+  public emptyGallery: boolean = true;
+  public selectedImage: FirebaseImg;
+  public currentImage: FirebaseImg;
+  public selectedIndex: number;
+  public indexString: string = "";
 
-  private tabIndex = 0;
+  public tabIndex = 0;
   private imageToUpload: File;
 
   private storageRef;
