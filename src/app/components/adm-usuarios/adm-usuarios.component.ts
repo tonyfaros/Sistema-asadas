@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database'
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { AngularFire, FirebaseObjectObservable } from 'angularfire2';
 
 import { FirebaseAuthState } from 'angularfire2/index';
 import { Observable } from 'rxjs';
@@ -9,11 +9,9 @@ import { Router } from '@angular/router';
 import { AngularFireService } from '../../common/service/angularFire.service'; 
 import { User } from '../../common/model/User';
 import 'rxjs/add/operator/map';
-import * as CryptoJS from 'crypto-js';
 //import $ from "jquery";
 import { GetUserDetailsService } from "app/components/profile-header/get-user-details.service";
 import { UserService } from "app/common/service/user.service";
-import { RolAccess } from '../../common/model/RolAccess';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 
