@@ -162,7 +162,7 @@ export class AddTankComponent implements OnInit {
 			infra.lat = this.newTank.latitude;
 			infra.long = this.newTank.longitude;
 			infra.name = this.newTank.tankName;
-			infra.risk = 0; 
+			infra.risk = 0;
 			infra.tags = TankTags;
 			infra.type = 'Tanque';
 			infra.details = detailsInfo;

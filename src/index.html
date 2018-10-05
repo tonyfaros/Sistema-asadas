@@ -30,6 +30,9 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
+  <link rel="stylesheet" href="https://openlayers.org/en/v5.2.0/css/ol.css" type="text/css">
+  <link rel="stylesheet" href="styles.css" type="text/css">
+
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/service-worker.js').then(function (registration) {
@@ -102,7 +105,24 @@
 </head>
 
 <body class="menubar-hoverable header-fixed" id="page-top">
-  <app-root style = "color: white">Cargando...</app-root>
+  <app-root style = "color: white">
+      <div class="loading">
+          <div class="loading-spinner">
+          </div>
+          <div class="loading-timeout-message">
+
+            <div class="reload-message">
+              <h4 class="text-warning"> La plataforma está tardando más de lo normal en responder.</h4>
+              <br>Puede deberse problemas en la red, o que no se posea una conexión estable a internet
+              <br>
+              <br>Recargar la página podria solucionar el problema <a class="btn btn-icon-toggle btn-refresh" onClick="window.location.reload()"><i
+                  class="fa fa-refresh"></i></a>
+            </div>
+
+          </div>
+        </div>
+
+  </app-root>
 
 </body>
 

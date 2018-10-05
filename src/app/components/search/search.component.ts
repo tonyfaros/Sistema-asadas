@@ -21,12 +21,14 @@ import { AngularFireService } from 'app/common/service/angularFire.service';
 import { ExportService } from "app/common/service/export.service";
 import { UserService } from "app/common/service/user.service";
 import { SearchService } from './search.service';
+import { filterConfig, filterParam,LocationsService, locaciones, location, provincia, canton, distrito } from '../filter/filter.component';
+
 
 @Component({
 	selector: 'app-search',
 	templateUrl: './search.component.html',
 	styleUrls: ['./search.component.scss'],
-	providers: [SearchService, ExportService, UserService, AngularFireService]
+	providers: [SearchService, ExportService, UserService, AngularFireService,LocationsService]
 })
 export class SearchComponent implements OnInit, OnDestroy {
 	@Input() type: string;
@@ -36,6 +38,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 	private searchFirebase: any;
 	public searchType: string;
 	private allList: any[];
+	private allAsadas: any[];
 	private allIncidentes: any[];
 	private allInfraList: any[];
 	private allRolAccess: any[];
@@ -54,6 +57,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 	public uploadInfraestructuraElement: any;
 	public storageRef;
 
+	public filterConfiguration: filterConfig;
 
 	//public paging = [2, 3, 4, 5];
 
@@ -67,7 +71,8 @@ export class SearchComponent implements OnInit, OnDestroy {
 		private exportService: ExportService,
 		private af: AngularFire,
 		private angularFireService: AngularFireService,
-		private papa: PapaParseService) {
+		private papa: PapaParseService,
+		private locationService:LocationsService) {
 
 		this.storageRef = firebaseApp.storage().ref();
 
@@ -76,7 +81,6 @@ export class SearchComponent implements OnInit, OnDestroy {
 	ngOnInit(): void {
 		this.loadLocalAttributes();
 		this.loadUserPermissions();
-
 
 	}
 	loadUserPermissions() {
@@ -94,9 +98,13 @@ export class SearchComponent implements OnInit, OnDestroy {
 			this.loadParameters();
 		});
 	}
+
+
 	loadLocalAttributes() {
+		this.nonfilteredList=[];
 		this.filteredList = [];
 		this.allList = [];
+		this.allAsadas=[];
 		this.allSelection = false;
 
 	}
@@ -117,12 +125,14 @@ export class SearchComponent implements OnInit, OnDestroy {
 		this.filteredList.forEach(element => {
 			element.isActive = this.allSelection && element.allowedToEdit == true;
 		});
+		this.nonfilteredList=this.filteredList
 	}
 
 	ngOnDestroy(): void {
 		if (this.sub != null)
 			this.sub.unsubscribe();
 		this.filteredList = [];
+		this.nonfilteredList=[];
 		this.allList = [];
 	}
 
@@ -139,20 +149,129 @@ export class SearchComponent implements OnInit, OnDestroy {
 
 		this.router.navigate(['/' + elem.type + 'Details', elem.$key]);
 		this.selectedItem = elem.$key;
-		
+
+	}
+	filterNotity(filConf: filterConfig) {
+		this.filterConfiguration = filConf;
+		this.updateFiltersVisibilty();
+	}
+
+	updateFiltersVisibilty() {
+		var filteredListTemp: any[] = [];
+
+		if (this.filterConfiguration) {
+			var filtLoc: provincia[] = this.filterConfiguration.locaciones.provincias;
+			var filtCat: filterParam[] = this.filterConfiguration.categorias;
+			var filtRie: filterParam[] = this.filterConfiguration.riesgos;
+			for (let element of this.nonfilteredList) {
+				var showElement = true;
+				var asada: any;//Funciona como pivot para realizar el filtro de busqueda por locacion
+				if (element && this.searchType == 'infraestructura' && element.type != 'asada') {
+					if (showElement && filtRie) {
+						for (let param of filtRie) {
+							var evaluated=(element.riskLevel!=undefined && element.riskLevel!="" && element.riskLevel.toLowerCase()!="noinfo");
+							
+							if( (!evaluated && (param.value.toLowerCase() == "noinfo") )||
+								(evaluated && element.riskLevel && (param.value.toLowerCase() == element.riskLevel.toLowerCase()))
+							){
+								showElement = param.active;
+								break;
+							}
+						}
+					}
+					if (showElement && filtCat) {
+						filtCat.forEach(param => {
+							if ((element.type && param.value.toLowerCase() == element.type.toLowerCase())) {
+								showElement = showElement && param.active;
+								// console.log('aplicando Filtro de categoria');
+							}
+						});
+					}
+					asada = this.findAsada(element.asada.id);
+				} else {// no es infraestructura
+					asada = element;
+				}
+				if (showElement && asada && filtLoc) {
+					filtLoc.forEach(prov => {
+						// try{
+						if (prov.key == asada.location.province.code) {
+							showElement = showElement && prov.active;
+							prov.cantones.forEach(cant => {
+								if (cant.key == asada.location.canton.code) {
+									showElement = showElement && cant.active;
+									cant.distritos.forEach(dist => {
+										if (dist.key == asada.district) {
+											showElement = showElement && dist.active;
+											// console.log('aplicando Filtro de ubicacion');
+										}
+									});
+								}
+							});
+						}
+					// }
+					// catch(ex){
+					// 	console.log(ex);
+					// 	console.log(asada);}
+					});
+				}
+				if (showElement) {
+					filteredListTemp.push(element);
+				}
+			}
+			this.filteredList=filteredListTemp;
+		}
+	}
+	findInfraestructurasFromAsada(id): any[] {
+		var infraAsada: any[] = [];
+		this.allList.forEach(element => {
+			if (element.type != 'asada' && element.asada.id == id) {
+				infraAsada.push(element);
+			}
+		});
+		return infraAsada;
+	}
+
+	findAsada(id) {
+		var element:any;
+		for(let asada of this.allAsadas){
+			if (asada.type && asada.type == 'asada' && asada.$key == id) {
+				element= asada;
+				break;
+			}
+		}
+		return element;
+	}
+	private nonfilteredList=[];
+	search(search: string) {
+		this.filteredList = this.allList.filter(
+			elem => elem.tags.toUpperCase().includes(search.toUpperCase())
+			
+		);
+		this.nonfilteredList=this.filteredList;
+		this.updateFiltersVisibilty();
 	}
 
 
 	getResult(searchType: string): void {
-		this.allList = this.filteredList = [];	
+		this.allList = this.filteredList = this.nonfilteredList= [];
+		
+		this.searchFirebase = this.searchService.search('asadas');
+		this.searchFirebase.subscribe(
+			results => {
+				this.allAsadas=results;
+			}
+		);
+
 		this.searchFirebase = this.searchService.search(searchType);
 		this.searchFirebase.subscribe(
 			results => {
-				this.allList = this.filteredList = results;
+				this.allList = this.filteredList = this.nonfilteredList= results;
+				
 				if (this.sort != null) {
 					this.search(this.sort);
 				}
 				this.setOptions(this.filteredList);
+
 			}
 		);
 
@@ -165,359 +284,362 @@ export class SearchComponent implements OnInit, OnDestroy {
 
 	}
 
-// Creo un objeto Agua Superficial y lo agrego a la lista si no esta vacia.
-	pushSuperficialWaterToList(res,index,tipo,risksNames,superficialWatersList) {
+	// Creo un objeto Agua Superficial y lo agrego a la lista si no esta vacia.
+	pushSuperficialWaterToList(res, index, tipo, risksNames, superficialWatersList) {
 
 		var Obj = {
-						tags: "CaptacionSuperficial" + " " + tipo + " " +
-						res[index+1] + " " + this.selectedItem.name + " " 
-						+ this.selectedItem.id,
-						name: res[index+1],
-						risk: 0,
-						img: [],
-						type: "CaptacionSuperficial",
-						asada: {
-							name: this.selectedItem.name,
-							id: this.selectedItem.id
-						},
-						lat: Number(res[index+17]),
-						long: Number(res[index+16]),
-						details:{
-							aqueductName: res[index+1],
-        					aqueductInCharge: "",
-        					inCharge: "",
-        					registerMINAE: res[index+2],
-        					registerARS: res[index+3],
-        					cleaningFrec: res[index+4],
-        					otherCleaning: ""
-    					},
-    					//New data by Luis
-    					riskNames: [risksNames[index+5], risksNames[index+6], risksNames[index+7], risksNames[index+8],
-    					risksNames[index+9], risksNames[index+10], risksNames[index+11], risksNames[index+12], risksNames[index+13],
-    					risksNames[index+14]],
-    					riskValues: [res[index+5], res[index+6], res[index+7], res[index+8],
-    					res[index+9], res[index+10], res[index+11], res[index+12], res[index+13],
-    					res[index+14]],
-    					siNumber: res[index+15],
-    					riskLevel: res[index+18],
-    					dateCreated: res[index]
-					};
+			tags: "CaptacionSuperficial" + " " + tipo + " " +
+				res[index + 1] + " " + this.selectedItem.name + " "
+				+ this.selectedItem.id,
+			name: res[index + 1],
+			risk: 0,
+			mainImg:undefined,
+			img: [],
+			type: "CaptacionSuperficial",
+			asada: {
+				name: this.selectedItem.name,
+				id: this.selectedItem.id
+			},
+			lat: Number(res[index + 17]),
+			long: Number(res[index + 16]),
+			details: {
+				aqueductName: res[index + 1],
+				aqueductInCharge: "",
+				inCharge: "",
+				registerMINAE: res[index + 2],
+				registerARS: res[index + 3],
+				cleaningFrec: res[index + 4],
+				otherCleaning: ""
+			},
+			//New data by Luis
+			riskNames: [risksNames[index + 5], risksNames[index + 6], risksNames[index + 7], risksNames[index + 8],
+			risksNames[index + 9], risksNames[index + 10], risksNames[index + 11], risksNames[index + 12], risksNames[index + 13],
+			risksNames[index + 14]],
+			riskValues: [res[index + 5], res[index + 6], res[index + 7], res[index + 8],
+			res[index + 9], res[index + 10], res[index + 11], res[index + 12], res[index + 13],
+			res[index + 14]],
+			siNumber: res[index + 15],
+			riskLevel: res[index + 18],
+			dateCreated: res[index]
+		};
 
-		if (res[index]=="" && res[index+1]=="" && res[index+2]=="" && res[index+3]=="" &&
-			res[index+4]=="" && res[index+5]=="" && res[index+6]=="" && res[index+7]=="" &&
-			res[index+8]=="" && res[index+8]=="" && res[index+10]=="" && res[index+11]=="" &&
-			res[index+12]=="" && res[index+13]=="" && res[index+14]=="" && res[index+16]==""
-			&& res[index+17]=="" && res[index+18]=="") {
+		if (res[index] == "" && res[index + 1] == "" && res[index + 2] == "" && res[index + 3] == "" &&
+			res[index + 4] == "" && res[index + 5] == "" && res[index + 6] == "" && res[index + 7] == "" &&
+			res[index + 8] == "" && res[index + 8] == "" && res[index + 10] == "" && res[index + 11] == "" &&
+			res[index + 12] == "" && res[index + 13] == "" && res[index + 14] == "" && res[index + 16] == ""
+			&& res[index + 17] == "" && res[index + 18] == "") {
 			return superficialWatersList;
-		} 
+		}
 		else {
-			superficialWatersList.push(<SuperficialWater> Obj);
+			superficialWatersList.push(<SuperficialWater>Obj);
 			return superficialWatersList;
 		}
 	}
 
-// Creo un objeto Nacientes y lo agrego a la lista si no esta vacío.
-	pushNascentToList(res,index,tipo,risksNames,nascentWatersList) {
+	// Creo un objeto Nacientes y lo agrego a la lista si no esta vacío.
+	pushNascentToList(res, index, tipo, risksNames, nascentWatersList) {
 		var Obj = {
-						tags: "CaptacionNaciente" + " " + tipo + " " +
-						res[index] + " " + this.selectedItem.name + " " 
-						+ this.selectedItem.id,
-						name: res[index],
-						risk: 0,
-						img: [],
-						type: "CaptacionNaciente",
-						asada: {
-							name: this.selectedItem.name,
-							id: this.selectedItem.id
-						},
-						lat: Number(res[index+16]),
-						long: Number(res[index+15]),
-						details:{
-							aqueductName: res[index],
-        					aqueductInCharge: "",
-        					inCharge: "",
-        					registerMINAE: res[index+1],
-        					nascentType: res[index+3],
-        					registerARS: res[index+2]
-    					},
-    					//New data by Luis
-    					riskNames: [risksNames[index+4], risksNames[index+5], risksNames[index+6], risksNames[index+7],
-    					risksNames[index+8], risksNames[index+9], risksNames[index+10], risksNames[index+11], risksNames[index+12],
-    					risksNames[index+13]],
-    					riskValues: [res[index+4], res[index+5], res[index+6], res[index+7],
-    					res[index+8], res[index+9], res[index+10], res[index+11], res[index+12],
-    					res[index+13]],
-    					siNumber: res[index+14],
-    					riskLevel: res[index+17],
-    					dateCreated: ""
-					};
+			tags: "CaptacionNaciente" + " " + tipo + " " +
+				res[index] + " " + this.selectedItem.name + " "
+				+ this.selectedItem.id,
+			name: res[index],
+			risk: 0,
+			img: [],
+			type: "CaptacionNaciente",
+			asada: {
+				name: this.selectedItem.name,
+				id: this.selectedItem.id
+			},
+			lat: Number(res[index + 16]),
+			long: Number(res[index + 15]),
+			details: {
+				aqueductName: res[index],
+				aqueductInCharge: "",
+				inCharge: "",
+				registerMINAE: res[index + 1],
+				nascentType: res[index + 3],
+				registerARS: res[index + 2]
+			},
+			//New data by Luis
+			riskNames: [risksNames[index + 4], risksNames[index + 5], risksNames[index + 6], risksNames[index + 7],
+			risksNames[index + 8], risksNames[index + 9], risksNames[index + 10], risksNames[index + 11], risksNames[index + 12],
+			risksNames[index + 13]],
+			riskValues: [res[index + 4], res[index + 5], res[index + 6], res[index + 7],
+			res[index + 8], res[index + 9], res[index + 10], res[index + 11], res[index + 12],
+			res[index + 13]],
+			siNumber: res[index + 14],
+			riskLevel: res[index + 17],
+			dateCreated: ""
+		};
 
-		if (res[index]=="" && res[index+1]=="" && res[index+2]=="" && res[index+3]=="" &&
-			res[index+4]=="" && res[index+5]=="" && res[index+6]=="" && res[index+7]=="" &&
-			res[index+8]=="" && res[index+8]=="" && res[index+10]=="" && res[index+11]=="" &&
-			res[index+12]=="" && res[index+13]=="" && res[index+15]=="" && res[index+16]=="" 
-			&& res[index+17]=="") {
+		if (res[index] == "" && res[index + 1] == "" && res[index + 2] == "" && res[index + 3] == "" &&
+			res[index + 4] == "" && res[index + 5] == "" && res[index + 6] == "" && res[index + 7] == "" &&
+			res[index + 8] == "" && res[index + 8] == "" && res[index + 10] == "" && res[index + 11] == "" &&
+			res[index + 12] == "" && res[index + 13] == "" && res[index + 15] == "" && res[index + 16] == ""
+			&& res[index + 17] == "") {
 
-			return nascentWatersList;
-		} 
-		else {
-
-			nascentWatersList.push(<Nascent> Obj);
 			return nascentWatersList;
 		}
-	} 
-
-// Creo un objeto Tanque y lo agrego a la lista si no esta vac�o.
-    pushTankToList(res,index,tipo,risksNames,tankList) {
-        var Obj = {
-            tags: "Tanque" + " " + tipo + " " +
-                res[index] + " " + this.selectedItem.name + " "
-                + this.selectedItem.id,
-            name: res[index],
-            risk: 0,
-            img: [],
-            type: "Tanque",
-            asada: {
-                name: this.selectedItem.name,
-                id: this.selectedItem.id
-            },
-            lat: Number(res[index+17]),
-            long: Number(res[index+16]),
-            details:{
-                aqueductName: res[index],
-                cleaning: res[index+3],
-                inCharge: "",
-                material: res[index+2],
-                registerNo: "",
-                tankType: res[index+1],
-                direction: res[index+16],
-                volume: {
-                    amount: 0,
-                    unit: ""
-                },
-                creationDate: {
-                    day: 1,
-                    month: 1,
-                    year: 1971
-                }
-            },
-            riskNames: [risksNames[index+4], risksNames[index+5], risksNames[index+6], risksNames[index+7],
-                risksNames[index+8], risksNames[index+9], risksNames[index+10], risksNames[index+11], risksNames[index+12],
-                risksNames[index+13]],
-            riskValues: [res[index+4], res[index+5], res[index+6], res[index+7],
-                res[index+8], res[index+9], res[index+10], res[index+11], res[index+12],res[index+13]],
-                siNumber: res[index+14],
-                riskLevel: res[index+15],
-                sector: res[index+18],
-                dateCreated: ""
-            };
-
-        if (res[index]=="" && res[index+1]=="" && res[index+2]=="" && res[index+3]=="" &&
-            res[index+4]=="" && res[index+5]=="" && res[index+6]=="" && res[index+7]=="" &&
-            res[index+8]=="" && res[index+8]=="" && res[index+10]=="" && res[index+11]=="" &&
-            res[index+12]=="" && res[index+13]=="" && res[index+15]=="" && res[index+16]=="" && 
-            res[index+17]=="" && res[index+18]=="") {
-            
-            return tankList;} 
-        else {
-            
-            tankList.push(<Tank> Obj);
-            return tankList;
-        }
-    }
-
-// Creo un objeto Tanque Quiebra gradiente y lo agrego a la lista si no esta vac�o.
-	pushTankQGToList(res,index,tipo,risksNames,tankList) {
-		var Obj = {
-						tags: "TanqueQG" + " " + tipo + " " +
-						res[index] + " " + this.selectedItem.name + " " 
-						+ this.selectedItem.id,
-						name: res[index],
-						risk: 0,
-						img: [],
-						type: "TanqueQG",
-						asada: {
-							name: this.selectedItem.name,
-							id: this.selectedItem.id
-						},
-						lat: Number(res[index+15]),
-						long: Number(res[index+14]),
-						details:{
-							aqueductName: res[index],
-							cleaning: res[index+2],
-        					inCharge: "",
-        					material: res[index+1],
-        					registerNo: "",
-        					tankType: "",
-        					direction: "",
-        					volume: {
-        						amount: 0,
-        						unit: ""
-        					},
-        					creationDate: {
-        						day: 1,
-        						month: 1,
-        						year: 1971
-        					}
-    					},
-    					//New data by Luis
-    					cleaningFrec: res[index+2],
-    					riskNames: [risksNames[index+3], risksNames[index+4], risksNames[index+5], risksNames[index+6],
-    					risksNames[index+7], risksNames[index+8], risksNames[index+9], risksNames[index+10], risksNames[index+11],
-    					risksNames[index+12]],
-    					riskValues: [res[index+3], res[index+4], res[index+5], res[index+6],
-    					res[index+7], res[index+8], res[index+9], res[index+10], res[index+11],
-    					res[index+12]],
-    					siNumber: res[index+13],
-    					riskLevel: res[index+16],
-    					sector: "",
-    					dateCreated: ""
-					};
-
-		if (res[index]=="" && res[index+1]=="" && res[index+2]=="" && res[index+3]=="" &&
-			res[index+4]=="" && res[index+5]=="" && res[index+6]=="" && res[index+7]=="" &&
-			res[index+8]=="" && res[index+8]=="" && res[index+10]=="" && res[index+11]=="" &&
-			res[index+12]=="" && res[index+14]=="" && res[index+15]=="" && res[index+16]=="") {
-
-			return tankList;
-		} 
 		else {
 
-			tankList.push(<Tank> Obj);
+			nascentWatersList.push(<Nascent>Obj);
+			return nascentWatersList;
+		}
+	}
+
+	// Creo un objeto Tanque y lo agrego a la lista si no esta vac�o.
+	pushTankToList(res, index, tipo, risksNames, tankList) {
+		var Obj = {
+			tags: "Tanque" + " " + tipo + " " +
+				res[index] + " " + this.selectedItem.name + " "
+				+ this.selectedItem.id,
+			name: res[index],
+			risk: 0,
+			img: [],
+			type: "Tanque",
+			asada: {
+				name: this.selectedItem.name,
+				id: this.selectedItem.id
+			},
+			lat: Number(res[index + 17]),
+			long: Number(res[index + 16]),
+			details: {
+				aqueductName: res[index],
+				cleaning: res[index + 3],
+				inCharge: "",
+				material: res[index + 2],
+				registerNo: "",
+				tankType: res[index + 1],
+				direction: res[index + 16],
+				volume: {
+					amount: 0,
+					unit: ""
+				},
+				creationDate: {
+					day: 1,
+					month: 1,
+					year: 1971
+				}
+			},
+			riskNames: [risksNames[index + 4], risksNames[index + 5], risksNames[index + 6], risksNames[index + 7],
+			risksNames[index + 8], risksNames[index + 9], risksNames[index + 10], risksNames[index + 11], risksNames[index + 12],
+			risksNames[index + 13]],
+			riskValues: [res[index + 4], res[index + 5], res[index + 6], res[index + 7],
+			res[index + 8], res[index + 9], res[index + 10], res[index + 11], res[index + 12], res[index + 13]],
+			siNumber: res[index + 14],
+			riskLevel: res[index + 15],
+			sector: res[index + 18],
+			dateCreated: ""
+		};
+
+		if (res[index] == "" && res[index + 1] == "" && res[index + 2] == "" && res[index + 3] == "" &&
+			res[index + 4] == "" && res[index + 5] == "" && res[index + 6] == "" && res[index + 7] == "" &&
+			res[index + 8] == "" && res[index + 8] == "" && res[index + 10] == "" && res[index + 11] == "" &&
+			res[index + 12] == "" && res[index + 13] == "" && res[index + 15] == "" && res[index + 16] == "" &&
+			res[index + 17] == "" && res[index + 18] == "") {
+
+			return tankList;
+		}
+		else {
+
+			tankList.push(<Tank>Obj);
 			return tankList;
 		}
 	}
 
-// Creo un objeto DistributionLine gradiente y lo agrego a la lista si no esta vac�o.
-	pushDistributionList(res,index,tipo,risksNames,distributionList,tag) {
+	// Creo un objeto Tanque Quiebra gradiente y lo agrego a la lista si no esta vac�o.
+	pushTankQGToList(res, index, tipo, risksNames, tankList) {
 		var Obj = {
-						tags: tag + " " + tipo + " " +
-						res[index] + " " + this.selectedItem.name + " " 
-						+ this.selectedItem.id,
-						name: "",
-						risk: 0,
-						img: [],
-						type: tag,
-						asada: {
-							name: this.selectedItem.name,
-							id: this.selectedItem.id
-						},
-						lat: Number(res[index+15]),
-						long: Number(res[index+14]),
-						details:{
-							lineMaterial: res[index+2],
-							repairsPerMonth: res[index]
-    					},
-    					//New data by Luis
-    					riskNames: [risksNames[index+3], risksNames[index+4], risksNames[index+5], risksNames[index+6],
-    					risksNames[index+7], risksNames[index+8], risksNames[index+9], risksNames[index+10], risksNames[index+11],
-    					risksNames[index+12]],
-    					riskValues: [res[index+3], res[index+4], res[index+5], res[index+6],
-    					res[index+7], res[index+8], res[index+9], res[index+10], res[index+11],
-    					res[index+12]],
-    					siNumber: res[index+13],
-    					riskLevel: res[index+16],
-    					
-    					creationDate: res[index+1]
-					};
+			tags: "TanqueQG" + " " + tipo + " " +
+				res[index] + " " + this.selectedItem.name + " "
+				+ this.selectedItem.id,
+			name: res[index],
+			risk: 0,
+			mainImg:undefined,
+			img: [],
+			type: "TanqueQG",
+			asada: {
+				name: this.selectedItem.name,
+				id: this.selectedItem.id
+			},
+			lat: Number(res[index + 15]),
+			long: Number(res[index + 14]),
+			details: {
+				aqueductName: res[index],
+				cleaning: res[index + 2],
+				inCharge: "",
+				material: res[index + 1],
+				registerNo: "",
+				tankType: "",
+				direction: "",
+				volume: {
+					amount: 0,
+					unit: ""
+				},
+				creationDate: {
+					day: 1,
+					month: 1,
+					year: 1971
+				}
+			},
+			//New data by Luis
+			cleaningFrec: res[index + 2],
+			riskNames: [risksNames[index + 3], risksNames[index + 4], risksNames[index + 5], risksNames[index + 6],
+			risksNames[index + 7], risksNames[index + 8], risksNames[index + 9], risksNames[index + 10], risksNames[index + 11],
+			risksNames[index + 12]],
+			riskValues: [res[index + 3], res[index + 4], res[index + 5], res[index + 6],
+			res[index + 7], res[index + 8], res[index + 9], res[index + 10], res[index + 11],
+			res[index + 12]],
+			siNumber: res[index + 13],
+			riskLevel: res[index + 16],
+			sector: "",
+			dateCreated: ""
+		};
 
-		if (res[index]=="" && res[index+1]=="" && res[index+2]=="" && res[index+3]=="" &&
-			res[index+4]=="" && res[index+5]=="" && res[index+6]=="" && res[index+7]=="" &&
-			res[index+8]=="" && res[index+8]=="" && res[index+10]=="" && res[index+11]=="" &&
-			res[index+12]=="" && res[index+14]=="" && res[index+15]=="" && res[index+16]=="" ) {
+		if (res[index] == "" && res[index + 1] == "" && res[index + 2] == "" && res[index + 3] == "" &&
+			res[index + 4] == "" && res[index + 5] == "" && res[index + 6] == "" && res[index + 7] == "" &&
+			res[index + 8] == "" && res[index + 8] == "" && res[index + 10] == "" && res[index + 11] == "" &&
+			res[index + 12] == "" && res[index + 14] == "" && res[index + 15] == "" && res[index + 16] == "") {
 
-			return distributionList;
-		} 
+			return tankList;
+		}
 		else {
 
-			distributionList.push(<DistributionLine> Obj);
+			tankList.push(<Tank>Obj);
+			return tankList;
+		}
+	}
+
+	// Creo un objeto DistributionLine gradiente y lo agrego a la lista si no esta vac�o.
+	pushDistributionList(res, index, tipo, risksNames, distributionList, tag) {
+		var Obj = {
+			tags: tag + " " + tipo + " " +
+				res[index] + " " + this.selectedItem.name + " "
+				+ this.selectedItem.id,
+			name: "",
+			risk: 0,
+			img: [],
+			type: tag,
+			asada: {
+				name: this.selectedItem.name,
+				id: this.selectedItem.id
+			},
+			lat: Number(res[index + 15]),
+			long: Number(res[index + 14]),
+			details: {
+				lineMaterial: res[index + 2],
+				repairsPerMonth: res[index]
+			},
+			//New data by Luis
+			riskNames: [risksNames[index + 3], risksNames[index + 4], risksNames[index + 5], risksNames[index + 6],
+			risksNames[index + 7], risksNames[index + 8], risksNames[index + 9], risksNames[index + 10], risksNames[index + 11],
+			risksNames[index + 12]],
+			riskValues: [res[index + 3], res[index + 4], res[index + 5], res[index + 6],
+			res[index + 7], res[index + 8], res[index + 9], res[index + 10], res[index + 11],
+			res[index + 12]],
+			siNumber: res[index + 13],
+			riskLevel: res[index + 16],
+
+			creationDate: res[index + 1]
+		};
+
+		if (res[index] == "" && res[index + 1] == "" && res[index + 2] == "" && res[index + 3] == "" &&
+			res[index + 4] == "" && res[index + 5] == "" && res[index + 6] == "" && res[index + 7] == "" &&
+			res[index + 8] == "" && res[index + 8] == "" && res[index + 10] == "" && res[index + 11] == "" &&
+			res[index + 12] == "" && res[index + 14] == "" && res[index + 15] == "" && res[index + 16] == "") {
+
+			return distributionList;
+		}
+		else {
+
+			distributionList.push(<DistributionLine>Obj);
 			return distributionList;
 		}
 	}
 
-// Creo un objeto Chlorination y lo agrego a la lista si no esta vac�o.
-	pushChlorinationToList(res,index,tipo,risksNames,chlorinationList) {
+	// Creo un objeto Chlorination y lo agrego a la lista si no esta vac�o.
+	pushChlorinationToList(res, index, tipo, risksNames, chlorinationList) {
 
-		var dateNumbers = [1,1,1971];
-		if (res[index+1]!="") {
-			dateNumbers = res[index+1].split();
+		var dateNumbers = [1, 1, 1971];
+		if (res[index + 1] != "") {
+			dateNumbers = res[index + 1].split();
 		}
-		
-		var Obj = {
-						tags: "SistemaCloracion" + " " + tipo + " " +
-						res[index] + " " + this.selectedItem.name + " " 
-						+ this.selectedItem.id,
-						name: "",
-						risk: 0,
-						img: [],
-						type: "SistemaCloracion",
-						asada: {
-							name: this.selectedItem.name,
-							id: this.selectedItem.id
-						},
-						lat: Number(res[index+16]),
-						long: Number(res[index+15]),
-						details:{
-							inCharge: "",
-							aqueductName: res[index],
-        					aqueductInCharge: "",
-        					ubication: res[index],
-        					chlorinType: res[index+2],
-        					dosageType: res[index+3],
-        					installationDate: {
-        						day: dateNumbers[0],
-        						month: dateNumbers[1],
-        						year: dateNumbers[2]
-        					},
-        					AqueductCreationDate: {
-        						day: dateNumbers[0],
-        						month: dateNumbers[1],
-        						year: dateNumbers[2]
-   							}
-    					},
-    					//New data by Luis
-    					location: res[index],
-    					dateInstalled: res[index+1],
-    					riskNames: [risksNames[index+4], risksNames[index+5], risksNames[index+6], risksNames[index+7],
-    					risksNames[index+8], risksNames[index+9], risksNames[index+10], risksNames[index+11], risksNames[index+12],
-    					risksNames[index+13]],
-    					riskValues: [res[index+4], res[index+5], res[index+6], res[index+7],
-    					res[index+8], res[index+9], res[index+10], res[index+11], res[index+12],
-    					res[index+13]],
-    					siNumber: res[index+14],
-    					riskLevel: res[index+17],
-    					dateCreated: res[index+1],
-					};
 
-		if (res[index]=="" && res[index+1]=="" && res[index+2]=="" && res[index+3]=="" &&
-			res[index+4]=="" && res[index+5]=="" && res[index+6]=="" && res[index+7]=="" &&
-			res[index+8]=="" && res[index+8]=="" && res[index+10]=="" && res[index+11]=="" &&
-			res[index+12]=="" && res[index+13]=="" && res[index+15]=="" && res[index+16]=="" && 
-			res[index+17]=="") {
+		var Obj = {
+			tags: "SistemaCloracion" + " " + tipo + " " +
+				res[index] + " " + this.selectedItem.name + " "
+				+ this.selectedItem.id,
+			name: "",
+			risk: 0,
+			img: [],
+			type: "SistemaCloracion",
+			asada: {
+				name: this.selectedItem.name,
+				id: this.selectedItem.id
+			},
+			lat: Number(res[index + 16]),
+			long: Number(res[index + 15]),
+			details: {
+				inCharge: "",
+				aqueductName: res[index],
+				aqueductInCharge: "",
+				ubication: res[index],
+				chlorinType: res[index + 2],
+				dosageType: res[index + 3],
+				installationDate: {
+					day: dateNumbers[0],
+					month: dateNumbers[1],
+					year: dateNumbers[2]
+				},
+				AqueductCreationDate: {
+					day: dateNumbers[0],
+					month: dateNumbers[1],
+					year: dateNumbers[2]
+				}
+			},
+			//New data by Luis
+			location: res[index],
+			dateInstalled: res[index + 1],
+			riskNames: [risksNames[index + 4], risksNames[index + 5], risksNames[index + 6], risksNames[index + 7],
+			risksNames[index + 8], risksNames[index + 9], risksNames[index + 10], risksNames[index + 11], risksNames[index + 12],
+			risksNames[index + 13]],
+			riskValues: [res[index + 4], res[index + 5], res[index + 6], res[index + 7],
+			res[index + 8], res[index + 9], res[index + 10], res[index + 11], res[index + 12],
+			res[index + 13]],
+			siNumber: res[index + 14],
+			riskLevel: res[index + 17],
+			dateCreated: res[index + 1],
+		};
+
+		if (res[index] == "" && res[index + 1] == "" && res[index + 2] == "" && res[index + 3] == "" &&
+			res[index + 4] == "" && res[index + 5] == "" && res[index + 6] == "" && res[index + 7] == "" &&
+			res[index + 8] == "" && res[index + 8] == "" && res[index + 10] == "" && res[index + 11] == "" &&
+			res[index + 12] == "" && res[index + 13] == "" && res[index + 15] == "" && res[index + 16] == "" &&
+			res[index + 17] == "") {
 
 			return chlorinationList;
-		} 
+		}
 		else {
 
-			
-			chlorinationList.push(<Chlorination> Obj);
+
+			chlorinationList.push(<Chlorination>Obj);
 			return chlorinationList;
 		}
-	} 
+	}
 
-/* Creo una lista con las infraestructuras que van a
- ser subidas a un Asada */
-	infraestructurasParsing(res){
+	/* Creo una lista con las infraestructuras que van a
+	 ser subidas a un Asada */
+	infraestructurasParsing(res) {
 		var tipos = res[0].slice();
 		//console.log("Tipos tiene: ",tipos);
 		var risksNames = res[1].slice();
-		var superficialWaters = new Array<SuperficialWater> ();
-		var nascents = new Array<Nascent> ();
-		var tanks = new Array<Tank> ();
-		var lines = new Array<DistributionLine> ();
-		var chlorinations = new Array<Chlorination> ();
+		var superficialWaters = new Array<SuperficialWater>();
+		var nascents = new Array<Nascent>();
+		var tanks = new Array<Tank>();
+		var lines = new Array<DistributionLine>();
+		var chlorinations = new Array<Chlorination>();
 		var infraValue: any;
-		res.splice(0,2);
+		res.splice(0, 2);
 		//console.log("Res222222",res);
 		var j = 1;
 		for (var i = 0; i < res.length; i++) {
@@ -527,216 +649,219 @@ export class SearchComponent implements OnInit, OnDestroy {
 
 				if (tipos[j] == "Toma de agua superficial") {
 					// Hasta j + 19 
-					superficialWaters = this.pushSuperficialWaterToList(res[i],j,tipos[j],risksNames,superficialWaters);
+					superficialWaters = this.pushSuperficialWaterToList(res[i], j, tipos[j], risksNames, superficialWaters);
 					j += 19;
-					
+
 
 
 				}
 				else if (tipos[j] == "Captacion de nacientes o manantiales") {
 					// Hasta j + 18
-					nascents = this.pushNascentToList(res[i],j,tipos[j],risksNames,nascents);
+					nascents = this.pushNascentToList(res[i], j, tipos[j], risksNames, nascents);
 					j += 18;
 
 				}
 				else if (tipos[j] == "Tanques de almacenamiento") {
 					// Hasta j + 19
-					tanks = this.pushTankToList(res[i],j,tipos[j],risksNames,tanks);
-					j+= 19;
+					tanks = this.pushTankToList(res[i], j, tipos[j], risksNames, tanks);
+					j += 19;
 
 
 				}
-				else if (tipos[j] == "Tanques quiebra gradiente"){
+				else if (tipos[j] == "Tanques quiebra gradiente") {
 					//Hasta j + 17
-					tanks = this.pushTankQGToList(res[i],j,tipos[j],risksNames,tanks);
+					tanks = this.pushTankQGToList(res[i], j, tipos[j], risksNames, tanks);
 					j += 17;
 
 				}
 				else if (tipos[j] == "Linea de conduccion y sistema de distribucion") {
 					//Hasta j + 17
-					lines = this.pushDistributionList(res[i],j,tipos[j],risksNames,lines,"SistemaDistribucion");
+					lines = this.pushDistributionList(res[i], j, tipos[j], risksNames, lines, "SistemaDistribucion");
 					j += 17;
 
 				}
 				else if (tipos[j] == "Linea de distribucion") {
 					//Hasta j + 17
-					lines = this.pushDistributionList(res[i],j,tipos[j],risksNames,lines,"LineaDistribucion");
+					lines = this.pushDistributionList(res[i], j, tipos[j], risksNames, lines, "LineaDistribucion");
 					j += 17;
 
 				}
 				else if (tipos[j] == "Sistema de cloracion") {
 					//Hasta j + 18
-					chlorinations = this.pushChlorinationToList(res[i],j,tipos[j],risksNames,chlorinations);
+					chlorinations = this.pushChlorinationToList(res[i], j, tipos[j], risksNames, chlorinations);
 					j += 18;
 
 				}
 				else {
-					
+
 					console.log("No existe el tipo", tipos[j]);
 				}
 			}
-			
-			
+
+
 		}
-		
+
 		return [superficialWaters, nascents, tanks, lines, chlorinations];
 	}
 
-//Creo una lista con las asadas que van a ser subidas.
-	asadasParsing(res){
-		
-		res.splice(0,1);
-		var asadas = new Array<Asada> ();
+	//Creo una lista con las asadas que van a ser subidas.
+	asadasParsing(res) {
+
+		res.splice(0, 1);
+		var asadas = new Array<Asada>();
 		var asada = new Asada();
 
-		for (let asadaCSV of res){
-
+		for (let asadaCSV of res) {
+ 
 			asada = new Asada();
 
-			if (asadaCSV[0]!="") {
+			if (asadaCSV[0] != "") {
 				asada.date = asadaCSV[0];
 				asada.name = asadaCSV[1];
 				asada.inCharge = asadaCSV[2];
 				asada.phoneNumber = asadaCSV[3];
 				asada.legalResponsableWorkersName = asadaCSV[4];
 				asada.legalResponsablePhone = asadaCSV[5];
-				asada.province = asadaCSV[6];
-				asada.district = asadaCSV[7];
-				asada.subDistrict = asadaCSV[8];
-				asada.location = asadaCSV[9];
-				asada.zoneType = asadaCSV[12];
-				asada.adminEntity = asadaCSV[13];
-				asada.adminEntityName = asadaCSV[14];
-				asada.waterProgram = asadaCSV[15];
-				asada.numberSubscribed = asadaCSV[16];
-				asada.population = asadaCSV[17];
-				asada.fountains = asadaCSV[18];
-				asada.nascent = asadaCSV[19];
-				asada.superficial = asadaCSV[20];
-				asada.waterWells = asadaCSV[21];
-				asada.conductionMaterial = asadaCSV[22];
-				asada.tanksNumber = asadaCSV[23];
-				asada.supplyMechanisms = asadaCSV[24];
-				asada.desinfection = asadaCSV[25];
-				asada.systemType = asadaCSV[26];
+				asada.location={
+					province:{code:asadaCSV[7],
+						name:this.locationService.getProvinciaName(asadaCSV[7])},
+					canton:{code: asadaCSV[9],
+						name:this.locationService.getCantonName(asadaCSV[7],asadaCSV[9])},
+					district:{code: asadaCSV[11],
+						name:this.locationService.getDistritoName(asadaCSV[7],asadaCSV[9],asadaCSV[11])},
+					address:asadaCSV[12]
+				}
+
+				asada.zoneType = asadaCSV[15];
+				asada.adminEntity = asadaCSV[16];
+				asada.adminEntityName = asadaCSV[17];
+				asada.waterProgram = asadaCSV[18];
+				asada.numberSubscribed = asadaCSV[19];
+				asada.population = asadaCSV[20];
+				asada.fountains = asadaCSV[21];
+				asada.nascent = asadaCSV[22];
+				asada.superficial = asadaCSV[23];
+				asada.waterWells = asadaCSV[24];
+				asada.conductionMaterial = asadaCSV[25];
+				asada.tanksNumber = asadaCSV[26];
+				asada.supplyMechanisms = asadaCSV[27];
+				asada.desinfection = asadaCSV[28];
+				asada.systemType = asadaCSV[29];
 
 				if (asada.date != "") {
 					var parts = asada.date.split('/');
-				asada.concessionDue = {
-					day: Number(parts[0]),
-					month: Number(parts[1]),
-					year: Number(parts[2])
-				};
+					asada.concessionDue = {
+						day: Number(parts[0]),
+						month: Number(parts[1]),
+						year: Number(parts[2])
+					};
 				}
 				else {
 					asada.concessionDue = {
-					day: 1,
-					month: 1,
-					year: 1971
-				};
+						day: 1,
+						month: 1,
+						year: 1971
+					};
 				}
 
-				
+
 				asada.office = {
-					lat: Number(asadaCSV[11]),
-					long: Number(asadaCSV[10])
+					lat: Number(asadaCSV[14]),
+					long: Number(asadaCSV[13])
 				};
 				asada.type = 'asada';
-				asada.tags = asada.name + " " + asada.province + " " 
-				+ asada.numberSubscribed + " Asada";
-				asada.idAsada = 'ASA' + this.allList.length; 
+				asada.tags = asada.name + " " + asada.location.province.name + " "
+					+ asada.numberSubscribed + " Asada";
+				asada.idAsada = 'ASA' + this.allList.length;
 				asadas.push(asada);
-			} 
+			}
 		}
 		//console.log('El resultado es: ',asadas);
 		return asadas;
 	}
 
-	
-	fullCsvParsing(typeFile){
+
+	fullCsvParsing(typeFile) {
 
 		if (typeFile == 1) {
 
 			var asadas = this.asadasParsing(this.parsedResults);
 			//console.log('El resultado es: ',this.parsedResults);
-			for(let asada of asadas){
+			for (let asada of asadas) {
 				asada.idAsada = 'ASA' + this.allList.length;
 				this.angularFireService.addNewAsada(asada);
 			}
 
-		} 
+		}
 		else {
-			
-			
+
+
 			var infraestructuras = this.infraestructurasParsing(this.parsedResults);
-			
-			
-			
-			if (infraestructuras[0].length!=0) { // Aguas superficiales
+
+
+
+			if (infraestructuras[0].length != 0) { // Aguas superficiales
 
 				for (let infra of infraestructuras[0]) {
 
 					this.angularFireService.addNewInfrastructure(infra);
-				
+
 				}
 
-			} 
-			if (infraestructuras[1].length!=0) { // Nascientes
+			}
+			if (infraestructuras[1].length != 0) { // Nascientes
 
 				for (let infra of infraestructuras[1]) {
 
 					this.angularFireService.addNewInfrastructure(infra);
-				
+
 				}
 
 			}
-			if (infraestructuras[2].length!=0) { // Tanques
+			if (infraestructuras[2].length != 0) { // Tanques
 
 				for (let infra of infraestructuras[2]) {
 
 					this.angularFireService.addNewInfrastructure(infra);
-				
+
 				}
 
 			}
-			if (infraestructuras[3].length!=0) { // Lineas de Distribucion
+			if (infraestructuras[3].length != 0) { // Lineas de Distribucion
 
 				for (let infra of infraestructuras[3]) {
 
 					this.angularFireService.addNewInfrastructure(infra);
-				
+
 				}
 
 			}
-			if (infraestructuras[4].length!=0) { //Sistema de cloracion
+			if (infraestructuras[4].length != 0) { //Sistema de cloracion
 
 				for (let infra of infraestructuras[4]) {
 
 					this.angularFireService.addNewInfrastructure(infra);
-				
+
 				}
 
 			}
-			
 
-			
+
+
 
 		}
-		
-		
+
+
 	}
 
 	parseAsadaData(asada, ele) {
-		asada.date = ele.date; 
-		asada.name = ele.name; 
-		asada.inCharge = ele.inCharge; 
-		asada.phoneNumber = ele.phoneNumber; 
-		asada.legalResponsableWorkersName = ele.legalResponsableWorkersName; 
-		asada.legalResponsablePhone = ele.legalResponsablePhone; 
-		asada.province = ele.province; 
-		asada.district = ele.district; 
-		asada.subDistrict = ele.subDistrict; 
-		asada.location = ele.location; 
+		asada.date = ele.date;
+		asada.name = ele.name;
+		asada.inCharge = ele.inCharge;
+		asada.phoneNumber = ele.phoneNumber;
+		asada.legalResponsableWorkersName = ele.legalResponsableWorkersName;
+		asada.legalResponsablePhone = ele.legalResponsablePhone;
+		asada.location = ele.location;
 		asada.zoneType = ele.zoneType;
 		asada.adminEntity = ele.adminEntity;
 		asada.adminEntityName = ele.adminEntityName;
@@ -756,10 +881,12 @@ export class SearchComponent implements OnInit, OnDestroy {
 		asada.concessionDue = {
 			day: ele.concessionDue.day,
 			month: ele.concessionDue.month,
-			year: ele.concessionDue.year};
+			year: ele.concessionDue.year
+		};
 		asada.office = {
 			lat: ele.office.lat,
-			long: ele.office.long};
+			long: ele.office.long
+		};
 		asada.type = ele.type;
 		asada.tags = ele.tags;
 		asada.idAsada = ele.idAsada;
@@ -767,7 +894,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 	}
 
 	parseTankData(infra) {
-		
+
 		var tanque = new Tank();
 		tanque.tags = infra.tags;
 		tanque.name = infra.name;
@@ -781,36 +908,36 @@ export class SearchComponent implements OnInit, OnDestroy {
 		tanque.long = infra.long;
 		tanque.details = {
 			aqueductName: infra.details.aqueductName,
-        	cleaning: infra.details.cleaning,
-        	inCharge: infra.details.inCharge,
-        	material: infra.details.material,  
-        	registerNo: infra.details.registerNo,
-        	tankType: infra.details.tankType,
-        	direction:infra.details.direction,
-        	volume: {
-            	amount: infra.details.volume.amount,
-            	unit: infra.details.volume.unit
-        	},
-        	creationDate: {
-            	day: 1,
-            	month: 1,
-            	year: 1971
-        	}
-        };
+			cleaning: infra.details.cleaning,
+			inCharge: infra.details.inCharge,
+			material: infra.details.material,
+			registerNo: infra.details.registerNo,
+			tankType: infra.details.tankType,
+			direction: infra.details.direction,
+			volume: {
+				amount: infra.details.volume.amount,
+				unit: infra.details.volume.unit
+			},
+			creationDate: {
+				day: 1,
+				month: 1,
+				year: 1971
+			}
+		};
 
-    	tanque.riskNames = infra.riskNames;
-    	tanque.riskValues = infra.riskValues;
-    	tanque.siNumber = infra.siNumber;
-    	tanque.riskLevel = infra.riskLevel;
-    	tanque.sector = infra.sector;
-    	tanque.dateCreated = infra.dateCreated;
-    	return tanque;
+		tanque.riskNames = infra.riskNames;
+		tanque.riskValues = infra.riskValues;
+		tanque.siNumber = infra.siNumber;
+		tanque.riskLevel = infra.riskLevel;
+		tanque.sector = infra.sector;
+		tanque.dateCreated = infra.dateCreated;
+		return tanque;
 	}
 
 	parseSuperficialData(infra) {
 
 		var superficial = new SuperficialWater();
-		
+
 		superficial.tags = infra.tags;
 		superficial.name = infra.name;
 		superficial.risk = infra.risk;
@@ -822,26 +949,26 @@ export class SearchComponent implements OnInit, OnDestroy {
 		superficial.lat = infra.lat;
 		superficial.long = infra.long;
 		superficial.details = {
-        	aqueductName: infra.details.aqueductName,
-        	aqueductInCharge: infra.details.aqueductInCharge,
-        	inCharge: infra.details.inCharge,
-        	registerMINAE: infra.details.registerMINAE,
-        	registerARS: infra.details.registerARS,
-        	cleaningFrec: infra.details.cleaningFrec,
-        	otherCleaning: infra.details.otherCleaning
-    	};
-    	//New data by Luis
-    	superficial.riskNames = infra.riskNames;
-    	superficial.riskValues = infra.riskValues;
-    	superficial.siNumber = infra.siNumber;
-    	superficial.riskLevel = infra.riskLevel;
-    	superficial.dateCreated = infra.dateCreated;
-    	return superficial;
+			aqueductName: infra.details.aqueductName,
+			aqueductInCharge: infra.details.aqueductInCharge,
+			inCharge: infra.details.inCharge,
+			registerMINAE: infra.details.registerMINAE,
+			registerARS: infra.details.registerARS,
+			cleaningFrec: infra.details.cleaningFrec,
+			otherCleaning: infra.details.otherCleaning
+		};
+		//New data by Luis
+		superficial.riskNames = infra.riskNames;
+		superficial.riskValues = infra.riskValues;
+		superficial.siNumber = infra.siNumber;
+		superficial.riskLevel = infra.riskLevel;
+		superficial.dateCreated = infra.dateCreated;
+		return superficial;
 	}
 
 	parseNascentData(infra) {
 		var naciente = new Nascent();
-		
+
 		naciente.tags = infra.tags;
 		naciente.name = infra.name;
 		naciente.risk = infra.risk;
@@ -853,34 +980,34 @@ export class SearchComponent implements OnInit, OnDestroy {
 		naciente.lat = infra.lat;
 		naciente.long = infra.long;
 		naciente.details = {
-        	aqueductName: infra.details.aqueductName,
-        	aqueductInCharge: infra.details.aqueductInCharge,
-        	inCharge: infra.details.inCharge,
-        	registerMINAE: infra.details.registerMINAE,
-        	nascentType: infra.details.nascentType,
-        	registerARS: infra.details.registerARS,
-    	};
+			aqueductName: infra.details.aqueductName,
+			aqueductInCharge: infra.details.aqueductInCharge,
+			inCharge: infra.details.inCharge,
+			registerMINAE: infra.details.registerMINAE,
+			nascentType: infra.details.nascentType,
+			registerARS: infra.details.registerARS,
+		};
 
-    	//New data by Luis
-    	naciente.dateCreated = infra.dateCreated;
-    	naciente.riskNames = infra.riskNames;
-    	naciente.riskValues = infra.riskValues;
-    	naciente.siNumber = infra.siNumber;
-    	naciente.riskLevel = infra.riskLevel;
-    	return naciente;
+		//New data by Luis
+		naciente.dateCreated = infra.dateCreated;
+		naciente.riskNames = infra.riskNames;
+		naciente.riskValues = infra.riskValues;
+		naciente.siNumber = infra.siNumber;
+		naciente.riskLevel = infra.riskLevel;
+		return naciente;
 	}
 
 	parseChlorinationData(infra) {
 
 		var cloro = new Chlorination();
-		
+
 		if (infra.installationDate == undefined) {
 			infra.installationDate = {
 				day: 1,
 				month: 1,
 				year: 1971
-			}; 
-			
+			};
+
 		}
 
 		if (infra.AqueductCreationDate == undefined) {
@@ -888,7 +1015,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 				day: 1,
 				month: 1,
 				year: 1971
-			}; 
+			};
 		}
 
 		cloro.tags = infra.tags;
@@ -902,38 +1029,38 @@ export class SearchComponent implements OnInit, OnDestroy {
 		cloro.lat = infra.lat;
 		cloro.long = infra.long;
 		cloro.details = {
-    		inCharge: infra.details.inCharge,
-    		aqueductName: infra.details.aqueductName,
-    		aqueductInCharge: infra.details.aqueductInCharge,
-    		ubication: infra.details.ubication,
-    		chlorinType: infra.details.chlorinType,
-    		dosageType: infra.details.dosageType,
-    		installationDate: {
-        			day: infra.installationDate.day,
-            		month: infra.installationDate.month,
-            		year: infra.installationDate.year
-    		},
-    		AqueductCreationDate: {
-        			day: infra.AqueductCreationDate.day,
-            		month: infra.AqueductCreationDate.month,
-            		year: infra.AqueductCreationDate.year
-    		}
-  		};
+			inCharge: infra.details.inCharge,
+			aqueductName: infra.details.aqueductName,
+			aqueductInCharge: infra.details.aqueductInCharge,
+			ubication: infra.details.ubication,
+			chlorinType: infra.details.chlorinType,
+			dosageType: infra.details.dosageType,
+			installationDate: {
+				day: infra.installationDate.day,
+				month: infra.installationDate.month,
+				year: infra.installationDate.year
+			},
+			AqueductCreationDate: {
+				day: infra.AqueductCreationDate.day,
+				month: infra.AqueductCreationDate.month,
+				year: infra.AqueductCreationDate.year
+			}
+		};
 
-  		cloro.location = infra.location;
-  		cloro.dateInstalled = infra.dateInstalled;
-  		cloro.riskNames = infra.riskNames;
-  		cloro.riskValues = infra.riskValues;
-  		cloro.siNumber = infra.siNumber;
-  		cloro.riskLevel = infra.riskLevel;
-  		cloro.dateCreated = infra.dateCreated;
-  		return cloro;
+		cloro.location = infra.location;
+		cloro.dateInstalled = infra.dateInstalled;
+		cloro.riskNames = infra.riskNames;
+		cloro.riskValues = infra.riskValues;
+		cloro.siNumber = infra.siNumber;
+		cloro.riskLevel = infra.riskLevel;
+		cloro.dateCreated = infra.dateCreated;
+		return cloro;
 	}
 
 	parseDistributionLineData(infra) {
 
 		var linea = new DistributionLine();
-		
+
 		linea.tags = infra.tags;
 		linea.name = infra.name;
 		linea.risk = infra.risk;
@@ -945,115 +1072,112 @@ export class SearchComponent implements OnInit, OnDestroy {
 		linea.lat = infra.lat;
 		linea.long = infra.long;
 		linea.details = {
-        	lineMaterial: infra.details.lineMaterial,
-        	repairsPerMonth: infra.details.repairsPerMonth
-        
-    	};
+			lineMaterial: infra.details.lineMaterial,
+			repairsPerMonth: infra.details.repairsPerMonth
 
-    	return linea;
+		};
+
+		return linea;
 	}
 
-
-
-
 	createHistorial(historial) {
-		var asadasToFire = new Array<Asada> ();
-		var cloraciones = new Array<Chlorination> ();
-		var nascientes = new Array<Nascent> ();
-		var tanques = new Array<Tank> ();
-		var superficiales = new Array<SuperficialWater> ();
-		var distribuciones = new Array<DistributionLine> ();
-		var newAsadaId = 0;			
-	 	for (let ele of this.allList) {
+		var asadasToFire = new Array<Asada>();
+		var cloraciones = new Array<Chlorination>();
+		var nascientes = new Array<Nascent>();
+		var tanques = new Array<Tank>();
+		var superficiales = new Array<SuperficialWater>();
+		var distribuciones = new Array<DistributionLine>();
+		var newAsadaId = 0;
+		for (let ele of this.allList) {
 
-	 		var asada = new Asada();
-	 		asada = this.parseAsadaData(asada, ele);
-	 		var largo = asadasToFire.push(asada);
-	 		for (let infra of this.allInfraList) {
-
-	 			
-
-	 			if (infra.asada.id == ele.$key) {
-
-	 				infra.asada.id = newAsadaId;
-
-	 				if (infra.type == 'CaptacionSuperficial') {
-
-	 					superficiales.push(this.parseSuperficialData(infra));
-
-	 				} 
-	 				else if (infra.type == 'CaptacionNaciente') {
-
-	 					nascientes.push(this.parseNascentData(infra));
-
-	 				}
-	 				else if (infra.type == 'Tanque' || infra.type == 'TanqueQG') {
-
-	 					tanques.push(this.parseTankData(infra));
-	 					
-	 				}
-	 				else if (infra.type == 'SistemaCloracion') {
-
-	 					cloraciones.push(this.parseChlorinationData(infra));
-	 					
-	 				}
-	 				else {
-
-	 					distribuciones.push(this.parseDistributionLineData(infra));
-
-	 				}
-
-	 			}
+			var asada = new Asada();
+			asada = this.parseAsadaData(asada, ele);
+			var largo = asadasToFire.push(asada);
+			for (let infra of this.allInfraList) {
 
 
-	 		}
-	 		newAsadaId++;	
-	 	}
-	 	
-	 	if (cloraciones.length == 0) {
-	 		historial.dataInfraChlorination = [];
-	 	}
-	 	else {
-	 		historial.dataInfraChlorination = cloraciones;
 
-	 	}
+				if (infra.asada.id == ele.$key) {
 
-	 	if (distribuciones.length == 0) {
-	 		historial.dataInfraDistributionLine = [];
-	 		
-	 	}
-	 	else {
-	 		historial.dataInfraDistributionLine = distribuciones;
+					infra.asada.id = newAsadaId;
 
-	 	}
-	 	if (nascientes.length == 0) {
-	 		historial.dataInfraNascent = [];
-	 		
-	 		
-	 	}
-	 	else {
-	 		historial.dataInfraNascent = nascientes;
+					if (infra.type == 'CaptacionSuperficial') {
 
-	 	}
-	 	if (superficiales.length == 0) {
-	 		historial.dataInfraSuperficialWater = [];
-	 		
-	 	}
-	 	else {
-	 		historial.dataInfraSuperficialWater = superficiales;
+						superficiales.push(this.parseSuperficialData(infra));
 
-	 	}
-	 	if (tanques.length == 0) {
-	 		historial.dataInfraTank = [];
-	 		
-	 	}
-	 	else {
-	 		historial.dataInfraTank = tanques;
+					}
+					else if (infra.type == 'CaptacionNaciente') {
 
-	 	}
-    	
-	 	historial.dataAsadas = asadasToFire;
-	 	return historial;
+						nascientes.push(this.parseNascentData(infra));
+
+					}
+					else if (infra.type == 'Tanque' || infra.type == 'TanqueQG') {
+
+						tanques.push(this.parseTankData(infra));
+
+					}
+					else if (infra.type == 'SistemaCloracion') {
+
+						cloraciones.push(this.parseChlorinationData(infra));
+
+					}
+					else {
+
+						distribuciones.push(this.parseDistributionLineData(infra));
+
+					}
+
+				}
+
+
+			}
+			newAsadaId++;
+		}
+
+		if (cloraciones.length == 0) {
+			historial.dataInfraChlorination = [];
+		}
+		else {
+			historial.dataInfraChlorination = cloraciones;
+
+		}
+
+		if (distribuciones.length == 0) {
+			historial.dataInfraDistributionLine = [];
+
+		}
+		else {
+			historial.dataInfraDistributionLine = distribuciones;
+
+		}
+		if (nascientes.length == 0) {
+			historial.dataInfraNascent = [];
+
+
+		}
+		else {
+			historial.dataInfraNascent = nascientes;
+
+		}
+		if (superficiales.length == 0) {
+			historial.dataInfraSuperficialWater = [];
+
+		}
+		else {
+			historial.dataInfraSuperficialWater = superficiales;
+
+		}
+		if (tanques.length == 0) {
+			historial.dataInfraTank = [];
+
+		}
+		else {
+			historial.dataInfraTank = tanques;
+
+		}
+
+		historial.dataAsadas = asadasToFire;
+		return historial;
 
 	}
 
@@ -1096,35 +1220,35 @@ export class SearchComponent implements OnInit, OnDestroy {
 
 	deleteAllStorage() { // Esto se hace debido a que en este momento 11/2/2017 Firebase no puede eliminar una carpeta entera.
 
-		for(let infra of this.allInfraList) {
+		for (let infra of this.allInfraList) {
 
-			for(let img of ((infra.img == undefined) ? [] : infra.img)) {
-				this.storageRef.child('infrastructure/'+img.fileName).delete();
+			for (let img of ((infra.img == undefined) ? [] : infra.img)) {
+				this.storageRef.child('infrastructure/' + img.fileName).delete();
 			}
 		}
 
-		for(let incidente of this.allIncidentes) {
+		for (let incidente of this.allIncidentes) {
 
-			this.storageRef.child('incidentes/'+incidente.img.fileName).delete();			
+			this.storageRef.child('incidentes/' + incidente.img.fileName).delete();
 		}
 	}
 
 
-//Subo los datos de las ASADAs
-	onRemoved2($event){
+	//Subo los datos de las ASADAs
+	onRemoved2($event) {
 		this.fullCsvParsing(2);
 	}
 
 
-	onRemoved($event){
+	onRemoved($event) {
 		//Historial
 		this.getInfras();
 
 		var historial = new Historial();
-		
+
 		var fecha = new Date();
 		historial.date = "" + fecha.getDate() + "/" + (fecha.getMonth() + 1) + "/" + fecha.getFullYear();
-		
+
 		historial = this.createHistorial(historial);
 		//console.log("El historial tiene: " + historial.data[0].name);
 		this.angularFireService.addNewHistorial(historial);
@@ -1134,58 +1258,58 @@ export class SearchComponent implements OnInit, OnDestroy {
 		//EliminoActual
 		this.angularFireService.deleteAllDB();
 		this.deleteUserRelations();
-		
+
 
 		this.fullCsvParsing(1);
 
-		
+
 	}
 
 	deleteUserRelations() {
-		for(let rolUser of this.allRolAccess) {
+		for (let rolUser of this.allRolAccess) {
 
-			if(rolUser.rol == "Administración" || rolUser.rol == "Fontanero") {
-			/*	this.af.auth.deleteUser(rolUser.$key)
-                    .then(function() {
-                        console.log("Successfully deleted user");
-                    })
-                    .catch(function(error) {
-                        console.log("Error deleting user:", error);
-                    });*/
+			if (rolUser.rol == "Administración" || rolUser.rol == "Fontanero") {
+				/*	this.af.auth.deleteUser(rolUser.$key)
+						.then(function() {
+							console.log("Successfully deleted user");
+						})
+						.catch(function(error) {
+							console.log("Error deleting user:", error);
+						});*/
 				this.userService.deleteUser(rolUser.$key);
 			}
 		}
 	}
 
-	onAdded2($event,ele) {
+	onAdded2($event, ele) {
 		this.selectedItem = {
-        	name: ele.name,
-        	id: ele.$key
-        };
+			name: ele.name,
+			id: ele.$key
+		};
 		this.inputFile = $event.currentFiles[0];
-		this.papa.parse(this.inputFile,{
+		this.papa.parse(this.inputFile, {
 			encoding: "utf8",
-            complete: (results, file) => {
-            	this.parsedResults = results.data.slice();
-            	this.parsedResults.splice(0,1);
-            }
-            
-        });
+			complete: (results, file) => {
+				this.parsedResults = results.data.slice();
+				this.parsedResults.splice(0, 1);
+			}
+
+		});
 
 	}
 
-	onAdded($event){
-		
+	onAdded($event) {
+
 		this.inputFile = $event.currentFiles[0];
-		
-		this.papa.parse(this.inputFile,{
+
+		this.papa.parse(this.inputFile, {
 			encoding: "utf8",
-            complete: (results, file) => {
-            	this.parsedResults = results.data.slice();
-            	this.parsedResults.splice(0,1);
-            }
-            
-        });
+			complete: (results, file) => {
+				this.parsedResults = results.data.slice();
+				this.parsedResults.splice(0, 1);
+			}
+
+		});
 
 	}
 
@@ -1217,11 +1341,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 			}
 		});
 	}
-	search(search: string) {
-		this.filteredList = this.allList.filter(
-			elem => elem.tags.toUpperCase().includes(search.toUpperCase())
-		);
-	}
+
 	export() {
 		var data = [];
 		data.push({ "Tipo de busqueda:": this.searchType });

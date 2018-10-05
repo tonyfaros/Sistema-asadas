@@ -132,7 +132,7 @@ export class UserService {
     this.updateUserDetails(request.$key, {
       apellidos: request.apellidos,
       nombre: request.nombre,
-      estado:"Pendiente",
+      estado:request.estado,
       correo:request.correo,
       password:request.password,
       passwordf:request.passwordf,
@@ -142,8 +142,9 @@ export class UserService {
 
   }
 
+  
 
-  updateUser(request,uid) {
+  updateUser(request,uid,pestado) {
     var isCalled = false;
     var subscription = this.getUser(uid).subscribe(
       results => {
@@ -151,7 +152,7 @@ export class UserService {
           this.updateUserDetails(results.$key, {
             apellidos: request.userLastName,
             nombre: request.userName,
-            estado:"Pendiente",
+            estado:pestado,
             correo:results.correo,
             password:request.password,
             passwordf:results.passwordf,

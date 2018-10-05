@@ -13,12 +13,12 @@ import { FirebaseImg } from '../../common/model/FirebaseImg';
 /*		Modules		*/
 import * as firebase from 'firebase';
 import { FirebaseApp, AngularFire, FirebaseAuthState } from 'angularfire2';
-import { Image, Action, ImageModalEvent, Description } from 'angular-modal-gallery';
+import { Image, Action, ImageModalEvent, Description, } from 'angular-modal-gallery';
 import { ToasterService, ToasterConfig } from 'angular2-toaster';
 
 import 'rxjs/Rx';
-import {Observable} from 'rxjs/Observable';
-import {Subscription} from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/observable/of';
 
 
@@ -27,6 +27,7 @@ import { GeolocationService } from '../../common/service/Geolocation.service';
 import { AngularFireService } from '../../common/service/angularFire.service';
 import { UserService } from "app/common/service/user.service";
 import { ExportService } from "app/common/service/export.service";
+import { Infrastructure } from '../../common/model/Infrastructure';
 
 @Component({
 	selector: 'app-chlorin-details',
@@ -37,6 +38,7 @@ import { ExportService } from "app/common/service/export.service";
 export class ChlorinDetailsComponent implements OnInit {
 
 	/* 		FORM	variables		*/
+
 
 	public chlorinType: RadioOption[] = [{ display: 'Gas Cloro', value: 'GasCloro' }, { display: 'Electrolisis', value: 'Electrolisis' }, { display: 'Pastillas (Erosion)', value: 'Pastillas' }, { display: 'Otros', value: 'Otros' }];
 	public dosageType: RadioOption[] = [{ display: 'Continua', value: 'Continua' }, { display: 'Tiempos programados', value: 'Programado' }];
@@ -65,7 +67,7 @@ export class ChlorinDetailsComponent implements OnInit {
 	public imgMarkedDel: FirebaseImg;
 	public imgMarkedEdit: FirebaseImg;
 
-		/*		Toast variables		*/
+	/*		Toast variables		*/
 	public toastConfig: ToasterConfig = new ToasterConfig({
 		positionClass: 'toast-bottom-center',
 		limit: 5
@@ -127,8 +129,10 @@ export class ChlorinDetailsComponent implements OnInit {
 		private geoLocation: GeolocationService,
 		private toasterService: ToasterService,
 		private exportService: ExportService) {
-			this.storageRef = firebaseApp.storage().ref();
-		 }
+		this.storageRef = firebaseApp.storage().ref();
+	}
+	private editmode = true;
+
 
 	ngOnInit() {
 		this.sub = this.route.params
@@ -141,7 +145,6 @@ export class ChlorinDetailsComponent implements OnInit {
 
 
 			});
-		//Gets the actual login
 		this.angularFire.auth.subscribe(user => {
 			if (user) {
 				// user logged in
@@ -152,13 +155,13 @@ export class ChlorinDetailsComponent implements OnInit {
 					results => {
 						this.userAccessRol = results;
 
-						if(this.userAccessRol.asada && (this.userAccessRol.asada == this.infraDB.asada.id) && (this.userAccessRol.rol == "Administración" || this.userAccessRol.rol == "Edición")){
+						if (this.userAccessRol.asada && (this.userAccessRol.asada == this.infraDB.asada.id) && (this.userAccessRol.rol == "Administración" || this.userAccessRol.rol == "Edición")) {
 							this.isAdmin = true;
 						}
-						else if(this.userAccessRol.rol && this.userAccessRol.rol == "Super Administrador"){
+						else if (this.userAccessRol.rol && this.userAccessRol.rol == "Super Administrador") {
 							this.isAdmin = true;
 						}
-						else{
+						else {
 							this.isAdmin = false;
 						}
 
@@ -233,6 +236,14 @@ export class ChlorinDetailsComponent implements OnInit {
 		this.imageFile = files[0];
 		this.uploadImage();
 	}
+	private showGallery=false;
+	showGalleryModal(){
+		this.showGallery=true;
+	}
+	selectedImageChanged(event){
+		alert("La imagen principal ha sido actualizada correctamente");
+		this.showGallery=false;
+	}
 
 	uploadImage() {
 		//Upload the imageFile
@@ -251,8 +262,8 @@ export class ChlorinDetailsComponent implements OnInit {
 				() => {
 					downloadURL = uploadTask.snapshot.downloadURL;
 
-					const newImage : FirebaseImg = {fileName: newFilename, url: downloadURL, description: '' };
-						
+					const newImage: FirebaseImg = { fileName: newFilename, url: downloadURL, description: '' };
+
 					if (this.infraDB.img) {
 						this.infraDB.img.push(newImage);
 					} else {
@@ -263,39 +274,39 @@ export class ChlorinDetailsComponent implements OnInit {
 				}
 			);
 
-		}else
+		} else
 			this.popErrorToast("Solo se permite un maximo de 3 imagenes");
 
 	}
 
-	deleteAllImages(){
-		while (this.infraDB.img){
+	deleteAllImages() {
+		while (this.infraDB.img) {
 			this.markForDelete(this.infraDB.img[0]);
 			this.deleteImage();
 		}
-		 
+
 	}
 
-	markForDelete(pImage: FirebaseImg){
+	markForDelete(pImage: FirebaseImg) {
 		this.imgMarkedDel = pImage;
 	}
 
 
 
-	deleteImage(){
-		if(this.imgMarkedDel && this.infraDB.img){
+	deleteImage() {
+		if (this.imgMarkedDel && this.infraDB.img) {
 			var index = 0;
 			for (let image of this.infraDB.img) {
-				if(image == this.imgMarkedDel){
-					
+				if (image == this.imgMarkedDel) {
+
 					const fileName = this.imgMarkedDel.fileName;
 					//Delete on the list
-					this.infraDB.img.splice(index,1);
+					this.infraDB.img.splice(index, 1);
 					this.updateInfrastructure(this.infrastructureId, this.infraDB);
 
 					//Delete on DB
 					this.storageRef.child('infrastructure/' + fileName).delete();
-					
+
 					this.popSuccessToast('Imagen eliminada correctamente');
 					this.imgMarkedDel = null;
 
@@ -307,20 +318,20 @@ export class ChlorinDetailsComponent implements OnInit {
 	}
 
 
-	cancelDeleteImg(){
+	cancelDeleteImg() {
 		this.imgMarkedDel = null;
 	}
 
-	markForEdition(pImage: FirebaseImg){
+	markForEdition(pImage: FirebaseImg) {
 		this.imgMarkedEdit = pImage;
 	}
 
-	saveDescription(pDescription: string){
-		if(this.imgMarkedEdit && this.infraDB.img){
+	saveDescription(pDescription: string) {
+		if (this.imgMarkedEdit && this.infraDB.img) {
 			var index = 0;
 			for (let image of this.infraDB.img) {
-				if(image.fileName == this.imgMarkedEdit.fileName){
-					
+				if (image.fileName == this.imgMarkedEdit.fileName) {
+
 					image.description = pDescription;
 					this.updateInfrastructure(this.infrastructureId, this.infraDB);
 					this.popSuccessToast('Descripción agregada');
@@ -333,7 +344,7 @@ export class ChlorinDetailsComponent implements OnInit {
 
 	}
 
-	cancelEditImg(){
+	cancelEditImg() {
 		this.imgMarkedEdit = null;
 	}
 
@@ -363,18 +374,18 @@ export class ChlorinDetailsComponent implements OnInit {
 		this.toasterService.pop(toast);
 	}
 
-	changeToEdit(){
+	changeToEdit() {
 		this.readOnlyMode = false;
 	}
 
-	reload(){
+	reload() {
 		this.router.navigate(['/' + this.infraDB.type + 'Details', this.infrastructureId]);
 		this.ngOnInit();
 	}
 
-	openEvaluation(){
-	  this.router.navigate(['/evalSERSA', this.infraDB.type, this.infrastructureId]);
-  	}
+	openEvaluation() {
+		this.router.navigate(['/evalSERSA', this.infraDB.type, this.infrastructureId]);
+	}
 
 
 	buildForm(): void {
@@ -426,11 +437,11 @@ export class ChlorinDetailsComponent implements OnInit {
 		this.detailChlorinForm.patchValue({ 'longitude': this.infraDB.long });
 		this.detailChlorinForm.patchValue({
 			'instalationDate':
-			this.infraDB.details.installationDate.day + "/" + this.infraDB.details.installationDate.month + "/" + this.infraDB.details.installationDate.year
+				this.infraDB.details.installationDate.day + "/" + this.infraDB.details.installationDate.month + "/" + this.infraDB.details.installationDate.year
 		});
 		this.detailChlorinForm.patchValue({
 			'AqueductCreationDate':
-			this.infraDB.details.AqueductCreationDate.day + "/" + this.infraDB.details.AqueductCreationDate.month + "/" + this.infraDB.details.AqueductCreationDate.year
+				this.infraDB.details.AqueductCreationDate.day + "/" + this.infraDB.details.AqueductCreationDate.month + "/" + this.infraDB.details.AqueductCreationDate.year
 		});
 		this.detailChlorinForm.patchValue({ 'asadaName': this.infraDB.asada.name });
 		this.detailChlorinForm.patchValue({ 'risk': this.infraDB.risk });
@@ -443,30 +454,29 @@ export class ChlorinDetailsComponent implements OnInit {
 	getInfrastuctures(pId): void {
 		this.angularFireService.getInfrastructure(pId)
 			.subscribe(
-			results => {
+				results => {
 
-				this.infraDB = results;
+					this.infraDB = results;
+					if (this.infraDB && this.infraDB.details) {
 
-				if(this.infraDB && this.infraDB.details){
+						this.SistemInstallDate = new Date(this.infraDB.details.installationDate.year, this.infraDB.details.installationDate.month - 1, this.infraDB.details.installationDate.day, 0, 0, 0, 0);
+						this.AqueductCreationDate = new Date(this.infraDB.details.AqueductCreationDate.year, this.infraDB.details.AqueductCreationDate.month - 1, this.infraDB.details.AqueductCreationDate.day, 0, 0, 0, 0);
 
-					this.SistemInstallDate = new Date(this.infraDB.details.installationDate.year, this.infraDB.details.installationDate.month - 1, this.infraDB.details.installationDate.day, 0, 0, 0, 0);
-					this.AqueductCreationDate = new Date(this.infraDB.details.AqueductCreationDate.year, this.infraDB.details.AqueductCreationDate.month - 1, this.infraDB.details.AqueductCreationDate.day, 0, 0, 0, 0);
+						this.asadaSelected = { name: this.infraDB.asada.name, id: this.infraDB.asada.id };
 
-					this.asadaSelected = { name: this.infraDB.asada.name, id: this.infraDB.asada.id };
+						this.imageURL = this.infraDB.img;
 
-					this.imageURL = this.infraDB.img;
+						this.getAsada();
 
-					this.getAsada();
+						this.buildFormChlorin();
 
-					this.buildFormChlorin();
+						if (this.infraDB.img) {
+							this.createImgList();
+						}
 
-					if (this.infraDB.img) {
-						this.createImgList();
 					}
 
 				}
-
-			}
 			);
 	}
 
@@ -478,46 +488,26 @@ export class ChlorinDetailsComponent implements OnInit {
 		);
 	}
 
-	updateInfrastructure(pId, pInfra): void {
-		var newInfra = {
+	updateInfrastructure(pId, pInfra: Chlorination): void {
+		var updatedInfra: Chlorination = {
 			tags: pInfra.tags,
 			name: pInfra.name,
-  			risk: pInfra.risk,
-    		img: ((pInfra.img == undefined) ? [] : pInfra.img),
-    		type: pInfra.type,
-    		asada:{
-        		name: pInfra.asada.name,
-        		id: pInfra.asada.id
-    		},
-    		lat: pInfra.lat,
-    		long: pInfra.long,
-  			details:{
-    			inCharge: pInfra.details.inCharge,
-    			aqueductName: pInfra.details.aqueductName,
-    			aqueductInCharge: pInfra.details.aqueductInCharge,
-    			ubication: pInfra.details.ubication,
-    			chlorinType: pInfra.details.chlorinType,
-    			dosageType: pInfra.details.dosageType,
-    			installationDate: {
-        			day: pInfra.details.installationDate.day,
-        			month: pInfra.details.installationDate.month,
-        			year: pInfra.details.installationDate.year
-    			},
-    			AqueductCreationDate: {
-        			day: pInfra.details.AqueductCreationDate.day,
-        			month: pInfra.details.AqueductCreationDate.month,
-        			year: pInfra.details.AqueductCreationDate.year
-    			}
-  			},
-  			location: pInfra.location,
-  			dateInstalled: pInfra.dateInstalled,
-  			riskNames: pInfra.riskNames,
-  			riskValues: pInfra.riskValues,
-  			siNumber: pInfra.siNumber,
-  			riskLevel: pInfra.riskLevel,
-  			dateCreated: pInfra.dateCreated
-		};
-		this.angularFireService.updateInfrastructure(pId, newInfra);
+			risk: pInfra.risk,
+			mainImg: pInfra.mainImg?pInfra.mainImg:{url:"",description:"",fileName:""},
+			img: pInfra.img ? pInfra.img : [],
+			type: pInfra.type,
+			asada: pInfra.asada,
+			lat: pInfra.lat,
+			long: pInfra.long,
+			details: pInfra.details,
+			location: pInfra.location,
+			dateInstalled: pInfra.dateInstalled,
+			riskNames: pInfra.riskNames ? pInfra.riskNames : [],
+			riskValues: pInfra.riskValues ? pInfra.riskValues : [],
+			siNumber: pInfra.siNumber,
+			riskLevel: pInfra.riskLevel,
+			dateCreated: pInfra.dateCreated
+		}
 	}
 
 	delete() {
@@ -526,16 +516,17 @@ export class ChlorinDetailsComponent implements OnInit {
 		this.router.navigate(["/asadaDetails", this.infraDB.asada.id]);
 	}
 
-		/* 		IMAGE GALLERY METHODS 		*/
+	/* 		IMAGE GALLERY METHODS 		*/
 
 
 	private imagesArray: Array<Image> = [];
 	public imagesObservable: Observable<Array<Image>>;
 
 	createImgList(): void {
+		var img: ImageModalEvent;
+
 
 		this.imagesArray = [];
-
 		for (let image of this.infraDB.img) {
 			this.imagesArray.push(new Image(
 				image.url,

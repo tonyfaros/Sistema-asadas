@@ -101,7 +101,6 @@ export class TomaDatosComponent implements OnInit {
         .subscribe(
             results => {
                 this.infraestructureList = results;
-                
                 this.calculateInfraestructure();
             }
         );

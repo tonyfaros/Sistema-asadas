@@ -168,6 +168,8 @@ export class DetailsSuperficialWaterComponent implements OnInit {
 			results => {
 
 				this.infraDB = results;
+				console.log("INIT-------------------------------");
+				console.log(this.infraDB);
 				if (this.infraDB && this.infraDB.details) {
 					this.buildFormSuperficialW();
 
@@ -180,11 +182,13 @@ export class DetailsSuperficialWaterComponent implements OnInit {
 	}
 
 
-	updateInfrastructure(pId, pInfra): void {
-		var newInfra = {
+	updateInfrastructure(pId, pInfra:SuperficialWater): void {
+		var newInfra:SuperficialWater = {
 			tags: pInfra.tags,
 			name: pInfra.name,
-    		risk: pInfra.risk,
+			risk: pInfra.risk,
+			// mainImg:pInfra.mainImg,
+			mainImg:{url:"",description:"",fileName:""},
     		img: ((pInfra.img == undefined) ? [] : pInfra.img),
     		type: pInfra.type,
     		asada:{
@@ -260,7 +264,7 @@ export class DetailsSuperficialWaterComponent implements OnInit {
 				() => {
 					downloadURL = uploadTask.snapshot.downloadURL;
 
-					const newImage: FirebaseImg = { fileName: newFilename, url: downloadURL, description: '' };
+					const newImage : FirebaseImg = {fileName: newFilename, url: downloadURL, description: '' };
 
 					if (this.infraDB.img) {
 						this.infraDB.img.push(newImage);
@@ -331,7 +335,6 @@ export class DetailsSuperficialWaterComponent implements OnInit {
 					this.updateInfrastructure(this.infrastructureId, this.infraDB);
 					this.popSuccessToast('Descripción agregada');
 					this.imgMarkedEdit = null;
-
 				}
 
 			}

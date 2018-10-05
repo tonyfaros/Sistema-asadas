@@ -1,13 +1,126 @@
-
 app-filter{
     width: 100%;
     left: 0px;
     right: 0px;
     float: left;
   }
+
+.riskBorder-MuyAlto{
+    border-left: thin solid ;
+    border-left-width: 3px;
+    border-left-color: #e54133;
+    background: linear-gradient(to left, white,white 99.2%, #e54133 100%);
+}
+
+.riskBorder-Alto{
+    border-left: thin solid ;
+    border-left-width: 3px;
+    border-left-color: #ec9620;
+    background: linear-gradient(to left, white,white 99.2%, #ec9620 100%);
+
+    // background-image: linear-gradient(to right, #ec9620 , white);
+}
+.riskBorder-Intermedio{
+    border-left: thin solid ;
+    border-left-width: 3px;
+    border-left-color: #f9eb39;
+    background: linear-gradient(to left, white,white 99.2%, #f9eb39 100%);
+
+    // background-image: linear-gradient(to right, #f9eb39 , white);
+}
+.riskBorder-Bajo{
+    border-left: thin solid ;
+    border-left-width: 3px;
+    border-left-color: #53af50;
+    background: linear-gradient(to left, white,white 99.2%, #53af50 100%);
+
+    // background-image: linear-gradient(to right, #53af50 , white);
+}
+.riskBorder-Nulo{
+    border-left: thin solid ;
+    border-left-width: 3px;
+    border-left-color: #0156c4;
+    background: linear-gradient(to left, white,white 99.2%, #0156c4 100%);
+
+}
+
+.riskBorder-noInfo{
+    border-left: thin solid ;
+    border-left-width: 3px;
+    border-left-color: rgb(25, 27, 26);
+}
+// .riskBorder{
+//     width: 2px;
+// }
+// .riskBorder a{
+//     display: :none;
+// }
+
+// .riskBorder:hover{
+//     width: 20px;
+//     font-size: 10px;
+// }
+// .riskBorder a:hover{
+//     display: :none;
+// }
+
+
+
 .table-panel{
     padding: 5px 15px!important;
+    color:black;
 }
+
+.fixed-header tbody {
+    display: block;
+    max-height: 400px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+  
+  .fixed-header thead,
+  .fixed-header tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+  }
+  .fixed-header tr{
+      min-width: 130!important;
+  }
+
+
+
+
+// .fixed-header{
+//     width: 100%;
+//     table-layout: fixed;
+//     border-collapse: collapse;
+// }
+
+// .fixed-header tbody{
+//     display:block;
+//     width: 100%;
+//     overflow-y: auto;
+//     height: 400px;
+//   }
+
+//   .fixed-header thead{
+//     display:block;
+//     width: 100%;
+//     overflow:unset;
+//   }
+
+// .fixed-header thead tr {
+//    display: block;
+// }
+ 
+
+// .fixed-header th, .fixed-header td {
+//   padding: 5px;
+//   text-align: left;
+//   width: 200px;
+// }
+
 .no-y-padding{
     padding-top: 0px;
     padding-bottom: 0px;
@@ -16,7 +129,9 @@ app-filter{
     padding-right: 0px;
     padding-left: 0px;
 }
-
+.filter-container{
+    min-height: 60px!important;
+}
 .results-count-bar{
     margin: 5px 0px!important;
 }

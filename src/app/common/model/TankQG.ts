@@ -1,6 +1,7 @@
 import {FirebaseImg} from './FirebaseImg';
+import { Infrastructure } from './Infrastructure';
 
-export class TankQG{
+export class TankQG implements Infrastructure{
 
     creationDate: string;
     tags: string;
@@ -14,6 +15,10 @@ export class TankQG{
     siNumber: number;
     riskLevel: string;
     sector: string;
+    type: string;
+    risk: number;
+
+    mainImg: FirebaseImg;
     img: FirebaseImg [];
 
     asada:{

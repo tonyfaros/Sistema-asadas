@@ -19,8 +19,8 @@
             <div class="row">
               <div class="col-sm-6">
                 <div class="form-group">
-                  <input type="text" class="form-control " [readonly]="readOnlyMode == true" id="aqueductName" formControlName="aqueductName"
-                    required>
+                  <input type="text" class="form-control " [readonly]="readOnlyMode == true" id="aqueductName"
+                    formControlName="aqueductName" required>
                   <label for="aqueductName">Nombre Acueducto</label>
                 </div>
 
@@ -33,7 +33,8 @@
 
               <div class="col-sm-6">
                 <div class="form-group">
-                  <input type="text" class="form-control " [readonly]="readOnlyMode == true" id="registerNo" formControlName="registerNo" required>
+                  <input type="text" class="form-control " [readonly]="readOnlyMode == true" id="registerNo"
+                    formControlName="registerNo" required>
                   <label for="registerNo">NO. Registro</label>
                 </div>
 
@@ -50,7 +51,8 @@
             <div class="row">
               <div class="col-sm-6">
                 <div class="form-group">
-                  <input type="text" class="form-control " [readonly]="readOnlyMode == true" id="tankName" formControlName="tankName" required>
+                  <input type="text" class="form-control " [readonly]="readOnlyMode == true" id="tankName"
+                    formControlName="tankName" required>
                   <label for="tankName">Nombre del Tanque</label>
                 </div>
 
@@ -63,7 +65,8 @@
 
               <div class="col-sm-6">
                 <div class="form-group">
-                  <input type="text" class="form-control " [readonly]="readOnlyMode == true" id="direction" formControlName="direction" required>
+                  <input type="text" class="form-control " [readonly]="readOnlyMode == true" id="direction"
+                    formControlName="direction" required>
                   <label for="direction">Dirreción</label>
                 </div>
 
@@ -80,7 +83,8 @@
             <div class="row">
               <div class="col-sm-3">
                 <div class="form-group">
-                  <input type="number" step="any" class="form-control" [readonly]="readOnlyMode == true" id="volume" formControlName="volumeAmount" requerired>
+                  <input type="number" step="any" class="form-control" [readonly]="readOnlyMode == true" id="volume"
+                    formControlName="volumeAmount" requerired>
                   <label for="volume">Volumen del tanque</label>
                 </div>
 
@@ -93,7 +97,8 @@
               <div class="col-sm-3">
                 <div class="form-group" *ngIf="readOnlyMode == false">
                   <select id="selectVolume" name="selectVolume" class="form-control" formControlName="volumeUnit">
-                    <option *ngFor="let unit of measureUnit" [value]=unit.value name="volumenSelectOption" ngDefaultControl>{{unit.display}}</option>
+                    <option *ngFor="let unit of measureUnit" [value]=unit.value name="volumenSelectOption"
+                      ngDefaultControl>{{unit.display}}</option>
                   </select>
                 </div>
 
@@ -131,7 +136,8 @@
 
               <div class="col-sm-6">
                 <div class="form-group">
-                  <input type="text" class="form-control " [readonly]="readOnlyMode == true" id="inCharge" formControlName="inCharge" required>
+                  <input type="text" class="form-control " [readonly]="readOnlyMode == true" id="inCharge"
+                    formControlName="inCharge" required>
                   <label for="inCharge">Funcionario</label>
                 </div>
 
@@ -144,116 +150,123 @@
             </div>
 
 
-              <div class="row" *ngIf="isAdmin">
-                <div class="col-sm-6">
-                  <div class="form-group">
-                    <input type="text" class="form-control " readonly id="risk" formControlName="risk">
-                    <label for="risk">Riesgo</label>
-                  </div>
+            <div class="row" *ngIf="isAdmin">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <input type="text" class="form-control " readonly id="risk" formControlName="risk">
+                  <label for="risk">Riesgo</label>
                 </div>
-
               </div>
+
+            </div>
             <!-- END TEXT PLACE -->
 
             <br>
 
             <!-- BEGIN RADIO BUTTONS -->
             <div class="row">
-              <div class="form-group" *ngIf="readOnlyMode == false">
-                <label class="col-sm-6 control-label">Tipo de tanque</label>
+              <div class="col-sm-12 col-md-7">
+
+                <div class="form-group" *ngIf="readOnlyMode == false">
+                  <label class="col-sm-6 control-label">Tipo de tanque</label>
+                  <div class="col-sm-12">
+                    <label *ngFor="let type of tankType" class="radio-inline radio-styled">
+                      <input type="radio" value={{type.value}} formControlName="type"><span>{{type.display}}</span>
+                    </label>
+
+                  </div>
+                  <!--end .col -->
+                </div>
                 <div class="col-sm-6">
-                  <label *ngFor="let type of tankType" class="radio-inline radio-styled">
-                <input type="radio" value={{type.value}} formControlName="type" ><span>{{type.display}}</span>
-              </label>
-
+                  <div class="form-group" *ngIf="readOnlyMode == true">
+                    <input type="text" class="form-control " readonly formControlName="type">
+                    <label for="volume">Tipo de tanque</label>
+                  </div>
                 </div>
-                <!--end .col -->
-              </div>
-              <div class="col-sm-6">
+
+                <br>
+
+                <div class="form-group" *ngIf="readOnlyMode == false">
+                  <label class="col-sm-6 control-label">Material de tanque</label>
+                  <div class="col-sm-12">
+                    <label *ngFor="let material of tankMaterial" class="radio-inline radio-styled">
+                      <input type="radio" value={{material.value}} formControlName="material"><span>{{material.display}}</span>
+                    </label>
+
+                  </div>
+                  <!--end .col -->
+                </div>
+
                 <div class="form-group" *ngIf="readOnlyMode == true">
-                  <input type="text" class="form-control " readonly formControlName="type">
-                  <label for="volume">Tipo de tanque</label>
+                  <input type="text" class="form-control " readonly formControlName="material">
+                  <label for="volume">Material de tanque</label>
                 </div>
+
+                <br>
+                <div class="form-group" *ngIf="readOnlyMode == false">
+                  <label class="col-sm-6 control-label">Frecuencia de limpieza</label>
+                  <div class="col-sm-12">
+                    <label *ngFor="let clean of cleaningFrec" class="radio-inline radio-styled">
+                      <input type="radio" value={{clean.value}} formControlName="cleaning"><span>{{clean.display}}</span>
+                    </label>
+                  </div>
+                  <!--end .col -->
+                </div>
+
+                <div class="form-group" *ngIf="readOnlyMode == true">
+                  <input type="text" class="form-control " readonly formControlName="cleaning">
+                  <label for="volume">Frecuencia de limpieza</label>
+                </div>
+                <br>
+                <br>
               </div>
-            </div>
+              <!-- END RADIO BUTTONS -->
 
-            <br>
-
-            <div class="form-group" *ngIf="readOnlyMode == false">
-              <label class="col-sm-6 control-label">Material de tanque</label>
-              <div class="col-sm-6">
-                <label *ngFor="let material of tankMaterial" class="radio-inline radio-styled">
-              <input type="radio"  value={{material.value}}  formControlName="material" ><span>{{material.display}}</span>
-            </label>
-
-              </div>
-              <!--end .col -->
-            </div>
-
-            <div class="form-group" *ngIf="readOnlyMode == true">
-              <input type="text" class="form-control " readonly formControlName="material">
-              <label for="volume">Material de tanque</label>
-            </div>
-
-            <br>
-
-
-            <div class="form-group" *ngIf="readOnlyMode == false">
-              <label class="col-sm-6 control-label">Frecuencia de limpieza</label>
-              <div class="col-sm-12">
-                <label *ngFor="let clean of cleaningFrec" class="radio-inline radio-styled">
-              <input type="radio"  value={{clean.value}} formControlName="cleaning"><span>{{clean.display}}</span>
-            </label>
-              </div>
-              <!--end .col -->
-            </div>
-
-            <div class="form-group" *ngIf="readOnlyMode == true">
-              <input type="text" class="form-control " readonly formControlName="cleaning">
-              <label for="volume">Frecuencia de limpieza</label>
-            </div>
-
-            <br>
-
-            <!-- END RADIO BUTTONS -->
-
-            <!-- BEGIN LOCATION -->
-            <div class="row">
-              <div class="col-sm-6">
+              <!-- BEGIN LOCATION -->
+              <div class="col-sm-12 col-md-5">
 
                 <div class="card">
                   <div class="card-head style-warning">
                     <header> Ubicación geográfica</header>
                   </div>
                   <div class="card-body">
-                    <div class="form-group">
-                      <input type="number" step="any" class="form-control dirty" [readonly]="readOnlyMode == true" formControlName="latitude" required>
-                      <label>Latitud</label>
-                    </div>
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <input type="number" step="any" class="form-control dirty" [readonly]="readOnlyMode == true"
+                            formControlName="latitude" required>
+                          <label>Latitud</label>
+                        </div>
 
-                    <!-- Error message -->
-                    <div *ngIf="formErrors.latitude" class="alert alert-danger">
-                      {{ formErrors.latitude }}
-                    </div>
+                        <!-- Error message -->
+                        <div *ngIf="formErrors.latitude" class="alert alert-danger">
+                          {{ formErrors.latitude }}
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
 
-                    <div class="form-group">
-                      <input type="number"  step="any" class="form-control dirty" [readonly]="readOnlyMode == true" formControlName="longitude" required>
-                      <label>Longitud</label>
-                    </div>
+                        <div class="form-group">
+                          <input type="number" step="any" class="form-control dirty" [readonly]="readOnlyMode == true"
+                            formControlName="longitude" required>
+                          <label>Longitud</label>
+                        </div>
 
-                    <!-- Error message -->
-                    <div *ngIf="formErrors.longitude" class="alert alert-danger">
-                      {{ formErrors.longitude }}
-                    </div>
+                        <!-- Error message -->
+                        <div *ngIf="formErrors.longitude" class="alert alert-danger">
+                          {{ formErrors.longitude }}
+                        </div>
+                      </div>
 
-                    <div *ngIf="readOnlyMode == false">
-                      <button type="button" *ngIf="readOnlyMode == false" (click)="getGeoLocation()" class="btn btn-raised btn-default ink-reaction"><i class="md md-my-location"></i>Ubicación actual</button>
+                      <div *ngIf="readOnlyMode == false">
+                        <button type="button" *ngIf="readOnlyMode == false" (click)="getGeoLocation()" class="btn btn-raised btn-default ink-reaction"><i
+                            class="md md-my-location"></i>Ubicación actual</button>
+                      </div>
                     </div>
+                    <!--end .card-body -->
                   </div>
-                  <!--end .card-body -->
-                </div>
-                <!--end .card -->
+                  <!--end .card -->
 
+                </div>
               </div>
             </div>
             <!-- END LOCATION -->
@@ -268,7 +281,8 @@
 
                 <div *ngIf="this.infraDB && this.infraDB.img">
                   <!--img *ngFor="let image of this.infraDB.img" class="pull-left width-3" [src]="image" alt="" /-->
-                  <modal-gallery [modalImages]="imagesObservable" [showDownloadButton]="true" [downloadable]="true" [showExtUrlButton]="true"></modal-gallery>
+                  <modal-gallery [modalImages]="imagesObservable" [showDownloadButton]="true" [downloadable]="true"
+                    [showExtUrlButton]="true"></modal-gallery>
                 </div>
 
                 <div *ngIf="this.infraDB && !this.infraDB.img">
@@ -278,16 +292,20 @@
                 <div style="float: right" *ngIf="readOnlyMode == false">
                   <div class="fileUpload btn btn-success">
                     <span> <span class="glyphicon glyphicon-plus"></span> Agregar una imagen</span>
-                    <input type="file" class="upload" accept="image/*" (change)="uploadFile($event)" />
+                    <input type="file" class="upload" accept="image/*" (change)="loadImage($event)" />
                   </div>
 
-                   <button type="button" class="btn btn-danger"  data-toggle="modal" data-target="#EliminateImage">
-                     <span class="glyphicon glyphicon-minus"></span> Eliminar imagen
-                    </button>
-                    
-                    <button type="button" class="btn btn-warning"  data-toggle="modal" data-target="#EditImage">
-                     <span class="glyphicon glyphicon-pencil"></span> Editar descripción
-                    </button>
+                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#EliminateImage">
+                    <span class="glyphicon glyphicon-minus"></span> Eliminar imagen
+                  </button>
+
+                  <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#EditImage">
+                    <span class="glyphicon glyphicon-pencil"></span> Editar descripción
+                  </button>
+
+                  <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#selectMainImage">
+                    <span class="glyphicon glyphicon-pencil"></span> Imagen Principal
+                  </button>
                 </div>
               </div>
               <!--end .card-body -->
@@ -295,8 +313,8 @@
             <!--end .card -->
             <!-- END IMAGE UPLOAD -->
 
-            
-            <toaster-container  [toasterconfig]="toastConfig"></toaster-container>
+
+            <toaster-container [toasterconfig]="toastConfig"></toaster-container>
 
           </div>
           <!-- End card body -->
@@ -309,29 +327,32 @@
               <div *ngIf="readOnlyMode == false">
                 <button type="button" class="btn ink-reaction btn-raised btn-primary" data-toggle="modal" data-target="#SaveModal"
                   [disabled]="!detailTankForm.valid || !creationDate">
-                Guardar Cambios
-                <div class="ink" style="top: 20px; left: 51.75px;"></div></button>
+                  Guardar Cambios
+                  <div class="ink" style="top: 20px; left: 51.75px;"></div></button>
 
                 <button type="button" class="btn ink-reaction btn-raised btn-warning" (click)="reload()">
-                Volver
-                <div class="ink" style="top: 20px; left: 51.75px;"></div></button>
+                  Volver
+                  <div class="ink" style="top: 20px; left: 51.75px;"></div></button>
 
                 <button type="button" class="btn ink-reaction btn-raised btn-danger" data-toggle="modal" data-target="#EliminateModal">
-                Eliminar
-                <div class="ink" style="top: 20px; "></div></button>
+                  Eliminar
+                  <div class="ink" style="top: 20px; "></div></button>
               </div>
 
 
               <div *ngIf="readOnlyMode == true">
-                <button type="button" class="btn ink-reaction btn-raised btn-primary" *ngIf="readOnlyMode == true" (click)="changeToEdit()">
+                <button type="button" class="btn ink-reaction btn-raised btn-primary" *ngIf="readOnlyMode == true"
+                  (click)="changeToEdit()">
                   Editar
                   <div class="ink" style="top: 20px; left: 51.75px;"></div>
                 </button>
-                <button type="button" class="btn ink-reaction btn-raised btn-primary btn-loading-state" *ngIf="readOnlyMode == true" (click)="export()">
+                <button type="button" class="btn ink-reaction btn-raised btn-primary btn-loading-state" *ngIf="readOnlyMode == true"
+                  (click)="export()">
                   Exportar
                   <div class="ink" style="top: 20px; left: 51.75px;"></div>
                 </button>
-                <button type="button" class="btn ink-reaction btn-raised btn-warning" *ngIf="readOnlyMode == true" (click)="openEvaluation()">
+                <button type="button" class="btn ink-reaction btn-raised btn-warning" *ngIf="readOnlyMode == true"
+                  (click)="openEvaluation()">
                   Evaluar
                   <div class="ink" style="top: 20px; left: 51.75px;"></div>
                 </button>
@@ -405,7 +426,8 @@
             <h4 class="text-danger">Una vez es eliminada, no se podra recuperar</h4>
 
             <div class="row" *ngIf="this.infraDB && this.infraDB.img">
-                  <img *ngFor="let image of this.infraDB.img" class="pull-left width-3" [class.redBorder]="image==imgMarkedDel" [src]="image.url" alt="" (click)="markForDelete(image)">
+              <img *ngFor="let image of this.infraDB.img" class="pull-left width-3" [class.redBorder]="image==imgMarkedDel"
+                [src]="image.url" alt="" (click)="markForDelete(image)">
             </div>
 
           </div>
@@ -433,21 +455,22 @@
             <h3>Selecione la imagen que desea editar la descripción</h3>
 
             <div class="row" *ngIf="this.infraDB && this.infraDB.img">
-                  <img *ngFor="let image of this.infraDB.img" class="pull-left width-3" [class.redBorder]="image==imgMarkedEdit" [src]="image.url" alt="" (click)="markForEdition(image)">
+              <img *ngFor="let image of this.infraDB.img" class="pull-left width-3" [class.redBorder]="image==imgMarkedEdit"
+                [src]="image.url" alt="" (click)="markForEdition(image)">
             </div>
 
             <br>
 
             <div class="row" *ngIf="imgMarkedEdit">
-               <div class="col-sm-12">
-              <label class="control-label">descripción</label>
-              <div class="form-group">
+              <div class="col-sm-12">
+                <label class="control-label">descripción</label>
+                <div class="form-group">
                   <input #descrip type="text" class="form-control " id="imgDescription" [value]="imgMarkedEdit.description">
                   <label></label>
+                </div>
               </div>
-               </div>
               <button type="button" class="btn btn-success" (click)="saveDescription(descrip.value)">Guardar</button>
-          </div>
+            </div>
 
           </div>
 
@@ -458,6 +481,39 @@
 
       </div>
     </div>
+    
+    <div id="selectMainImage" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+  
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Selección Imagen</h4>
+            </div>
+  
+            <div class="modal-body">
+              <h3>Seleccione la imagen principal para la infraestructura</h3>
+  
+              <div class="row" *ngIf="this.infraDB && this.infraDB.img">
+                <img *ngFor="let image of this.infraDB.img" class="pull-left width-3" [class.selectedBorder]="image==imgMarkedEdit"
+                  [src]="image.url" alt="" (click)="markForEdition(image)">
+              </div>
+  
+              <br>
+  
+  
+            </div>
+  
+            <div class="modal-footer">
+                <div class="row" *ngIf="imgMarkedEdit">
+                  <button type="button" class="btn btn-success" (click)="chooseSelectedImage()">Guardar</button>
+                </div>
+              <button type="button" class="btn btn-default" data-dismiss="modal" (click)="cancelEditImg()">Cerrar</button>
+            </div>
+          </div>
+  
+        </div>
+      </div>
 
 
 

@@ -1,340 +1,361 @@
-
 <section>
 
   <div class="section-body contain-xl">
 
-<div class="col-lg-12">
-  <form class="form" (ngSubmit)="onSubmit()" [formGroup]="addAsadaForm">
-    <div class="card">
+    <div class="col-lg-12">
+      <form class="form" (ngSubmit)="onSubmit()" [formGroup]="addAsadaForm">
+        <div class="card">
 
-      <div class="card-head style-primary" >
-        <header> Agregar ASADA </header>
-      </div>
-
-      <!-- BEGIN TEXT PLACE -->
-      <div class="card-body">
-        <div class="row">
-          <div class="col-sm-6">
-            <div class="form-group">
-              <input type="text" class="form-control dirty"  id="asadaName" formControlName="asadaName"  required>
-              <label for="asadaName">Nombre de la ASADA</label>
-            </div>
-
-            <!-- Error message -->
-            <div *ngIf="formErrors.asadaName" class="alert alert-danger">
-                {{ formErrors.asadaName }}
-            </div>
-
-          </div> 
-
-
-          <div class="col-sm-6">
-            <div class="form-group">
-              <input type="text" class="form-control dirty"  id="inCharge" formControlName="inCharge"  required>
-              <label for="inCharge">Encargado</label>
-            </div>
-
-            <!-- Error message -->
-            <div *ngIf="formErrors.inCharge" class="alert alert-danger">
-                {{ formErrors.inCharge }}
-            </div>
-
-          </div> 
-
-        </div> <!-- End Row -->
-
-        <div class="row">
-          <div class="col-sm-6">
-            <div class="form-group">
-              <input type="text"  class="form-control dirty"  id="phoneNumber" formControlName="phoneNumber" required>
-              <label for="phoneNumber">Numero de teléfono</label>
-            </div>
-
-              <!-- Error message -->
-            <div *ngIf="formErrors.phoneNumber" class="alert alert-danger">
-                {{ formErrors.phoneNumber }}
-            </div>
-
+          <div class="card-head style-primary">
+            <header> Agregar ASADA </header>
           </div>
 
-          <div class="col-sm-6">
-            <div class="form-group">
-              <input type="text"  class="form-control dirty"  id="email" formControlName="email" required>
-              <label for="email">Correo electronico</label>
-            </div>
-
-              <!-- Error message -->
-            <div *ngIf="formErrors.email" class="alert alert-danger">
-                {{ formErrors.email }}
-            </div>
-
-          </div>
-
-      </div> <!-- End row -->
-
-        <div class="row">
-
-            <div class="col-sm-3">
-              <div class="form-group">
-
-              <select id="selectProvince" name="selectProvince" class="form-control" formControlName="province">
-                <option *ngFor="let pro of crProvince" [value]=pro name="asadaSelectOption" ngDefaultControl>{{pro}}</option>
-              </select>
-
-              <!--  <input type="text" class="form-control dirty"  id="province" formControlName="province" required> -->
-                <label for="province">Provincia</label>
-              </div>
+          <!-- BEGIN TEXT PLACE -->
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <input type="text" class="form-control dirty" id="asadaName" formControlName="asadaName" required>
+                  <label for="asadaName">Nombre de la ASADA</label>
+                </div>
 
                 <!-- Error message -->
-              <div *ngIf="formErrors.province" class="alert alert-danger">
-                  {{ formErrors.province }}
+                <div *ngIf="formErrors.asadaName" class="alert alert-danger">
+                  {{ formErrors.asadaName }}
+                </div>
+
               </div>
 
-          </div>
 
-          <div class="col-sm-3">
-            <div class="form-group">
-              <input type="text"  class="form-control dirty"  id="district" formControlName="district" required>
-              <label for="district">Canton</label>
-            </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <input type="text" class="form-control dirty" id="inCharge" formControlName="inCharge" required>
+                  <label for="inCharge">Encargado</label>
+                </div>
 
-              <!-- Error message -->
-            <div *ngIf="formErrors.district" class="alert alert-danger">
-                {{ formErrors.district }}
-            </div>
+                <!-- Error message -->
+                <div *ngIf="formErrors.inCharge" class="alert alert-danger">
+                  {{ formErrors.inCharge }}
+                </div>
 
-          </div>
-
-          <div class="col-sm-3">
-            <div class="form-group">
-              <input type="text"  class="form-control dirty"  id="subDistrict" formControlName="subDistrict" required>
-              <label for="subDistrict">Districto</label>
-            </div>
-
-              <!-- Error message -->
-            <div *ngIf="formErrors.subDistrict" class="alert alert-danger">
-                {{ formErrors.subDistrict }}
-            </div>
-
-          </div>
-
-        </div><!-- End row -->
-
-        <div class="row">
-
-          <div class="col-sm-6">
-            <div class="form-group">
-              <input type="text"  class="form-control dirty"  id="location" formControlName="location" required>
-              <label for="location">Localidad</label>
-            </div>
-
-              <!-- Error message -->
-            <div *ngIf="formErrors.location" class="alert alert-danger">
-                {{ formErrors.location }}
-            </div>
-
-          </div>
-
-
-          <div class="col-sm-6">
-            <div class="form-group">
-              <input type="number" step="any"  class="form-control dirty"  id="geoCode" formControlName="geoCode" required aria-invalid="true">
-              <label for="geoCode">Codigo geográfico </label>
-              <p class="help-block"> <a href="https://www.correos.go.cr/nosotros/codigopostal/cod_postal/codigo_postal_mobile.aspx" target="_blank"> Ayuda con los codigos </a></p>
-            </div>
-
-              <!-- Error message -->
-            <div *ngIf="formErrors.geoCode" class="alert alert-danger">             
-                {{ formErrors.geoCode }}
-            </div>
-
-          </div>
-
-        </div><!-- End row -->
-
-        <div class="row">
-
-          <div class="col-sm-6">
-            <div class="form-group">
-              <input type="number" step="any"   class="form-control dirty"  id="numberSubscribed" formControlName="numberSubscribed" required>
-              <label for="numberSubscribed">Cantidad de abonados</label>
-            </div>
-
-              <!-- Error message -->
-            <div *ngIf="formErrors.numberSubscribed" class="alert alert-danger">
-                {{ formErrors.numberSubscribed }}
-            </div>
-
-          </div>
-
-          <div class="col-sm-6">
-            <div class="form-group">
-              <input type="number" step="any"  class="form-control"  id="population" formControlName="population" required>
-              <label for="population">Población abastecida</label>
-            </div>
-
-              <!-- Error message -->
-            <div *ngIf="formErrors.population" class="alert alert-danger">
-                {{ formErrors.population }}
-            </div>
-
-          </div>
-
-        </div><!-- End row -->
-
-        <div class="row">
-
-          <div class="col-sm-3">
-            <div class="form-group">
-              <input type="text"  class="form-control dirty"  id="concessionNumber" formControlName="concessionNumber" required>
-              <label for="concessionNumber">Numero de concesión</label>
-            </div>
-
-              <!-- Error message -->
-            <div *ngIf="formErrors.concessionNumber" class="alert alert-danger">
-                {{ formErrors.concessionNumber }}
-            </div>
-
-          </div>
-
-          <div class="col-sm-3">
-            <div class="form-group">
-
-              <material-datepicker [(date)]="dueDate"  dateFormat="DD-MM-YYYY" placeholder="Seleccione una fecha"></material-datepicker>
-              <label for="concessionDue">Fecha de vencimiento de la concesión</label>
-            </div>
-          </div>
-
-          <div class="col-sm-3">
-            <div class="form-group">
-              <input type="text"  class="form-control dirty"  id="minaeRegister" formControlName="minaeRegister" required>
-              <label for="minaeRegister">Numero de registro del MINAE</label>
-            </div>
-
-              <!-- Error message -->
-            <div *ngIf="formErrors.minaeRegister" class="alert alert-danger">
-                {{ formErrors.minaeRegister }}
-            </div>
-
-          </div>
-
-
-        </div><!-- End row -->
-
-
-      <!-- END TEXT PLACE -->
-
-      <!-- BEGIN RADIO BUTTON -->
-
-        <div class="form-group">
-          <label class="col-sm-6 control-label">Tipo de zona</label>
-          <div class="col-lg-12">
-            <label *ngFor="let zone of zoneType" class="radio-inline radio-styled">
-              <input type="radio" value={{zone.value}} formControlName="zoneType" ><span>{{zone.display}}</span>
-            </label>
-   
-          </div><!--end .col -->
-        </div>
-
-   
-        <br>
-
-        <div class="form-group" >
-          <label class="col-sm-6 control-label">Ente adminstrador</label>
-          <div class="col-lg-12">
-            <label *ngFor="let entity of adminEntity" class="radio-inline radio-styled">
-              <input type="radio" value={{entity.value}} formControlName="adminEntity" ><span>{{entity.display}}</span>
-            </label>
-   
-          </div><!--end .col -->
-        </div>
-
-        <br>
-
-        <div class="form-group" >
-          <label class="col-sm-6 control-label">Programa de Control de Calidad del Agua</label>
-          <div class="col-lg-12">
-            <label *ngFor="let option of WaterControlProgram" class="radio-inline radio-styled">
-              <input type="radio" value={{option.value}} formControlName="waterProgram" ><span>{{option.display}}</span>
-            </label>
-   
-          </div><!--end .col -->
-        </div>
-
-        <br>
-
-      <!-- END RADIO BUTTON -->
-
-      <!-- BEGIN LOCATION   -->
-
-      <div class="row">
-          <div class="col-sm-6">
-
-            <div class="card">
-              <div class="card-head style-warning">
-                   <header> Ubicación de la oficina</header>
               </div>
-              <div class="card-body">
+
+            </div> <!-- End Row -->
+
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <input type="text" class="form-control dirty" id="phoneNumber" formControlName="phoneNumber" required>
+                  <label for="phoneNumber">Numero de teléfono</label>
+                </div>
+
+                <!-- Error message -->
+                <div *ngIf="formErrors.phoneNumber" class="alert alert-danger">
+                  {{ formErrors.phoneNumber }}
+                </div>
+
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <input type="text" class="form-control dirty" id="email" formControlName="email" required>
+                  <label for="email">Correo electronico</label>
+                </div>
+
+                <!-- Error message -->
+                <div *ngIf="formErrors.email" class="alert alert-danger">
+                  {{ formErrors.email }}
+                </div>
+
+              </div>
+
+            </div> <!-- End row -->
+
+            <div class="row">
+
+              <div class="col-sm-3">
                 <div class="form-group">
 
-                  <div class="row">
-                    <div class="col-sm-6">
-                      <div class="form-group">
-                        <input type="number" step="any"  class="form-control dirty" formControlName="officeLatitude" required>
-                        <label >Latitud de la oficina</label>
-                      </div>
-                      
-                      <!-- Error message -->
-                      <div *ngIf="formErrors.officeLatitude" class="alert alert-danger">
-                          {{ formErrors.officeLatitude }}
-                      </div>
-                    </div>
-                  </div>
+                  <select id="selectProvince" name="selectProvince" class="form-control" formControlName="province"
+                    [(ngModel)]="selectedProvince" (change)="provinceSelectorChange()">
+                    <option *ngFor="let prov of locations" [value]=prov.key name="asadaSelectOption" ngDefaultControl>{{prov.name}}</option>
+                  </select>
 
-                  <div class="row">
-                    <div class="col-sm-6">
-                      <div class="form-group">
-                        <input type="number" step="any"  class="form-control dirty" formControlName="officeLongitude" required>
-                        <label >Longitud de la oficina</label>
-                      </div>
-
-                      <!-- Error message -->
-                      <div *ngIf="formErrors.officeLongitude" class="alert alert-danger">
-                          {{ formErrors.officeLongitude }}
-                      </div>
-                    </div>
-                  </div>
-               
+                  <!--  <input type="text" class="form-control dirty"  id="province" formControlName="province" required> -->
+                  <label for="selectProvince">Provincia</label>
                 </div>
-                <button type="button" (click)="getGeoLocation()" class="btn btn-raised btn-default-light ink-reaction"><i class="md md-my-location"></i> Ubicación actual</button>
-              </div><!--end .card-body -->
-            </div><!--end .card -->
-          </div>
-      </div>
-      <!-- END LOCATION     -->
 
-        <div class="card-actionbar">
-          <div class="card-actionbar-row">
-            <button type="submit" class="btn ink-reaction btn-raised btn-primary btn-loading-state"   [disabled]="!addAsadaForm.valid || !dueDate"
-            data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading...">
-            Crear ASADA
-            <div class="ink" style="top: 20px; left: 51.75px;"></div></button>
-            <button type="button" class="btn ink-reaction btn-raised btn-warning" (click)="cancel()">Cancelar</button>
-          </div>
+                <!-- Error message -->
+                <div *ngIf="formErrors.province" class="alert alert-danger">
+                  {{ formErrors.province }}
+                </div>
+
+              </div>
+
+              <div class="col-sm-3">
+                <div class="form-group">
+
+                  <select id="selectCanton" name="selectCanton" class="form-control" formControlName="canton"
+                    [(ngModel)]="selectedCanton" (change)="cantonSelectorChange()">
+                    <option *ngFor="let cant of locations[selectedProvince-1].cantones" [value]=cant.key name="asadaSelectOption"
+                      ngDefaultControl>{{cant.name}}</option>
+                  </select>
+                  <label for="selectCanton">Cantón</label>
+                </div>
+
+                <!-- Error message -->
+                <div *ngIf="formErrors.canton" class="alert alert-danger">
+                  {{ formErrors.canton }}
+                </div>
+
+              </div>
+
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <select id="selectDistrict" name="selectDistrict" class="form-control" formControlName="district"
+                    [(ngModel)]="selectedDistrict">
+                    <option *ngFor="let dist of locations[selectedProvince-1].cantones[selectedCanton-1].distritos"
+                      [value]=dist.key name="asadaSelectOption" ngDefaultControl>{{dist.name}}</option>
+                  </select>
+                  <label for="selectDistrict">Distrito</label>
+                </div>
+
+                <!-- Error message -->
+                <div *ngIf="formErrors.district" class="alert alert-danger">
+                  {{ formErrors.district }}
+                </div>
+
+              </div>
+
+            </div><!-- End row -->
+
+            <div class="row">
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <input type="text" class="form-control dirty" id="address" formControlName="address" required>
+                  <label for="address">Localidad</label>
+                </div>
+
+                <!-- Error message -->
+                <div *ngIf="formErrors.address" class="alert alert-danger">
+                  {{ formErrors.address }}
+                </div>
+
+              </div>
+
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <input type="number" step="any" class="form-control dirty" id="geoCode" formControlName="geoCode"
+                    required aria-invalid="true">
+                  <label for="geoCode">Codigo geográfico </label>
+                  <p class="help-block"> <a href="https://www.correos.go.cr/nosotros/codigopostal/cod_postal/codigo_postal_mobile.aspx"
+                      target="_blank"> Ayuda con los codigos </a></p>
+                </div>
+
+                <!-- Error message -->
+                <div *ngIf="formErrors.geoCode" class="alert alert-danger">
+                  {{ formErrors.geoCode }}
+                </div>
+
+              </div>
+
+            </div><!-- End row -->
+
+            <div class="row">
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <input type="number" step="any" class="form-control dirty" id="numberSubscribed" formControlName="numberSubscribed"
+                    required>
+                  <label for="numberSubscribed">Cantidad de abonados</label>
+                </div>
+
+                <!-- Error message -->
+                <div *ngIf="formErrors.numberSubscribed" class="alert alert-danger">
+                  {{ formErrors.numberSubscribed }}
+                </div>
+
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <input type="number" step="any" class="form-control" id="population" formControlName="population"
+                    required>
+                  <label for="population">Población abastecida</label>
+                </div>
+
+                <!-- Error message -->
+                <div *ngIf="formErrors.population" class="alert alert-danger">
+                  {{ formErrors.population }}
+                </div>
+
+              </div>
+
+            </div><!-- End row -->
+
+            <div class="row">
+
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <input type="text" class="form-control dirty" id="concessionNumber" formControlName="concessionNumber"
+                    required>
+                  <label for="concessionNumber">Numero de concesión</label>
+                </div>
+
+                <!-- Error message -->
+                <div *ngIf="formErrors.concessionNumber" class="alert alert-danger">
+                  {{ formErrors.concessionNumber }}
+                </div>
+
+              </div>
+
+              <div class="col-sm-3">
+                <div class="form-group">
+
+                  <material-datepicker [(date)]="dueDate" dateFormat="DD-MM-YYYY" placeholder="Seleccione una fecha"></material-datepicker>
+                  <label for="concessionDue">Fecha de vencimiento de la concesión</label>
+                </div>
+              </div>
+
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <input type="text" class="form-control dirty" id="minaeRegister" formControlName="minaeRegister"
+                    required>
+                  <label for="minaeRegister">Numero de registro del MINAE</label>
+                </div>
+
+                <!-- Error message -->
+                <div *ngIf="formErrors.minaeRegister" class="alert alert-danger">
+                  {{ formErrors.minaeRegister }}
+                </div>
+
+              </div>
+
+
+            </div><!-- End row -->
+
+
+            <!-- END TEXT PLACE -->
+
+            <!-- BEGIN RADIO BUTTON -->
+
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="col-sm-6 control-label">Tipo de zona</label>
+                  <div class="col-lg-12">
+                    <label *ngFor="let zone of zoneType" class="radio-inline radio-styled">
+                      <input type="radio" value={{zone.value}} formControlName="zoneType"><span>{{zone.display}}</span>
+                    </label>
+
+                  </div>
+                  <!--end .col -->
+                </div>
+
+
+                <br>
+
+                <div class="form-group">
+                  <label class="col-sm-6 control-label">Ente adminstrador</label>
+                  <div class="col-lg-12">
+                    <label *ngFor="let entity of adminEntity" class="radio-inline radio-styled">
+                      <input type="radio" value={{entity.value}} formControlName="adminEntity"><span>{{entity.display}}</span>
+                    </label>
+
+                  </div>
+                  <!--end .col -->
+                </div>
+
+                <br>
+
+                <div class="form-group">
+                  <label class="col-sm-6 control-label">Programa de Control de Calidad del Agua</label>
+                  <div class="col-lg-12">
+                    <label *ngFor="let option of WaterControlProgram" class="radio-inline radio-styled">
+                      <input type="radio" value={{option.value}} formControlName="waterProgram"><span>{{option.display}}</span>
+                    </label>
+
+                  </div>
+                  <!--end .col -->
+                </div>
+
+                <br>
+
+                <!-- END RADIO BUTTON -->
+
+                <!-- BEGIN LOCATION   -->
+              </div>
+              <div class="col-sm-6">
+                <div class="card">
+                  <div class="card-head style-warning">
+                    <header> Ubicación de la oficina</header>
+                  </div>
+                  <div class="card-body">
+                    <div class="form-group">
+
+                      <div class="row">
+                        <div class="col-xs-12 col-sm-6">
+                          <div class="form-group">
+                            <input type="number" step="any" class="form-control dirty" formControlName="officeLatitude"
+                              required>
+                            <label>Latitud</label>
+                          </div>
+
+                          <!-- Error message -->
+                          <div *ngIf="formErrors.officeLatitude" class="alert alert-danger">
+                            {{ formErrors.officeLatitude }}
+                          </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                          <div class="form-group">
+                            <input type="number" step="any" class="form-control dirty" formControlName="officeLongitude"
+                              required>
+                            <label>Longitud</label>
+                          </div>
+
+                          <!-- Error message -->
+                          <div *ngIf="formErrors.officeLongitude" class="alert alert-danger">
+                            {{ formErrors.officeLongitude }}
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <button type="button" (click)="getGeoLocation()" class="btn btn-raised btn-default-light ink-reaction"><i
+                        class="md md-my-location"></i> Ubicación actual</button>
+                  </div>
+                  <!--end .card-body -->
+                </div>
+                <!--end .card -->
+              </div>
+            </div>
+            <!-- END LOCATION     -->
+
+            <div class="card-actionbar">
+              <div class="card-actionbar-row">
+                <button type="submit" class="btn ink-reaction btn-raised btn-primary btn-loading-state" [disabled]="!addAsadaForm.valid || !dueDate"
+                  data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading...">
+                  Crear ASADA
+                  <div class="ink" style="top: 20px; left: 51.75px;"></div></button>
+                <button type="button" class="btn ink-reaction btn-raised btn-warning" (click)="cancel()">Cancelar</button>
+              </div>
+            </div>
+
+
+            <toaster-container [toasterconfig]="toastConfig"></toaster-container>
+
+          </div> <!-- End card body -->
+
+
+
+
         </div>
+        <!--end .card -->
+      </form>
+    </div>
 
-        
-        <toaster-container  [toasterconfig]="toastConfig"></toaster-container>
-
-        </div> <!-- End card body -->
-        
-
-
-
-    </div><!--end .card -->
-  </form>
-  </div>
-
-  </div> <!-- End section-body --> 
+  </div> <!-- End section-body -->
 
 </section>

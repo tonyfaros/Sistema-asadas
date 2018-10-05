@@ -44,7 +44,7 @@ export class TankDetailsComponent implements OnInit, OnDestroy {
     /*    Html variables    */
     // radio button options
     public tankType: RadioOption[] = [{ display: 'Elevado', value: 'Elevado' }, { display: 'A nivel', value: 'Nivel' }, { display: 'Enterrado', value: 'Enterrado' }, { display: 'Semi-enterrado', value: 'Semi' }];
-    public tankMaterial: RadioOption[] = [{ display: 'Contreto', value: 'Contreto' }, { display: 'Metalico', value: 'Metalico' }, { display: 'Plastico', value: 'Plastico' }];
+    public tankMaterial: RadioOption[] = [{ display: 'Contreto', value: 'Contreto' }, { display: 'Metálico', value: 'Metalico' }, { display: 'Plástico', value: 'Plastico' }];
     public cleaningFrec: RadioOption[] = [{ display: 'Anual', value: 'Anual' }, { display: 'Semestral', value: 'Semestral' }, { display: 'Trimestral', value: 'Trimestral' }, { display: 'Mensual', value: 'Mensual' }, { display: 'Otra', value: 'Otra' }, { display: 'No se sabe/Nunca', value: 'NA' }];
     public measureUnit: RadioOption[] = [{ display: 'metros cubicos', value: 'metro3' }, { display: 'litros', value: 'litro' }];
 
@@ -60,7 +60,6 @@ export class TankDetailsComponent implements OnInit, OnDestroy {
     /*		DB variables 	  */
     public infraDB: Tank;
 
-    private imageFile;
     public imageURL;
     private storageRef;
     public imgMarkedDel: FirebaseImg;
@@ -138,7 +137,6 @@ export class TankDetailsComponent implements OnInit, OnDestroy {
                 this.isAdmin = false;
             }
         });
-
     }
 
     /*    DB methods    */
@@ -146,32 +144,65 @@ export class TankDetailsComponent implements OnInit, OnDestroy {
     getInfrastuctures(pId): void {
         this.angularFireService.getInfrastructure(pId)
             .subscribe(
-            results => {
+                results => {
 
-                this.infraDB = results;
+                    this.infraDB = results;
 
-                if (this.infraDB && this.infraDB.details) {
-                    this.creationDate = new Date(this.infraDB.details.creationDate.year, this.infraDB.details.creationDate.month
-                        - 1, this.infraDB.details.creationDate.day, 0, 0, 0, 0);
-                    this.buildForm();
-
-                    if (this.infraDB.img) {
-                        this.createImgList();
+                    if (this.infraDB && this.infraDB.details) {
+                        this.creationDate = new Date(this.infraDB.details.creationDate.year, this.infraDB.details.creationDate.month
+                            - 1, this.infraDB.details.creationDate.day, 0, 0, 0, 0);
+                        this.buildForm();
+                        this.updateDisplayedImages();
+                        this.mainImgDirectory = 'infrastructure/' + this.infraDB.$key + "/main/";
                     }
 
+
                 }
-
-
-            }
             );
     }
 
 
+    onSubmit() {
+
+        this.newTank = this.detailTankForm.value;
+        this.infraDB.details.creationDate.day = this.creationDate.getDate();
+        this.infraDB.details.creationDate.month = this.creationDate.getMonth() + 1;
+        this.infraDB.details.creationDate.year = this.creationDate.getFullYear();
+        this.infraDB.name = this.newTank.tankName;
+        this.infraDB.lat = this.newTank.latitude;
+        this.infraDB.long = this.newTank.longitude;
+        this.infraDB.details.aqueductName = this.newTank.aqueductName;
+        this.infraDB.details.registerNo = this.newTank.registerNo;
+        this.infraDB.details.inCharge = this.newTank.inCharge;
+        this.infraDB.details.volume.amount = ((this.newTank.volumeAmount == undefined) ? 0 : Number(this.newTank.volumeAmount));
+        this.infraDB.details.volume.unit = this.newTank.volumeUnit;
+        this.infraDB.details.tankType = this.newTank.type;
+        this.infraDB.details.material = this.newTank.material;
+        this.infraDB.details.cleaning = this.newTank.cleaning;
+        this.infraDB.details.direction = this.newTank.direction;
+
+        this.infraDB.tags = 'Tanque ' + this.newTank.tankName + ' ' +
+            this.newTank.aqueductName + ' ' +
+            this.infraDB.asada.name + ' ' +
+            this.infraDB.asada.id;
+        if (this.newMainImage) {
+
+        } 
+        this.updateInfrastructure(this.infrastructureId, this.infraDB);
+        //this.reload();
+        
+        console.log(this.infrastructureId+"  -  ");
+        console.log(this.infraDB); 
+    }
+
     updateInfrastructure(pId, pInfra): void {
+        
+        this.uploadMainImage();
         var newInfra = {
             tags: pInfra.tags,
             name: pInfra.name,
             risk: pInfra.risk,
+            mainImg:pInfra.mainImg,
             img: ((pInfra.img == undefined) ? [] : pInfra.img),
             type: pInfra.type,
             asada:{
@@ -205,7 +236,49 @@ export class TankDetailsComponent implements OnInit, OnDestroy {
             sector: pInfra.sector,
             dateCreated: pInfra.dateCreated
         };
-        this.angularFireService.updateInfrastructure(pId, newInfra);
+
+        console.log(newInfra);
+        //this.angularFireService.updateInfrastructure(pId, newInfra);
+    }
+
+    private newMainImage: File;
+    loadImage(event) {
+        try {
+            let eventObj: MSInputMethodContext = <MSInputMethodContext>event;
+            let target: HTMLInputElement = <HTMLInputElement>eventObj.target;
+            let files: FileList = target.files;
+            if (files[0]) {
+                this.newMainImage = files[0];
+                this.showLoadedImage();
+            }
+            else {
+                this.newMainImage = undefined;
+            }
+
+        } catch (ex) { console.log("ERROR EN LA CARGA:" + ex); }
+    }
+    showLoadedImage() {
+        alert("image loaded");
+        //newMainImage
+    }
+
+    public imagesObservable: Observable<Array<Image>>;
+
+    updateDisplayedImages(): void {
+
+        if (this.infraDB.img) {
+            var imagesArray: Array<Image> = [];
+            for (let image of this.infraDB.img) {
+                imagesArray.push(new Image(
+                    image.url,
+                    image.url, // thumb
+                    image.description, // description
+                    image.url //
+                )
+                );
+            }
+            this.imagesObservable = Observable.of(imagesArray);
+        }
     }
 
     delete() {
@@ -214,9 +287,6 @@ export class TankDetailsComponent implements OnInit, OnDestroy {
         this.router.navigate(['/asadaDetails', this.infraDB.asada.id]);
     }
 
-
-
-    /*    HTML methods    */
 
     goBack(): void {
         setTimeout(() => {
@@ -229,33 +299,6 @@ export class TankDetailsComponent implements OnInit, OnDestroy {
         this.exportService.exportInfrastructure(this.infraDB)
     }
 
-    onSubmit() {
-
-        this.newTank = this.detailTankForm.value;
-        this.infraDB.details.creationDate.day = this.creationDate.getDate();
-        this.infraDB.details.creationDate.month = this.creationDate.getMonth() + 1;
-        this.infraDB.details.creationDate.year = this.creationDate.getFullYear();
-        this.infraDB.name = this.newTank.tankName;
-        this.infraDB.lat = this.newTank.latitude;
-        this.infraDB.long = this.newTank.longitude;
-        this.infraDB.details.aqueductName = this.newTank.aqueductName;
-        this.infraDB.details.registerNo = this.newTank.registerNo;
-        this.infraDB.details.inCharge = this.newTank.inCharge;
-        this.infraDB.details.volume.amount = ((this.newTank.volumeAmount == undefined) ? 0 : Number(this.newTank.volumeAmount));
-        this.infraDB.details.volume.unit = this.newTank.volumeUnit;
-        this.infraDB.details.tankType = this.newTank.type;
-        this.infraDB.details.material = this.newTank.material;
-        this.infraDB.details.cleaning = this.newTank.cleaning;
-        this.infraDB.details.direction = this.newTank.direction;
-
-        this.infraDB.tags = 'Tanque ' + this.newTank.tankName + ' ' +
-            this.newTank.aqueductName + ' ' +
-            this.infraDB.asada.name + ' ' +
-            this.infraDB.asada.id;
-
-        this.updateInfrastructure(this.infrastructureId, this.infraDB);
-        this.goBack();
-    }
 
     reload() {
         this.router.navigate(['/' + this.infraDB.type + 'Details', this.infrastructureId]);
@@ -274,22 +317,36 @@ export class TankDetailsComponent implements OnInit, OnDestroy {
         );
     }
 
-    uploadFile(event) {
-        let eventObj: MSInputMethodContext = <MSInputMethodContext>event;
-        let target: HTMLInputElement = <HTMLInputElement>eventObj.target;
-        let files: FileList = target.files;
-        this.imageFile = files[0];
-        this.uploadImage();
+    // uploadFile(event) {
+    //     let eventObj: MSInputMethodContext = <MSInputMethodContext>event;
+    //     let target: HTMLInputElement = <HTMLInputElement>eventObj.target;
+    //     let files: FileList = target.files;
+    //     this.imageFile = files[0];
+    //     this.uploadImage();
+    // }
+
+    private mainImgDirectory;
+    cleanMainImageDirectory() {
+        if (this.mainImgDirectory) {
+            try {
+                var directory= this.storageRef.child(this.mainImgDirectory);
+                if(directory){
+                    directory.delete();
+                }
+                return true;
+            }
+            catch (ex) {
+                console.log("error------->" + ex);
+                return false;
+            }
+        }
     }
 
-    uploadImage() {
-        // Upload the imageFile
-
-        if ((this.infraDB.img && this.infraDB.img.length < 3) || !(this.infraDB.img)) {
-            // Upload message
+    uploadMainImage() {
+        if (this.mainImgDirectory && this.newMainImage && this.cleanMainImageDirectory()) {
             this.popInfoToast('Cargando imagen');
-            const newFilename = Date.now() + this.imageFile.name;
-            const uploadTask: firebase.storage.UploadTask = this.storageRef.child('infrastructure/' + newFilename).put(this.imageFile);
+            const newFilename = Date.now() + this.newMainImage.name;
+            const uploadTask: firebase.storage.UploadTask = this.storageRef.child(this.mainImgDirectory + newFilename).put(this.newMainImage);
             let downloadURL: string;
             uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
                 (snapshot) => {
@@ -298,15 +355,8 @@ export class TankDetailsComponent implements OnInit, OnDestroy {
                 () => {
                     downloadURL = uploadTask.snapshot.downloadURL;
 
-                    const newImage: FirebaseImg = { fileName: newFilename, url: downloadURL, description: '' };
-
-                    if (this.infraDB.img) {
-                        this.infraDB.img.push(newImage);
-                    } else {
-                        this.infraDB.img = [newImage];
-                    }
-
-                    this.updateInfrastructure(this.infrastructureId, this.infraDB);
+                    const newImage: FirebaseImg = { fileName: newFilename, url: downloadURL, thumbnailUrl: downloadURL, description: 'Imagen Principal' };
+                    this.infraDB.mainImg = newImage;
                 }
             );
 
@@ -314,7 +364,6 @@ export class TankDetailsComponent implements OnInit, OnDestroy {
         else {
             this.popErrorToast('Solo se permite un maximo de 3 imagenes');
         }
-
     }
 
     deleteAllImages() {
@@ -328,8 +377,6 @@ export class TankDetailsComponent implements OnInit, OnDestroy {
     markForDelete(pImage: FirebaseImg) {
         this.imgMarkedDel = pImage;
     }
-
-
 
     deleteImage() {
         if (this.imgMarkedDel && this.infraDB.img) {
@@ -370,15 +417,21 @@ export class TankDetailsComponent implements OnInit, OnDestroy {
                 if (image.fileName == this.imgMarkedEdit.fileName) {
 
                     image.description = pDescription;
-                    this.updateInfrastructure(this.infrastructureId, this.infraDB);
+                    //this.updateInfrastructure(this.infrastructureId, this.infraDB);
                     this.popSuccessToast('Descripción agregada');
                     this.imgMarkedEdit = null;
 
                 }
-
             }
         }
+    }
 
+    chooseSelectedImage() {
+        if (this.imgMarkedEdit) {
+            this.infraDB.mainImg = this.imgMarkedEdit;
+            this.imgMarkedEdit = null;
+            this.popSuccessToast('Imagen principal seleccionada');
+        }
     }
 
     cancelEditImg() {
@@ -438,8 +491,10 @@ export class TankDetailsComponent implements OnInit, OnDestroy {
         this.detailTankForm.patchValue({ 'cleaning': this.infraDB.details.cleaning });
         this.detailTankForm.patchValue({ 'latitude': this.infraDB.lat });
         this.detailTankForm.patchValue({ 'longitude': this.infraDB.long });
-        this.detailTankForm.patchValue({ 'creationDate': this.infraDB.details.creationDate.day + '/'
-            + this.infraDB.details.creationDate.month + '/' + this.infraDB.details.creationDate.year });
+        this.detailTankForm.patchValue({
+            'creationDate': this.infraDB.details.creationDate.day + '/'
+                + this.infraDB.details.creationDate.month + '/' + this.infraDB.details.creationDate.year
+        });
         this.detailTankForm.patchValue({ 'asadaName': this.infraDB.asada.name });
         this.detailTankForm.patchValue({ 'risk': this.infraDB.risk });
         this.detailTankForm.patchValue({ 'direction': this.infraDB.details.direction });
@@ -528,23 +583,5 @@ export class TankDetailsComponent implements OnInit, OnDestroy {
     /* 		IMAGE GALLERY METHODS 		*/
 
 
-    private imagesArray: Array<Image> = [];
-    public imagesObservable: Observable<Array<Image>>;
-
-    createImgList(): void {
-
-        this.imagesArray = [];
-
-        for (let image of this.infraDB.img) {
-            this.imagesArray.push(new Image(
-                image.url,
-                image.url, // thumb
-                image.description, // description
-                image.url //url
-            ));
-        }
-
-        this.imagesObservable = Observable.of(this.imagesArray);
-    }
 
 }

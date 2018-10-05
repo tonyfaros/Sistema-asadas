@@ -1,0 +1,132 @@
+<button (click)="prueba()">prueba</button>
+
+
+<img class="effect gallery-image" id="imagenPrueba" width="64px" />
+
+
+
+
+
+
+<div class="card style-default-dark col-xs-12 gallery-panel">
+  <div class="card-head">
+    <header *ngIf="!editMode">Evidencias de tomas de datos</header>
+    <header *ngIf="editMode">Seleccione la foto principal</header>
+    <button class="btn btn-icon-toggle pull-right full-mode-toggle top-right" *ngIf="!emptyGallery" (click)="openFullMode()"><i
+        class="md md-fullscreen"></i></button>
+    <!-- <button (click)="toggleEdit()">p1</button> -->
+
+  </div>
+  <div class="card-body style-default-bright gallery-content">
+    <div *ngIf='!infrastructure'>
+      <article class="margin-bottom-xxl">
+        <p class="lead">
+          No se ha seleccionado una infraestructura
+        </p>
+      </article>
+    </div>
+    <div *ngIf='infrastructure'>
+      <div class="card-head">
+        <ul class="nav nav-tabs" data-toggle="tabs">
+          <li [class.active]="tabIndex==0"><a (click)="changeTabIndex(0)">Subir</a></li>
+          <li [class.active]="tabIndex==1"><a (click)="changeTabIndex(1)">Seleccionar</a></li>
+        </ul>
+      </div>
+      <!--end .card-head -->
+      <div class="card-body tab-content">
+        <div class="tab-pane" [class.active]="tabIndex==0" id="tab-subir">
+          <div class="album-thumbnails">
+            <span> <span class="glyphicon glyphicon-plus"></span> Agregar una imagen</span>
+            <input type="file" class="upload" accept="image/*" (change)="uploadFile($event)" />
+            <img class="effect gallery-image" [src]="uploadedImageUrl" *ngIf="uploadedImageUrl" width="64px" />
+            <img class="effect gallery-image" src="../../assets/icons/image-not-found.png"  width="64px" *ngIf="!uploadedImageUrl" />
+
+          </div>
+        </div>
+        <div class="tab-pane" [class.active]="tabIndex==1" id="tab-seleccionar">
+
+
+          <article *ngIf="emptyGallery" class="margin-bottom-xxl">
+            <p class="lead">
+              No existe fotos guardadas para esta infraestructura.
+            </p>
+          </article>
+          <div *ngIf="!emptyGallery" class="row">
+            <div *ngIf="!editMode" class="album-thumbnails">
+              <a *ngFor="let image of infrastructure.img" class="card" (click)="markAsCurrent(image)">
+                <div>
+                  <img [src]="image.url" alt="Image" />
+                </div>
+              </a>
+            </div>
+            <div *ngIf="editMode" class="album-thumbnails">
+              <a *ngFor="let image of infrastructure.img" class="card" (click)="markAsSelected(image)">
+                <div>
+                  <img [src]="image.url" alt="Image" [class.selected]="image==selectedImage" />
+                  <div class="selected-indicator centered-content">
+                    <i class="fa fa-check top-right"></i>
+                    <button class="btn btn-icon-toggle full-mode-toggle-centered" *ngIf="image==selectedImage" (click)="openFullMode()"><i
+                        class="md md-fullscreen"></i></button>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="card-actionbar" *ngIf="editMode">
+    <div class="card-actionbar-row">
+      <button type="button" *ngIf="(tabIndex==0 && imageToUpload) || (tabIndex==1 && selectedImage)" class="btn ink-reaction btn-raised btn-accent-dark" (click)="saveSelectedImageAsMain()">
+        Guardar Cambios
+      </button>
+
+      <button type="button" class="btn ink-reaction btn-raised btn-default-dark" (click)="cancel()">
+        Volver
+      </button>
+
+    </div>
+  </div>
+</div>
+
+<div class="ng-overlay" *ngIf="fullmode && !emptyGallery">
+  <div class="ng-gallery-content" (swipeleft)="fullModeMoveLeft()" (swiperight)="fullModeMoveRight()" (swipeup)="closeFullMode()">
+    <div class="tools top-left-controls">
+      <div class="btn-group">
+        <div class="btn-group ">
+          <a class="btn btn-icon-toggle btn-close btn-gallery-action" (click)="closeFullMode()"><i class="md md-arrow-back"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="tools top-right-controls" *ngIf="currentImage && currentImage.url">
+      <div class="btn-group">
+        <div class="btn-group ">
+          <div class="panel-selected-toggle pull-left" *ngIf="editMode">
+            <button class="btn btn-accent-light element-selected-toggle" *ngIf="selectedImage && selectedImage==currentImage">
+              <strong>Seleccionado<i class="fa fa-check"></i></strong></button>
+            <button class="btn btn-default-light element-selected-toggle" *ngIf="currentImage && currentImage.url && selectedImage!=currentImage"
+              (click)="markAsSelected(currentImage)">
+              Seleccionar<i class="fa fa-check"></i></button>
+          </div>
+          <a class="btn btn-icon-toggle btn-refresh btn-gallery-action" href="{{currentImage.url}}" target="_blank"><i
+              class="md md-open-in-new"></i></a>
+          <a class="btn btn-icon-toggle btn-refresh btn-gallery-action" (click)="downloadImage()"><i class="md md-file-download"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <span class="info-text middle-top">{{indexString}}</span>
+
+    <a class="nav-left" (click)="fullModeMoveLeft()"><i class="fa fa-angle-left"></i></a>
+    <img class="effect gallery-image" [src]="currentImage.url" *ngIf="currentImage && currentImage.url" />
+    <img class="effect gallery-image" src="../../assets/icons/image-not-found.png" *ngIf="!(currentImage && currentImage.url)" />
+    <a class="nav-right" (click)="fullModeMoveRight()"><i class="fa fa-angle-right"></i></a>
+
+    <span class="info-text middle-bottom" *ngIf="currentImage && currentImage.url">{{currentImage.description}}</span>
+
+  </div>
+</div>

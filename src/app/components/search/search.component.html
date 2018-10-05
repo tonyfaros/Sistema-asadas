@@ -1,4 +1,5 @@
 <section>
+
 	<div class="section-header">
 		<ol class="breadcrumb">
 			<li *ngIf="searchType=='asadas'" class="active">
@@ -34,14 +35,13 @@
 
 			<!-- BEGIN SEARCH BAR -->
 			<div class="card-body style-primary no-y-padding no-x-padding">
-
-
-				<div class="col-xs-12">
-					<app-filter [activeLocationFilter]="true" [activeCategoryFilter]="true" [activeRiskFilter]="searchType=='infraestructura'"
-					 [activeFilterButton]="true" (notify)='filterNotity($event)'>
+				<div class="col-xs-12  filter-container">
+					<app-filter [activeLocationFilter]="true" [activeCategoryFilter]="searchType=='infraestructura'"
+					 [activeRiskFilter]="searchType=='infraestructura'" [activeFilterButton]="true" (notify)='filterNotity($event)'>
 					</app-filter>
 
 				</div>
+				<!-- <button (click)="debugMode()">prueba debug</button> -->
 
 			</div>
 			<!--end .card-body -->
@@ -54,7 +54,6 @@
 
 							<!-- BEGIN PAGE HEADER -->
 							<div class="margin-bottom-xxl col-xs-4 results-count-bar">
-
 								<span class="text-light text-lg"> Resultados <strong>{{filteredList.length}}</strong></span>
 
 							</div>
@@ -63,7 +62,8 @@
 									<div class="form-group">
 										<div class="input-group input-group-lg">
 											<div class="input-group-content">
-												<input type="text" class="form-control dirty" id="searchInput" placeholder="busqueda" (keyup)="search(input.value)" #input>
+												<input type="text" class="form-control dirty" id="searchInput" placeholder="busqueda" (keyup)="search(input.value)"
+												 #input>
 												<div class="form-control-line"></div>
 												<div class="line"></div>
 
@@ -79,11 +79,11 @@
 
 							<!-- END PAGE HEADER -->
 
-							<div *ngIf="searchType=='asadas'">
-								<table class="table table-hover">
+							<div *ngIf="searchType=='asadas'" class="scroll-table">
+								<table class="table table-hover fixed-header">
 									<thead>
 										<tr>
-											<th>
+											<th class="col-xs-1">
 												<div class="checkbox checkbox-styled tile-text">
 													<label>
 														<input type="checkbox" [(ngModel)]="allSelection" (change)="selectAll()">
@@ -92,17 +92,17 @@
 													</label>
 												</div>
 											</th>
-											<th class="text-medium text-lg text-primary sorting">Nombre</th>
-											<th class="text-medium text-lg text-primary">Provincia</th>
-											<th class="text-medium text-lg text-primary">Cantón</th>
-											<th class="text-medium text-lg text-primary">Distrito</th>
-											<th *ngIf="optionsAllowed == true" class="text-medium text-lg text-primary">Cargar Infraestructuras</th>
-											<th *ngIf="optionsAllowed == true" class="text-right text-lg text-primary">Opciones</th>
+											<th class="col-xs-2 text-medium text-lg text-primary sorting">Nombre</th>
+											<th class="col-xs-2 text-medium text-lg text-primary">Provincia</th>
+											<th class="col-xs-2 text-medium text-lg text-primary">Cantón</th>
+											<th class="col-xs-2 text-medium text-lg text-primary">Distrito</th>
+											<th *ngIf="optionsAllowed == true" class="col-xs-2 text-medium text-lg text-primary">Cargar Infraestructuras</th>
+											<th *ngIf="optionsAllowed == true" class="col-xs-1 text-right text-lg text-primary">Opciones</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr *ngFor="let element of filteredList">
-											<td>
+											<td class="col-xs-1">
 												<div class="checkbox checkbox-styled tile-text">
 													<label>
 														<input type="checkbox" [(ngModel)]="element.isActive">
@@ -111,19 +111,20 @@
 													</label>
 												</div>
 											</td>
-											<td><a class="custom-pointer" (click)=openDetails(element)>{{element.name}}</a></td>
-											<td><a class="opacity-75">{{element.province}}</a></td>
-											<td><a class="opacity-75">{{element.district}}</a></td>
-											<td><a class="opacity-75">{{element.subDistrict}}</a></td>
-											<td *ngIf="optionsAllowed == true">
-												<button *ngIf="element.allowedToEdit==true" class="btn ink-reaction btn-raised btn-primary btn-loading-state" (click)="uploadInfraestructura(element)"
-												 data-toggle="modal" data-target="#upload-infraestructuras" data-placement="top" data-original-title="Subir">
+											<td class="col-xs-2"><a class="custom-pointer" (click)=openDetails(element)>{{element.name}}</a></td>
+											<td class="col-xs-2"><a class="opacity-75">{{element.location.province.name}}</a></td>
+											<td class="col-xs-2"><a class="opacity-75">{{element.location.canton.name}}</a></td>
+											<td class="col-xs-2"><a class="opacity-75">{{element.location.district.name}}</a></td>
+											<td *ngIf="optionsAllowed == true" class="col-xs-2">
+												<button *ngIf="element.allowedToEdit==true" class="btn ink-reaction btn-raised btn-primary btn-loading-state"
+												 (click)="uploadInfraestructura(element)" data-toggle="modal" data-target="#upload-infraestructuras"
+												 data-placement="top" data-original-title="Subir">
 													Importar
 												</button>
 											</td>
-											<td *ngIf="optionsAllowed == true" class="text-right">
-												<button *ngIf="element.allowedToEdit==true" (click)="modifyInfo(element)" type="button" class="btn btn-icon-toggle" data-toggle="tooltip"
-												 data-placement="top" data-original-title="Copy row"><i class="fa fa-pencil"></i></button>
+											<td *ngIf="optionsAllowed == true" class="col-xs-1 text-right">
+												<button *ngIf="element.allowedToEdit==true" (click)="modifyInfo(element)" type="button" class="btn btn-icon-toggle"
+												 data-toggle="tooltip" data-placement="top" data-original-title="Copy row"><i class="fa fa-pencil"></i></button>
 											</td>
 										</tr>
 									</tbody>
@@ -131,10 +132,11 @@
 							</div>
 							<!-- BEGIN RESULT LIST -->
 							<div *ngIf="searchType=='infraestructura'">
-								<table class="table table-hover">
+								<table class="table table-hover  fixed-header">
 									<thead>
 										<tr>
-											<th>
+											<!-- <th></th>Z -->
+											<th class="col-xs-1">
 												<div class="checkbox checkbox-styled tile-text">
 													<label>
 														<input type="checkbox" [(ngModel)]="allSelection" (change)="selectAll()">
@@ -143,17 +145,20 @@
 													</label>
 												</div>
 											</th>
-											<th></th>
-											<th class="text-medium text-lg text-primary sorting">Nombre</th>
-											<th class="text-medium text-lg text-primary sorting">Asada</th>
-											<th class="text-medium text-lg text-primary sorting">Tipo</th>
+											<th class="col-xs-2"></th>
+											<th class="text-medium text-lg text-primary sorting col-xs-2">Nombre</th>
+											<th class="text-medium text-lg text-primary sorting col-xs-3">Asada</th>
+											<th class="text-medium text-lg text-primary sorting col-xs-2">Tipo</th>
 
-											<th *ngIf="optionsAllowed==true" class="text-right text-lg text-primary">Opciones</th>
+											<th *ngIf="optionsAllowed==true" class="text-right text-lg text-primary col-xs-2">Opciones</th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr *ngFor="let element of filteredList">
-											<td>
+										<tr *ngFor="let element of filteredList" class="riskBorder-{{element.riskLevel? element.riskLevel.replace(' ',''):'noInfo'}}">
+											<!-- <td class="riskBorder riskBorder-{{element.riskLevel? element.riskLevel.replace(' ',''):'noInfo'}}">
+												<a>{{element.riskLevel?element.riskLevel:'Sin info'}}</a>
+											</td> -->
+											<td class="col-xs-1">
 												<div class="checkbox checkbox-styled tile-text">
 													<label>
 														<input [disabled]="element.allowedToEdit==false" type="checkbox" [(ngModel)]="element.isActive">
@@ -162,20 +167,27 @@
 													</label>
 												</div>
 											</td>
-											<td>
-												<div *ngIf="element.img">
-													<img class="img-circle width-2" [src]="element.img[0].url" alt="" />
+											<td class="col-xs-2">
+												<div *ngIf="element.mainImg">
+													<img class="img-circle width-2" [src]="element.mainImg.url" alt="" />
 												</div>
 
-												<div *ngIf="!element.img">
+												<div *ngIf="!element.mainImg">
 													<img class="img-circle width-2" src="../../../assets/img/default-image.png" alt="" />
 												</div>
 											</td>
-											<td><a class="custom-pointer" (click)=openDetails(element)>{{element.name}}</a></td>
-											<td><a class="opacity-75">{{element.asada.name}}</a></td>
-											<td><a class="opacity-75">{{element.type}}</a></td>
+											<td class="col-xs-2">
+												<a *ngIf="element.name && element.name!=''" class="custom-pointer" (click)=openDetails(element)>
+													{{element.name}}</a>
 
-											<td *ngIf="optionsAllowed == true" class="text-right">
+												<a *ngIf="!element.name || element.name==''" class="custom-pointer">
+													*Sin Definir</a>
+											</td>
+											
+											<td class="col-xs-3"><a class="opacity-75">{{element.asada.name}}</a></td>
+											<td class="col-xs-2"><a class="opacity-75">{{element.type}}</a></td>
+
+											<td *ngIf="optionsAllowed == true" class="text-right col-xs-2">
 												<button *ngIf="element.allowedToEvaluate==true" (click)="evaluate(element)" type="button" class="btn btn-icon-toggle"><i
 													 class="fa fa-list-alt" content="Evaluar Riesgo"></i></button>
 												<button *ngIf="element.allowedToEdit==true" (click)="modifyInfo(element)" type="button" class="btn btn-icon-toggle"><i

@@ -11,9 +11,9 @@
           
             <form class="form form-inverse">
               <div class="form-group">
-                <!--
+                
                 <button type="button" class="btn ink-reaction btn-raised btn-primary-dark " data-toggle="modal" data-target="#formModal">Nuevo usuario</button>
-                -->
+                
               </div>
               <!--end .form-group -->
             </form>
@@ -42,7 +42,7 @@
                         <th class="text-medium text-lg text-primary">Nombre</th>
                         <th class="text-medium text-lg text-primary">Apellido</th>
                         <th class="text-medium text-lg text-primary">Correo</th>
-                        <th class="text-medium text-lg text-primary">Rol</th>
+                        <th class="text-medium text-lg text-primary" *ngIf = "userRol =='Super Administrador'">Rol</th>
                         <th class="text-medium text-lg text-primary"> </th>
            
                         
@@ -55,7 +55,7 @@
                         <td><a class="opacity-75" >{{element.correo}}</a></td>
                         <td><a class="opacity-75">{{element.rol}}</a></td>
                         <td class="text-right">
-                            <button *ngIf = "User!=element.$key" type="button" class="btn btn-icon-toggle" data-toggle="modal" (click)="openModal(element.$key)" data-target="#simpleModal" data-placement="top" data-original-title="Copy row"><i class="fa fa-trash"></i></button>
+                            <button *ngIf = "User!=element.$key || element.rol != 'Super Administrador'" type="button" class="btn btn-icon-toggle" data-toggle="modal" (click)="openModal(element.$key)" data-target="#simpleModal" data-placement="top" data-original-title="Copy row"><i class="fa fa-trash"></i></button>
                           </td>
                        
 
@@ -82,16 +82,108 @@
           <h4 class="modal-title" style="color:#4CAF50" id="formModalLabel">Agregar usuario</h4>
           </div>
 
+        
+          <form class="form-horizontal " role="form" (ngSubmit)="onSubmit()" [formGroup]="userDetailsForm">
+              <div class="modal-body">
+                
+                  <div class="form-group">
+                      <div class="col-sm-3">
+                          <label for="email" class="control-label">Correo</label>
+                      </div>
+                      <div class="col-sm-9">
+                        <input type="email" class="form-control" formControlName="email" id="email"  required>
+                    </div>
+                      <!-- Error message -->
+        
+                    </div>
+                    <div *ngIf="formErrors.email" class="alert alert-danger">
+                      {{ formErrors.email }}
+                    </div>
+                    
+                    
+                    
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label for="userName"  class="control-label">Nombre</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" formControlName="userName" id="userName" required />
+                        </div>
+                      <!-- Error message -->
+                    </div>
+                    <div *ngIf="formErrors.userName" class="alert alert-danger">
+                      {{ formErrors.userName }}
+                    </div>
+
+                    <div class="form-group ">
+                        <div class="col-sm-3">
+                            <label for="userLastName"  class="control-label">Apellidos</label>
+                        </div>
+                        <div class="col-sm-9">
+                          <input type="text" class="form-control" formControlName="userLastName" id="userLastName" required />
+                        </div>
+                      <!-- Error message -->
+                    </div>
+                    <div *ngIf="formErrors.userLastName" class="alert alert-danger">
+                      {{ formErrors.userLastName }}
+                    </div>
+        
+                    <div class="form-group" *ngIf = "userRol =='Super Administrador'">
+                        <div class="col-sm-3">
+                            <label for="select13"  class="control-label"> Tipo</label>
+                        </div>
+                        <div class="col-sm-9">
+                          <select id="select13" name="select13" class="form-control form-inverse" formControlName="rol" [(ngModel)]="rol">
+                              <option ngValue="Estudiante" name="rolOption" ngDefaultControl>
+                                  Estudiante                   
+                                </option>
+                                <option ngValue="Profesor" name="rolOption" ngDefaultControl>
+                                  Profesor                   
+                                </option>
+                          </select>
+                        </div>
+                        <div class="form-control-line form-inverse"></div>
+                      </div>
+                      <div *ngIf="formErrors.rol" class="alert alert-danger">
+                          {{ formErrors.rol}}
+                      </div>
+        
+                      <div class="form-group form-inverse" *ngIf="rol && rol != 'Profesor'">
+                          <div class="col-sm-3">
+                              <label for="select13"  class="control-label"> Profesor</label>
+                          </div>
+                          <div class="col-sm-9">
+                            <select id="select13" name="select13" class="form-control" formControlName="profesor" [(ngModel)]="profesorSelected">
+                                <option *ngFor="let profesor of profesorDB" [ngValue]=profesor.$key name="profesorSelectOption" ngDefaultControl>
+                                  {{profesor.nombre + ' ' + profesor.apellidos}}
+                                </option>
+                            </select><br>
+                          </div>
+                      </div>
+                      <div *ngIf="formErrors.profesorSelected" class="alert alert-danger">
+                          {{ formErrors.profesorSelected}}
+                        </div>
+    
+              </div>
+              <div class="modal-footer">
+                <button type="button" id = "cerrar" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary"  >Agregar</button>
+              </div>
+            </form>
 
           
-        <form class="form-horizontal form-validate" role="form">
+
+
+
+        <!--  
+        <form class="form-horizontal form-validate" role="form" (ngSubmit)="onSubmit()" [formGroup]="userDetailsForm">
           <div class="modal-body">
             
             <div class="form-group form-validate">
               <div class="col-sm-3">
                 <label for="nombre" class="control-label">Rol</label>
               </div>
-              <div class="col-sm-9">
+              <div class="col-sm-9" *ngIf = "userAccess.rol =='Super Administrador'">
                 <select id="rol" name="rol" class="form-control" required>
                       <option value="">&nbsp;</option>
                       <option value="Profesor">Profesor</option>
@@ -108,6 +200,9 @@
                 <input type="text" class="form-control" name="nombre" id="nombre" class="form-control" required>
               </div>
             </div>
+            <div *ngIf="formErrors.userName" class="alert alert-danger">
+                {{ formErrors.userName }}
+              </div>
 
             <div class="form-group">
               <div class="col-sm-3">
@@ -117,6 +212,9 @@
                 <input type="text" class="form-control" name="apellidos" id="apellidos" class="form-control" required>
               </div>
             </div>
+            <div *ngIf="formErrors.userLastName" class="alert alert-danger">
+                {{ formErrors.userLastName }}
+              </div>
             
             <div class="form-group">
               <div class="col-sm-3">
@@ -125,6 +223,9 @@
               <div class="col-sm-9">
                 <input type="email" class="form-control" name="correo" id="correo" class="form-control" required>
               </div>
+              <div *ngIf="formErrors.email" class="alert alert-danger">
+                  {{ formErrors.email }}
+                </div>
             
             
             </div>
@@ -135,7 +236,7 @@
             <button type="submit" class="btn btn-primary" data-dismiss="modal" (click)="addUsuario()">Agregar</button>
           </div>
         </form>
-
+      -->
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
