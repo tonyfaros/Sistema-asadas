@@ -52,7 +52,7 @@ export class AdmUsuariosComponent implements OnInit {
       this.user = user;
       this.User = this.user.uid;
   });
-  var userDetails = this.getUserDetailsService.getUserDetails(this.user.uid);
+  var userDetails = this.userService.getUser(this.user.uid);
   userDetails.subscribe(
     results => {
       this.userRol = results.rol;
@@ -197,26 +197,6 @@ existeCorreo(pCorreo){
     this.usuarioEliminar = key;
   }
 
-  addUsuario(){
-
-
-
-		const usuario: User = new User();
-
-			usuario.nombre = (<HTMLInputElement>document.getElementById('nombre')).value; 
-			usuario.apellidos = (<HTMLInputElement>document.getElementById('apellidos')).value; 
-			usuario.correo = (<HTMLInputElement>document.getElementById('correo')).value; 
-			usuario.rol = (<HTMLInputElement>document.getElementById('rol')).value; 
-      usuario.password = ''+this.angularFireService.encrypt(usuario.correo);
-      usuario.passwordf = usuario.password;
-
-
-     
-      
-
-			
-		this.addNewUsuario(usuario);
-  }
 
   addNewUsuario(pUsuario) {
 		this.angularFireService.addNewUsuario(pUsuario);
