@@ -1,3 +1,13 @@
+<button (click)="prueba()">prueba</button>
+
+
+<img class="effect gallery-image" id="imagenPrueba" width="64px" />
+
+
+
+
+
+
 <div class="card style-default-dark col-xs-12 gallery-panel">
   <div class="card-head">
     <header *ngIf="!editMode">Evidencias de tomas de datos</header>
@@ -83,7 +93,7 @@
   </div>
 </div>
 
-<div class="ng-overlay" *ngIf="fullmode && !emtyGallery">
+<div class="ng-overlay" *ngIf="fullmode && !emptyGallery">
   <div class="ng-gallery-content" (swipeleft)="fullModeMoveLeft()" (swiperight)="fullModeMoveRight()" (swipeup)="closeFullMode()">
     <div class="tools top-left-controls">
       <div class="btn-group">

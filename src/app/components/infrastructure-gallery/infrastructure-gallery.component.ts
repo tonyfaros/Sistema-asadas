@@ -51,9 +51,32 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
     this.updateGallery();
   }
 
+  ngDoCheck() {
+    this.updateGallery();
+  }
+
+  prueba() {
+    // `url` is the download URL for 'images/stars.jpg'
+
+    // This can be downloaded directly:
+    this.storageRef.child('infrastructure/' + this.infrastructure.$key + '/mainImage/mainImage').getDownloadURL().then(function (url) {
+
+      var xhr = new XMLHttpRequest();
+      xhr.responseType = 'blob';
+      xhr.onload = function (event) {
+        var blob = xhr.response;
+        console.log(blob);
+      };
+      xhr.open('GET', url);
+      xhr.send();
+
+
+    });
+  }
+
   saveSelectedImageAsMain() {
-    if (this.tabIndex == 0) {
-      this.uploadMainImage();
+        if(this.tabIndex == 0) {
+      this.uploadMainImageTEMP();
     }
     else {
       try {
@@ -65,13 +88,18 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
       catch (ex) { console.log(ex); }
     }
   }
-  ngDoCheck() {
-    this.updateGallery();
-  }
 
-  uploadMainImage() {
+  uploadMainImageTEMP() {
+    if (this.infrastructure && this.infrastructure.$key) {
+      return;
+    }
+
+
+    var mainImage: File;
+
+
     if (this.infrastructure && this.infrastructure.$key && this.imageToUpload) {
-      const uploadTask: firebase.storage.UploadTask = this.storageRef.child('infrastructure/'+this.infrastructure.$key+'/mainImage/mainImage').put(this.imageToUpload);
+      const uploadTask: firebase.storage.UploadTask = this.storageRef.child('infrastructure/' + this.infrastructure.$key + '/mainImage/mainImage').put(this.imageToUpload);
       let downloadURL: string;
       uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
         (snapshot) => {
@@ -81,10 +109,9 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
           downloadURL = uploadTask.snapshot.downloadURL;
 
           const newImage: FirebaseImg = { fileName: "mainImage", url: downloadURL, description: 'Imagen Subida' };
-          this.selectedImage=newImage;
-          console.log(newImage);
+          this.selectedImage = newImage;
           try {
-            this.angularFireService.updateMainImage(this.infrastructure.$key,newImage);
+            this.angularFireService.updateMainImage(this.infrastructure.$key, newImage);
             this.notifyImageUploaded();
           }
           catch (ex) { console.log(ex); }
@@ -92,6 +119,15 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
         }
       );
     }
+  }
+
+  //Selecciona una nueva imagen a partir de las ya existentes
+  newMainImageBySelection() {
+
+  }
+  //Carga una nueva imagen al sistema como principal
+  newMainImageByUpload() {
+
   }
 
   createThumbail() {
