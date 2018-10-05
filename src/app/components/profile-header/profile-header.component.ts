@@ -44,7 +44,7 @@ export class ProfileHeaderComponent implements OnInit {
 				
 				this.getRequests();
 				this.isLoggedIn = true;
-				var userDetails = this.getUserDetailsService.getUserDetails(this.user.uid);
+				var userDetails = this.userService.getUser(this.user.uid);
 				userDetails.subscribe(
 					results => {
 						if(results.estado == "Aprobado"){
