@@ -30,19 +30,17 @@ export class MenuComponent implements OnInit {
 
   ngOnInit() {
     //this.route.fragment.subscribe(fragment => { this.fragment = fragment; }); // work-around
-
+    
     this.userAccess = {};
     this.af.auth.subscribe(user => {
       if (user) {
         this.isLoggedIn = true;
         //console.log(this.userService.isSuperAdmin(user.uid));
-        this.userService.getRolAccess(user.uid).subscribe(
+        this.userService.getUser(user.uid).subscribe(
           results => {
             this.userAccess = results;
-            
-            if (this.userAccess.rol && (this.userAccess.rol == "Administración" || this.userAccess.rol == "Edición")) {
+            if (this.userAccess.rol && (this.userAccess.rol == "Profesor" || this.userAccess.rol == "Super Administrador")) {
               this.isAdmin = true;
-              this.myASADALink = "/asadaDetails/" + this.userAccess.asada;
             } else {
               this.isAdmin = false;
             }

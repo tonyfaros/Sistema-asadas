@@ -108,7 +108,7 @@ onSubmit(){
     newUser.rol="Estudiante";
     newUser.profesor = this.User;
   }
-  console.log(this.existeCorreo(newUser.email));
+  //console.log(this.existeCorreo(newUser.email));
     if(this.reescribir!=''){
       console.log("existe pero no esta activo");
       newUser.password = ''+this.angularFireService.encrypt(newUser.email);
