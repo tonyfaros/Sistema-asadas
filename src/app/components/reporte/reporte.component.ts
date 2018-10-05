@@ -28,6 +28,8 @@ export class ReporteComponent implements OnInit {
   public isLoggedIn: boolean;
   private user;
   private sub: any;
+  private allList: any[];
+  private nonfilteredList=[];
   
   constructor(
     private searchService: SearchService,
@@ -132,6 +134,15 @@ private loadParameters() {
 
   
   
+}
+
+search(search: string) {
+  this.myIncidentes = this.allList.filter(
+    elem => elem.tags.toUpperCase().includes(search.toUpperCase())
+    
+  );
+  this.nonfilteredList = this.myIncidentes;
+  //this.updateFiltersVisibilty();
 }
 
 ngOnDestroy(): void {
