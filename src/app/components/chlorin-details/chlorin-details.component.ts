@@ -236,7 +236,7 @@ export class ChlorinDetailsComponent implements OnInit {
 		this.imageFile = files[0];
 		this.uploadImage();
 	}
-	private showGallery=false;
+	public showGallery=false;
 	showGalleryModal(){
 		this.showGallery=true;
 	}
