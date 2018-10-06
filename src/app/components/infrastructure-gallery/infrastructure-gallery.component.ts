@@ -21,12 +21,19 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
 
   public emptyGallery: boolean = true;
   public selectedImage: FirebaseImg;
+
   public currentImage: FirebaseImg;
   public selectedIndex: number;
   public indexString: string = "";
 
-  public tabIndex = 0;
-  private imageToUpload: File;
+
+  private selectedImageFile: File;  //Copia descargada de la imagen seleccionada;
+  private uploadedImageFile: File;  //Imagen subida
+
+  private mainImageFile: File;       //Imagen actual que será seleccionada. selectedImageFile || uploadedImageFile
+
+  public selectionMode: string = "upload";
+  public tabIndex: number = 0
 
   private storageRef;
 
@@ -55,110 +62,145 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
     this.updateGallery();
   }
 
-  prueba() {
-    // `url` is the download URL for 'images/stars.jpg'
-
-    // This can be downloaded directly:
-    this.storageRef.child('infrastructure/' + this.infrastructure.$key + '/mainImage/mainImage').getDownloadURL().then(function (url) {
-
-      var xhr = new XMLHttpRequest();
-      xhr.responseType = 'blob';
-      xhr.onload = function (event) {
-        var blob = xhr.response;
-        console.log(blob);
-      };
-      xhr.open('GET', url);
-      xhr.send();
-
-
-    });
+  updateSelectedImageFile(image: FirebaseImg) {
+    if (image && image.url) {
+      try {
+        var scope = this;
+        var xhr = new XMLHttpRequest();
+        xhr.responseType = 'blob';
+        xhr.onload = function (event) {
+          var blob: Blob = xhr.response;
+          var b: any = blob;
+          b.lastModifiedDate = new Date();
+          b.name = "mainImage";
+          scope.selectedImageFile = <File>blob;
+        };
+        xhr.open('GET', this.selectedImage.url);
+        xhr.send();
+      }
+      catch (err) {
+        this.selectedImageFile = undefined;
+      }
+    }
+    else {
+      this.selectedImageFile = undefined;
+    }
   }
 
   saveSelectedImageAsMain() {
-        if(this.tabIndex == 0) {
-      this.uploadMainImageTEMP();
+    try {
+      this.uploadMainImage();
+      this.notifyChange();
     }
-    else {
-      try {
-        if (this.infrastructure && this.infrastructure.$key && this.selectedImage) {
-          this.angularFireService.updateMainImage(this.infrastructure.$key, this.selectedImage);
-          this.notifyChange();
-        }
-      }
-      catch (ex) { console.log(ex); }
-    }
+
+    catch (ex) { console.log(ex); }
   }
 
-  uploadMainImageTEMP() {
-    if (this.infrastructure && this.infrastructure.$key) {
-      return;
+  uploadMainImage() {
+    switch (this.selectionMode) {
+      case "selection": {
+        this.mainImageFile = this.selectedImageFile; break;
+      }
+      case "upload": {
+        this.mainImageFile = this.uploadedImageFile; break;
+      }
+      default: this.mainImageFile = undefined;
     }
 
-
-    var mainImage: File;
-
-
-    if (this.infrastructure && this.infrastructure.$key && this.imageToUpload) {
-      const uploadTask: firebase.storage.UploadTask = this.storageRef.child('infrastructure/' + this.infrastructure.$key + '/mainImage/mainImage').put(this.imageToUpload);
-      let downloadURL: string;
-      uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+    if (this.infrastructure && this.infrastructure.$key && this.mainImageFile) {
+      let newImage: FirebaseImg;
+      const mainUploadTask: firebase.storage.UploadTask =
+        this.storageRef.child('infrastructure/' + this.infrastructure.$key + '/mainImage/mainImage').put(this.mainImageFile);
+      mainUploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
         (snapshot) => {
         },
-        (error) => { },
+        (error) => { this.notifyError("No se pudo realizar la selección de imagen principal."); },
         () => {
-          downloadURL = uploadTask.snapshot.downloadURL;
-
-          const newImage: FirebaseImg = { fileName: "mainImage", url: downloadURL, description: 'Imagen Subida' };
+          let downloadURL: string = mainUploadTask.snapshot.downloadURL;
+          var filepath: string = mainUploadTask.snapshot.metadata.fullPath;
+          newImage = { fileName: "mainImage", url: downloadURL, filePath: filepath, description: 'Imagen Subida' };
           this.selectedImage = newImage;
-          try {
-            this.angularFireService.updateMainImage(this.infrastructure.$key, newImage);
-            this.notifyImageUploaded();
-          }
-          catch (ex) { console.log(ex); }
-
+          this.uploadThumbMainImage(newImage);
         }
       );
     }
   }
+  uploadThumbMainImage(newImage: FirebaseImg) {
+    var thumbnail;
+    if (this.mainImageFile.size > 153600) {  //150KB
+      thumbnail = this.createThumbImage(this.mainImageFile);
+    }
+    else {
+      thumbnail = this.mainImageFile;
+    }
+    try {
+      const thumbUploadTask: firebase.storage.UploadTask =
+        this.storageRef.child('infrastructure/' + this.infrastructure.$key + '/mainImage/thumb-mainImage').put(thumbnail);
+      thumbUploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+        (snapshot) => {
+        },
+        (error) => { this.notifyError("No se pudo realizar la selección de imagen principal."); },
+        () => {
+          let thumbnailUrl: string = thumbUploadTask.snapshot.downloadURL;
+          var thumbnailPath: string = thumbUploadTask.snapshot.metadata.fullPath;
 
-  //Selecciona una nueva imagen a partir de las ya existentes
-  newMainImageBySelection() {
-
+          newImage.thumbnailPath = thumbnailPath;
+          newImage.thumbnailUrl = thumbnailUrl;
+          this.updateMainImage(newImage);
+        }
+      );
+    }
+    catch (ex) {
+      this.notifyError("No se pudo realizar la selección de imagen principal.");
+    }
   }
-  //Carga una nueva imagen al sistema como principal
-  newMainImageByUpload() {
-
+  updateMainImage(newMainImge: FirebaseImg) {
+    if (this.infrastructure && this.infrastructure.$key && newMainImge)
+      try {
+        this.angularFireService.updateMainImage(this.infrastructure.$key, newMainImge);
+        this.notifyImageUploaded();
+      }
+      catch (ex) {
+        this.notifyError("No se pudo realizar la selección de imagen principal.");
+      }
   }
 
-  createThumbail() {
+  private createThumbImage(image: File) {
+    ///CREAR THUMBNAIL
+    return image;
+  }
 
+  private notifyError(msj: string) {
+    console.log(msj);
   }
 
   removeMainImage() {
 
   }
 
-  uploadFile(event) {
+  uploadFile(event, displayImageId: string) {
     let eventObj: MSInputMethodContext = <MSInputMethodContext>event;
     let target: HTMLInputElement = <HTMLInputElement>eventObj.target;
     let files: FileList = target.files;
-    this.imageToUpload = files[0];
-    this.loadImage(files[0]);
-    console.log(files[0]);
+    this.uploadedImageFile = files[0];
+    if (displayImageId && this.uploadedImageFile) {
+      if (this.uploadedImageFile.type == 'image/jpeg' || this.uploadedImageFile.type == 'image/png') {
+        var reader = new FileReader();
+        reader.onload = (file: any) => {
+          var displayImage = document.getElementById(displayImageId);
+          if (displayImage) {
+            displayImage.setAttribute("src", file.target.result);
+          }
+        }
+        reader.readAsDataURL(this.uploadedImageFile);
+      }
+      else{
+        this.uploadedImageFile=undefined;
+        target.value="";
+      }
+    }
   }
 
-  loadImage(file) {
-    var reader = new FileReader();
-    reader.onload = this.imageIsLoaded;
-    reader.readAsDataURL(file);
-
-  }
-  private uploadedImageUrl: string;
-
-  imageIsLoaded(event) {
-    console.log(event.target.result);
-    this.uploadedImageUrl = event.target.result;
-  };
 
   notifyChange() {
     this.selectedImageChanged.emit(this.selectedImage);
@@ -256,6 +298,7 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
     this.markAsCurrent(image);
     if (this.selectedImage && this.infrastructure) {
       this.infrastructure.mainImg = this.selectedImage;
+      this.updateSelectedImageFile(this.infrastructure.mainImg);
     }
   }
 
@@ -272,9 +315,16 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
     }
   }
 
-  changeTabIndex(index: number) {
-    this.tabIndex = index;
+  toggleImageSelectionMode() {
+    this.selectionMode = "selection";
+    this.tabIndex = 1;
   }
+
+  toggleImageUploadMode() {
+    this.selectionMode = "upload";
+    this.tabIndex = 0;
+  }
+
   @HostListener('document:keydown', ['$event']) onKeydownHandler(event: KeyboardEvent) {
     var Enter = 13;
     var Esc = 27;

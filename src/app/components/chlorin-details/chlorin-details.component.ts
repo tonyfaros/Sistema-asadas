@@ -132,7 +132,10 @@ export class ChlorinDetailsComponent implements OnInit {
 		this.storageRef = firebaseApp.storage().ref();
 	}
 	private editmode = true;
-
+	public variable1="holi";
+	prueba(){
+		this.variable1="mundi";
+	}
 
 	ngOnInit() {
 		this.sub = this.route.params
@@ -261,8 +264,9 @@ export class ChlorinDetailsComponent implements OnInit {
 				(error) => { },
 				() => {
 					downloadURL = uploadTask.snapshot.downloadURL;
+					var filepath:string=uploadTask.snapshot.metadata.fullPath;
 
-					const newImage: FirebaseImg = { fileName: newFilename, url: downloadURL, description: '' };
+					const newImage: FirebaseImg = { fileName: newFilename,filePath:filepath, url: downloadURL, description: '' };
 
 					if (this.infraDB.img) {
 						this.infraDB.img.push(newImage);
@@ -493,7 +497,7 @@ export class ChlorinDetailsComponent implements OnInit {
 			tags: pInfra.tags,
 			name: pInfra.name,
 			risk: pInfra.risk,
-			mainImg: pInfra.mainImg?pInfra.mainImg:{url:"",description:"",fileName:""},
+			mainImg: pInfra.mainImg?pInfra.mainImg:{url:"",description:"",fileName:"",filePath:""},
 			img: pInfra.img ? pInfra.img : [],
 			type: pInfra.type,
 			asada: pInfra.asada,

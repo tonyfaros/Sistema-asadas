@@ -354,8 +354,9 @@ export class TankDetailsComponent implements OnInit, OnDestroy {
                 (error) => { },
                 () => {
                     downloadURL = uploadTask.snapshot.downloadURL;
+                    var filepath:string=uploadTask.snapshot.metadata.fullPath;
 
-                    const newImage: FirebaseImg = { fileName: newFilename, url: downloadURL, thumbnailUrl: downloadURL, description: 'Imagen Principal' };
+                    const newImage: FirebaseImg = { fileName: newFilename, url: downloadURL,  filePath: filepath, thumbnailUrl: downloadURL, description: 'Imagen Principal' };
                     this.infraDB.mainImg = newImage;
                 }
             );

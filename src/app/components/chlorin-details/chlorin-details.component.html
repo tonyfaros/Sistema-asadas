@@ -16,15 +16,16 @@
         <div class="card-body">
           <div class="row">
 
-            <div class="col-xs-2">
-                <a class=" pull-left" (click)="showGalleryModal()">
-                  <img class="img-circle " [src]="infraDB.mainImg.url" width="64px" height="64px" *ngIf="infraDB && infraDB.mainImg && infraDB.mainImg.url">
-                  <img class="img-circle" src="../../assets/icons/image-not-found.png" height="64px" width="64px" *ngIf="!(infraDB && infraDB.mainImg && infraDB.mainImg.url)">
+            <div class="col-xs-2 col-sm-2 col-md-1 col-lg-1 clearfix infra-main-image">
+                <a class="pull-left" (click)="showGalleryModal()">
+                  <img class="img-circle "  [src]="infraDB.mainImg.url" *ngIf="infraDB && infraDB.mainImg && infraDB.mainImg.url">
+                  <img class="img-circle "src="../../assets/icons/image-not-found.png" *ngIf="!(infraDB && infraDB.mainImg && infraDB.mainImg.url)">
+                      <a class="btn btn-icon-toggle ink-reaction img-circle edit-button" (click)="showGalleryModal()">
+                        <i class="md md-mode-edit"></i></a>
                 </a>
             </div>
 
-
-            <div class="col-sm-4">
+            <div class="col-xs-10 col-sm-10 col-md-5 col-lg-5 clearfix">
               <div class="form-group">
                 <input type="text" class="form-control" [readonly]="readOnlyMode == true" id="aqueductName"
                   formControlName="aqueductName" required>
@@ -38,7 +39,7 @@
 
             </div>
 
-            <div class="col-sm-6">
+            <div class="col-xs-12 col-sm-6">
               <div class="form-group">
                 <input type="text" class="form-control" [readonly]="readOnlyMode == true" id="aqueductInCharge"
                   formControlName="aqueductInCharge" required>
@@ -51,12 +52,8 @@
 
             </div>
 
-          </div>
-          <!-- End Row -->
 
-          <div class="row">
-
-            <div class="col-sm-6">
+            <div class="col-xs-12 col-sm-6">
               <div class="form-group">
                 <input type="text" class="form-control" [readonly]="readOnlyMode == true" id="chlorinName"
                   formControlName="chlorinName" required>
@@ -70,7 +67,7 @@
 
             </div>
 
-            <div class="col-sm-6">
+            <div class="col-xs-12 col-sm-6">
               <div class="form-group">
                 <input type="text" class="form-control" [readonly]="readOnlyMode == true" id="ubication"
                   formControlName="ubication" requerired>
@@ -84,19 +81,14 @@
 
             </div>
 
-          </div>
-          <!-- End row -->
-
-          <div class="row">
-
-            <div class="col-sm-6">
+            <div class="col-xs-12 col-sm-6">
               <div class="form-group">
                 <input type="text" class="form-control dirty" readonly id="date" formControlName="asadaName">
                 <label for="date">ASADA</label>
               </div>
             </div>
 
-            <div class="col-sm-6">
+            <div class="col-xs-12 col-sm-6">
               <div class="form-group">
                 <input type="text" class="form-control" [readonly]="readOnlyMode == true" id="inCharge" formControlName="inCharge"
                   required>

@@ -232,7 +232,9 @@ export class NascentDetailsComponent implements OnInit {
 				() => {
 					downloadURL = uploadTask.snapshot.downloadURL;
 
-					const newImage : FirebaseImg = {fileName: newFilename, url: downloadURL, description: '' };
+					var filepath:string=uploadTask.snapshot.metadata.fullPath;
+					
+					const newImage : FirebaseImg = {fileName: newFilename, url: downloadURL,filePath:filepath, description: '' };
 
 					if (this.infraDB.img) {
 						this.infraDB.img.push(newImage);
