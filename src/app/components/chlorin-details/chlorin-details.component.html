@@ -1,4 +1,6 @@
 <section>
+  <!-- <p>{{variable}}</p>
+  <button (click)="prueba()">prueba</button> -->
   <div class="section-body contain-xl">
 
     <div class="col-lg-12">
@@ -344,19 +346,14 @@
       </form>
 
       <!-- Modal -->
-      <div id="gallery-modal" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-lg">
-
-          <!-- Modal content-->
-          <div class="modal-content">
-            <div *ngIf="true">
-              <app-infrastructure-gallery id="gallery" [editMode]='editmode' [infrastructure]='this.infraDB'
-                (selectedImageChanged)='selectedImageChanged($event)'>
+      <div #galleryModal  id="gallery-modal" class="modal fade" role="dialog">
+        <div class="clearfix gallery-modal-holder">
+              <app-infrastructure-gallery id="gallery" class="gallery-modal-content" [editMode]='editmode' [infrastructure]='this.infraDB'
+                (mainImageChanged)="mainImageChanged($event,galleryModal.id)"
+                (cancel)="toggleGalleryModal(false)">
               </app-infrastructure-gallery>
-
-            </div>
-          </div>
         </div>
+
       </div>
 
 

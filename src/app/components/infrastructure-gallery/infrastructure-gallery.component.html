@@ -1,8 +1,8 @@
-<div class="card style-default-dark col-xs-12 gallery-panel">
+<div class="card style-default-dark gallery-panel">
   <div class="card-head">
     <header *ngIf="!editMode">Evidencias de tomas de datos</header>
     <header *ngIf="editMode">Seleccione la foto principal</header>
-    <button class="btn btn-icon-toggle pull-right full-mode-toggle top-right" *ngIf="!emptyGallery" (click)="openFullMode()"><i
+    <button class="btn btn-icon-toggle pull-right full-mode-toggle top-right" *ngIf="!emptyGallery && selectionMode=='selection'" (click)="openFullMode()"><i
         class="md md-fullscreen"></i></button>
     <!-- <button (click)="toggleEdit()">p1</button> -->
 
@@ -80,7 +80,7 @@
         Guardar Cambios
       </button>
 
-      <button type="button" class="btn ink-reaction btn-raised btn-default-dark" (click)="cancel()">
+      <button type="button" class="btn ink-reaction btn-raised btn-default-dark" (click)="notifyCancel()">
         Volver
       </button>
 

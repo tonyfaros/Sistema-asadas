@@ -46,7 +46,7 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
     this.storageRef = firebaseApp.storage().ref();
   }
 
-  @Output() selectedImageChanged: EventEmitter<FirebaseImg> = new EventEmitter<FirebaseImg>();
+  @Output() mainImageChanged: EventEmitter<FirebaseImg> = new EventEmitter<FirebaseImg>();
   @Output() cancel: EventEmitter<Infrastructure> = new EventEmitter<Infrastructure>();
   @Output() imageUplodaded: EventEmitter<FirebaseImg> = new EventEmitter<FirebaseImg>();
 
@@ -89,6 +89,7 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
 
   saveSelectedImageAsMain() {
     try {
+      this.infrastructure.mainImg = this.selectedImage;
       this.uploadMainImage();
       this.notifyChange();
     }
@@ -158,7 +159,7 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
     if (this.infrastructure && this.infrastructure.$key && newMainImge)
       try {
         this.angularFireService.updateMainImage(this.infrastructure.$key, newMainImge);
-        this.notifyImageUploaded();
+        this.notifyImageSaved();
       }
       catch (ex) {
         this.notifyError("No se pudo realizar la selección de imagen principal.");
@@ -201,16 +202,15 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
     }
   }
 
-
   notifyChange() {
-    this.selectedImageChanged.emit(this.selectedImage);
+    this.mainImageChanged.emit(this.selectedImage);
   }
 
   notifyCancel() {
     this.cancel.emit(this.infrastructure);
   }
 
-  notifyImageUploaded() {
+  notifyImageSaved() {
     this.notifyChange();
   }
 
@@ -297,8 +297,8 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
     this.selectedImage = image;
     this.markAsCurrent(image);
     if (this.selectedImage && this.infrastructure) {
-      this.infrastructure.mainImg = this.selectedImage;
-      this.updateSelectedImageFile(this.infrastructure.mainImg);
+      // this.infrastructure.mainImg = this.selectedImage;
+      this.updateSelectedImageFile(this.selectedImage);
     }
   }
 

@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
-
+declare var $: any;
 /*		Model-Entities		*/
 import { RadioOption } from '../../common/model/radioOption-class';
 import { FromChlorin } from '../../common/model/FormChlorin-class';
@@ -132,6 +132,10 @@ export class ChlorinDetailsComponent implements OnInit {
 		this.storageRef = firebaseApp.storage().ref();
 	}
 	private editmode = true;
+	// public variable ="hola"
+	// prueba(){
+	// 	this.variable="mundo"
+	// }
 
 	ngOnInit() {
 		this.sub = this.route.params
@@ -236,13 +240,21 @@ export class ChlorinDetailsComponent implements OnInit {
 		this.uploadImage();
 	}
 	public showGallery=false;
+
 	showGalleryModal(){
-		this.showGallery=true;
-		alert("showed");
+
 	}
-	selectedImageChanged(event){
-		alert("La imagen principal ha sido actualizada correctamente");
+
+	mainImageChanged(event,modalID:string){
 		this.showGallery=false;
+		this.toggleGalleryModal(false);
+		this.popErrorToast("Imagen principal Actualizada correctamente");
+	}
+
+	toggleGalleryModal(toggle:boolean){
+		this.showGallery=toggle;
+		var state=state?"show":"hide";
+		$('#gallery-modal').modal(state);
 	}
 
 	uploadImage() {
