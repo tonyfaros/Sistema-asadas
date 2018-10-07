@@ -132,10 +132,6 @@ export class ChlorinDetailsComponent implements OnInit {
 		this.storageRef = firebaseApp.storage().ref();
 	}
 	private editmode = true;
-	public variable1="holi";
-	prueba(){
-		this.variable1="mundi";
-	}
 
 	ngOnInit() {
 		this.sub = this.route.params
@@ -242,6 +238,7 @@ export class ChlorinDetailsComponent implements OnInit {
 	public showGallery=false;
 	showGalleryModal(){
 		this.showGallery=true;
+		alert("showed");
 	}
 	selectedImageChanged(event){
 		alert("La imagen principal ha sido actualizada correctamente");
