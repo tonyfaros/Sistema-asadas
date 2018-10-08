@@ -80,13 +80,15 @@
         Guardar Cambios
       </button>
 
-      <button type="button" class="btn ink-reaction btn-raised btn-default-dark" (click)="notifyCancel()">
+      <button type="button" class="btn ink-reaction btn-raised btn-default-dark" (click)="close()">
         Volver
       </button>
 
     </div>
   </div>
 </div>
+
+<toaster-container [toasterconfig]="toastConfig"></toaster-container>
 
 <div class="ng-overlay" *ngIf="fullmode && !emptyGallery">
   <div class="ng-gallery-content" (swipeleft)="fullModeMoveLeft()" (swiperight)="fullModeMoveRight()" (swipeup)="closeFullMode()">

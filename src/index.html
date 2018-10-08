@@ -69,8 +69,12 @@
   <link type="text/css" rel="stylesheet" href="/assets/css/theme-default/libs/morris/morris.core.css?1420463396" />
   <link type="text/css" rel="stylesheet" href="/assets/css/nanoscroller/nanoscroller.css" />
 
-  <link type="text/css" rel="stylesheet" src="angular2-toaster/toaster.css" />
-
+  <!-- Este import arregla el problema que no esta obteniendo el toaster.css correctamente y provoca que estos se muestren sin estilo -->
+  <!-- <link rel="stylesheet" type="text/css" href="/node_modules/angular2-toaster/toaster.css" /> -->
+  <link type="text/css" rel="stylesheet" href="/assets/css/toaster/toaster.css">
+  <!-- <link type="text/css" rel="stylesheet" href="/assets/css/toaster/toastr.css"> -->
+  
+  
   <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!--[if lt IE 9]>
       <script type="text/javascript" src="/assets/js/libs/utils/html5shiv.js"></script>

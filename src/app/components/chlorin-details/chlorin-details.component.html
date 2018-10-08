@@ -24,7 +24,7 @@
                 <a class="pull-left" >
                   <img class="img-circle " [src]="infraDB.mainImg.url" *ngIf="infraDB && infraDB.mainImg && infraDB.mainImg.url">
                   <img class="img-circle " src="../../assets/icons/image-not-found.png" *ngIf="!(infraDB && infraDB.mainImg && infraDB.mainImg.url)">
-                  <a class="btn btn-icon-toggle ink-reaction img-circle edit-button" *ngIf="!readOnlyMode" data-toggle="modal" data-target="#gallery-modal" (click)="showGalleryModal()">
+                  <a class="btn btn-icon-toggle ink-reaction img-circle edit-button" *ngIf="!readOnlyMode" (click)="toggleGalleryModal(true)">
                     <i class="md md-mode-edit"></i></a>
                 </a>
               </div>
@@ -337,7 +337,6 @@
             </div>
 
             <toaster-container [toasterconfig]="toastConfig"></toaster-container>
-            <button (click)="prueba()">prueba</button>
           </div>
           <!-- End card body -->
 
@@ -349,8 +348,9 @@
       <div #galleryModal  id="gallery-modal" class="modal fade" role="dialog">
         <div class="clearfix gallery-modal-holder">
               <app-infrastructure-gallery id="gallery" class="gallery-modal-content" [editMode]='editmode' [infrastructure]='this.infraDB'
-                (mainImageChanged)="mainImageChanged($event,galleryModal.id)"
-                (cancel)="toggleGalleryModal(false)">
+                (onMainImageChanged)="mainImageChanged($event,galleryModal.id)"
+                (onClose)="toggleGalleryModal(false)"
+                (onUploadingMainImage)="uploadingMainImage($event)">
               </app-infrastructure-gallery>
         </div>
 

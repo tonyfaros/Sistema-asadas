@@ -7,13 +7,15 @@ import { AngularFireService } from '../../common/service/angularFire.service';
 import * as firebase from 'firebase';
 import { FirebaseApp } from 'angularfire2';
 
+import { ToasterService, ToasterConfig } from 'angular2-toaster';
+
 const lodash = require('lodash');
 
 @Component({
   selector: 'app-infrastructure-gallery',
   templateUrl: './infrastructure-gallery.component.html',
   styleUrls: ['./infrastructure-gallery.component.scss'],
-  providers: [AngularFireService]
+  providers: [AngularFireService,ToasterService]
 })
 export class InfrastructureGalleryComponent implements OnInit, DoCheck {
 
@@ -39,16 +41,24 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
 
   constructor(
     @Inject(FirebaseApp) firebaseApp: any,
-    private angularFireService: AngularFireService, ) {
+    private angularFireService: AngularFireService,
+		private toasterService: ToasterService ) {
     this.indexString = ".";
     this.selectedIndex = 0;
 
     this.storageRef = firebaseApp.storage().ref();
   }
+	/*		Toast variables		*/
+	public toastConfig: ToasterConfig = new ToasterConfig({
+		positionClass: 'toast-bottom-center',
+		limit: 5
+	});
 
-  @Output() mainImageChanged: EventEmitter<FirebaseImg> = new EventEmitter<FirebaseImg>();
-  @Output() cancel: EventEmitter<Infrastructure> = new EventEmitter<Infrastructure>();
-  @Output() imageUplodaded: EventEmitter<FirebaseImg> = new EventEmitter<FirebaseImg>();
+
+  @Output() onMainImageChanged: EventEmitter<FirebaseImg> = new EventEmitter<FirebaseImg>();
+  @Output() onClose: EventEmitter<Infrastructure> = new EventEmitter<Infrastructure>();
+  @Output() onUploadingMainImage: EventEmitter<FirebaseImg> = new EventEmitter<FirebaseImg>();
+  @Output() onError: EventEmitter<{title:string,content:string}> = new EventEmitter<{title:string,content:string}>();
 
   @Input() public infrastructure: Chlorination;
   @Input() editMode: boolean = false;
@@ -91,7 +101,8 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
     try {
       this.infrastructure.mainImg = this.selectedImage;
       this.uploadMainImage();
-      this.notifyChange();
+      this.notifyUploadingMainImage()
+      this.notifyClose();
     }
 
     catch (ex) { console.log(ex); }
@@ -159,7 +170,7 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
     if (this.infrastructure && this.infrastructure.$key && newMainImge)
       try {
         this.angularFireService.updateMainImage(this.infrastructure.$key, newMainImge);
-        this.notifyImageSaved();
+        this.notifyMainImageSaved();
       }
       catch (ex) {
         this.notifyError("No se pudo realizar la selección de imagen principal.");
@@ -171,9 +182,6 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
     return image;
   }
 
-  private notifyError(msj: string) {
-    console.log(msj);
-  }
 
   removeMainImage() {
 
@@ -202,16 +210,39 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
     }
   }
 
-  notifyChange() {
-    this.mainImageChanged.emit(this.selectedImage);
+  notifyClose() {
+    this.onClose.emit(this.infrastructure);
   }
 
-  notifyCancel() {
-    this.cancel.emit(this.infrastructure);
+  notifyMainImageSaved() {
+    this.onMainImageChanged.emit(this.selectedImage);
+  }
+  notifyUploadingMainImage() {
+    this.onUploadingMainImage.emit(this.selectedImage);
   }
 
-  notifyImageSaved() {
-    this.notifyChange();
+  private notifyError(msj: string) {
+      this.onError.emit({title:"Error",content:msj});
+  }
+
+  close(){
+    this.notifyClose();
+    this.reset();
+  }
+  reset(){
+   this.currentImage=null;
+   this.indexString = "";
+  
+   this.selectedImageFile=null;  //Copia descargada de la imagen seleccionada;
+   this.uploadedImageFile=null;  //Imagen subida
+  
+    this.mainImageFile=null;       //Imagen actual que será seleccionada. selectedImageFile || uploadedImageFile
+  
+    this.selectionMode = "upload";
+    this.tabIndex = 0
+    this.updateGallery();
+    this.closeFullMode();
+  
   }
 
   toggleEdit() {
@@ -348,5 +379,31 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
       }
     }
   }
+  
+
+	popSuccessToast(pMesage: string) {
+		var toast = {
+			type: 'success',
+			title: pMesage
+		};
+		this.toasterService.pop(toast);
+	}
+
+	popInfoToast(pMesage: string) {
+		var toast = {
+			type: 'info',
+			title: pMesage
+		};
+		this.toasterService.pop(toast);
+	}
+
+
+	popErrorToast(pMessage: string) {
+		var toast = {
+			type: 'error',
+			title: pMessage
+		};
+		this.toasterService.pop(toast);
+	}
 
 }
