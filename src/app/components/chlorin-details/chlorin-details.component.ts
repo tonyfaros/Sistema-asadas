@@ -133,9 +133,9 @@ export class ChlorinDetailsComponent implements OnInit {
 	}
 	private editmode = true;
 	// public variable ="hola"
-	// prueba(){
-	// 	this.variable="mundo"
-	// }
+	prueba(){
+		this.popErrorToast("prueba");
+	}
 
 	ngOnInit() {
 		this.sub = this.route.params
