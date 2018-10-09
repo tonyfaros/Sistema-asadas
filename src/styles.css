@@ -207,4 +207,10 @@ div.reload-message{
 .font-lg {
     font-size: 30px !important;
 }
-/* Animation */
+.text-soft{
+    color:#393d42!important;
+}
+
+.no-text-case{
+    text-transform: none!important;
+}

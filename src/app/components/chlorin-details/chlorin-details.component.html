@@ -21,7 +21,7 @@
             <div class="row">
 
               <div class="col-xs-2 col-sm-2 col-md-1 col-lg-1 clearfix infra-main-image">
-                <a class="pull-left" >
+                <a class="pull-left">
                   <img class="img-circle " [src]="infraDB.mainImg.url" *ngIf="infraDB && infraDB.mainImg && infraDB.mainImg.url">
                   <img class="img-circle " src="../../assets/icons/image-not-found.png" *ngIf="!(infraDB && infraDB.mainImg && infraDB.mainImg.url)">
                   <a class="btn btn-icon-toggle ink-reaction img-circle edit-button" *ngIf="!readOnlyMode" (click)="toggleGalleryModal(true)">
@@ -35,12 +35,10 @@
                     formControlName="aqueductName" required>
                   <label for="aqueductName">Nombre Acueducto</label>
                 </div>
-
                 <!-- Error message -->
                 <div *ngIf="formErrors.aqueductName" class="alert alert-danger">
                   {{ formErrors.aqueductName }}
                 </div>
-
               </div>
 
               <div class="col-xs-12 col-sm-6">
@@ -252,44 +250,6 @@
 
             </div>
 
-            <!-- BEGIN IMAGE UPLOAD -->
-
-            <div class="card" *ngIf="false">
-              <div class="card-head style-warning">
-                <header> Imagenes</header>
-              </div>
-              <div class="card-body">
-
-                <div *ngIf="this.infraDB && this.infraDB.img">
-                  <modal-gallery [modalImages]="imagesObservable" [showDownloadButton]="true" [downloadable]="true"
-                    [loadingConfig]="true" [showExtUrlButton]="true"></modal-gallery>
-                </div>
-
-                <div *ngIf="this.infraDB && !this.infraDB.img">
-                  <label>No se encontro ninguna imagen</label>
-                </div>
-
-                <div style="float: right" *ngIf="readOnlyMode == false">
-                  <div class="fileUpload btn btn-success">
-                    <span> <span class="glyphicon glyphicon-plus"></span> Agregar una imagen</span>
-                    <input type="file" class="upload" accept="image/*" (change)="uploadFile($event)" />
-                  </div>
-
-                  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#EliminateImage">
-                    <span class="glyphicon glyphicon-minus"></span> Eliminar imagen
-                  </button>
-
-
-                  <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#EditImage">
-                    <span class="glyphicon glyphicon-pencil"></span> Editar descripción
-                  </button>
-
-                </div>
-              </div>
-            </div>
-            <!--end .card -->
-
-            <!-- END IMAGE UPLOAD -->
 
             <div class="card-actionbar">
               <div class="card-actionbar-row">
@@ -324,12 +284,6 @@
                     Exportar
                     <div class="ink" style="top: 20px; left: 51.75px;"></div>
                   </button>
-
-                  <!-- <button type="button" class="btn ink-reaction btn-raised btn-warning" *ngIf="readOnlyMode == true"
-                  (click)="openEvaluation()">
-                  Evaluar
-                  <div class="ink" style="top: 20px; left: 51.75px;"></div>
-                </button> -->
                 </div>
                 <br>
 
@@ -345,13 +299,12 @@
       </form>
 
       <!-- Modal -->
-      <div #galleryModal  id="gallery-modal" class="modal fade" role="dialog">
+      <div #galleryModal id="gallery-modal" class="modal fade" role="dialog">
         <div class="clearfix gallery-modal-holder">
-              <app-infrastructure-gallery id="gallery" class="gallery-modal-content" [editMode]='editmode' [infrastructure]='this.infraDB'
-                (onMainImageChanged)="mainImageChanged($event,galleryModal.id)"
-                (onClose)="toggleGalleryModal(false)"
-                (onUploadingMainImage)="uploadingMainImage($event)">
-              </app-infrastructure-gallery>
+          <app-infrastructure-gallery id="gallery" class="gallery-modal-content" [editMode]='editmode' [infrastructure]='this.infraDB'
+            (onMainImageChanged)="mainImageChanged($event,galleryModal.id)" (onClose)="toggleGalleryModal(false)"
+            (onUploadingMainImage)="uploadingMainImage($event)">
+          </app-infrastructure-gallery>
         </div>
 
       </div>
@@ -359,161 +312,52 @@
 
 
 
-        <!-- Modal -->
-        <div id="SaveModal" class="modal fade" role="dialog">
-          <div class="modal-dialog">
+      <!-- Modal -->
+      <div id="SaveModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
 
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header">
-                <h4 class="modal-title">Confirmar cambios</h4>
-              </div>
-              <div class="modal-body">
-                <h3>Desea guardar los cambios.</h3>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="onSubmit()">Guardar</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-              </div>
+          <!-- Modal content-->
+          <div class="modal-content">
+
+            <div class="modal-header">
+              <h3 class="modal-title">Confirmar cambios</h3>
+            </div>
+            <div class="modal-body">
+              <h3 class="text-soft no-text-case">Desea guardar los cambios?</h3>
             </div>
 
-          </div>
-        </div>
 
-        <!-- Modal -->
-        <div id="EliminateModal" class="modal fade" role="dialog">
-          <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header">
-                <h4 class="modal-title">Confirmar accion</h4>
-              </div>
-              <div class="modal-body">
-                <h3>Desea eliminar el sistema de cloración.</h3>
-                <h4 class="text-danger">Si es eliminado, no se podra recuperar</h4>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="delete()">Eliminar</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-              </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="onSubmit()">Guardar</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
             </div>
-
           </div>
+
         </div>
-
-        <!-- Modal -->
-        <div id="EliminateImage" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
-          <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header">
-                <h4 class="modal-title">Eliminar imagen</h4>
-              </div>
-
-              <div class="modal-body">
-                <h3>Selecione la imagen que desea eliminar</h3>
-                <h4 class="text-danger">Una vez es eliminada, no se podra recuperar</h4>
-
-                <div class="row" *ngIf="this.infraDB && this.infraDB.img">
-                  <img *ngFor="let image of this.infraDB.img" class="pull-left width-3" [class.redBorder]="image==imgMarkedDel"
-                    [src]="image.url" alt="" (click)="markForDelete(image)">
-                </div>
-
-              </div>
-
-              <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteImage()">Eliminar</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="cancelDeleteImg()">Cancelar</button>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- Modal -->
-        <div id="EditImage" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
-          <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header">
-                <h4 class="modal-title">Editar imagen</h4>
-              </div>
-
-              <div class="modal-body">
-                <h3>Selecione la imagen que desea editar la descripción</h3>
-
-                <div class="row" *ngIf="this.infraDB && this.infraDB.img">
-                  <img *ngFor="let image of this.infraDB.img" class="pull-left width-3" [class.redBorder]="image==imgMarkedEdit"
-                    [src]="image.url" alt="" (click)="markForEdition(image)">
-                </div>
-
-                <br>
-
-                <div class="row" *ngIf="imgMarkedEdit">
-                  <div class="col-sm-12">
-                    <label class="control-label">descripción</label>
-                    <div class="form-group">
-                      <input #descrip type="text" class="form-control " id="imgDescription" [value]="imgMarkedEdit.description">
-                      <label></label>
-                    </div>
-                  </div>
-                  <button type="button" class="btn btn-success" (click)="saveDescription(descrip.value)">Guardar</button>
-                </div>
-
-              </div>
-
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="cancelEditImg()">Cerrar</button>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- Modal -->
-        <div id="EditImage" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
-          <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header">
-                <h4 class="modal-title">Editar imagen</h4>
-              </div>
-
-              <div class="modal-body">
-                <h3>Selecione la imagen que desea editar la descripción</h3>
-
-                <div class="row" *ngIf="this.infraDB && this.infraDB.img">
-                  <img *ngFor="let image of this.infraDB.img" class="pull-left width-3" [class.redBorder]="image==imgMarkedEdit"
-                    [src]="image.url" alt="" (click)="markForEdition(image)">
-                </div>
-
-                <br>
-
-                <div class="row" *ngIf="imgMarkedEdit">
-                  <div class="col-sm-12">
-                    <label class="control-label">descripción</label>
-                    <div class="form-group">
-                      <input #descrip type="text" class="form-control " id="imgDescription" [value]="imgMarkedEdit.description">
-                      <label></label>
-                    </div>
-                  </div>
-                  <button type="button" class="btn btn-success" (click)="saveDescription(descrip.value)">Guardar</button>
-                </div>
-
-              </div>
-
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="cancelEditImg()">Cerrar</button>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
       </div>
+
+      <!-- Modal -->
+      <div id="EliminateModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3 class="modal-title">Confirmar acción</h3>
+            </div>
+            <div class="modal-body">
+              <h3 class="text-soft no-text-case">Desea eliminar el sistema de cloración?</h3>
+              <h4 class="text-soft no-text-case">Si es eliminado, no se podra recuperar</h4>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="delete()">Eliminar</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
     </div>
+  </div>
 </section>
