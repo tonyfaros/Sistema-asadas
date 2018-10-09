@@ -159,48 +159,6 @@ export class ChlorinDetailsComponent implements OnInit {
 		this.reload();
 
 	}
-	export() {
-		this.exportService.exportInfrastructure(this.infraDB);
-	}
-
-	/*    HTML methods    */
-
-	goBack(): void {
-		setTimeout(() => {
-			this.ngOnInit();
-		},
-			1500);
-
-	}
-
-
-
-	/*    Gallery methods    */
-	mainImageChanged(event,modalID:string){
-		this.showGallery=false;
-		this.toggleGalleryModal(false);
-		this.popSuccessToast("Imagen principal actualizada correctamente");
-	}
-	uploadingMainImage(){
-		this.popInfoToast("Cargando imagen principal");
-	}
-	error(error){
-		if(error.content){
-			this.popErrorToast(error.content);
-		}
-		else{
-			if( (typeof error) == 'string'){
-				this.popErrorToast(error);
-			}
-		}
-	}
-	toggleGalleryModal(toggle:boolean){
-		this.showGallery=toggle;
-		var state=toggle?"show":"hide";
-		$('#gallery-modal').modal(state);
-	}
-	/*   			  */
-
 	getInfrastucture(pId): void {
 		this.angularFireService.getInfrastructure(pId)
 			.subscribe(
@@ -240,12 +198,6 @@ export class ChlorinDetailsComponent implements OnInit {
 			dateCreated: pInfra.dateCreated
 		}
 	}
-	delete() {
-		// this.deleteAllImages();
-		alert("Eliminado de Imagenes pendiente");
-		this.angularFireService.deleteInfrastructure(this.infrastructureId);
-		this.router.navigate(["/asadaDetails", this.infraDB.asada.id]);
-	}
 	getGeoLocation() {
 		this.geoLocation.getCurrentPosition().subscribe(
 			result => {
@@ -256,13 +208,6 @@ export class ChlorinDetailsComponent implements OnInit {
 
 			}
 		);
-	}
-	changeToEdit() {
-		this.readOnlyMode = false;
-	}
-	reload() {
-		this.router.navigate(['/' + this.infraDB.type + 'Details', this.infrastructureId]);
-		this.ngOnInit();
 	}
 	buildFormChlorin() {
 		this.detailChlorinForm.patchValue({ 'chlorinName': this.infraDB.name });
@@ -320,28 +265,6 @@ export class ChlorinDetailsComponent implements OnInit {
 			}
 		}
 	}
-	// Toasters
-	popSuccessToast(pMesage: string) {
-		var toast = {
-			type: 'success',
-			body: pMesage
-		};
-		this.toasterService.pop(toast);
-	}
-	popInfoToast(pMesage: string) {
-		var toast = {
-			type: 'info',
-			body: pMesage
-		};
-		this.toasterService.pop(toast);
-	}
-	popErrorToast(pMessage: string) {
-		var toast = {
-			type: 'error',
-			body: pMessage
-		};
-		this.toasterService.pop(toast);
-	}
 	public formErrors = {
 		'chlorinName': '',
 		'aqueductName': '',
@@ -375,5 +298,80 @@ export class ChlorinDetailsComponent implements OnInit {
 			'required': 'Longitud requerida'
 		}
 	};
+
+
+
+	// Toasters
+	popSuccessToast(pMesage: string) {
+		var toast = {
+			type: 'success',
+			body: pMesage
+		};
+		this.toasterService.pop(toast);
+	}
+	popInfoToast(pMesage: string) {
+		var toast = {
+			type: 'info',
+			body: pMesage
+		};
+		this.toasterService.pop(toast);
+	}
+	popErrorToast(pMessage: string) {
+		var toast = {
+			type: 'error',
+			body: pMessage
+		};
+		this.toasterService.pop(toast);
+	}
+	
+	/*    Infrastructure methods    */
+	delete() {
+		// this.deleteAllImages();
+		alert("Eliminado de Imagenes pendiente");
+		this.angularFireService.deleteInfrastructure(this.infrastructureId);
+		this.router.navigate(["/asadaDetails", this.infraDB.asada.id]);
+	}
+	export() {
+		this.exportService.exportInfrastructure(this.infraDB);
+	}
+	/*    HTML methods    */
+	goBack(): void {
+		setTimeout(() => {
+			this.ngOnInit();
+		},
+			1500);
+
+	}
+	reload() {
+		this.router.navigate(['/' + this.infraDB.type + 'Details', this.infrastructureId]);
+		this.ngOnInit();
+	}
+	changeToEdit() {
+		this.readOnlyMode = false;
+	}
+	/*    Gallery methods    */
+	mainImageChanged(event,modalID:string){
+		this.showGallery=false;
+		this.toggleGalleryModal(false);
+		this.popSuccessToast("Imagen principal actualizada correctamente");
+	}
+	uploadingMainImage(){
+		this.popInfoToast("Cargando imagen principal");
+	}
+	error(error){
+		if(error.content){
+			this.popErrorToast(error.content);
+		}
+		else{
+			if( (typeof error) == 'string'){
+				this.popErrorToast(error);
+			}
+		}
+	}
+	toggleGalleryModal(toggle:boolean){
+		this.showGallery=toggle;
+		var state=toggle?"show":"hide";
+		$('#gallery-modal').modal(state);
+	}
 
 }
