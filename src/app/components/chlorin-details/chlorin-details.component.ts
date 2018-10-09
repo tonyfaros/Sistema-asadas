@@ -6,19 +6,14 @@ declare var $: any;
 import { RadioOption } from '../../common/model/radioOption-class';
 import { FromChlorin } from '../../common/model/FormChlorin-class';
 import { Chlorination } from '../../common/model/Chlorination';
-import { User } from '../../common/model/User';
 import { RolAccess } from '../../common/model/RolAccess';
 import { FirebaseImg } from '../../common/model/FirebaseImg';
 
 /*		Modules		*/
-import * as firebase from 'firebase';
 import { FirebaseApp, AngularFire, FirebaseAuthState } from 'angularfire2';
-import { Image, Action, ImageModalEvent, Description, } from 'angular-modal-gallery';
 import { ToasterService, ToasterConfig } from 'angular2-toaster';
 
 import 'rxjs/Rx';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/observable/of';
 
 
@@ -56,17 +51,15 @@ export class ChlorinDetailsComponent implements OnInit {
 	public SistemInstallDate: Date;
 
 	private asadaSelected;
-	public editmode = true;
 
 	/*    DB varibles   */
 	public infraDB: Chlorination;
 	public asadaDB;
-	//store the image
-	private imageFile;
-	public imageURL;
-	private storageRef;
-	public imgMarkedDel: FirebaseImg;
-	public imgMarkedEdit: FirebaseImg;
+	
+	/*		access Mode 		*/
+	public editmode = true;
+	/*	      images		*/
+	public showGallery=false;
 
 	/*		Toast variables		*/
 	public toastConfig: ToasterConfig = new ToasterConfig({
@@ -96,7 +89,6 @@ export class ChlorinDetailsComponent implements OnInit {
 		private geoLocation: GeolocationService,
 		private toasterService: ToasterService,
 		private exportService: ExportService) {
-		this.storageRef = firebaseApp.storage().ref();
 	}
 
 	ngOnInit() {
@@ -106,7 +98,7 @@ export class ChlorinDetailsComponent implements OnInit {
 				this.readOnlyMode = params['action'] == 'edit' ? false : true;
 				this.buildForm();
 
-				this.getInfrastuctures(this.infrastructureId);
+				this.getInfrastucture(this.infrastructureId);
 
 
 			});
@@ -182,19 +174,8 @@ export class ChlorinDetailsComponent implements OnInit {
 	}
 
 
-	getGeoLocation() {
-		this.geoLocation.getCurrentPosition().subscribe(
-			result => {
-				if (result) {
-					this.detailChlorinForm.patchValue({ 'latitude': result.coords.latitude });
-					this.detailChlorinForm.patchValue({ 'longitude': result.coords.longitude });
-				}
 
-			}
-		);
-	}
-
-	public showGallery=false;
+	/*    Gallery methods    */
 	mainImageChanged(event,modalID:string){
 		this.showGallery=false;
 		this.toggleGalleryModal(false);
@@ -203,7 +184,6 @@ export class ChlorinDetailsComponent implements OnInit {
 	uploadingMainImage(){
 		this.popInfoToast("Cargando imagen principal");
 	}
-
 	error(error){
 		if(error.content){
 			this.popErrorToast(error.content);
@@ -219,111 +199,9 @@ export class ChlorinDetailsComponent implements OnInit {
 		var state=toggle?"show":"hide";
 		$('#gallery-modal').modal(state);
 	}
+	/*   			  */
 
-	cancelEditImg() {
-		this.imgMarkedEdit = null;
-	}
-
-
-	popSuccessToast(pMesage: string) {
-		var toast = {
-			type: 'success',
-			body: pMesage
-		};
-		this.toasterService.pop(toast);
-	}
-
-	popInfoToast(pMesage: string) {
-		var toast = {
-			type: 'info',
-			body: pMesage
-		};
-		this.toasterService.pop(toast);
-	}
-
-
-	popErrorToast(pMessage: string) {
-		var toast = {
-			type: 'error',
-			body: pMessage
-		};
-		this.toasterService.pop(toast);
-	}
-
-	changeToEdit() {
-		this.readOnlyMode = false;
-	}
-
-	reload() {
-		this.router.navigate(['/' + this.infraDB.type + 'Details', this.infrastructureId]);
-		this.ngOnInit();
-	}
-
-
-	buildForm(): void {
-		this.detailChlorinForm = this.fb.group({
-			'chlorinName': ['', Validators.required],
-			'aqueductName': ['', Validators.required],
-			'aqueductInCharge': ['', Validators.required],
-			'inCharge': ['', Validators.required],
-			'ubication': ['', Validators.required],
-			'chlorinType': [this.chlorinType[0].value],
-			'dosageType': [this.dosageType[0].value],
-			'latitude': ['', Validators.required],
-			'longitude': ['', Validators.required],
-			'instalationDate': [''],
-			'AqueductCreationDate': [''],
-			'asadaName': [''],
-			'risk': ['']
-		});
-		this.detailChlorinForm.valueChanges
-			.subscribe(data => this.onValueChanged(data));
-		this.onValueChanged(); // (re)set validation messages now
-	}
-
-	onValueChanged(data?: any) {
-		if (!this.detailChlorinForm) { return; }
-		const form = this.detailChlorinForm;
-		for (const field in this.formErrors) {
-			// clear previous error message (if any)
-			this.formErrors[field] = '';
-			const control = form.get(field);
-			if (control && control.dirty && !control.valid) {
-				const messages = this.validationMessages[field];
-				for (const key in control.errors) {
-					this.formErrors[field] += messages[key] + ' ';
-				}
-			}
-		}
-	}
-
-	buildFormChlorin() {
-		this.detailChlorinForm.patchValue({ 'chlorinName': this.infraDB.name });
-		this.detailChlorinForm.patchValue({ 'aqueductName': this.infraDB.details.aqueductName });
-		this.detailChlorinForm.patchValue({ 'aqueductInCharge': this.infraDB.details.aqueductInCharge });
-		this.detailChlorinForm.patchValue({ 'inCharge': this.infraDB.details.inCharge });
-		this.detailChlorinForm.patchValue({ 'ubication': this.infraDB.details.ubication });
-		this.detailChlorinForm.patchValue({ 'chlorinType': this.infraDB.details.chlorinType });
-		this.detailChlorinForm.patchValue({ 'dosageType': this.infraDB.details.dosageType });
-		this.detailChlorinForm.patchValue({ 'latitude': this.infraDB.lat });
-		this.detailChlorinForm.patchValue({ 'longitude': this.infraDB.long });
-		this.detailChlorinForm.patchValue({
-			'instalationDate':
-				this.infraDB.details.installationDate.day + "/" + this.infraDB.details.installationDate.month + "/" + this.infraDB.details.installationDate.year
-		});
-		this.detailChlorinForm.patchValue({
-			'AqueductCreationDate':
-				this.infraDB.details.AqueductCreationDate.day + "/" + this.infraDB.details.AqueductCreationDate.month + "/" + this.infraDB.details.AqueductCreationDate.year
-		});
-		this.detailChlorinForm.patchValue({ 'asadaName': this.infraDB.asada.name });
-		this.detailChlorinForm.patchValue({ 'risk': this.infraDB.risk });
-	}
-
-
-
-	/*    DB methods    */
-
-	getInfrastuctures(pId): void {
+	getInfrastucture(pId): void {
 		this.angularFireService.getInfrastructure(pId)
 			.subscribe(
 				results => {
@@ -335,26 +213,12 @@ export class ChlorinDetailsComponent implements OnInit {
 						this.AqueductCreationDate = new Date(this.infraDB.details.AqueductCreationDate.year, this.infraDB.details.AqueductCreationDate.month - 1, this.infraDB.details.AqueductCreationDate.day, 0, 0, 0, 0);
 
 						this.asadaSelected = { name: this.infraDB.asada.name, id: this.infraDB.asada.id };
-
-						this.imageURL = this.infraDB.img;
-
-						this.getAsada();
-
 						this.buildFormChlorin();
 					}
 
 				}
 			);
 	}
-
-	getAsada(): void {
-		this.angularFireService.getAsadas().subscribe(
-			results => {
-				this.asadaDB = results;
-			}
-		);
-	}
-
 	updateInfrastructure(pId, pInfra: Chlorination): void {
 		var updatedInfra: Chlorination = {
 			tags: pInfra.tags,
@@ -376,8 +240,108 @@ export class ChlorinDetailsComponent implements OnInit {
 			dateCreated: pInfra.dateCreated
 		}
 	}
+	delete() {
+		// this.deleteAllImages();
+		alert("Eliminado de Imagenes pendiente");
+		this.angularFireService.deleteInfrastructure(this.infrastructureId);
+		this.router.navigate(["/asadaDetails", this.infraDB.asada.id]);
+	}
+	getGeoLocation() {
+		this.geoLocation.getCurrentPosition().subscribe(
+			result => {
+				if (result) {
+					this.detailChlorinForm.patchValue({ 'latitude': result.coords.latitude });
+					this.detailChlorinForm.patchValue({ 'longitude': result.coords.longitude });
+				}
 
-	
+			}
+		);
+	}
+	changeToEdit() {
+		this.readOnlyMode = false;
+	}
+	reload() {
+		this.router.navigate(['/' + this.infraDB.type + 'Details', this.infrastructureId]);
+		this.ngOnInit();
+	}
+	buildFormChlorin() {
+		this.detailChlorinForm.patchValue({ 'chlorinName': this.infraDB.name });
+		this.detailChlorinForm.patchValue({ 'aqueductName': this.infraDB.details.aqueductName });
+		this.detailChlorinForm.patchValue({ 'aqueductInCharge': this.infraDB.details.aqueductInCharge });
+		this.detailChlorinForm.patchValue({ 'inCharge': this.infraDB.details.inCharge });
+		this.detailChlorinForm.patchValue({ 'ubication': this.infraDB.details.ubication });
+		this.detailChlorinForm.patchValue({ 'chlorinType': this.infraDB.details.chlorinType });
+		this.detailChlorinForm.patchValue({ 'dosageType': this.infraDB.details.dosageType });
+		this.detailChlorinForm.patchValue({ 'latitude': this.infraDB.lat });
+		this.detailChlorinForm.patchValue({ 'longitude': this.infraDB.long });
+		this.detailChlorinForm.patchValue({
+			'instalationDate':
+				this.infraDB.details.installationDate.day + "/" + this.infraDB.details.installationDate.month + "/" + this.infraDB.details.installationDate.year
+		});
+		this.detailChlorinForm.patchValue({
+			'AqueductCreationDate':
+				this.infraDB.details.AqueductCreationDate.day + "/" + this.infraDB.details.AqueductCreationDate.month + "/" + this.infraDB.details.AqueductCreationDate.year
+		});
+		this.detailChlorinForm.patchValue({ 'asadaName': this.infraDB.asada.name });
+		this.detailChlorinForm.patchValue({ 'risk': this.infraDB.risk });
+	}
+	buildForm(): void {
+		this.detailChlorinForm = this.fb.group({
+			'chlorinName': ['', Validators.required],
+			'aqueductName': ['', Validators.required],
+			'aqueductInCharge': ['', Validators.required],
+			'inCharge': ['', Validators.required],
+			'ubication': ['', Validators.required],
+			'chlorinType': [this.chlorinType[0].value],
+			'dosageType': [this.dosageType[0].value],
+			'latitude': ['', Validators.required],
+			'longitude': ['', Validators.required],
+			'instalationDate': [''],
+			'AqueductCreationDate': [''],
+			'asadaName': [''],
+			'risk': ['']
+		});
+		this.detailChlorinForm.valueChanges
+			.subscribe(data => this.onValueChanged(data));
+		this.onValueChanged(); // (re)set validation messages now
+	}
+	onValueChanged(data?: any) {
+		if (!this.detailChlorinForm) { return; }
+		const form = this.detailChlorinForm;
+		for (const field in this.formErrors) {
+			// clear previous error message (if any)
+			this.formErrors[field] = '';
+			const control = form.get(field);
+			if (control && control.dirty && !control.valid) {
+				const messages = this.validationMessages[field];
+				for (const key in control.errors) {
+					this.formErrors[field] += messages[key] + ' ';
+				}
+			}
+		}
+	}
+	// Toasters
+	popSuccessToast(pMesage: string) {
+		var toast = {
+			type: 'success',
+			body: pMesage
+		};
+		this.toasterService.pop(toast);
+	}
+	popInfoToast(pMesage: string) {
+		var toast = {
+			type: 'info',
+			body: pMesage
+		};
+		this.toasterService.pop(toast);
+	}
+	popErrorToast(pMessage: string) {
+		var toast = {
+			type: 'error',
+			body: pMessage
+		};
+		this.toasterService.pop(toast);
+	}
 	public formErrors = {
 		'chlorinName': '',
 		'aqueductName': '',

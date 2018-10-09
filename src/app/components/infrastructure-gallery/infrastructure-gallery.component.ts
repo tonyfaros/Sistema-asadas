@@ -165,6 +165,7 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
     catch (ex) {
       this.notifyError("No se pudo realizar la selección de imagen principal.");
     }
+    
   }
   updateMainImage(newMainImge: FirebaseImg) {
     if (this.infrastructure && this.infrastructure.$key && newMainImge)
@@ -256,7 +257,7 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
       this.selectedImage = undefined;
     }
     else {
-      if (!this.selectedImage && this.infrastructure && this.infrastructure.mainImg) {
+      if (!this.selectedImage && this.infrastructure && this.infrastructure.img && this.infrastructure.mainImg) {
         this.infrastructure.img.forEach(image => {
           if (lodash.isEqual(image, this.infrastructure.mainImg)) {
             this.markAsSelected(image);
