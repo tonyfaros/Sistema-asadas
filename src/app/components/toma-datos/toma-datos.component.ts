@@ -33,10 +33,10 @@ export class TomaDatosComponent implements OnInit {
 
   constructor(private mapService: MapGoogleService, private router: Router, db: AngularFireDatabase, private af: AngularFire,private angularFireService: AngularFireService,private datepipe: DatePipe) {
     this.infraestructureList = [];
+    
     db.list('asadas')
     .subscribe(asadasList => {
       this.asadasList = asadasList;
-      this.getInfraestructures();
       
       });
 
@@ -60,15 +60,17 @@ export class TomaDatosComponent implements OnInit {
           toma_datos.Asada = this.tomaDatosList[i]["nameAsada"];
           toma_datos.Fecha = this.tomaDatosList[i]["dateCreated"];
           toma_datos.Estado = this.tomaDatosList[i]["status"];
+          toma_datos.Infraestructura = this.tomaDatosList[i]["infraestructuras"].length;
           tomaDatosList.push(toma_datos);
 
         }
-
       }
       
       this.tomaDatosList = tomaDatosList;
       
     });
+
+    
 
    }
 
@@ -76,36 +78,6 @@ export class TomaDatosComponent implements OnInit {
      console.log("yes");
     this.router.navigate(['/tomaDatosInfra',elem]);
    }
-
-   calculateInfraestructure(){
-    for(let tomaDatosEl of this.tomaDatosList){
-    
-    for (let asada of this.asadasList){
-    
-      if(tomaDatosEl.Asada == asada.name){
-      var key;
-      key = asada.$key;
-      this.evalCantCaptacion(key);
-      this.evalCantSistemasClr(key);
-      this.evalCantTanques(key);
-      tomaDatosEl.Infraestructura = this.cantidadCaptaciones + this.cantidadCloracion + this.cantidadTanques;
-      }  
-    }
-   }
-  }
-
-   
-
-   getInfraestructures(): void {
-    this.mapService.getInfrastructures()
-        .subscribe(
-            results => {
-                this.infraestructureList = results;
-                this.calculateInfraestructure();
-            }
-        );
-    
-}
 
    private User = '';
 
@@ -172,40 +144,6 @@ export class TomaDatosComponent implements OnInit {
     return listInfra;
     
   }
-
-  evalCantTanques(asadaid: string) {
-
-    this.cantidadTanques = 0;
-    for (let entry of this.infraestructureList) {
-        if (entry.asada.id == asadaid && entry.type == "Tanque") {
-            this.cantidadTanques = this.cantidadTanques + 1;
-            
-        }
-
-    }
-}
-
-evalCantCaptacion(asadaid: string) {
-
-    this.cantidadCaptaciones = 0;
-    for (let entry of this.infraestructureList) {
-        if (entry.asada.id == asadaid && (entry.type == "CaptacionNaciente" || entry.type == "CaptacionSuperficial")) {
-            this.cantidadCaptaciones = this.cantidadCaptaciones + 1;
-        }
-
-    }
-}
-
-evalCantSistemasClr(asadaid: string) {
-
-    this.cantidadCloracion = 0;
-    for (let entry of this.infraestructureList) {
-        if (entry.asada.id == asadaid && entry.type == "SistemaCloracion") {
-            this.cantidadCloracion = this.cantidadCloracion + 1;
-        }
-
-    }
-}
 
   
 

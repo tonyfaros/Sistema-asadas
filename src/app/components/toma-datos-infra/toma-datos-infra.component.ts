@@ -17,6 +17,8 @@ export class TomaDatosInfraComponent implements OnInit {
   tomaDatosList: any[] = [];
   infraestructureList: any[] = [];
   infraFiltered: any[] = [];
+  nameAsada: string;
+  //tomaDatos: TomaDatos;
 
   constructor(private mapService: MapGoogleService, private _Activatedroute:ActivatedRoute, db: AngularFireDatabase,private router: Router, ) {
 
@@ -25,6 +27,9 @@ export class TomaDatosInfraComponent implements OnInit {
     .subscribe(tomaDatosList => {
       this.tomaDatosList = tomaDatosList;
       this.getInfraestructures();
+     /* for (let tomaDato of this.tomaDatosList){
+        if(tomaDato.$key == this.id)
+      }*/
       
     });
    }
@@ -39,6 +44,7 @@ export class TomaDatosInfraComponent implements OnInit {
     for(let tomaDatos of this.tomaDatosList){
       
       if(tomaDatos.$key == this.id){
+        this.nameAsada = tomaDatos.nameAsada;
         
         for(let infra of tomaDatos.infraestructuras){
           this.checkInfra(infra.id);
@@ -50,6 +56,7 @@ export class TomaDatosInfraComponent implements OnInit {
   checkInfra(id){
     for(let infra of this.infraestructureList){
       if(infra.$key == id){
+
         this.infraFiltered.push(infra);
       }
     }
@@ -71,9 +78,5 @@ evaluate(elem: any): void {
 
   this.router.navigate(['/evalSERSA', elem.type, this.id, elem.$key]);
 }
-
- 
-
-  
 
 }
