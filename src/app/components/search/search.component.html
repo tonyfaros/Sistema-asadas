@@ -168,12 +168,12 @@
 												</div>
 											</td>
 											<td class="col-xs-2">
-												<div *ngIf="element.mainImg">
+												<div *ngIf="element.thumbnailUrl ">
 													<img class="img-circle width-2" [src]="element.mainImg.url" alt="" />
 												</div>
 
-												<div *ngIf="!element.mainImg">
-													<img class="img-circle width-2" src="../../../assets/img/default-image.png" alt="" />
+												<div *ngIf="!element.thumbnailUrl">
+													<img class="img-circle width-1" src="../../../assets/img/default-image.png" alt="" />
 												</div>
 											</td>
 											<td class="col-xs-2">
@@ -188,8 +188,8 @@
 											<td class="col-xs-2"><a class="opacity-75">{{element.type}}</a></td>
 
 											<td *ngIf="optionsAllowed == true" class="text-right col-xs-2">
-												<button *ngIf="element.allowedToEvaluate==true" (click)="evaluate(element)" type="button" class="btn btn-icon-toggle"><i
-													 class="fa fa-list-alt" content="Evaluar Riesgo"></i></button>
+												<!-- <button *ngIf="element.allowedToEvaluate==true" (click)="evaluate(element)" type="button" class="btn btn-icon-toggle"><i
+													 class="fa fa-list-alt" content="Evaluar Riesgo"></i></button> -->
 												<button *ngIf="element.allowedToEdit==true" (click)="modifyInfo(element)" type="button" class="btn btn-icon-toggle"><i
 													 class="fa fa-pencil" content="Editar Información"></i></button>
 

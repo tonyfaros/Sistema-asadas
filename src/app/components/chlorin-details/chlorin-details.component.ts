@@ -91,15 +91,13 @@ export class ChlorinDetailsComponent implements OnInit {
 		private exportService: ExportService) {
 	}
 
-	ngOnInit() {
+	ngOnInit() {				
+		this.resetForm();
 		this.sub = this.route.params
 			.subscribe((params: Params) => {
 				this.infrastructureId = params['id'];
 				this.readOnlyMode = params['action'] == 'edit' ? false : true;
-				this.buildForm();
-
 				this.getInfrastucture(this.infrastructureId);
-
 
 			});
 		this.angularFire.auth.subscribe(user => {
@@ -151,10 +149,11 @@ export class ChlorinDetailsComponent implements OnInit {
 		this.infraDB.details.chlorinType = this.newChlorin.chlorinType;
 		this.infraDB.details.dosageType = this.newChlorin.dosageType;
 		this.infraDB.details.inCharge = this.newChlorin.inCharge;
-		this.infraDB.details.ubication = this.newChlorin.ubication;
+		this.infraDB.details.location = this.newChlorin.location;
 
 		this.infraDB.tags = 'SistemaCloracion ' + this.newChlorin.chlorinName + ' ' + this.newChlorin.aqueductName + ' ' + this.infraDB.asada.name + ' ' + this.infraDB.asada.id;
 
+		this.popInfoToast("Guardando...");
 		this.updateInfrastructure(this.infrastructureId, this.infraDB);
 		this.reload();
 
@@ -171,7 +170,7 @@ export class ChlorinDetailsComponent implements OnInit {
 						this.AqueductCreationDate = new Date(this.infraDB.details.AqueductCreationDate.year, this.infraDB.details.AqueductCreationDate.month - 1, this.infraDB.details.AqueductCreationDate.day, 0, 0, 0, 0);
 
 						this.asadaSelected = { name: this.infraDB.asada.name, id: this.infraDB.asada.id };
-						this.buildFormChlorin();
+						this.fillForm();
 					}
 
 				}
@@ -198,23 +197,13 @@ export class ChlorinDetailsComponent implements OnInit {
 			dateCreated: pInfra.dateCreated
 		}
 	}
-	getGeoLocation() {
-		this.geoLocation.getCurrentPosition().subscribe(
-			result => {
-				if (result) {
-					this.detailChlorinForm.patchValue({ 'latitude': result.coords.latitude });
-					this.detailChlorinForm.patchValue({ 'longitude': result.coords.longitude });
-				}
-
-			}
-		);
-	}
-	buildFormChlorin() {
+	fillForm() {
+		console.log(this.infraDB);
 		this.detailChlorinForm.patchValue({ 'chlorinName': this.infraDB.name });
 		this.detailChlorinForm.patchValue({ 'aqueductName': this.infraDB.details.aqueductName });
 		this.detailChlorinForm.patchValue({ 'aqueductInCharge': this.infraDB.details.aqueductInCharge });
 		this.detailChlorinForm.patchValue({ 'inCharge': this.infraDB.details.inCharge });
-		this.detailChlorinForm.patchValue({ 'ubication': this.infraDB.details.ubication });
+		this.detailChlorinForm.patchValue({ 'location': this.infraDB.details.location });
 		this.detailChlorinForm.patchValue({ 'chlorinType': this.infraDB.details.chlorinType });
 		this.detailChlorinForm.patchValue({ 'dosageType': this.infraDB.details.dosageType });
 		this.detailChlorinForm.patchValue({ 'latitude': this.infraDB.lat });
@@ -230,13 +219,13 @@ export class ChlorinDetailsComponent implements OnInit {
 		this.detailChlorinForm.patchValue({ 'asadaName': this.infraDB.asada.name });
 		this.detailChlorinForm.patchValue({ 'risk': this.infraDB.risk });
 	}
-	buildForm(): void {
+	resetForm(): void {
 		this.detailChlorinForm = this.fb.group({
 			'chlorinName': ['', Validators.required],
 			'aqueductName': ['', Validators.required],
 			'aqueductInCharge': ['', Validators.required],
 			'inCharge': ['', Validators.required],
-			'ubication': ['', Validators.required],
+			'location': ['', Validators.required],
 			'chlorinType': [this.chlorinType[0].value],
 			'dosageType': [this.dosageType[0].value],
 			'latitude': ['', Validators.required],
@@ -270,7 +259,7 @@ export class ChlorinDetailsComponent implements OnInit {
 		'aqueductName': '',
 		'aqueductInCharge': '',
 		'inCharge': '',
-		'ubication': '',
+		'location': '',
 		'latitude': '',
 		'longitude': '',
 
@@ -288,7 +277,7 @@ export class ChlorinDetailsComponent implements OnInit {
 		'inCharge': {
 			'required': 'Encargado requerido'
 		},
-		'ubication': {
+		'location': {
 			'required': 'Ubicacion requerida'
 		},
 		'latitude': {
@@ -299,9 +288,27 @@ export class ChlorinDetailsComponent implements OnInit {
 		}
 	};
 
+	//Busca la ubicacion actual donde se encuentra el dispositivo
+	//con el que se esta accediendo
+	getGeoLocation() {
+		this.popInfoToast("Obteniendo ubicación.");
+		this.geoLocation.getCurrentPosition().subscribe(
+			result => {
+				if (result) {
+					this.detailChlorinForm.patchValue({ 'latitude': result.coords.latitude });
+					this.detailChlorinForm.patchValue({ 'longitude': result.coords.longitude });
+					
+					this.popSuccessToast("Ubicación cargada correctamente.");
+				}
+				else{
+					this.popErrorToast("No se pudo obtener la ubicación.");
+				}
 
-
-	// Toasters
+			}
+		);
+	}
+	//Toasters
+	//Mensajes flotantes
 	popSuccessToast(pMesage: string) {
 		var toast = {
 			type: 'success',
@@ -323,14 +330,15 @@ export class ChlorinDetailsComponent implements OnInit {
 		};
 		this.toasterService.pop(toast);
 	}
-	
 	/*    Infrastructure methods    */
+	//Borra la infraestructura
 	delete() {
 		// this.deleteAllImages();
 		alert("Eliminado de Imagenes pendiente");
 		this.angularFireService.deleteInfrastructure(this.infrastructureId);
 		this.router.navigate(["/asadaDetails", this.infraDB.asada.id]);
 	}
+	//Exporta la infraestructura a un documento externo
 	export() {
 		this.exportService.exportInfrastructure(this.infraDB);
 	}
@@ -346,16 +354,18 @@ export class ChlorinDetailsComponent implements OnInit {
 		this.router.navigate(['/' + this.infraDB.type + 'Details', this.infrastructureId]);
 		this.ngOnInit();
 	}
+	//Cambia el modo a edicion
 	changeToEdit() {
 		this.readOnlyMode = false;
 	}
 	/*    Gallery methods    */
+	//Metodos escucha y interacciones con la galeria de evidencias
 	mainImageChanged(event,modalID:string){
 		this.showGallery=false;
 		this.toggleGalleryModal(false);
 		this.popSuccessToast("Imagen principal actualizada correctamente");
 	}
-	uploadingMainImage(){
+	uploadingMainImage(image){
 		this.popInfoToast("Cargando imagen principal");
 	}
 	error(error){

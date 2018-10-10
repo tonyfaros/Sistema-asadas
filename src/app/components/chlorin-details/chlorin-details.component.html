@@ -71,14 +71,14 @@
 
               <div class="col-xs-12 col-sm-6">
                 <div class="form-group">
-                  <input type="text" class="form-control" [readonly]="readOnlyMode == true" id="ubication"
-                    formControlName="ubication" requerired>
-                  <label for="ubication">Ubicación</label>
+                  <input type="text" class="form-control" [readonly]="readOnlyMode == true" id="location"
+                    formControlName="location" requerired>
+                  <label for="location">Ubicación</label>
                 </div>
 
                 <!-- Error message -->
-                <div *ngIf="formErrors.ubication" class="alert alert-danger">
-                  {{ formErrors.ubication }}
+                <div *ngIf="formErrors.location" class="alert alert-danger">
+                  {{ formErrors.location }}
                 </div>
 
               </div>
@@ -148,9 +148,9 @@
             <!-- END TEXT PLACE -->
             <br>
 
-            <!-- BEGIN RADIO BUTTONS -->
             <div class="row">
 
+            <!-- BEGIN RADIO BUTTONS -->
               <div class="col-xs-12 col-sm-12 col-md-6">
 
                 <div class="col-xs-12">
@@ -196,7 +196,8 @@
                 </div>
 
               </div>
-
+              <!-- END RADIO BUTTONS -->
+              <!-- BEGIN LOCATION -->
               <div class="col-xs-12 col-sm-12 col-md-6">
 
                 <div class="card">
@@ -236,6 +237,8 @@
                   </div>
                 </div>
               </div>
+              <!-- END LOCATION -->
+
             </div>
 
             <div class="card-actionbar">

@@ -3,7 +3,7 @@ export class FromChlorin {
   aqueductName: string;
   aqueductInCharge: string;
   inCharge: string;
-  ubication: string;
+  location: string;
   chlorinType: string;
   dosageType: string;
   latitude: number;

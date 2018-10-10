@@ -40,7 +40,7 @@ export class NascentDetailsComponent implements OnInit {
 
 	/*    Html variables    */
 	// radio button options
-	public nascentType: RadioOption[] = [{ display: 'Caseta', value: 'Caseta' }, { display: 'A nivel', value: 'Nivel' }, { display: 'Enterrada', value: 'Enterrada' }, { display: 'Semi-enterrada', value: 'SemiEnterrada' }];
+	public nascentType: RadioOption[] = [{ display: 'Caseta', value: 'Caseta' }, { display: 'A nivel', value: 'A nivel' }, { display: 'Enterrada', value: 'Enterrada' }, { display: 'Semi-enterrada', value: 'SemiEnterrada' }];
 
 	// Object contains the values input
 	private newNascent: NascentForm = new NascentForm();
@@ -93,7 +93,7 @@ export class NascentDetailsComponent implements OnInit {
 				this.infrastructureId = params['id'];
 
 				this.readOnlyMode = params['action'] == 'edit' ? false : true;
-				this.buildForm();
+				this.resetForm();
 
 				this.getInfrastucture(this.infrastructureId);
 			});
@@ -149,6 +149,7 @@ export class NascentDetailsComponent implements OnInit {
 			this.newNascent.aqueductInCharge + ' ' +
 			this.infraDB.asada.id;
 
+		this.popInfoToast("Guardando...");
 		this.updateInfrastructure(this.infrastructureId, this.infraDB);
 
 		this.reload();
@@ -161,15 +162,36 @@ export class NascentDetailsComponent implements OnInit {
 
 				this.infraDB = results;
 				if (this.infraDB && this.infraDB.details) {
-					this.buildFormNascent();
+					this.fillForm();
 				}
 			}
 			);
 	}
 	updateInfrastructure(pId, pInfra): void {
+		var newInfra:Nascent={
+			tags: pInfra.tags,
+			name: pInfra.name,
+			risk: pInfra.risk,
+			mainImg: pInfra.mainImg?pInfra.mainImg:{url:"",description:"",fileName:"",filePath:""},
+			img:((pInfra.imagen==undefined)?[]: pInfra.img),
+			type: pInfra.type,
+			asada:pInfra.asada,
+			lat: pInfra.lat,
+			long: pInfra.long,
+		
+			details:pInfra.details,
+		
+			//New data by Luis
+			dateCreated: pInfra.dateCreated,
+			riskNames: pInfra.riskNames,
+			riskValues: pInfra.riskValues,
+			siNumber: pInfra.siNumber,
+			riskLevel: pInfra.riskLevel
+		}
 		this.angularFireService.updateInfrastructure(pId, pInfra);
 	}
-	buildFormNascent() {
+	fillForm() {
+		console.log(this.infraDB);
 		this.detailNascentForm.patchValue({ 'nascentName': this.infraDB.name });
 		this.detailNascentForm.patchValue({ 'aqueductName': this.infraDB.details.aqueductName });
 		this.detailNascentForm.patchValue({ 'aqueductInCharge': this.infraDB.details.aqueductInCharge });
@@ -182,7 +204,7 @@ export class NascentDetailsComponent implements OnInit {
 		this.detailNascentForm.patchValue({ 'asadaName': this.infraDB.asada.name });
 		this.detailNascentForm.patchValue({ 'risk': this.infraDB.risk });
 	}
-	buildForm(): void {
+	resetForm(): void {
 		this.detailNascentForm = this.fb.group({
 			'aqueductName': ['', Validators.required],
 			'aqueductInCharge': ['', Validators.required],
@@ -252,10 +274,28 @@ export class NascentDetailsComponent implements OnInit {
 		}
 	};
 
-	
+	//Busca la ubicacion actual donde se encuentra el dispositivo
+	//con el que se esta accediendo
+	getGeoLocation() {
+		this.popInfoToast("Obteniendo ubicación.");
+		this.geoLocation.getCurrentPosition().subscribe(
+			result => {
+				if (result) {
+					this.detailNascentForm.patchValue({ 'latitude': result.coords.latitude });
+					this.detailNascentForm.patchValue({ 'longitude': result.coords.longitude });
+					
+					this.popSuccessToast("Ubicación cargada correctamente.");
+				}
+				else{
+					this.popErrorToast("No se pudo obtener la ubicación.");
+				}
 
+			}
+		);
+	}
 
-	// Toasters
+	//Toasters
+	//Mensajes flotantes
 	popSuccessToast(pMesage: string) {
 		var toast = {
 			type: 'success',
@@ -277,14 +317,15 @@ export class NascentDetailsComponent implements OnInit {
 		};
 		this.toasterService.pop(toast);
 	}
-	
 	/*    Infrastructure methods    */
+	//Borra la infraestructura
 	delete() {
 		// this.deleteAllImages();
 		alert("Eliminado de Imagenes pendiente");
 		this.angularFireService.deleteInfrastructure(this.infrastructureId);
 		this.router.navigate(["/asadaDetails", this.infraDB.asada.id]);
 	}
+	//Exporta la infraestructura a un documento externo
 	export() {
 		this.exportService.exportInfrastructure(this.infraDB);
 	}
@@ -300,16 +341,18 @@ export class NascentDetailsComponent implements OnInit {
 		this.router.navigate(['/' + this.infraDB.type + 'Details', this.infrastructureId]);
 		this.ngOnInit();
 	}
+	//Cambia el modo a edicion
 	changeToEdit() {
 		this.readOnlyMode = false;
 	}
 	/*    Gallery methods    */
+	//Metodos escucha y interacciones con la galeria de evidencias
 	mainImageChanged(event,modalID:string){
 		this.showGallery=false;
 		this.toggleGalleryModal(false);
 		this.popSuccessToast("Imagen principal actualizada correctamente");
 	}
-	uploadingMainImage(){
+	uploadingMainImage(image){
 		this.popInfoToast("Cargando imagen principal");
 	}
 	error(error){
@@ -327,7 +370,6 @@ export class NascentDetailsComponent implements OnInit {
 		var state=toggle?"show":"hide";
 		$('#gallery-modal').modal(state);
 	}
-
 
 
 }

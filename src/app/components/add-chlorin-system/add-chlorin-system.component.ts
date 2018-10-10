@@ -136,7 +136,7 @@ export class AddChlorinSystemComponent implements OnInit {
 		const detailsInfo = { 
 			aqueductName: this.newChlorin.aqueductName, 
 			aqueductInCharge : this.newChlorin.aqueductInCharge,
-			ubication: this.newChlorin.ubication, 
+			location: this.newChlorin.location, 
 			inCharge: this.newChlorin.inCharge, 
 			chlorinType: this.newChlorin.chlorinType, 
 			dosageType: this.newChlorin.dosageType, 
@@ -245,7 +245,7 @@ export class AddChlorinSystemComponent implements OnInit {
 			'aqueductName': ['', Validators.required],
 			'aqueductInCharge': ['', Validators.required],
 			'inCharge': ['', Validators.required],
-			'ubication': ['', Validators.required],
+			'location': ['', Validators.required],
 			'chlorinType': [this.chlorinType[0].value],
 			'dosageType': [this.dosageType[0].value],
 			'latitude': ['', Validators.required],
@@ -279,7 +279,7 @@ export class AddChlorinSystemComponent implements OnInit {
 		'aqueductName': '',
 		'aqueductInCharge': '',
 		'inCharge': '',
-		'ubication': '',
+		'location': '',
 		'latitude': '',
 		'longitude': '',
 

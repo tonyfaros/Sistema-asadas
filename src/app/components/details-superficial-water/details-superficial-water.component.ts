@@ -83,16 +83,13 @@ export class DetailsSuperficialWaterComponent implements OnInit {
 		private toasterService: ToasterService,
 		private exportService: ExportService
 	) {}
-	export() {
-		this.exportService.exportInfrastructure(this.infraDB);
-	}
 	ngOnInit() {
 		this.sub = this.route.params
 			.subscribe((params: Params) => {
 				this.infrastructureId = params['id'];
 
 				this.readOnlyMode = params['action'] == 'edit' ? false : true;
-				this.buildForm();
+				this.resetForm();
 
 				this.getInfrastucture(this.infrastructureId);
 			});
@@ -129,7 +126,6 @@ export class DetailsSuperficialWaterComponent implements OnInit {
 		});
 
 	}
-
 	onSubmit() {
 		this.newSuperficialW = this.detailsSuperficialWForm.value;
 
@@ -155,33 +151,6 @@ export class DetailsSuperficialWaterComponent implements OnInit {
 
 		this.reload();
 	}
-	
-
-	/*    Gallery methods    */
-	mainImageChanged(event,modalID:string){
-		this.showGallery=false;
-		this.toggleGalleryModal(false);
-		this.popSuccessToast("Imagen principal actualizada correctamente");
-	}
-	uploadingMainImage(){
-		this.popInfoToast("Cargando imagen principal");
-	}
-	error(error){
-		if(error.content){
-			this.popErrorToast(error.content);
-		}
-		else{
-			if( (typeof error) == 'string'){
-				this.popErrorToast(error);
-			}
-		}
-	}
-	toggleGalleryModal(toggle:boolean){
-		this.showGallery=toggle;
-		var state=toggle?"show":"hide";
-		$('#gallery-modal').modal(state);
-	}
-	/*   			  */
 	/*    DB methods    */
 	getInfrastucture(pId): void {
 		this.angularFireService.getInfrastructure(pId)
@@ -190,7 +159,7 @@ export class DetailsSuperficialWaterComponent implements OnInit {
 
 				this.infraDB = results;
 				if (this.infraDB && this.infraDB.details) {
-					this.buildFormSuperficialW();
+					this.fillForm();
 
 				}
 			}
@@ -228,30 +197,6 @@ export class DetailsSuperficialWaterComponent implements OnInit {
 		};
 		this.angularFireService.updateInfrastructure(pId, newInfra);
 	}
-	delete() {
-		// this.deleteAllImages();
-		alert("Eliminado de Imagenes pendiente");
-		this.angularFireService.deleteInfrastructure(this.infrastructureId);
-		this.router.navigate(["/asadaDetails", this.infraDB.asada.id]);
-	}
-	getGeoLocation() {
-		this.geoLocation.getCurrentPosition().subscribe(
-			result => {
-				if (result) {
-					this.detailsSuperficialWForm.patchValue({ 'latitude': result.coords.latitude });
-					this.detailsSuperficialWForm.patchValue({ 'longitude': result.coords.longitude });
-				}
-
-			}
-		);
-	}
-	changeToEdit() {
-		this.readOnlyMode = false;
-	}
-	reload() {
-		this.router.navigate(['/' + this.infraDB.type + 'Details', this.infrastructureId]);
-		this.ngOnInit();
-	}
 	checkOther(pRadioValue: String) {
 		if (pRadioValue == "Otro") {
 			this.otherValue = true;
@@ -261,7 +206,7 @@ export class DetailsSuperficialWaterComponent implements OnInit {
 
 		}
 	}
-	buildFormSuperficialW() {
+	fillForm() {
 		this.detailsSuperficialWForm.patchValue({ 'superficialWName': this.infraDB.name });
 		this.detailsSuperficialWForm.patchValue({ 'aqueductName': this.infraDB.details.aqueductName });
 		this.detailsSuperficialWForm.patchValue({ 'aqueductInCharge': this.infraDB.details.aqueductInCharge });
@@ -280,7 +225,7 @@ export class DetailsSuperficialWaterComponent implements OnInit {
 		} else
 			this.otherValue = false;
 	}
-	buildForm(): void {
+	resetForm(): void {
 		this.detailsSuperficialWForm = this.fb.group({
 			'aqueductName': ['', Validators.required],
 			'aqueductInCharge': ['', Validators.required],
@@ -313,28 +258,6 @@ export class DetailsSuperficialWaterComponent implements OnInit {
 				}
 			}
 		}
-	}
-	// Toasters
-	popSuccessToast(pMesage: string) {
-		var toast = {
-			type: 'success',
-			body: pMesage
-		};
-		this.toasterService.pop(toast);
-	}
-	popInfoToast(pMesage: string) {
-		var toast = {
-			type: 'info',
-			body: pMesage
-		};
-		this.toasterService.pop(toast);
-	}
-	popErrorToast(pMessage: string) {
-		var toast = {
-			type: 'error',
-			body: pMessage
-		};
-		this.toasterService.pop(toast);
 	}
 	public formErrors = {
 		'aqueductName': '',
@@ -373,5 +296,101 @@ export class DetailsSuperficialWaterComponent implements OnInit {
 		}
 	};
 
+
+	//Busca la ubicacion actual donde se encuentra el dispositivo
+	//con el que se esta accediendo
+	getGeoLocation() {
+		this.popInfoToast("Obteniendo ubicación.");
+		this.geoLocation.getCurrentPosition().subscribe(
+			result => {
+				if (result) {
+					this.detailsSuperficialWForm.patchValue({ 'latitude': result.coords.latitude });
+					this.detailsSuperficialWForm.patchValue({ 'longitude': result.coords.longitude });
+					
+					this.popSuccessToast("Ubicación cargada correctamente.");
+				}
+				else{
+					this.popErrorToast("No se pudo obtener la ubicación.");
+				}
+
+			}
+		);
+	}
+	//Toasters
+	//Mensajes flotantes
+	popSuccessToast(pMesage: string) {
+		var toast = {
+			type: 'success',
+			body: pMesage
+		};
+		this.toasterService.pop(toast);
+	}
+	popInfoToast(pMesage: string) {
+		var toast = {
+			type: 'info',
+			body: pMesage
+		};
+		this.toasterService.pop(toast);
+	}
+	popErrorToast(pMessage: string) {
+		var toast = {
+			type: 'error',
+			body: pMessage
+		};
+		this.toasterService.pop(toast);
+	}
+	/*    Infrastructure methods    */
+	//Borra la infraestructura
+	delete() {
+		// this.deleteAllImages();
+		alert("Eliminado de Imagenes pendiente");
+		this.angularFireService.deleteInfrastructure(this.infrastructureId);
+		this.router.navigate(["/asadaDetails", this.infraDB.asada.id]);
+	}
+	//Exporta la infraestructura a un documento externo
+	export() {
+		this.exportService.exportInfrastructure(this.infraDB);
+	}
+	/*    HTML methods    */
+	goBack(): void {
+		setTimeout(() => {
+			this.ngOnInit();
+		},
+			1500);
+
+	}
+	reload() {
+		this.router.navigate(['/' + this.infraDB.type + 'Details', this.infrastructureId]);
+		this.ngOnInit();
+	}
+	//Cambia el modo a edicion
+	changeToEdit() {
+		this.readOnlyMode = false;
+	}
+	/*    Gallery methods    */
+	//Metodos escucha y interacciones con la galeria de evidencias
+	mainImageChanged(event,modalID:string){
+		this.showGallery=false;
+		this.toggleGalleryModal(false);
+		this.popSuccessToast("Imagen principal actualizada correctamente");
+	}
+	uploadingMainImage(image){
+		this.popInfoToast("Cargando imagen principal");
+	}
+	error(error){
+		if(error.content){
+			this.popErrorToast(error.content);
+		}
+		else{
+			if( (typeof error) == 'string'){
+				this.popErrorToast(error);
+			}
+		}
+	}
+	toggleGalleryModal(toggle:boolean){
+		this.showGallery=toggle;
+		var state=toggle?"show":"hide";
+		$('#gallery-modal').modal(state);
+	}
 
 }

@@ -565,12 +565,13 @@ export class SearchComponent implements OnInit, OnDestroy {
 			dateNumbers = res[index + 1].split();
 		}
 
-		var Obj = {
+		var Obj:Chlorination = {
 			tags: "SistemaCloracion" + " " + tipo + " " +
 				res[index] + " " + this.selectedItem.name + " "
 				+ this.selectedItem.id,
 			name: "",
 			risk: 0,
+			mainImg: {url:"",description:"",fileName:"",filePath:""},
 			img: [],
 			type: "SistemaCloracion",
 			asada: {
@@ -583,7 +584,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 				inCharge: "",
 				aqueductName: res[index],
 				aqueductInCharge: "",
-				ubication: res[index],
+				location: res[index],
 				chlorinType: res[index + 2],
 				dosageType: res[index + 3],
 				installationDate: {
@@ -1032,7 +1033,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 			inCharge: infra.details.inCharge,
 			aqueductName: infra.details.aqueductName,
 			aqueductInCharge: infra.details.aqueductInCharge,
-			ubication: infra.details.ubication,
+			location: infra.details.location,
 			chlorinType: infra.details.chlorinType,
 			dosageType: infra.details.dosageType,
 			installationDate: {
