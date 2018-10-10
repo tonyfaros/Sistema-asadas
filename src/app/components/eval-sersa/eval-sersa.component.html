@@ -31,9 +31,11 @@
               </div>
               <div class="col-md-8">
                 <div class="form-group">
-                  <button data-toggle="modal" data-target="#ConfirmModal" type="button" class="btn btn-raised btn-primary"  
+                  <button type="button" (click) = "saveAnswers()" class="btn btn-raised btn-primary"  
                   >Guardar Evaluacion</button>
                   <button  type="button" class="btn btn-raised btn-warning" (click)="goBack()">Volver</button>
+
+                  <button id="openModalButton" [hidden]="true" data-toggle="modal" data-target="#ConfirmModal"></button>
                 </div>
               </div>
             </form>
@@ -47,24 +49,23 @@
         <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title">Enviar evaluación</h4>
+            <h4 class="modal-title" style="color:#4CAF50">Guardar evaluación</h4>
           </div>
 
-          <div class="modal-body">
-            <h3>El resultado de la evaluación es: </h3>
-            <h4 class="text-warning">Una vez enviada, no se podra editar</h4>
-
+          <div class="modal-body" >
+            <p> El resultado de la evaluación es: <a [style.color]="nombreRiesgo() === 'Nulo' ? '#084B8A' : nombreRiesgo() === 'Bajo' ? '#2E9AFE' : nombreRiesgo() === 'Intermedio' ? 'green' : nombreRiesgo() === 'Alto' ? '#EDED10' : 'red'"><b>{{nombreRiesgo()}}</b></a> </p>
           </div>
 
           <div class="modal-footer">
-            <button type="submit" class="btn btn-primary" data-dismiss="modal"  (click)="saveAnswers()">Guardar</button>
+            <button type="submit" class="btn btn-primary" data-dismiss="modal"  (click)="guardar()">Guardar</button>
             <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                 
           </div>
         </div>
 
       </div>
     </div>
-
+            
             <toaster-container  [toasterconfig]="toastConfig"></toaster-container>
 
 </div>      
