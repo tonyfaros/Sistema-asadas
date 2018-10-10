@@ -83,6 +83,9 @@ export class SearchComponent implements OnInit, OnDestroy {
 		this.loadUserPermissions();
 
 	}
+	prueba(element){
+		console.log(element);
+	}
 	loadUserPermissions() {
 		this.userAccess = {};
 		this.af.auth.subscribe(user => {
