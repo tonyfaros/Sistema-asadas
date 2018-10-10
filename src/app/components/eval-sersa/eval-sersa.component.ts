@@ -23,6 +23,7 @@ import { TomaDatos } from '../../common/model/TomaDatos';
   providers: [GetEvalSersaService, ToasterService, AngularFireService, UserService]
 })
 export class EvalSersaComponent implements OnInit, OnDestroy {
+  filteredList: any[];
   private sub: any;
   private tomaDatosId: string;
   public form: FormularioSersa[];
@@ -33,6 +34,7 @@ export class EvalSersaComponent implements OnInit, OnDestroy {
   idToma;
   idInfra;
   tomaDatosInfra: TomaDatos;
+  
 
   /*			Toast variables		*/
   public toastConfig: ToasterConfig = new ToasterConfig({
@@ -51,13 +53,16 @@ export class EvalSersaComponent implements OnInit, OnDestroy {
   private user;
 
   ngOnInit() {
-    //this.riesgo_name='hola';
+    this.filteredList=[];
     this.loadUserPermissions();
     this.sub = this.route.params.subscribe((params: Params) => {
       this.tomaDatosId = params['id'];
       this.type = params['type'];
       this.idInfra = params['idInfra'];
     });
+
+
+
     this.getForm();
     console.log(this.idInfra);
 
@@ -69,12 +74,18 @@ export class EvalSersaComponent implements OnInit, OnDestroy {
             this.idToma = i;
           }
         }
-
-        console.log(results.infraestructuras[this.idToma]);
+        console.log("abc");
+        console.log(results.infraestructuras[this.idToma]["res"+1]);
       });
+
+      
 
     
   }
+
+
+  
+
   loadUserPermissions() {
     this.user = {};
     this.af.auth.subscribe(user => {
@@ -90,12 +101,33 @@ export class EvalSersaComponent implements OnInit, OnDestroy {
   newAnswer(question: number, value: boolean): void {
     this.answers[question] = value;
   }
+
+
+  
   getForm(): void {
     this.getFormService.getForm(this.type)
       .subscribe(
       results => {
+
+
+        
         this.form = results;
+        console.log("form");
+        console.log(this.form);
         this.answers = new Array(this.form.length + 1);
+
+
+        for(var i = 0; i<10; i++){
+          var res = {
+            'ans': ''  };
+          
+          res.ans=this.tomaDatosInfra.infraestructuras[this.idToma]["res"+(i+1)];
+          this.answers[i+1] = res.ans == "0" ? false:true;
+          this.filteredList.push(this.tomaDatosInfra.infraestructuras[this.idToma]["res"+(i+1)]);
+        }
+        console.log(this.filteredList);
+        console.log(this.answers);
+
       }
       );
   }
@@ -118,6 +150,7 @@ export class EvalSersaComponent implements OnInit, OnDestroy {
   }
 
   saveAnswers() {
+    console.log(this.answers);
     if (this.arrayComplete(this.answers)) {
       
       let risk: number = this.calculateRisk();
@@ -211,16 +244,16 @@ export class EvalSersaComponent implements OnInit, OnDestroy {
 
     var aux = this.tomaDatosInfra.infraestructuras[this.idToma];
 
-    aux.res1 = ''+(this.answers[0] ? 0 : 1);
-    aux.res2 = ''+(this.answers[1] ? 0 : 1);
-    aux.res3 = ''+(this.answers[2] ? 0 : 1);
-    aux.res4 = ''+(this.answers[3] ? 0 : 1);
-    aux.res5 = ''+(this.answers[4] ? 0 : 1);
-    aux.res6 = ''+(this.answers[5] ? 0 : 1);
-    aux.res7 = ''+(this.answers[6] ? 0 : 1);
-    aux.res8 = ''+(this.answers[7] ? 0 : 1);
-    aux.res9 = ''+(this.answers[8] ? 0 : 1);
-    aux.res10 = ''+(this.answers[9] ? 0 : 1);
+    aux.res1 = ''+(this.answers[1] ? 1 : 0);
+    aux.res2 = ''+(this.answers[2] ? 1 : 0);
+    aux.res3 = ''+(this.answers[3] ? 1 : 0);
+    aux.res4 = ''+(this.answers[4] ? 1 : 0);
+    aux.res5 = ''+(this.answers[5] ? 1 : 0);
+    aux.res6 = ''+(this.answers[6] ? 1 : 0);
+    aux.res7 = ''+(this.answers[7] ? 1 : 0);
+    aux.res8 = ''+(this.answers[8] ? 1 : 0);
+    aux.res9 = ''+(this.answers[9] ? 1 : 0);
+    aux.res10 = ''+(this.answers[10] ? 1 : 0);
 
     this.tomaDatosInfra.infraestructuras[this.idToma] = aux;
 
