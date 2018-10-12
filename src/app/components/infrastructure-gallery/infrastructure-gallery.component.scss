@@ -40,29 +40,43 @@
     height: 110%;
 }
 
-.selected{
+.selected-image{
     height: 100%!important;
 	-webkit-filter:  blur(2px)!important;
 	filter: blur(2px)!important;
 }
 
-.selected-indicator {
-    font-size: 30px;
-    color: #313532;
+.selected-indicator, .unselected-indicator {
+    font-size: calc(20px + (10*( 100vw/2000 ))) ;
+    color: white;
     position: absolute;
     top: 0px;
     right: 0;
     height: 100%;
     width: 100%;
-    opacity: 0;
     transition: .6s ease;
     z-index: 100!important;
   }
+
+  .selected-indicator{
+    opacity: 0!important;
+  }
+  .selected  .selected-indicator {
+     opacity: 1!important;
+     color: white;
+     z-index: 100!important;
+   }
+   
+  .unselected-indicator{
+    opacity: 1!important;
+    display: block!important;
+  }
   
- .selected+.selected-indicator {
-    opacity: 1;
+  .selected  .unselected-indicator {
+    opacity: 0!important;
     color: white;
     z-index: 100!important;
+    display: none!important;
   }
   
 .full-mode-toggle{

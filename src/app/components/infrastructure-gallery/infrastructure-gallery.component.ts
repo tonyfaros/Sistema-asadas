@@ -7,15 +7,19 @@ import { AngularFireService } from '../../common/service/angularFire.service';
 import * as firebase from 'firebase';
 import { FirebaseApp } from 'angularfire2';
 
+
 import { ToasterService, ToasterConfig } from 'angular2-toaster';
+import { promise } from 'selenium-webdriver';
 
 const lodash = require('lodash');
+// const sharp = require('sharp');
+// import { Ng2ImgMaxService } from 'ng2-img-max';
 
 @Component({
   selector: 'app-infrastructure-gallery',
   templateUrl: './infrastructure-gallery.component.html',
   styleUrls: ['./infrastructure-gallery.component.scss'],
-  providers: [AngularFireService,ToasterService]
+  providers: [AngularFireService, ToasterService]
 })
 export class InfrastructureGalleryComponent implements OnInit, DoCheck {
 
@@ -30,9 +34,12 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
 
 
   private selectedImageFile: File;  //Copia descargada de la imagen seleccionada;
+  private selectedThumbnailFile: File;  //Copia descargada de la imagen seleccionada  (thumbnail)
   private uploadedImageFile: File;  //Imagen subida
+  private uploadedThumbnailFile: File;  //Imagen subida (thumbnail)
 
   private mainImageFile: File;       //Imagen actual que será seleccionada. selectedImageFile || uploadedImageFile
+  private mainThumbnailFile: File;
 
   public selectionMode: string = "upload";
   public tabIndex: number = 0
@@ -42,23 +49,24 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
   constructor(
     @Inject(FirebaseApp) firebaseApp: any,
     private angularFireService: AngularFireService,
-		private toasterService: ToasterService ) {
+    private toasterService: ToasterService,
+  ) {
     this.indexString = ".";
     this.selectedIndex = 0;
 
     this.storageRef = firebaseApp.storage().ref();
   }
-	/*		Toast variables		*/
-	public toastConfig: ToasterConfig = new ToasterConfig({
-		positionClass: 'toast-bottom-center',
-		limit: 5
-	});
+  /*		Toast variables		*/
+  public toastConfig: ToasterConfig = new ToasterConfig({
+    positionClass: 'toast-bottom-center',
+    limit: 5
+  });
 
 
   @Output() onMainImageChanged: EventEmitter<FirebaseImg> = new EventEmitter<FirebaseImg>();
   @Output() onClose: EventEmitter<Infrastructure> = new EventEmitter<Infrastructure>();
   @Output() onUploadingMainImage: EventEmitter<FirebaseImg> = new EventEmitter<FirebaseImg>();
-  @Output() onError: EventEmitter<{title:string,content:string}> = new EventEmitter<{title:string,content:string}>();
+  @Output() onError: EventEmitter<{ title: string, content: string }> = new EventEmitter<{ title: string, content: string }>();
 
   @Input() public infrastructure: Chlorination;
   @Input() editMode: boolean = false;
@@ -73,6 +81,7 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
   }
 
   updateSelectedImageFile(image: FirebaseImg) {
+    console.log("updateSelectedImage")
     if (image && image.url) {
       try {
         var scope = this;
@@ -84,6 +93,10 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
           b.lastModifiedDate = new Date();
           b.name = "mainImage";
           scope.selectedImageFile = <File>blob;
+          scope.createThumbImage(scope.selectedImageFile).then(file=>{
+            scope.selectedThumbnailFile=file;
+          })
+
         };
         xhr.open('GET', this.selectedImage.url);
         xhr.send();
@@ -111,14 +124,17 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
   uploadMainImage() {
     switch (this.selectionMode) {
       case "selection": {
-        this.mainImageFile = this.selectedImageFile; break;
+        this.mainImageFile = this.selectedImageFile;
+        this.mainThumbnailFile = this.selectedThumbnailFile; break;
       }
       case "upload": {
-        this.mainImageFile = this.uploadedImageFile; break;
+        this.mainImageFile = this.uploadedImageFile;
+        this.mainThumbnailFile = this.uploadedThumbnailFile; break;
       }
       default: this.mainImageFile = undefined;
     }
-
+    console.log(this.mainImageFile);
+    console.log(this.mainThumbnailFile);
     if (this.infrastructure && this.infrastructure.$key && this.mainImageFile) {
       let newImage: FirebaseImg;
       const mainUploadTask: firebase.storage.UploadTask =
@@ -138,34 +154,32 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
     }
   }
   uploadThumbMainImage(newImage: FirebaseImg) {
-    var thumbnail;
-    if (this.mainImageFile.size > 153600) {  //150KB
-      thumbnail = this.createThumbImage(this.mainImageFile);
+    if (this.mainThumbnailFile) {
+      try {
+        const thumbUploadTask: firebase.storage.UploadTask =
+          this.storageRef.child('infrastructure/' + this.infrastructure.$key + '/mainImage/thumb-mainImage').put(this.mainThumbnailFile);
+        thumbUploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+          (snapshot) => {
+          },
+          (error) => { this.notifyError("No se pudo realizar la selección de imagen principal."); },
+          () => {
+            let thumbnailUrl: string = thumbUploadTask.snapshot.downloadURL;
+            var thumbnailPath: string = thumbUploadTask.snapshot.metadata.fullPath;
+
+            newImage.thumbnailPath = thumbnailPath;
+            newImage.thumbnailUrl = thumbnailUrl;
+            this.updateMainImage(newImage);
+          }
+        );
+      }
+      catch (ex) {
+        this.notifyError("No se pudo realizar la selección de imagen principal.");
+      }
     }
     else {
-      thumbnail = this.mainImageFile;
+      this.popErrorToast("Error al procesar la imagen")
     }
-    try {
-      const thumbUploadTask: firebase.storage.UploadTask =
-        this.storageRef.child('infrastructure/' + this.infrastructure.$key + '/mainImage/thumb-mainImage').put(thumbnail);
-      thumbUploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
-        (snapshot) => {
-        },
-        (error) => { this.notifyError("No se pudo realizar la selección de imagen principal."); },
-        () => {
-          let thumbnailUrl: string = thumbUploadTask.snapshot.downloadURL;
-          var thumbnailPath: string = thumbUploadTask.snapshot.metadata.fullPath;
 
-          newImage.thumbnailPath = thumbnailPath;
-          newImage.thumbnailUrl = thumbnailUrl;
-          this.updateMainImage(newImage);
-        }
-      );
-    }
-    catch (ex) {
-      this.notifyError("No se pudo realizar la selección de imagen principal.");
-    }
-    
   }
   updateMainImage(newMainImge: FirebaseImg) {
     if (this.infrastructure && this.infrastructure.$key && newMainImge)
@@ -178,10 +192,53 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
       }
   }
 
-  private createThumbImage(image: File) {
-    ///CREAR THUMBNAIL
-    return image;
+  createThumbImage(image: File):Promise<File> {
+      return this.resizeImage(image, "thumbImage", 150, 150);
   }
+
+  resizeImage(file: File,name:string, maxWidth: number, maxHeight: number): Promise<File> {
+    return new Promise((resolve, reject) => {
+      let image = new Image();
+      image.src = URL.createObjectURL(file);
+      image.onload = () => {
+        let width = image.width;
+        let height = image.height;
+
+        if (width <= maxWidth && height <= maxHeight) {
+          resolve(file);
+        }
+
+        let newWidth;
+        let newHeight;
+
+        if (width > height) {
+          newHeight = height * (maxWidth / width);
+          newWidth = maxWidth;
+        } else {
+          newWidth = width * (maxHeight / height);
+          newHeight = maxHeight;
+        }
+
+        let canvas = document.createElement('canvas');
+        canvas.width = newWidth;
+        canvas.height = newHeight;
+
+        let context = canvas.getContext('2d');
+
+        context.drawImage(image, 0, 0, newWidth, newHeight);
+        canvas.toBlob(blob=>{
+          let b:any=blob;
+          b.lastModifiedDate = new Date();
+          b.name = name;
+          resolve(<File>b);
+        }, 
+          file.type);
+      };
+      image.onerror = reject;
+    });
+  }
+
+
 
 
   removeMainImage() {
@@ -201,12 +258,16 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
           if (displayImage) {
             displayImage.setAttribute("src", file.target.result);
           }
+          this.createThumbImage(this.uploadedImageFile).then(file=>{
+            this.uploadedThumbnailFile=file;
+          })
+            
         }
         reader.readAsDataURL(this.uploadedImageFile);
       }
-      else{
-        this.uploadedImageFile=undefined;
-        target.value="";
+      else {
+        this.uploadedImageFile = undefined;
+        target.value = "";
       }
     }
   }
@@ -223,27 +284,27 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
   }
 
   private notifyError(msj: string) {
-      this.onError.emit({title:"Error",content:msj});
+    this.onError.emit({ title: "Error", content: msj });
   }
 
-  close(){
+  close() {
     this.notifyClose();
     this.reset();
   }
-  reset(){
-   this.currentImage=null;
-   this.indexString = "";
-  
-   this.selectedImageFile=null;  //Copia descargada de la imagen seleccionada;
-   this.uploadedImageFile=null;  //Imagen subida
-  
-    this.mainImageFile=null;       //Imagen actual que será seleccionada. selectedImageFile || uploadedImageFile
-  
+  reset() {
+    this.currentImage = null;
+    this.indexString = "";
+
+    this.selectedImageFile = null;  //Copia descargada de la imagen seleccionada;
+    this.uploadedImageFile = null;  //Imagen subida
+
+    this.mainImageFile = null;       //Imagen actual que será seleccionada. selectedImageFile || uploadedImageFile
+
     this.selectionMode = "upload";
     this.tabIndex = 0
     this.updateGallery();
     this.closeFullMode();
-  
+
   }
 
   toggleEdit() {
@@ -380,31 +441,31 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
       }
     }
   }
-  
-
-	popSuccessToast(pMesage: string) {
-		var toast = {
-			type: 'success',
-			title: pMesage
-		};
-		this.toasterService.pop(toast);
-	}
-
-	popInfoToast(pMesage: string) {
-		var toast = {
-			type: 'info',
-			title: pMesage
-		};
-		this.toasterService.pop(toast);
-	}
 
 
-	popErrorToast(pMessage: string) {
-		var toast = {
-			type: 'error',
-			title: pMessage
-		};
-		this.toasterService.pop(toast);
-	}
+  popSuccessToast(pMesage: string) {
+    var toast = {
+      type: 'success',
+      title: pMesage
+    };
+    this.toasterService.pop(toast);
+  }
+
+  popInfoToast(pMesage: string) {
+    var toast = {
+      type: 'info',
+      title: pMesage
+    };
+    this.toasterService.pop(toast);
+  }
+
+
+  popErrorToast(pMessage: string) {
+    var toast = {
+      type: 'error',
+      title: pMessage
+    };
+    this.toasterService.pop(toast);
+  }
 
 }

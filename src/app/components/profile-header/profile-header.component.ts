@@ -105,7 +105,7 @@ export class ProfileHeaderComponent implements OnInit {
 						}	
 					}
 				}
-				console.log(usuariosList);
+				// console.log(usuariosList);
 				this.numRequest = Object.keys(usuariosList).length;
 			}
 		)

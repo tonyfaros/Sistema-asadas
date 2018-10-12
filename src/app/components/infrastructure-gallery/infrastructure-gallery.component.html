@@ -1,3 +1,5 @@
+
+
 <div class="card style-default-dark gallery-panel">
   <div class="card-head">
     <header *ngIf="!editMode">Evidencias de tomas de datos</header>
@@ -5,6 +7,9 @@
     <button class="btn btn-icon-toggle pull-right full-mode-toggle top-right" *ngIf="!emptyGallery && selectionMode=='selection'" (click)="openFullMode()"><i
         class="md md-fullscreen"></i></button>
     <!-- <button (click)="toggleEdit()">p1</button> -->
+    <img id='img'>
+<img id='img2'>
+
 
   </div>
   <div class="card-body style-default-bright gallery-content">
@@ -55,12 +60,15 @@
             </div>
             <div *ngIf="editMode" class="album-thumbnails">
               <a *ngFor="let image of infrastructure.img" class="card" (click)="markAsSelected(image)">
-                <div>
-                  <img [src]="image.url" alt="Image" [class.selected]="image==selectedImage" />
+                <div [class.selected]="image==selectedImage">
+                  <img [src]="image.url" alt="Image" [class.selected-image]="image==selectedImage" />
                   <div class="selected-indicator centered-content">
-                    <i class="fa fa-check top-right"></i>
+                    <i class="fa fa-check-square top-right"></i>
                     <button class="btn btn-icon-toggle full-mode-toggle-centered" *ngIf="image==selectedImage" (click)="openFullMode()"><i
                         class="md md-fullscreen"></i></button>
+                  </div>
+                  <div class="unselected-indicator centered-content" >
+                    <i class="fa fa-square-o top-right"  ></i>
                   </div>
                 </div>
               </a>

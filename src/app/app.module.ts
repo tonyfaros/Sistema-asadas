@@ -11,7 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 
-//import {DataTableModule} from "angular2-datatable";
+import { Ng2ImgMaxModule } from 'ng2-img-max';
 
 import { RoutingModule } from './modules/routing.module';
 
@@ -123,11 +123,10 @@ import { InfrastructureGalleryComponent } from './components/infrastructure-gall
     FilterComponent,
     TomaDatosInfraComponent,
     InfrastructureGalleryComponent,
+
   ],
   imports: [
     DatepickerModule,
-
-    //DataTableModule,
     BrowserModule,
     NgxChartsModule,
 
