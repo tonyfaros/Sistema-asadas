@@ -16,7 +16,6 @@ import { FirebaseImg } from '../../common/model/FirebaseImg';
 import * as firebase from 'firebase';
 import { FirebaseApp, AngularFire, FirebaseAuthState } from 'angularfire2';
 import { ToasterService, ToasterConfig } from 'angular2-toaster';
-import { Image, Action, ImageModalEvent, Description } from 'angular-modal-gallery';
 
 import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';

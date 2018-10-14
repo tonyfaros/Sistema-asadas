@@ -1,6 +1,7 @@
 export class FirebaseImg{
     fileName: string;
-    filePath:String;
+    filePath:string;
+    imageKey?:string;
     url: string;
     thumbnailUrl?:string;
     thumbnailPath?:String;

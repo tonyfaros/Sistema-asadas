@@ -6,30 +6,22 @@
 
   <div class="card-head">
     <div class="top-left-controls">
-
-      <header class=" no-padding" *ngIf="!editMode">Evidencias de tomas de datos</header>
-      <header class=" no-padding" *ngIf="editMode">Seleccione la foto principal</header>
+      <header class=" no-padding" *ngIf="!editMode">Evidencias</header>
+      <!-- <header class=" no-padding" *ngIf="editMode">Seleccione la foto principal</header> -->
     </div>
-    <button class="btn btn-icon-toggle pull-right full-mode-toggle top-right" *ngIf="!emptyGallery && selectionMode=='selection'"
+    <button class="btn btn-icon-toggle pull-right full-mode-toggle top-right"
       (click)="openFullMode()"><i class="md md-fullscreen"></i></button>
 
   </div>
   <div class="card-body style-default-bright gallery-content">
-    <div *ngIf='!infrastructure'>
+    <div *ngIf='!evaluation'>
       <article class="margin-bottom-xxl">
         <p class="lead">
-          No se ha seleccionado una infraestructura
+          No se han cargado las evidencias existentes
         </p>
       </article>
     </div>
-    <div *ngIf='infrastructure'>
-      <div class="card-head">
-        <ul class="nav nav-tabs" data-toggle="tabs">
-          <li [class.active]="tabIndex==0"><a (click)="toggleImageUploadMode()">Subir</a></li>
-          <li [class.active]="tabIndex==1"><a (click)="toggleImageSelectionMode()">Seleccionar</a></li>
-        </ul>
-      </div>
-      <!--end .card-head -->
+    <div *ngIf='evaluation'>
       <div class="card-body tab-content">
         <div class="tab-pane" [class.active]="tabIndex==0" id="tab-subir">
           <div class="album-thumbnails">
@@ -46,34 +38,42 @@
         </div>
         <div class="tab-pane" [class.active]="tabIndex==1" id="tab-seleccionar">
 
-
           <article *ngIf="emptyGallery" class="margin-bottom-xxl">
             <p class="lead">
-              No existe fotos guardadas para esta infraestructura.
+              No existen evidencias para esta evaluacion.
             </p>
           </article>
           <div *ngIf="!emptyGallery" class="row">
             <div *ngIf="!editMode" class="album-thumbnails">
-              <a *ngFor="let image of infrastructure.img" class="card" (click)="markAsCurrent(image)">
+              <a *ngFor="let image of evaluation.evidences" class="card" (click)="markAsCurrent(image)">
                 <div>
                   <img [src]="image.url" alt="Image" />
                 </div>
               </a>
             </div>
-            <div *ngIf="editMode" class="album-thumbnails">
-              <a *ngFor="let image of infrastructure.img" class="card" (click)="markAsSelected(image)">
-                <div [class.selected]="image==selectedImage">
-                  <img [src]="image.url" alt="Image" [class.selected-image]="image==selectedImage" />
-                  <div class="selected-indicator centered-content">
-                    <i class="fa fa-check-square top-right"></i>
-                    <button class="btn btn-icon-toggle full-mode-toggle-centered" *ngIf="image==selectedImage" (click)="openFullMode()"><i
-                        class="md md-fullscreen"></i></button>
-                  </div>
-                  <div class="unselected-indicator centered-content">
-                    <i class="fa fa-square-o top-right"></i>
-                  </div>
+            <div *ngIf="editMode" >
+                <div  class="album-thumbnails" *ngIf="evaluation && evaluation.evidences">
+                  <a *ngFor="let image of evaluation.evidences" class="card" (click)="markAsCurrent(image)">
+                    <div>
+                      <img [id]='image.imageKey' [src]="image.url" [alt]="image.description" />
+                    </div>
+                  </a>
                 </div>
-              </a>
+              <div class="album-thumbnails">
+                  <a *ngFor="let image of evaluation.evidences" class="card" (click)="markAsSelected(image)">
+                      <div [class.selected]="image==selectedImage">
+                        <img [src]="image.url" alt="Image" [class.selected-image]="image==selectedImage" />
+                        <div class="selected-indicator centered-content">
+                          <i class="fa fa-check-square top-right"></i>
+                          <button class="btn btn-icon-toggle full-mode-toggle-centered" *ngIf="image==selectedImage" (click)="openFullMode()"><i
+                              class="md md-fullscreen"></i></button>
+                        </div>
+                        <div class="unselected-indicator centered-content">
+                          <i class="fa fa-square-o top-right"></i>
+                        </div>
+                      </div>
+                    </a>
+              </div>
             </div>
           </div>
 
@@ -85,14 +85,14 @@
 
   <div class="card-actionbar no-padding" *ngIf="editMode">
     <div class="card-actionbar-row">
-
+<!-- 
       <div class="col-xs-12 col-sm-6 clearfix gallery-footer-section" *ngIf="preview">
         <a class="pull-left">
           Seleccionada:
           <img class="img-circle " id="preview-image" *ngIf="mainImageFile">
           <img class="img-circle " src="../../assets/icons/image-not-found.png" *ngIf="!mainImageFile">
         </a>
-    </div>
+    </div> -->
     <div class="col-xs-12 col-sm-6 clearfix gallery-footer-section">
       <div class="bottom-right">
         <button type="button" *ngIf="(selectionMode=='upload' && uploadedImageFile) || (selectionMode=='selection' && selectedImageFile)"

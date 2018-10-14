@@ -1,3 +1,5 @@
+import { FirebaseImg } from "./FirebaseImg";
+
 export class TomaInfra {
     $key?: string;
     id:string;
@@ -11,4 +13,5 @@ export class TomaInfra {
     res8: string = '';
     res9: string = '';
     res10: string = '';
+    evidences:FirebaseImg[];
 }
