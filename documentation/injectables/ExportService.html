@@ -8,824 +8,31 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-	    <link rel="stylesheet" href="../styles/style.css">
+	      <link rel="stylesheet" href="../styles/style.css">
     </head>
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
             <a href="../" class="navbar-brand">sistema-asadas documentation</a>
-            <button type="button" class="btn btn-default btn-menu fa fa-bars" id="btn-menu"></button>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
-            <div id="book-search-input" role="search">
-                <input type="text" placeholder="Type to search">
-            </div>
-            <nav>
-            
-                <ul class="list">
-            
-                    <li class="title">
-                        <a href="../index.html">sistema-asadas documentation</a>
-                    </li>
-            
-                    <li class="divider"></li>
-            
-            
-                    <li class="chapter">
-                        <a data-type="chapter-link" href="../index.html"><span class="fa fa-home"></span>Getting started</a>
-                        <ul class="links">
-                                <li class="link">
-                                    <a 
-                                        
-                                         href="../overview.html" 
-                                         href="../overview.html" 
-                                        >
-                                        <span class="fa fa-th"></span>Overview
-                                    </a>
-                                </li>
-                                <li class="link">
-                                  <a href="../index.html" ><span class="fa fa-file-text-o"></span>README</a>
-                                </li>
-                        </ul>
-                    </li>
-            
-            
-                    <li class="chapter">
-                        <a data-type="chapter-link" href="../modules.html" >
-                            <div class="menu-toggler linked" data-toggle="collapse"
-                                    data-target="#xs-modules-links"
-                            >
-                                <span class="fa fa-archive"></span>
-                                <span class="link-name">Modules</span>
-                                <span class="fa fa-angle-down"></span>
-                            </div>
-                        </a>
-                        <ul class="links collapse "
-                                id="xs-modules-links"
-                            >
-                                <li class="link">
-                                    <a href="../modules/AppModule.html" >AppModule</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../modules/RoutingModule.html" >RoutingModule</a>
-                                </li>
-                        </ul>
-                    </li>
-            
-                    <li class="chapter">
-                        <div class="simple menu-toggler" data-toggle="collapse"
-                                data-target="#xs-components-links"
-                            >
-                            <span class="fa fa-cogs"></span>
-                            <span>Components</span>
-                            <span class="fa fa-angle-down"></span>
-                        </div>
-                        <ul class="links collapse "
-                                id="xs-components-links"
-                            >
-                                <li class="link">
-                                    <a href="../components/AboutUsComponent.html" >AboutUsComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/AddAsadaComponent.html" >AddAsadaComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/AddChlorinSystemComponent.html" >AddChlorinSystemComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/AddInfrastructureComponent.html" >AddInfrastructureComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/AddNascentComponent.html" >AddNascentComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/AddSuperficialWaterComponent.html" >AddSuperficialWaterComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/AddTankComponent.html" >AddTankComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/AppComponent.html" >AppComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/AsadaDetailsComponent.html" >AsadaDetailsComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/ChlorinDetailsComponent.html" >ChlorinDetailsComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/CompareAsadasComponent.html" >CompareAsadasComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/DetailsSuperficialWaterComponent.html" >DetailsSuperficialWaterComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/EvalSersaComponent.html" >EvalSersaComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/GenerateReportComponent.html" >GenerateReportComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/GraphicdetailsComponent.html" >GraphicdetailsComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/GraphicsComponent.html" >GraphicsComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/HeaderComponent.html" >HeaderComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/HomeComponent.html" >HomeComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/LoginComponent.html" >LoginComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/MapGoogleComponent.html" >MapGoogleComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/MenuComponent.html" >MenuComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/NascentDetailsComponent.html" >NascentDetailsComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/NascentPickupComponent.html" >NascentPickupComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/NewNotificationComponent.html" >NewNotificationComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/NotFoundComponentComponent.html" >NotFoundComponentComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/NotificationsComponent.html" >NotificationsComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/PersmissionRequestsComponent.html" >PersmissionRequestsComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/ProfileComponent.html" >ProfileComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/ProfileHeaderComponent.html" >ProfileHeaderComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/SearchComponent.html" >SearchComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/SignupComponent.html" >SignupComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/SurfacePickupComponent.html" >SurfacePickupComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/Tab.html" >Tab</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/Tabs.html" >Tabs</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/TankDetailsComponent.html" >TankDetailsComponent</a>
-                                </li>
-                        </ul>
-                    </li>
-            
-            
-                    <li class="chapter">
-                        <div class="simple menu-toggler" data-toggle="collapse"
-                                data-target="#xs-classes-links"
-                            >
-                            <span class="fa fa-file-code-o"></span>
-                            <span>Classes</span>
-                            <span class="fa fa-angle-down"></span>
-                        </div>
-                        <ul class="links collapse "
-                                id="xs-classes-links"
-                            >
-                                <li class="link">
-                                    <a href="../classes/Asada.html" >Asada</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/AsadaForm.html" >AsadaForm</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/Chlorination.html" >Chlorination</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/DistributionLine.html" >DistributionLine</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/DrivingDistributionLine.html" >DrivingDistributionLine</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/Evaluation.html" >Evaluation</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/FirebaseImg.html" >FirebaseImg</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/FormularioSersa.html" >FormularioSersa</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/FromChlorin.html" >FromChlorin</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/Graphic.html" >Graphic</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/Nascent.html" >Nascent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/NascentForm.html" >NascentForm</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/Notification.html" >Notification</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/NotificationForm.html" >NotificationForm</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/RadioOption.html" >RadioOption</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/RolAccess.html" >RolAccess</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/SuperficialForm.html" >SuperficialForm</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/SuperficialWater.html" >SuperficialWater</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/Tank.html" >Tank</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/TankForm.html" >TankForm</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/TankQG.html" >TankQG</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/Upload.html" >Upload</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/User.html" >User</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/UserForm.html" >UserForm</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/inputText.html" >inputText</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/pkAsada.html" >pkAsada</a>
-                                </li>
-                        </ul>
-                    </li>
-            
-                    <li class="chapter">
-                        <div class="simple menu-toggler" data-toggle="collapse"
-                                data-target="#xs-injectables-links"
-                            >
-                            <span class="fa fa-long-arrow-down"></span>
-                            <span>Injectables</span>
-                            <span class="fa fa-angle-down"></span>
-                        </div>
-                        <ul class="links collapse "
-                                id="xs-injectables-links"
-                            >
-                                <li class="link">
-                                    <a href="../injectables/AngularFireService.html" >AngularFireService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/AuthGuard.html" >AuthGuard</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/ExportService.html"  data-type="entity-link" class="active" >ExportService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/FormsSersaService.html" >FormsSersaService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/GeolocationService.html" >GeolocationService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/GetEvalSersaService.html" >GetEvalSersaService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/GetUserDetailsService.html" >GetUserDetailsService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/GraphicsService.html" >GraphicsService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/MapGoogleService.html" >MapGoogleService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/NewNotificationService.html" >NewNotificationService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/NotificationsService.html" >NotificationsService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/SearchService.html" >SearchService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/StorageFirebaseService.html" >StorageFirebaseService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/TankDetailsService.html" >TankDetailsService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/UploadService.html" >UploadService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/UserService.html" >UserService</a>
-                                </li>
-                        </ul>
-                    </li>
-            
-                    <li class="chapter">
-                        <div class="simple menu-toggler" data-toggle="collapse"
-                                data-target="#xs-interfaces-links"
-                            >
-                            <span class="fa fa-info"></span>
-                            <span>Interfaces</span>
-                            <span class="fa fa-angle-down"></span>
-                        </div>
-                        <ul class="links collapse "
-                                id="xs-interfaces-links"
-                            >
-                                <li class="link">
-                                    <a href="../interfaces/Graphics.html" >Graphics</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/Infrastructure.html" >Infrastructure</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/Notification.html" >Notification</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/Notification.html" >Notification</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/asadastructure.html" >asadastructure</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/infraestructureCaptacion.html" >infraestructureCaptacion</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/infraestructureTank.html" >infraestructureTank</a>
-                                </li>
-                        </ul>
-                    </li>
-            
-            
-                    <li class="chapter">
-                        <div class="simple menu-toggler" data-toggle="collapse"
-                                data-target="#xs-miscellaneous-links"
-                            >
-                            <span class="fa fa-cubes"></span>
-                            <span>Miscellaneous</span>
-                            <span class="fa fa-angle-down"></span>
-                        </div>
-                        <ul class="links collapse "
-                                id="xs-miscellaneous-links"
-                            >
-                                <li class="link">
-                                  <a href="../miscellaneous/variables.html" data-type="entity-link" >Variables</a>
-                                </li>
-                        </ul>
-                    </li>
-            
-                    <li class="chapter">
-                        <a data-type="chapter-link" href="../routes.html" ><span class="fa fa-code-fork"></span>Routes</a>
-                    </li>
-            
-                    <li class="chapter">
-                        <a data-type="chapter-link" href="../coverage.html" ><span class="fa fa-tasks"></span>Documentation coverage</a>
-                    </li>
-            
-                    <li class="divider"></li>
-                    <li class="copyright">
-                            Documentation generated using <a href="https://compodoc.github.io/website/" target="_blank">
-                                        <img src="..//images/compodoc-vectorise.svg" class="img-responsive">
-                            </a>
-                    </li>
-            
-                </ul>
-            
-            </nav>
+                <div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search">
+</div>
+            <compodoc-menu></compodoc-menu>
         </div>
 
         <div class="container-fluid main">
            <div class="row main">
                <div class="hidden-xs menu">
-                   <nav>
-                   
-                       <ul class="list">
-                   
-                           <li class="title">
-                               <a href="../index.html">sistema-asadas documentation</a>
-                           </li>
-                   
-                           <li class="divider"></li>
-                   
-                               <div id="book-search-input" role="search">
-                                   <input type="text" placeholder="Type to search">
-                               </div>
-                   
-                           <li class="chapter">
-                               <a data-type="chapter-link" href="../index.html"><span class="fa fa-home"></span>Getting started</a>
-                               <ul class="links">
-                                       <li class="link">
-                                           <a 
-                                               
-                                                href="../overview.html" 
-                                                href="../overview.html" 
-                                               >
-                                               <span class="fa fa-th"></span>Overview
-                                           </a>
-                                       </li>
-                                       <li class="link">
-                                         <a href="../index.html" ><span class="fa fa-file-text-o"></span>README</a>
-                                       </li>
-                               </ul>
-                           </li>
-                   
-                   
-                           <li class="chapter">
-                               <a data-type="chapter-link" href="../modules.html" >
-                                   <div class="menu-toggler linked" data-toggle="collapse"
-                                           data-target="#modules-links"
-                                   >
-                                       <span class="fa fa-archive"></span>
-                                       <span class="link-name">Modules</span>
-                                       <span class="fa fa-angle-down"></span>
-                                   </div>
-                               </a>
-                               <ul class="links collapse "
-                                       id="modules-links"
-                   >
-                                       <li class="link">
-                                           <a href="../modules/AppModule.html" >AppModule</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../modules/RoutingModule.html" >RoutingModule</a>
-                                       </li>
-                               </ul>
-                           </li>
-                   
-                           <li class="chapter">
-                               <div class="simple menu-toggler" data-toggle="collapse"
-                                       data-target="#components-links"
-                   >
-                                   <span class="fa fa-cogs"></span>
-                                   <span>Components</span>
-                                   <span class="fa fa-angle-down"></span>
-                               </div>
-                               <ul class="links collapse "
-                                       id="components-links"
-                   >
-                                       <li class="link">
-                                           <a href="../components/AboutUsComponent.html" >AboutUsComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/AddAsadaComponent.html" >AddAsadaComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/AddChlorinSystemComponent.html" >AddChlorinSystemComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/AddInfrastructureComponent.html" >AddInfrastructureComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/AddNascentComponent.html" >AddNascentComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/AddSuperficialWaterComponent.html" >AddSuperficialWaterComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/AddTankComponent.html" >AddTankComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/AppComponent.html" >AppComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/AsadaDetailsComponent.html" >AsadaDetailsComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/ChlorinDetailsComponent.html" >ChlorinDetailsComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/CompareAsadasComponent.html" >CompareAsadasComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/DetailsSuperficialWaterComponent.html" >DetailsSuperficialWaterComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/EvalSersaComponent.html" >EvalSersaComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/GenerateReportComponent.html" >GenerateReportComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/GraphicdetailsComponent.html" >GraphicdetailsComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/GraphicsComponent.html" >GraphicsComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/HeaderComponent.html" >HeaderComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/HomeComponent.html" >HomeComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/LoginComponent.html" >LoginComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/MapGoogleComponent.html" >MapGoogleComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/MenuComponent.html" >MenuComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/NascentDetailsComponent.html" >NascentDetailsComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/NascentPickupComponent.html" >NascentPickupComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/NewNotificationComponent.html" >NewNotificationComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/NotFoundComponentComponent.html" >NotFoundComponentComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/NotificationsComponent.html" >NotificationsComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/PersmissionRequestsComponent.html" >PersmissionRequestsComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/ProfileComponent.html" >ProfileComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/ProfileHeaderComponent.html" >ProfileHeaderComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/SearchComponent.html" >SearchComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/SignupComponent.html" >SignupComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/SurfacePickupComponent.html" >SurfacePickupComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/Tab.html" >Tab</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/Tabs.html" >Tabs</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/TankDetailsComponent.html" >TankDetailsComponent</a>
-                                       </li>
-                               </ul>
-                           </li>
-                   
-                   
-                           <li class="chapter">
-                               <div class="simple menu-toggler" data-toggle="collapse"
-                                       data-target="#classes-links"
-                   >
-                                   <span class="fa fa-file-code-o"></span>
-                                   <span>Classes</span>
-                                   <span class="fa fa-angle-down"></span>
-                               </div>
-                               <ul class="links collapse "
-                                       id="classes-links"
-                   >
-                                       <li class="link">
-                                           <a href="../classes/Asada.html" >Asada</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/AsadaForm.html" >AsadaForm</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/Chlorination.html" >Chlorination</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/DistributionLine.html" >DistributionLine</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/DrivingDistributionLine.html" >DrivingDistributionLine</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/Evaluation.html" >Evaluation</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/FirebaseImg.html" >FirebaseImg</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/FormularioSersa.html" >FormularioSersa</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/FromChlorin.html" >FromChlorin</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/Graphic.html" >Graphic</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/Nascent.html" >Nascent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/NascentForm.html" >NascentForm</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/Notification.html" >Notification</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/NotificationForm.html" >NotificationForm</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/RadioOption.html" >RadioOption</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/RolAccess.html" >RolAccess</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/SuperficialForm.html" >SuperficialForm</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/SuperficialWater.html" >SuperficialWater</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/Tank.html" >Tank</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/TankForm.html" >TankForm</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/TankQG.html" >TankQG</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/Upload.html" >Upload</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/User.html" >User</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/UserForm.html" >UserForm</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/inputText.html" >inputText</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/pkAsada.html" >pkAsada</a>
-                                       </li>
-                               </ul>
-                           </li>
-                   
-                           <li class="chapter">
-                               <div class="simple menu-toggler" data-toggle="collapse"
-                                       data-target="#injectables-links"
-                   >
-                                   <span class="fa fa-long-arrow-down"></span>
-                                   <span>Injectables</span>
-                                   <span class="fa fa-angle-down"></span>
-                               </div>
-                               <ul class="links collapse "
-                                       id="injectables-links"
-                   >
-                                       <li class="link">
-                                           <a href="../injectables/AngularFireService.html" >AngularFireService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/AuthGuard.html" >AuthGuard</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/ExportService.html"  data-type="entity-link" class="active" >ExportService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/FormsSersaService.html" >FormsSersaService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/GeolocationService.html" >GeolocationService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/GetEvalSersaService.html" >GetEvalSersaService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/GetUserDetailsService.html" >GetUserDetailsService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/GraphicsService.html" >GraphicsService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/MapGoogleService.html" >MapGoogleService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/NewNotificationService.html" >NewNotificationService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/NotificationsService.html" >NotificationsService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/SearchService.html" >SearchService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/StorageFirebaseService.html" >StorageFirebaseService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/TankDetailsService.html" >TankDetailsService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/UploadService.html" >UploadService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/UserService.html" >UserService</a>
-                                       </li>
-                               </ul>
-                           </li>
-                   
-                           <li class="chapter">
-                               <div class="simple menu-toggler" data-toggle="collapse"
-                                       data-target="#interfaces-links"
-                   >
-                                   <span class="fa fa-info"></span>
-                                   <span>Interfaces</span>
-                                   <span class="fa fa-angle-down"></span>
-                               </div>
-                               <ul class="links collapse "
-                                       id="interfaces-links"
-                   >
-                                       <li class="link">
-                                           <a href="../interfaces/Graphics.html" >Graphics</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/Infrastructure.html" >Infrastructure</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/Notification.html" >Notification</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/Notification.html" >Notification</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/asadastructure.html" >asadastructure</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/infraestructureCaptacion.html" >infraestructureCaptacion</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/infraestructureTank.html" >infraestructureTank</a>
-                                       </li>
-                               </ul>
-                           </li>
-                   
-                   
-                           <li class="chapter">
-                               <div class="simple menu-toggler" data-toggle="collapse"
-                                       data-target="#miscellaneous-links"
-                   >
-                                   <span class="fa fa-cubes"></span>
-                                   <span>Miscellaneous</span>
-                                   <span class="fa fa-angle-down"></span>
-                               </div>
-                               <ul class="links collapse "
-                                       id="miscellaneous-links"
-                   >
-                                       <li class="link">
-                                         <a href="../miscellaneous/variables.html" data-type="entity-link" >Variables</a>
-                                       </li>
-                               </ul>
-                           </li>
-                   
-                           <li class="chapter">
-                               <a data-type="chapter-link" href="../routes.html" ><span class="fa fa-code-fork"></span>Routes</a>
-                           </li>
-                   
-                           <li class="chapter">
-                               <a data-type="chapter-link" href="../coverage.html" ><span class="fa fa-tasks"></span>Documentation coverage</a>
-                           </li>
-                   
-                           <li class="divider"></li>
-                           <li class="copyright">
-                                   Documentation generated using <a href="https://compodoc.github.io/website/" target="_blank">
-                                               <img src="..//images/compodoc-vectorise.svg" class="img-responsive">
-                                   </a>
-                           </li>
-                   
-                       </ul>
-                   
-                   </nav>
+                   <compodoc-menu mode="normal"></compodoc-menu>
                </div>
+               <!-- START CONTENT -->
                <div class="content injectable">
                    <div class="content-data">
+
 
 
 
@@ -838,18 +45,16 @@
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
-    <li class="active">
-        <a href="#info" id="info-tab" role="tab" data-toggle="tab" data-link="info">Info</a>
-    </li>
-
-
-    <li>
-        <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
-    </li>
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="info">
+    <div class="tab-pane fade active in" id="c-info">
         <p class="comment">
             <h3>File</h3>
         </p>
@@ -860,1088 +65,1215 @@
 
 
             <section>
-                <h3 id="index">Index</h3>
-                <table class="table table-sm table-bordered index-table">
-                    <tbody>
-                        <tr>
-                            <td class="col-md-4">
-                                <h6><b>Methods</b></h6>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <ul class="index-list">
-                                    <li>
-                                         <a href="#export">export</a>
-                                    </li>
-                                    <li>
-                                         <a href="#exportAsada">exportAsada</a>
-                                    </li>
-                                    <li>
-                                         <a href="#exportAsadas">exportAsadas</a>
-                                    </li>
-                                    <li>
-                                         <a href="#exportFile">exportFile</a>
-                                    </li>
-                                    <li>
-                                         <a href="#exportInfraestructures">exportInfraestructures</a>
-                                    </li>
-                                    <li>
-                                         <a href="#exportInfrastructure">exportInfrastructure</a>
-                                    </li>
-                                    <li>
-                                         <a href="#getEvaluations">getEvaluations</a>
-                                    </li>
-                                    <li>
-                                        <span class="modifier">Private</span> <a href="#headerAsada">headerAsada</a>
-                                    </li>
-                                    <li>
-                                        <span class="modifier">Private</span> <a href="#headerChloration">headerChloration</a>
-                                    </li>
-                                    <li>
-                                        <span class="modifier">Private</span> <a href="#headerNascentPickup">headerNascentPickup</a>
-                                    </li>
-                                    <li>
-                                        <span class="modifier">Private</span> <a href="#headerSurfacePickup">headerSurfacePickup</a>
-                                    </li>
-                                    <li>
-                                        <span class="modifier">Private</span> <a href="#headerTank">headerTank</a>
-                                    </li>
-                                    <li>
-                                        <span class="modifier">Private</span> <a href="#parseAsada">parseAsada</a>
-                                    </li>
-                                    <li>
-                                        <span class="modifier">Private</span> <a href="#parseChloration">parseChloration</a>
-                                    </li>
-                                    <li>
-                                         <a href="#parseInfrastructure">parseInfrastructure</a>
-                                    </li>
-                                    <li>
-                                        <span class="modifier">Private</span> <a href="#parseNascentPickup">parseNascentPickup</a>
-                                    </li>
-                                    <li>
-                                        <span class="modifier">Private</span> <a href="#parseSurfacePickup">parseSurfacePickup</a>
-                                    </li>
-                                    <li>
-                                        <span class="modifier">Private</span> <a href="#parseTank">parseTank</a>
-                                    </li>
-                                </ul>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#export">export</a>
+                            </li>
+                            <li>
+                                <a href="#exportAsada">exportAsada</a>
+                            </li>
+                            <li>
+                                <a href="#exportAsadas">exportAsadas</a>
+                            </li>
+                            <li>
+                                <a href="#exportFile">exportFile</a>
+                            </li>
+                            <li>
+                                <a href="#exportInfraestructures">exportInfraestructures</a>
+                            </li>
+                            <li>
+                                <a href="#exportInfrastructure">exportInfrastructure</a>
+                            </li>
+                            <li>
+                                <a href="#getEvaluations">getEvaluations</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#headerAsada">headerAsada</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#headerChloration">headerChloration</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#headerNascentPickup">headerNascentPickup</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#headerSurfacePickup">headerSurfacePickup</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#headerTank">headerTank</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#parseAsada">parseAsada</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#parseChloration">parseChloration</a>
+                            </li>
+                            <li>
+                                <a href="#parseInfrastructure">parseInfrastructure</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#parseNascentPickup">parseNascentPickup</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#parseSurfacePickup">parseSurfacePickup</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#parseTank">parseTank</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
 
             <section>
-                <h3 id="constructor">Constructor</h3>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                            <tr>
-                                <td class="col-md-4">
-                                    <code>constructor(af: AngularFire)</code>
-                                </td>
-                            </tr>
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <div class="io-line">Defined in <a href="" data-line="7" class="link-to-prism">src/app/common/service/export.service.ts:7</a></div>
-                                        </td>
-                                    </tr>
-            
-                            <tr>
-                                <td class="col-md-4">
-                                        <div>
-                                                <b>Parameters :</b>
-                                                <table class="params">
-                                                    <thead>
-                                                        <tr>
-                                                            <td>Name</td>
-                                                            <td>Type</td>
-                                                            <td>Optional</td>
-                                                            <td>Description</td>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                            <tr>
-                                                              <td>af</td>
-                                                              <td>
-                                                                        <code>AngularFire</code>
-                                                              </td>
-                                                              <td>
-                                                              </td>
-                                                              <td></td>
-                                                            </tr>
-                                                    </tbody>
-                                                </table>
-                                        </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-            </section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(af: AngularFire)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="7" class="link-to-prism">src/app/common/service/export.service.ts:7</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>af</td>
+                                                  
+                                                        <td>
+                                                                    <code>AngularFire</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
 
             <section>
-                
-                    <h3 id="methods">
-                        Methods
-                    </h3>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                            <tr>
-                                <td class="col-md-4">
-                                    <a name="export"></a>
-                                    <span class="name"><b> export</b><a href="#export"><span class="fa fa-link"></span></a></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="col-md-4">
-            <code>export(Json: )</code>
-                                </td>
-                            </tr>
-            
-            
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">src/app/common/service/export.service.ts:77</a></div>
-                                        </td>
-                                    </tr>
-            
-                            <tr>
-                                <td class="col-md-4">
-            
-                                        <div class="io-description">
-                                                <b>Parameters :</b>
-                                                <table class="params">
-                                                    <thead>
-                                                        <tr>
-                                                            <td>Name</td>
-                                                            <td>Type</td>
-                                                            <td>Optional</td>
-                                                            <td>Description</td>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                            <tr>
-                                                              <td>Json</td>
-                                                              <td>
-                                                              </td>
-                                                              <td>
-                                                              </td>
-                                                              <td></td>
-                                                            </tr>
-                                                    </tbody>
-                                                </table>
-                                        </div>
-                                        <div>
-                                        </div>
-                                        <div class="io-description">
-                                            <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-            
-                                        </div>
-                                            <div class="io-description">
-                                                
-                                            </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                            <tr>
-                                <td class="col-md-4">
-                                    <a name="exportAsada"></a>
-                                    <span class="name"><b> exportAsada</b><a href="#exportAsada"><span class="fa fa-link"></span></a></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="col-md-4">
-            <code>exportAsada(asada: )</code>
-                                </td>
-                            </tr>
-            
-            
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <div class="io-line">Defined in <a href="" data-line="98" class="link-to-prism">src/app/common/service/export.service.ts:98</a></div>
-                                        </td>
-                                    </tr>
-            
-                            <tr>
-                                <td class="col-md-4">
-            
-                                        <div class="io-description">
-                                                <b>Parameters :</b>
-                                                <table class="params">
-                                                    <thead>
-                                                        <tr>
-                                                            <td>Name</td>
-                                                            <td>Type</td>
-                                                            <td>Optional</td>
-                                                            <td>Description</td>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                            <tr>
-                                                              <td>asada</td>
-                                                              <td>
-                                                              </td>
-                                                              <td>
-                                                              </td>
-                                                              <td></td>
-                                                            </tr>
-                                                    </tbody>
-                                                </table>
-                                        </div>
-                                        <div>
-                                        </div>
-                                        <div class="io-description">
-                                            <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-            
-                                        </div>
-                                            <div class="io-description">
-                                                
-                                            </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                            <tr>
-                                <td class="col-md-4">
-                                    <a name="exportAsadas"></a>
-                                    <span class="name"><b> exportAsadas</b><a href="#exportAsadas"><span class="fa fa-link"></span></a></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="col-md-4">
-            <code>exportAsadas(list: )</code>
-                                </td>
-                            </tr>
-            
-            
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">src/app/common/service/export.service.ts:86</a></div>
-                                        </td>
-                                    </tr>
-            
-                            <tr>
-                                <td class="col-md-4">
-            
-                                        <div class="io-description">
-                                                <b>Parameters :</b>
-                                                <table class="params">
-                                                    <thead>
-                                                        <tr>
-                                                            <td>Name</td>
-                                                            <td>Type</td>
-                                                            <td>Optional</td>
-                                                            <td>Description</td>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                            <tr>
-                                                              <td>list</td>
-                                                              <td>
-                                                              </td>
-                                                              <td>
-                                                              </td>
-                                                              <td></td>
-                                                            </tr>
-                                                    </tbody>
-                                                </table>
-                                        </div>
-                                        <div>
-                                        </div>
-                                        <div class="io-description">
-                                            <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-            
-                                        </div>
-                                            <div class="io-description">
-                                                
-                                            </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                            <tr>
-                                <td class="col-md-4">
-                                    <a name="exportFile"></a>
-                                    <span class="name"><b> exportFile</b><a href="#exportFile"><span class="fa fa-link"></span></a></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="col-md-4">
-            <code>exportFile(data: )</code>
-                                </td>
-                            </tr>
-            
-            
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <div class="io-line">Defined in <a href="" data-line="106" class="link-to-prism">src/app/common/service/export.service.ts:106</a></div>
-                                        </td>
-                                    </tr>
-            
-                            <tr>
-                                <td class="col-md-4">
-            
-                                        <div class="io-description">
-                                                <b>Parameters :</b>
-                                                <table class="params">
-                                                    <thead>
-                                                        <tr>
-                                                            <td>Name</td>
-                                                            <td>Type</td>
-                                                            <td>Optional</td>
-                                                            <td>Description</td>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                            <tr>
-                                                              <td>data</td>
-                                                              <td>
-                                                              </td>
-                                                              <td>
-                                                              </td>
-                                                              <td></td>
-                                                            </tr>
-                                                    </tbody>
-                                                </table>
-                                        </div>
-                                        <div>
-                                        </div>
-                                        <div class="io-description">
-                                            <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-            
-                                        </div>
-                                            <div class="io-description">
-                                                
-                                            </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                            <tr>
-                                <td class="col-md-4">
-                                    <a name="exportInfraestructures"></a>
-                                    <span class="name"><b> exportInfraestructures</b><a href="#exportInfraestructures"><span class="fa fa-link"></span></a></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="col-md-4">
-            <code>exportInfraestructures(list: )</code>
-                                </td>
-                            </tr>
-            
-            
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/common/service/export.service.ts:15</a></div>
-                                        </td>
-                                    </tr>
-            
-                            <tr>
-                                <td class="col-md-4">
-            
-                                        <div class="io-description">
-                                                <b>Parameters :</b>
-                                                <table class="params">
-                                                    <thead>
-                                                        <tr>
-                                                            <td>Name</td>
-                                                            <td>Type</td>
-                                                            <td>Optional</td>
-                                                            <td>Description</td>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                            <tr>
-                                                              <td>list</td>
-                                                              <td>
-                                                              </td>
-                                                              <td>
-                                                              </td>
-                                                              <td></td>
-                                                            </tr>
-                                                    </tbody>
-                                                </table>
-                                        </div>
-                                        <div>
-                                        </div>
-                                        <div class="io-description">
-                                            <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-            
-                                        </div>
-                                            <div class="io-description">
-                                                
-                                            </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                            <tr>
-                                <td class="col-md-4">
-                                    <a name="exportInfrastructure"></a>
-                                    <span class="name"><b> exportInfrastructure</b><a href="#exportInfrastructure"><span class="fa fa-link"></span></a></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="col-md-4">
-            <code>exportInfrastructure(element: )</code>
-                                </td>
-                            </tr>
-            
-            
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/common/service/export.service.ts:29</a></div>
-                                        </td>
-                                    </tr>
-            
-                            <tr>
-                                <td class="col-md-4">
-            
-                                        <div class="io-description">
-                                                <b>Parameters :</b>
-                                                <table class="params">
-                                                    <thead>
-                                                        <tr>
-                                                            <td>Name</td>
-                                                            <td>Type</td>
-                                                            <td>Optional</td>
-                                                            <td>Description</td>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                            <tr>
-                                                              <td>element</td>
-                                                              <td>
-                                                              </td>
-                                                              <td>
-                                                              </td>
-                                                              <td></td>
-                                                            </tr>
-                                                    </tbody>
-                                                </table>
-                                        </div>
-                                        <div>
-                                        </div>
-                                        <div class="io-description">
-                                            <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-            
-                                        </div>
-                                            <div class="io-description">
-                                                
-                                            </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                            <tr>
-                                <td class="col-md-4">
-                                    <a name="getEvaluations"></a>
-                                    <span class="name"><b> getEvaluations</b><a href="#getEvaluations"><span class="fa fa-link"></span></a></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="col-md-4">
-            <code>getEvaluations(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
-                                </td>
-                            </tr>
-            
-            
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/app/common/service/export.service.ts:11</a></div>
-                                        </td>
-                                    </tr>
-            
-                            <tr>
-                                <td class="col-md-4">
-            
-                                        <div class="io-description">
-                                                <b>Parameters :</b>
-                                                <table class="params">
-                                                    <thead>
-                                                        <tr>
-                                                            <td>Name</td>
-                                                            <td>Type</td>
-                                                            <td>Optional</td>
-                                                            <td>Description</td>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                            <tr>
-                                                              <td>id</td>
-                                                              <td>
-                                                                      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                                              </td>
-                                                              <td>
-                                                              </td>
-                                                              <td></td>
-                                                            </tr>
-                                                    </tbody>
-                                                </table>
-                                        </div>
-                                        <div>
-                                        </div>
-                                        <div class="io-description">
-                                            <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-            
-                                        </div>
-                                            <div class="io-description">
-                                                
-                                            </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                            <tr>
-                                <td class="col-md-4">
-                                    <a name="headerAsada"></a>
-                                    <span class="name"><b><span class="modifier">Private</span> headerAsada</b><a href="#headerAsada"><span class="fa fa-link"></span></a></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                        <span class="modifier-icon fa fa-lock"></span>
-                                    <code>headerAsada()</code>
-                                </td>
-                            </tr>
-            
-            
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <div class="io-line">Defined in <a href="" data-line="132" class="link-to-prism">src/app/common/service/export.service.ts:132</a></div>
-                                        </td>
-                                    </tr>
-            
-                            <tr>
-                                <td class="col-md-4">
-            
-                                        <div class="io-description">
-                                            <b>Returns : </b>    <code>{ &quot;1&quot;: string; &quot;Nombre&quot;: string; &quot;Número de concesión&quot;: string; &quot;Fecha de concesión&quot;: string; &quot;Re...</code>
-            
-                                        </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                            <tr>
-                                <td class="col-md-4">
-                                    <a name="headerChloration"></a>
-                                    <span class="name"><b><span class="modifier">Private</span> headerChloration</b><a href="#headerChloration"><span class="fa fa-link"></span></a></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                        <span class="modifier-icon fa fa-lock"></span>
-                                    <code>headerChloration()</code>
-                                </td>
-                            </tr>
-            
-            
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <div class="io-line">Defined in <a href="" data-line="173" class="link-to-prism">src/app/common/service/export.service.ts:173</a></div>
-                                        </td>
-                                    </tr>
-            
-                            <tr>
-                                <td class="col-md-4">
-            
-                                        <div class="io-description">
-                                            <b>Returns : </b>    <code><a href="../classes/Asada.html" target="_self" >{ &quot;1&quot;: string; &quot;Nombre&quot;: string; &quot;Asada&quot;: string; &quot;Fecha de creación del acueducto&quot;: string; &quot;Enc...</a></code>
-            
-                                        </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                            <tr>
-                                <td class="col-md-4">
-                                    <a name="headerNascentPickup"></a>
-                                    <span class="name"><b><span class="modifier">Private</span> headerNascentPickup</b><a href="#headerNascentPickup"><span class="fa fa-link"></span></a></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                        <span class="modifier-icon fa fa-lock"></span>
-                                    <code>headerNascentPickup()</code>
-                                </td>
-                            </tr>
-            
-            
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <div class="io-line">Defined in <a href="" data-line="270" class="link-to-prism">src/app/common/service/export.service.ts:270</a></div>
-                                        </td>
-                                    </tr>
-            
-                            <tr>
-                                <td class="col-md-4">
-            
-                                        <div class="io-description">
-                                            <b>Returns : </b>    <code>{ &quot;1&quot;: string; &quot;Nombre&quot;: string; &quot;Nombre del acueducto&quot;: string; &quot;Encargado del acueducto&quot;: strin...</code>
-            
-                                        </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                            <tr>
-                                <td class="col-md-4">
-                                    <a name="headerSurfacePickup"></a>
-                                    <span class="name"><b><span class="modifier">Private</span> headerSurfacePickup</b><a href="#headerSurfacePickup"><span class="fa fa-link"></span></a></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                        <span class="modifier-icon fa fa-lock"></span>
-                                    <code>headerSurfacePickup()</code>
-                                </td>
-                            </tr>
-            
-            
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <div class="io-line">Defined in <a href="" data-line="240" class="link-to-prism">src/app/common/service/export.service.ts:240</a></div>
-                                        </td>
-                                    </tr>
-            
-                            <tr>
-                                <td class="col-md-4">
-            
-                                        <div class="io-description">
-                                            <b>Returns : </b>    <code>{ &quot;1&quot;: string; &quot;Nombre&quot;: string; &quot;Nombre del acueducto&quot;: string; &quot;Encargado del acueducto&quot;: strin...</code>
-            
-                                        </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                            <tr>
-                                <td class="col-md-4">
-                                    <a name="headerTank"></a>
-                                    <span class="name"><b><span class="modifier">Private</span> headerTank</b><a href="#headerTank"><span class="fa fa-link"></span></a></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                        <span class="modifier-icon fa fa-lock"></span>
-                                    <code>headerTank()</code>
-                                </td>
-                            </tr>
-            
-            
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <div class="io-line">Defined in <a href="" data-line="208" class="link-to-prism">src/app/common/service/export.service.ts:208</a></div>
-                                        </td>
-                                    </tr>
-            
-                            <tr>
-                                <td class="col-md-4">
-            
-                                        <div class="io-description">
-                                            <b>Returns : </b>    <code><a href="../classes/Asada.html" target="_self" >{ &quot;1&quot;: string; &quot;Nombre&quot;: string; &quot;Asada&quot;: string; &quot;Fecha de creación del acueducto&quot;: string; &quot;Enc...</a></code>
-            
-                                        </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                            <tr>
-                                <td class="col-md-4">
-                                    <a name="parseAsada"></a>
-                                    <span class="name"><b><span class="modifier">Private</span> parseAsada</b><a href="#parseAsada"><span class="fa fa-link"></span></a></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                        <span class="modifier-icon fa fa-lock"></span>
-                                    <code>parseAsada(element: )</code>
-                                </td>
-                            </tr>
-            
-            
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <div class="io-line">Defined in <a href="" data-line="110" class="link-to-prism">src/app/common/service/export.service.ts:110</a></div>
-                                        </td>
-                                    </tr>
-            
-                            <tr>
-                                <td class="col-md-4">
-            
-                                        <div class="io-description">
-                                                <b>Parameters :</b>
-                                                <table class="params">
-                                                    <thead>
-                                                        <tr>
-                                                            <td>Name</td>
-                                                            <td>Type</td>
-                                                            <td>Optional</td>
-                                                            <td>Description</td>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                            <tr>
-                                                              <td>element</td>
-                                                              <td>
-                                                              </td>
-                                                              <td>
-                                                              </td>
-                                                              <td></td>
-                                                            </tr>
-                                                    </tbody>
-                                                </table>
-                                        </div>
-                                        <div>
-                                        </div>
-                                        <div class="io-description">
-                                            <b>Returns : </b>    <code>{ &quot;1&quot;: string; &quot;Nombre&quot;: any; &quot;Número de concesión&quot;: any; &quot;Fecha de concesión&quot;: any; &quot;Registro de...</code>
-            
-                                        </div>
-                                            <div class="io-description">
-                                                
-                                            </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                            <tr>
-                                <td class="col-md-4">
-                                    <a name="parseChloration"></a>
-                                    <span class="name"><b><span class="modifier">Private</span> parseChloration</b><a href="#parseChloration"><span class="fa fa-link"></span></a></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                        <span class="modifier-icon fa fa-lock"></span>
-                                    <code>parseChloration(element: )</code>
-                                </td>
-                            </tr>
-            
-            
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <div class="io-line">Defined in <a href="" data-line="154" class="link-to-prism">src/app/common/service/export.service.ts:154</a></div>
-                                        </td>
-                                    </tr>
-            
-                            <tr>
-                                <td class="col-md-4">
-            
-                                        <div class="io-description">
-                                                <b>Parameters :</b>
-                                                <table class="params">
-                                                    <thead>
-                                                        <tr>
-                                                            <td>Name</td>
-                                                            <td>Type</td>
-                                                            <td>Optional</td>
-                                                            <td>Description</td>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                            <tr>
-                                                              <td>element</td>
-                                                              <td>
-                                                              </td>
-                                                              <td>
-                                                              </td>
-                                                              <td></td>
-                                                            </tr>
-                                                    </tbody>
-                                                </table>
-                                        </div>
-                                        <div>
-                                        </div>
-                                        <div class="io-description">
-                                            <b>Returns : </b>    <code><a href="../classes/Asada.html" target="_self" >{ &quot;1&quot;: string; &quot;Nombre&quot;: any; &quot;Asada&quot;: any; &quot;Fecha de creación del acueducto&quot;: string; &quot;Encargado...</a></code>
-            
-                                        </div>
-                                            <div class="io-description">
-                                                
-                                            </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                            <tr>
-                                <td class="col-md-4">
-                                    <a name="parseInfrastructure"></a>
-                                    <span class="name"><b> parseInfrastructure</b><a href="#parseInfrastructure"><span class="fa fa-link"></span></a></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="col-md-4">
-            <code>parseInfrastructure(element: )</code>
-                                </td>
-                            </tr>
-            
-            
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/common/service/export.service.ts:55</a></div>
-                                        </td>
-                                    </tr>
-            
-                            <tr>
-                                <td class="col-md-4">
-            
-                                        <div class="io-description">
-                                                <b>Parameters :</b>
-                                                <table class="params">
-                                                    <thead>
-                                                        <tr>
-                                                            <td>Name</td>
-                                                            <td>Type</td>
-                                                            <td>Optional</td>
-                                                            <td>Description</td>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                            <tr>
-                                                              <td>element</td>
-                                                              <td>
-                                                              </td>
-                                                              <td>
-                                                              </td>
-                                                              <td></td>
-                                                            </tr>
-                                                    </tbody>
-                                                </table>
-                                        </div>
-                                        <div>
-                                        </div>
-                                        <div class="io-description">
-                                            <b>Returns : </b>    <code>{ header: {}; data: {}; }</code>
-            
-                                        </div>
-                                            <div class="io-description">
-                                                
-                                            </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                            <tr>
-                                <td class="col-md-4">
-                                    <a name="parseNascentPickup"></a>
-                                    <span class="name"><b><span class="modifier">Private</span> parseNascentPickup</b><a href="#parseNascentPickup"><span class="fa fa-link"></span></a></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                        <span class="modifier-icon fa fa-lock"></span>
-                                    <code>parseNascentPickup(element: )</code>
-                                </td>
-                            </tr>
-            
-            
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <div class="io-line">Defined in <a href="" data-line="255" class="link-to-prism">src/app/common/service/export.service.ts:255</a></div>
-                                        </td>
-                                    </tr>
-            
-                            <tr>
-                                <td class="col-md-4">
-            
-                                        <div class="io-description">
-                                                <b>Parameters :</b>
-                                                <table class="params">
-                                                    <thead>
-                                                        <tr>
-                                                            <td>Name</td>
-                                                            <td>Type</td>
-                                                            <td>Optional</td>
-                                                            <td>Description</td>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                            <tr>
-                                                              <td>element</td>
-                                                              <td>
-                                                              </td>
-                                                              <td>
-                                                              </td>
-                                                              <td></td>
-                                                            </tr>
-                                                    </tbody>
-                                                </table>
-                                        </div>
-                                        <div>
-                                        </div>
-                                        <div class="io-description">
-                                            <b>Returns : </b>    <code>{ &quot;1&quot;: string; &quot;Nombre&quot;: any; &quot;Nombre del acueducto&quot;: any; &quot;Encargado del acueducto&quot;: any; &quot;Regis...</code>
-            
-                                        </div>
-                                            <div class="io-description">
-                                                
-                                            </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                            <tr>
-                                <td class="col-md-4">
-                                    <a name="parseSurfacePickup"></a>
-                                    <span class="name"><b><span class="modifier">Private</span> parseSurfacePickup</b><a href="#parseSurfacePickup"><span class="fa fa-link"></span></a></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                        <span class="modifier-icon fa fa-lock"></span>
-                                    <code>parseSurfacePickup(element: )</code>
-                                </td>
-                            </tr>
-            
-            
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <div class="io-line">Defined in <a href="" data-line="225" class="link-to-prism">src/app/common/service/export.service.ts:225</a></div>
-                                        </td>
-                                    </tr>
-            
-                            <tr>
-                                <td class="col-md-4">
-            
-                                        <div class="io-description">
-                                                <b>Parameters :</b>
-                                                <table class="params">
-                                                    <thead>
-                                                        <tr>
-                                                            <td>Name</td>
-                                                            <td>Type</td>
-                                                            <td>Optional</td>
-                                                            <td>Description</td>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                            <tr>
-                                                              <td>element</td>
-                                                              <td>
-                                                              </td>
-                                                              <td>
-                                                              </td>
-                                                              <td></td>
-                                                            </tr>
-                                                    </tbody>
-                                                </table>
-                                        </div>
-                                        <div>
-                                        </div>
-                                        <div class="io-description">
-                                            <b>Returns : </b>    <code>{ &quot;1&quot;: string; &quot;Nombre&quot;: any; &quot;Nombre del acueducto&quot;: any; &quot;Encargado del acueducto&quot;: any; &quot;Regis...</code>
-            
-                                        </div>
-                                            <div class="io-description">
-                                                
-                                            </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                            <tr>
-                                <td class="col-md-4">
-                                    <a name="parseTank"></a>
-                                    <span class="name"><b><span class="modifier">Private</span> parseTank</b><a href="#parseTank"><span class="fa fa-link"></span></a></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                        <span class="modifier-icon fa fa-lock"></span>
-                                    <code>parseTank(element: )</code>
-                                </td>
-                            </tr>
-            
-            
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <div class="io-line">Defined in <a href="" data-line="189" class="link-to-prism">src/app/common/service/export.service.ts:189</a></div>
-                                        </td>
-                                    </tr>
-            
-                            <tr>
-                                <td class="col-md-4">
-            
-                                        <div class="io-description">
-                                                <b>Parameters :</b>
-                                                <table class="params">
-                                                    <thead>
-                                                        <tr>
-                                                            <td>Name</td>
-                                                            <td>Type</td>
-                                                            <td>Optional</td>
-                                                            <td>Description</td>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                            <tr>
-                                                              <td>element</td>
-                                                              <td>
-                                                              </td>
-                                                              <td>
-                                                              </td>
-                                                              <td></td>
-                                                            </tr>
-                                                    </tbody>
-                                                </table>
-                                        </div>
-                                        <div>
-                                        </div>
-                                        <div class="io-description">
-                                            <b>Returns : </b>    <code><a href="../classes/Asada.html" target="_self" >{ &quot;1&quot;: string; &quot;Nombre&quot;: any; &quot;Asada&quot;: any; &quot;Fecha de creación del acueducto&quot;: string; &quot;Encargado...</a></code>
-            
-                                        </div>
-                                            <div class="io-description">
-                                                
-                                            </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-            </section>
+    
+        <h3 id="methods">
+            Methods
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="export"></a>
+                        <span class="name">
+                            <b>
+                            export
+                            </b>
+                            <a href="#export"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>export(Json: )</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">src/app/common/service/export.service.ts:77</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>Json</td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="exportAsada"></a>
+                        <span class="name">
+                            <b>
+                            exportAsada
+                            </b>
+                            <a href="#exportAsada"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>exportAsada(asada: )</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="98" class="link-to-prism">src/app/common/service/export.service.ts:98</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>asada</td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="exportAsadas"></a>
+                        <span class="name">
+                            <b>
+                            exportAsadas
+                            </b>
+                            <a href="#exportAsadas"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>exportAsadas(list: )</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">src/app/common/service/export.service.ts:86</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>list</td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="exportFile"></a>
+                        <span class="name">
+                            <b>
+                            exportFile
+                            </b>
+                            <a href="#exportFile"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>exportFile(data: )</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="106" class="link-to-prism">src/app/common/service/export.service.ts:106</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>data</td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="exportInfraestructures"></a>
+                        <span class="name">
+                            <b>
+                            exportInfraestructures
+                            </b>
+                            <a href="#exportInfraestructures"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>exportInfraestructures(list: )</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/common/service/export.service.ts:15</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>list</td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="exportInfrastructure"></a>
+                        <span class="name">
+                            <b>
+                            exportInfrastructure
+                            </b>
+                            <a href="#exportInfrastructure"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>exportInfrastructure(element: )</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/common/service/export.service.ts:29</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>element</td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getEvaluations"></a>
+                        <span class="name">
+                            <b>
+                            getEvaluations
+                            </b>
+                            <a href="#getEvaluations"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>getEvaluations(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/app/common/service/export.service.ts:11</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>id</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="headerAsada"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            headerAsada
+                            </b>
+                            <a href="#headerAsada"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>headerAsada()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="132" class="link-to-prism">src/app/common/service/export.service.ts:132</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>{ &quot;1&quot;: string; &quot;Nombre&quot;: string; &quot;Número de concesión&quot;: string; &quot;Fecha de concesión&quot;: string; &quot;Re...</code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="headerChloration"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            headerChloration
+                            </b>
+                            <a href="#headerChloration"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>headerChloration()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="173" class="link-to-prism">src/app/common/service/export.service.ts:173</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="../classes/Asada.html" target="_self" >{ &quot;1&quot;: string; &quot;Nombre&quot;: string; &quot;Asada&quot;: string; &quot;Fecha de creación del acueducto&quot;: string; &quot;Enc...</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="headerNascentPickup"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            headerNascentPickup
+                            </b>
+                            <a href="#headerNascentPickup"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>headerNascentPickup()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="270" class="link-to-prism">src/app/common/service/export.service.ts:270</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>{ &quot;1&quot;: string; &quot;Nombre&quot;: string; &quot;Nombre del acueducto&quot;: string; &quot;Encargado del acueducto&quot;: strin...</code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="headerSurfacePickup"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            headerSurfacePickup
+                            </b>
+                            <a href="#headerSurfacePickup"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>headerSurfacePickup()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="240" class="link-to-prism">src/app/common/service/export.service.ts:240</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>{ &quot;1&quot;: string; &quot;Nombre&quot;: string; &quot;Nombre del acueducto&quot;: string; &quot;Encargado del acueducto&quot;: strin...</code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="headerTank"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            headerTank
+                            </b>
+                            <a href="#headerTank"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>headerTank()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="208" class="link-to-prism">src/app/common/service/export.service.ts:208</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="../classes/Asada.html" target="_self" >{ &quot;1&quot;: string; &quot;Nombre&quot;: string; &quot;Asada&quot;: string; &quot;Fecha de creación del acueducto&quot;: string; &quot;Enc...</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="parseAsada"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            parseAsada
+                            </b>
+                            <a href="#parseAsada"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>parseAsada(element: )</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="110" class="link-to-prism">src/app/common/service/export.service.ts:110</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>element</td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>{ &quot;1&quot;: string; &quot;Nombre&quot;: any; &quot;Número de concesión&quot;: any; &quot;Fecha de concesión&quot;: any; &quot;Registro de...</code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="parseChloration"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            parseChloration
+                            </b>
+                            <a href="#parseChloration"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>parseChloration(element: )</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="154" class="link-to-prism">src/app/common/service/export.service.ts:154</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>element</td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="../classes/Asada.html" target="_self" >{ &quot;1&quot;: string; &quot;Nombre&quot;: any; &quot;Asada&quot;: any; &quot;Fecha de creación del acueducto&quot;: string; &quot;Encargado...</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="parseInfrastructure"></a>
+                        <span class="name">
+                            <b>
+                            parseInfrastructure
+                            </b>
+                            <a href="#parseInfrastructure"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>parseInfrastructure(element: )</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/common/service/export.service.ts:55</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>element</td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>{ header: {}; data: {}; }</code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="parseNascentPickup"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            parseNascentPickup
+                            </b>
+                            <a href="#parseNascentPickup"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>parseNascentPickup(element: )</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="255" class="link-to-prism">src/app/common/service/export.service.ts:255</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>element</td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>{ &quot;1&quot;: string; &quot;Nombre&quot;: any; &quot;Nombre del acueducto&quot;: any; &quot;Encargado del acueducto&quot;: any; &quot;Regis...</code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="parseSurfacePickup"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            parseSurfacePickup
+                            </b>
+                            <a href="#parseSurfacePickup"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>parseSurfacePickup(element: )</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="225" class="link-to-prism">src/app/common/service/export.service.ts:225</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>element</td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>{ &quot;1&quot;: string; &quot;Nombre&quot;: any; &quot;Nombre del acueducto&quot;: any; &quot;Encargado del acueducto&quot;: any; &quot;Regis...</code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="parseTank"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            parseTank
+                            </b>
+                            <a href="#parseTank"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>parseTank(element: )</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="189" class="link-to-prism">src/app/common/service/export.service.ts:189</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>element</td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="../classes/Asada.html" target="_self" >{ &quot;1&quot;: string; &quot;Nombre&quot;: any; &quot;Asada&quot;: any; &quot;Fecha de creación del acueducto&quot;: string; &quot;Encargado...</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
 
     </div>
 
 
-    <div class="tab-pane fade tab-source-code" id="source">
-        <pre class="line-numbers"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { Angular2Csv } from &quot;angular2-csv/Angular2-csv&quot;;
 import { FormsSersaService } from &quot;app/common/service/forms-sersa.service&quot;;
 import { AngularFire } from &quot;angularfire2&quot;;
@@ -2058,9 +1390,9 @@ export class ExportService {
       &quot;Fecha de concesión&quot;: element.concessionDue.day + element.concessionDue.month + element.concessionDue.year,
       &quot;Registro del Minae&quot;: element.minaeRegistration,
       &quot;Numero de subscripción&quot;: element.numberSubscribed,
-      &quot;Provincia&quot;: element.province,
-      &quot;Cantón&quot;: element.district,
-      &quot;Distrito&quot;: element.subDistrict,
+      &quot;Provincia&quot;: element.location.province.code,
+      &quot;Cantón&quot;: element.location.canton.code,
+      &quot;Distrito&quot;: element.location.district.code,
       &quot;Código Postal&quot;: element.geoCode,
       &quot;Encargado&quot;: element.inCharge,
       &quot;Email&quot;: element.email,
@@ -2229,7 +1561,12 @@ export class ExportService {
 }
 </code></pre>
     </div>
+
 </div>
+
+
+
+
 
 
 
@@ -2239,7 +1576,7 @@ export class ExportService {
 
                    </div><div class="search-results">
     <div class="has-results">
-        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
         <ul class="search-results-list"></ul>
     </div>
     <div class="no-results">
@@ -2247,8 +1584,19 @@ export class ExportService {
     </div>
 </div>
 </div>
+               <!-- END CONTENT -->
            </div>
        </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'ExportService.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <script src="../js/menu-wc.js"></script>
 
        <script src="../js/libs/bootstrap-native.js"></script>
 
@@ -2259,17 +1607,17 @@ export class ExportService {
 
        <script src="../js/compodoc.js"></script>
 
-       <script>var COMPODOC_CURRENT_PAGE_DEPTH = 1;</script>
-
-       <script src="../js/search/search.js"></script>
-       <script src="../js/search/lunr.min.js"></script>
-       <script src="../js/search/search-lunr.js"></script>
-
        <script src="../js/tabs.js"></script>
        <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
        <script src="../js/libs/prism.js"></script>
        <script src="../js/sourceCode.js"></script>
-       <script src="../js/search/search_index.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
 
     </body>
 </html>

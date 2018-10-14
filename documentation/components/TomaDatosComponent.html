@@ -1,0 +1,1446 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>sistema-asadas documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">sistema-asadas documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search">
+</div>
+            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>TomaDatosComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/components/toma-datos/toma-datos.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code><a href="https://v2.angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">providers</td>
+                <td class="col-md-9">
+                            <code><a href="../injectables/AngularFireService.html" target="_self" >AngularFireService</a></code>
+                            <code><a href="https://v2.angular.io/api/common/DatePipe" target="_blank" >DatePipe</a></code>
+                            <code><a href="../injectables/MapGoogleService.html" target="_self" >MapGoogleService</a></code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-toma-datos</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>toma-datos.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./toma-datos.component.html</code></td>
+            </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#asadaSelected">asadaSelected</a>
+                            </li>
+                            <li>
+                                <a href="#asadasList">asadasList</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#cantidadCaptaciones">cantidadCaptaciones</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#cantidadCloracion">cantidadCloracion</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#cantidadTanques">cantidadTanques</a>
+                            </li>
+                            <li>
+                                <a href="#cList">cList</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#infraestructureList">infraestructureList</a>
+                            </li>
+                            <li>
+                                <a href="#todayDate">todayDate</a>
+                            </li>
+                            <li>
+                                <a href="#tomaDatosList">tomaDatosList</a>
+                            </li>
+                            <li>
+                                <a href="#user">user</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#User">User</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#addNewTomaDatos">addNewTomaDatos</a>
+                            </li>
+                            <li>
+                                <a href="#asadaHandler">asadaHandler</a>
+                            </li>
+                            <li>
+                                <a href="#create">create</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#openInfraList">openInfraList</a>
+                            </li>
+                            <li>
+                                <a href="#returnInfraesOfAsada">returnInfraesOfAsada</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(mapService: <a href="../injectables/MapGoogleService.html">MapGoogleService</a>, router: <a href="https://v2.angular.io/api/router/Router" target="_blank">Router</a>, db: AngularFireDatabase, af: AngularFire, angularFireService: <a href="../injectables/AngularFireService.html">AngularFireService</a>, datepipe: <a href="https://v2.angular.io/api/common/DatePipe" target="_blank">DatePipe</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/components/toma-datos/toma-datos.component.ts:32</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>mapService</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/MapGoogleService.html" target="_self" >MapGoogleService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>router</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="https://v2.angular.io/api/router/Router" target="_blank" >Router</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>db</td>
+                                                  
+                                                        <td>
+                                                                    <code>AngularFireDatabase</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>af</td>
+                                                  
+                                                        <td>
+                                                                    <code>AngularFire</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>angularFireService</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/AngularFireService.html" target="_self" >AngularFireService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>datepipe</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="https://v2.angular.io/api/common/DatePipe" target="_blank" >DatePipe</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section>
+    
+        <h3 id="methods">
+            Methods
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="addNewTomaDatos"></a>
+                        <span class="name">
+                            <b>
+                            addNewTomaDatos
+                            </b>
+                            <a href="#addNewTomaDatos"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>addNewTomaDatos(pTomaDatos: )</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="106" class="link-to-prism">src/app/components/toma-datos/toma-datos.component.ts:106</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>pTomaDatos</td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="asadaHandler"></a>
+                        <span class="name">
+                            <b>
+                            asadaHandler
+                            </b>
+                            <a href="#asadaHandler"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>asadaHandler(event: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="100" class="link-to-prism">src/app/components/toma-datos/toma-datos.component.ts:100</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>event</td>
+                                                        <td>
+                                                                    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="create"></a>
+                        <span class="name">
+                            <b>
+                            create
+                            </b>
+                            <a href="#create"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>create()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="110" class="link-to-prism">src/app/components/toma-datos/toma-datos.component.ts:110</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ngOnInit"></a>
+                        <span class="name">
+                            <b>
+                            ngOnInit
+                            </b>
+                            <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>ngOnInit()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="88" class="link-to-prism">src/app/components/toma-datos/toma-datos.component.ts:88</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="openInfraList"></a>
+                        <span class="name">
+                            <b>
+                            openInfraList
+                            </b>
+                            <a href="#openInfraList"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>openInfraList(elem: )</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">src/app/components/toma-datos/toma-datos.component.ts:77</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>elem</td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="returnInfraesOfAsada"></a>
+                        <span class="name">
+                            <b>
+                            returnInfraesOfAsada
+                            </b>
+                            <a href="#returnInfraesOfAsada"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>returnInfraesOfAsada(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="132" class="link-to-prism">src/app/components/toma-datos/toma-datos.component.ts:132</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>id</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>{}</code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="asadaSelected"></a>
+                        <span class="name">
+                            <b>
+                            asadaSelected
+                            </b>
+                            <a href="#asadaSelected"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>asadaSelected:     <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>&#x27;&#x27;</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/components/toma-datos/toma-datos.component.ts:25</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="asadasList"></a>
+                        <span class="name">
+                            <b>
+                            asadasList
+                            </b>
+                            <a href="#asadasList"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>asadasList:     <code>any[]</code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>any[]</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/components/toma-datos/toma-datos.component.ts:24</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="cantidadCaptaciones"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            cantidadCaptaciones
+                            </b>
+                            <a href="#cantidadCaptaciones"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span><code>cantidadCaptaciones:     <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>0</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/components/toma-datos/toma-datos.component.ts:31</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="cantidadCloracion"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            cantidadCloracion
+                            </b>
+                            <a href="#cantidadCloracion"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span><code>cantidadCloracion:     <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>0</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/components/toma-datos/toma-datos.component.ts:32</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="cantidadTanques"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            cantidadTanques
+                            </b>
+                            <a href="#cantidadTanques"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span><code>cantidadTanques:     <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>0</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/components/toma-datos/toma-datos.component.ts:30</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="cList"></a>
+                        <span class="name">
+                            <b>
+                            cList
+                            </b>
+                            <a href="#cList"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>cList:     <code>Array&lt;any&gt;</code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Array&lt;any&gt;</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">src/app/components/toma-datos/toma-datos.component.ts:86</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="infraestructureList"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            infraestructureList
+                            </b>
+                            <a href="#infraestructureList"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span><code>infraestructureList:     <code><a href="../interfaces/Infrastructure.html" target="_self" >Infrastructure[]</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="../interfaces/Infrastructure.html" target="_self" >Infrastructure[]</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/components/toma-datos/toma-datos.component.ts:23</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="todayDate"></a>
+                        <span class="name">
+                            <b>
+                            todayDate
+                            </b>
+                            <a href="#todayDate"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>todayDate:     <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank" >Date</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank" >Date</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/components/toma-datos/toma-datos.component.ts:26</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="tomaDatosList"></a>
+                        <span class="name">
+                            <b>
+                            tomaDatosList
+                            </b>
+                            <a href="#tomaDatosList"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>tomaDatosList:     <code>any[]</code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>any[]</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/components/toma-datos/toma-datos.component.ts:27</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="user"></a>
+                        <span class="name">
+                            <b>
+                            user
+                            </b>
+                            <a href="#user"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>user:     <code>FirebaseAuthState</code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>FirebaseAuthState</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">src/app/components/toma-datos/toma-datos.component.ts:84</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="User"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            User
+                            </b>
+                            <a href="#User"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span><code>User:     <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>&#x27;&#x27;</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">src/app/components/toma-datos/toma-datos.component.ts:82</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit } from &#x27;@angular/core&#x27;;
+import {AngularFireDatabase} from &#x27;angularfire2/database&#x27;
+import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from &#x27;angularfire2&#x27;;
+import { AngularFireService } from &#x27;../../common/service/angularFire.service&#x27;;
+import { TomaDatos } from &#x27;../../common/model/TomaDatos&#x27;;
+import { FirebaseAuthState } from &#x27;angularfire2/index&#x27;;
+import { DatePipe } from &#x27;@angular/common&#x27;;
+import { Infrastructure } from &#x27;../../common/model/Infrastructure&#x27;;
+import { MapGoogleService } from &#x27;../map-google/map-google.service&#x27;;
+import { LegendEntryComponent } from &#x27;@swimlane/ngx-charts&#x27;;
+import { TomaInfra } from &#x27;../../common/model/TomaInfra&#x27;;
+import { Router, ActivatedRoute } from &#x27;@angular/router&#x27;;
+
+@Component({
+  selector: &#x27;app-toma-datos&#x27;,
+  templateUrl: &#x27;./toma-datos.component.html&#x27;,
+
+  styleUrls: [&#x27;./toma-datos.component.scss&#x27;],
+  providers: [AngularFireService,DatePipe,MapGoogleService]
+})
+export class TomaDatosComponent implements OnInit {
+
+  private infraestructureList: Infrastructure[];
+  asadasList: any[];
+  asadaSelected: string &#x3D; &#x27;&#x27;;
+  todayDate: Date;
+  tomaDatosList: any[];
+  
+  
+  public cantidadTanques &#x3D; 0;
+  public cantidadCaptaciones &#x3D; 0;
+  public cantidadCloracion &#x3D; 0;
+
+  constructor(private mapService: MapGoogleService, private router: Router, db: AngularFireDatabase, private af: AngularFire,private angularFireService: AngularFireService,private datepipe: DatePipe) {
+    this.infraestructureList &#x3D; [];
+    
+    db.list(&#x27;asadas&#x27;)
+    .subscribe(asadasList &#x3D;&gt; {
+      this.asadasList &#x3D; asadasList;
+      
+      });
+
+   
+    db.list(&#x27;/tomaDatos&#x27;)
+    .subscribe(tomaDatosList &#x3D;&gt; {
+      this.tomaDatosList &#x3D; tomaDatosList;
+      var tomaDatosList &#x3D; new Array();
+      for (var i &#x3D; 0; i &lt; this.tomaDatosList.length; i++){
+        var toma_datos &#x3D; {
+          &#x27;key&#x27;:&#x27;&#x27;,
+          &#x27;id&#x27;:&#x27;&#x27;,
+          &#x27;Asada&#x27;: &#x27;&#x27;,
+          &#x27;Fecha&#x27;: &#x27;&#x27;,
+          &#x27;Estado&#x27;: &#x27;&#x27;,
+          &#x27;Infraestructura&#x27;: &#x27;&#x27;
+        }
+        if(this.tomaDatosList[i][&quot;idEstudiante&quot;] &#x3D;&#x3D; this.User){
+          toma_datos.key &#x3D; this.tomaDatosList[i][&quot;$key&quot;];  
+          toma_datos.id &#x3D; this.tomaDatosList[i][&quot;idToma&quot;]; 
+          toma_datos.Asada &#x3D; this.tomaDatosList[i][&quot;nameAsada&quot;];
+          toma_datos.Fecha &#x3D; this.tomaDatosList[i][&quot;dateCreated&quot;];
+          toma_datos.Estado &#x3D; this.tomaDatosList[i][&quot;status&quot;];
+          toma_datos.Infraestructura &#x3D; this.tomaDatosList[i][&quot;infraestructuras&quot;].length;
+          tomaDatosList.push(toma_datos);
+
+        }
+      }
+      
+      this.tomaDatosList &#x3D; tomaDatosList;
+      
+    });
+
+    
+
+   }
+
+   openInfraList(elem){
+     console.log(&quot;yes&quot;);
+    this.router.navigate([&#x27;/tomaDatosInfra&#x27;,elem]);
+   }
+
+   private User &#x3D; &#x27;&#x27;;
+
+   user: FirebaseAuthState;
+
+  cList: Array&lt;any&gt;;
+
+  ngOnInit() {
+      this.af.auth.subscribe(user &#x3D;&gt; {
+
+      this.user &#x3D; user;
+      this.User &#x3D; this.user.uid;
+      
+     // this.data.currentList.subscribe(cList &#x3D;&gt; this.cList &#x3D; cList);
+     // this.data.currentList.subscribe(listParm &#x3D;&gt; this.infraestructureList)
+    });}
+
+ 
+
+  asadaHandler(event: any){
+    this.asadaSelected &#x3D; event.target.value;
+  }
+
+
+
+  addNewTomaDatos(pTomaDatos){
+    this.angularFireService.addNewTomaDatos(pTomaDatos);
+  }
+
+  create(){
+    var id &#x3D; 0;
+
+    if(this.tomaDatosList[this.tomaDatosList.length-1] !&#x3D; null){
+       id &#x3D; Number(this.tomaDatosList[this.tomaDatosList.length-1][&quot;id&quot;])+1;
+    }
+
+    const tomaDatos: TomaDatos &#x3D; new TomaDatos();
+    this.todayDate &#x3D; new Date();
+    let latest_date &#x3D;this.datepipe.transform(this.todayDate, &#x27;yyyy-MM-dd&#x27;);
+
+    tomaDatos.dateCreated &#x3D; latest_date;
+    tomaDatos.idToma&#x3D; id.toString();
+    tomaDatos.nameAsada &#x3D; this.asadaSelected;
+    tomaDatos.status &#x3D; &#x27;Pendiente&#x27;;
+    tomaDatos.idEstudiante &#x3D; this.User;
+    tomaDatos.infraestructuras &#x3D; this.returnInfraesOfAsada(this.asadaSelected);
+
+    this.addNewTomaDatos(tomaDatos);
+  }
+
+  
+  returnInfraesOfAsada(id: string){
+    var listInfra: TomaInfra[] &#x3D; [];
+    for (let infra of this.infraestructureList){
+      
+      var infraTemp &#x3D; new TomaInfra();
+
+      if (infra.asada.name &#x3D;&#x3D;&#x3D; id){
+        
+        infraTemp.id &#x3D; infra.$key;
+        listInfra.push(infraTemp);
+      }
+    }
+    return listInfra;
+    
+  }
+
+  
+
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;section&gt;
+  
+  &lt;div class&#x3D;&quot;section-body contain-xl&quot;&gt;
+      &lt;div class&#x3D;&quot;section-header&quot;&gt;
+          &lt;h2 class&#x3D;&quot;text-default-bright&quot;&gt;Toma de datos&lt;/h2&gt;
+          
+        &lt;/div&gt;
+        
+      &lt;div class&#x3D;&quot;no-y-padding&quot; style&#x3D;&quot;background-color:transparent&quot;&gt;
+        
+          &lt;form class&#x3D;&quot;form form-inverse&quot;&gt;
+            &lt;div class&#x3D;&quot;form-group&quot;&gt;
+              &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn ink-reaction btn-raised btn-primary-dark &quot;  data-toggle&#x3D;&quot;modal&quot; data-target&#x3D;&quot;#formModal&quot;&gt;Nueva toma&lt;/button&gt;
+              
+            &lt;/div&gt;
+            &lt;!--end .form-group --&gt;
+          &lt;/form&gt;
+        &lt;/div&gt;
+      
+
+    &lt;div class&#x3D;&quot;card tabs-left style-default-light &quot;&gt;
+        
+      
+
+      &lt;!-- BEGIN TAB CONTENT --&gt;
+      &lt;div class&#x3D;&quot;card-body tab-content style-default-bright&quot;&gt;
+        &lt;div class&#x3D;&quot;tab-pane active&quot; id&#x3D;&quot;web1&quot;&gt;
+          &lt;div class&#x3D;&quot;row&quot;&gt;
+            &lt;div class&#x3D;&quot;col-lg-12&quot;&gt;
+
+             
+
+              &lt;div&gt;
+                &lt;table class&#x3D;&quot;table table-hover&quot;&gt;
+                  &lt;thead&gt;
+                    &lt;tr&gt;
+                      &lt;th class&#x3D;&quot;text-medium text-lg text-primary&quot;&gt;# &lt;/th&gt;
+                      &lt;th class&#x3D;&quot;text-medium text-lg text-primary&quot;&gt;ASADA&lt;/th&gt;
+                      &lt;th class&#x3D;&quot;text-medium text-lg text-primary&quot;&gt;Fecha&lt;/th&gt;
+                      &lt;th class&#x3D;&quot;text-medium text-lg text-primary&quot;&gt;# Infraestructuras&lt;/th&gt;
+                      &lt;th class&#x3D;&quot;text-medium text-lg text-primary&quot;&gt;Estado&lt;/th&gt;
+                      &lt;th class&#x3D;&quot;text-medium text-lg text-primary&quot;&gt; &lt;/th&gt;
+                      
+                      
+                    &lt;/tr&gt;
+                  &lt;/thead&gt;
+                  &lt;tbody&gt;
+                    &lt;tr *ngFor&#x3D;&quot;let element of tomaDatosList&quot;&gt;
+                          
+                      &lt;td&gt;&lt;a class&#x3D;&quot;opacity-75&quot;&gt;{{element.id}}&lt;/a&gt;&lt;/td&gt;
+                      &lt;td&gt;&lt;a class&#x3D;&quot;opacity-75&quot;&gt;{{element.Asada}}&lt;/a&gt;&lt;/td&gt;
+                      &lt;td&gt;&lt;a class&#x3D;&quot;opacity-75&quot; &gt;{{element.Fecha}}&lt;/a&gt;&lt;/td&gt;
+                      &lt;td&gt;&lt;a class&#x3D;&quot;opacity-75&quot;&gt;{{element.Infraestructura}}&lt;/a&gt;&lt;/td&gt;
+                      &lt;td&gt;&lt;a [style.color]&#x3D;&quot;element.Estado &#x3D;&#x3D;&#x3D; &#x27;Pendiente&#x27; ? &#x27;orange&#x27; : element.Estado &#x3D;&#x3D;&#x3D; &#x27;Aceptado&#x27; ? &#x27;green&#x27; : &#x27;red&#x27;&quot;&gt;&lt;b&gt;{{element.Estado}}&lt;/b&gt;&lt;/a&gt;&lt;/td&gt;
+                      &lt;td class&#x3D;&quot;text-right&quot;&gt;
+                            &lt;button *ngIf &#x3D; &quot;element.Estado!&#x3D;&#x27;Aceptado&#x27;&quot; type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-icon-toggle&quot; [routerLink]&#x3D;&quot;[&#x27;/tomaDatosInfra&#x27;,element.key]&quot;  data-toggle&#x3D;&quot;tooltip&quot; data-placement&#x3D;&quot;top&quot; data-original-title&#x3D;&quot;Copy row&quot;&gt;&lt;i class&#x3D;&quot;fa fa-arrow-right&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+                          &lt;/td&gt;
+                    &lt;/tr&gt;
+                  &lt;/tbody&gt;
+                &lt;/table&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+          
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;!-- END TAB CONTENT --&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class&#x3D;&quot;modal fade&quot; id&#x3D;&quot;formModal&quot; tabindex&#x3D;&quot;-1&quot; role&#x3D;&quot;dialog&quot; aria-labelledby&#x3D;&quot;formModalLabel&quot; aria-hidden&#x3D;&quot;true&quot;&gt;
+      &lt;div class&#x3D;&quot;modal-dialog&quot;&gt;
+        &lt;div class&#x3D;&quot;modal-content&quot;&gt;
+          &lt;div class&#x3D;&quot;modal-header&quot;&gt;
+            &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;close&quot; data-dismiss&#x3D;&quot;modal&quot; aria-hidden&#x3D;&quot;true&quot;&gt;&amp;times;&lt;/button&gt;
+            &lt;h4 class&#x3D;&quot;modal-title&quot; style&#x3D;&quot;color:#4CAF50&quot; id&#x3D;&quot;formModalLabel&quot;&gt;Seleccione la ASADA&lt;/h4&gt;
+          &lt;/div&gt;
+          &lt;form class&#x3D;&quot;form-horizontal&quot; role&#x3D;&quot;form&quot;&gt;
+            &lt;div class&#x3D;&quot;modal-body&quot;&gt;
+              &lt;div class&#x3D;&quot;form-group&quot;&gt;
+                &lt;div class&#x3D;&quot;col-sm-8&quot;&gt;
+
+                    &lt;select class&#x3D;&quot;form-control&quot; (change)&#x3D;&quot;asadaHandler($event)&quot;&gt; &lt;!-- &lt;&#x3D;&#x3D; changed --&gt;
+                      
+                      &lt;option *ngFor&#x3D;&quot;let element of asadasList&quot; [ngValue]&#x3D;&quot;element&quot;&gt;{{element.name}}&lt;/option&gt;
+                    &lt;/select&gt;
+                    
+                &lt;/div&gt;
+              &lt;/div&gt;
+              
+              
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;modal-footer&quot;&gt;
+              &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;btn btn-default&quot; data-dismiss&#x3D;&quot;modal&quot;&gt;Cancel&lt;/button&gt;
+              &lt;button type&#x3D;&quot;submit&quot; class&#x3D;&quot;btn btn-primary&quot; (click)&#x3D;&quot;create()&quot; data-dismiss&#x3D;&quot;modal&quot;  &gt;Crear&lt;/button&gt;
+            &lt;/div&gt;
+           &lt;/form&gt;
+        &lt;/div&gt;&lt;!-- /.modal-content --&gt;
+      &lt;/div&gt;&lt;!-- /.modal-dialog --&gt;
+    &lt;/div&gt;&lt;!-- /.modal --&gt;
+    &lt;!-- END FORM MODAL MARKUP --&gt;
+
+&lt;/section&gt;
+
+
+
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><section>    <div class="section-body contain-xl">      <div class="section-header">          <h2 class="text-default-bright">Toma de datos</h2>                  </div>              <div class="no-y-padding" style="background-color:transparent">                  <form class="form form-inverse">            <div class="form-group">              <button type="button" class="btn ink-reaction btn-raised btn-primary-dark "  data-toggle="modal" data-target="#formModal">Nueva toma</button>                          </div>            <!--end .form-group -->          </form>        </div>          <div class="card tabs-left style-default-light ">                    <!-- BEGIN TAB CONTENT -->      <div class="card-body tab-content style-default-bright">        <div class="tab-pane active" id="web1">          <div class="row">            <div class="col-lg-12">                           <div>                <table class="table table-hover">                  <thead>                    <tr>                      <th class="text-medium text-lg text-primary"># </th>                      <th class="text-medium text-lg text-primary">ASADA</th>                      <th class="text-medium text-lg text-primary">Fecha</th>                      <th class="text-medium text-lg text-primary"># Infraestructuras</th>                      <th class="text-medium text-lg text-primary">Estado</th>                      <th class="text-medium text-lg text-primary"> </th>                                                                </tr>                  </thead>                  <tbody>                    <tr *ngFor="let element of tomaDatosList">                                                <td><a class="opacity-75">{{element.id}}</a></td>                      <td><a class="opacity-75">{{element.Asada}}</a></td>                      <td><a class="opacity-75" >{{element.Fecha}}</a></td>                      <td><a class="opacity-75">{{element.Infraestructura}}</a></td>                      <td><a [style.color]="element.Estado === \'Pendiente\' ? \'orange\' : element.Estado === \'Aceptado\' ? \'green\' : \'red\'"><b>{{element.Estado}}</b></a></td>                      <td class="text-right">                            <button *ngIf = "element.Estado!=\'Aceptado\'" type="button" class="btn btn-icon-toggle" [routerLink]="[\'/tomaDatosInfra\',element.key]"  data-toggle="tooltip" data-placement="top" data-original-title="Copy row"><i class="fa fa-arrow-right"></i></button>                          </td>                    </tr>                  </tbody>                </table>              </div>            </div>          </div>                  </div>      </div>      <!-- END TAB CONTENT -->    </div>  </div>  <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="formModalLabel" aria-hidden="true">      <div class="modal-dialog">        <div class="modal-content">          <div class="modal-header">            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>            <h4 class="modal-title" style="color:#4CAF50" id="formModalLabel">Seleccione la ASADA</h4>          </div>          <form class="form-horizontal" role="form">            <div class="modal-body">              <div class="form-group">                <div class="col-sm-8">                    <select class="form-control" (change)="asadaHandler($event)"> <!-- <== changed -->                                            <option *ngFor="let element of asadasList" [ngValue]="element">{{element.name}}</option>                    </select>                                    </div>              </div>                                        </div>            <div class="modal-footer">              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>              <button type="submit" class="btn btn-primary" (click)="create()" data-dismiss="modal"  >Crear</button>            </div>           </form>        </div><!-- /.modal-content -->      </div><!-- /.modal-dialog -->    </div><!-- /.modal -->    <!-- END FORM MODAL MARKUP --></section></div>'
+    var COMPONENTS = [{'name': 'AboutUsComponent', 'selector': 'app-about-us'},{'name': 'AddAsadaComponent', 'selector': 'app-add-asada'},{'name': 'AddChlorinSystemComponent', 'selector': 'app-add-chlorin-system'},{'name': 'AddInfrastructureComponent', 'selector': 'app-add-infrastructure'},{'name': 'AddNascentComponent', 'selector': 'app-add-nascent'},{'name': 'AddSuperficialWaterComponent', 'selector': 'app-add-superficial-water'},{'name': 'AddTankComponent', 'selector': 'app-add-tank'},{'name': 'AdmUsuariosComponent', 'selector': 'app-adm-usuarios'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AsadaDetailsComponent', 'selector': 'app-asada-details'},{'name': 'BitacoraComponent', 'selector': 'app-bitacora'},{'name': 'ChlorinDetailsComponent', 'selector': 'app-chlorin-details'},{'name': 'CompareAsadasComponent', 'selector': 'app-compare-asadas'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'DetailsSuperficialWaterComponent', 'selector': 'app-details-superficial-water'},{'name': 'EvalSersaComponent', 'selector': 'app-eval-sersa'},{'name': 'FilterComponent', 'selector': 'app-filter'},{'name': 'GenerateReportComponent', 'selector': 'app-generate-report'},{'name': 'GraphicdetailsComponent', 'selector': 'app-graphicdetails'},{'name': 'GraphicsComponent', 'selector': 'app-graphics'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'InfrastructureGalleryComponent', 'selector': 'app-infrastructure-gallery'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MapGoogleComponent', 'selector': 'app-map-google'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'NascentDetailsComponent', 'selector': 'app-nascent-details'},{'name': 'NascentPickupComponent', 'selector': 'app-nascent-pickup'},{'name': 'NewNotificationComponent', 'selector': 'app-new-notification'},{'name': 'NotFoundComponentComponent', 'selector': 'app-not-found-component'},{'name': 'NotificationsComponent', 'selector': 'app-notifications'},{'name': 'PersmissionRequestsComponent', 'selector': 'app-persmission-requests'},{'name': 'ProfileComponent', 'selector': 'app-profile'},{'name': 'ProfileHeaderComponent', 'selector': 'app-profile-header'},{'name': 'ReporteComponent', 'selector': 'app-reporte'},{'name': 'SearchComponent', 'selector': 'app-search'},{'name': 'SignupComponent', 'selector': 'app-signup'},{'name': 'SurfacePickupComponent', 'selector': 'app-surface-pickup'},{'name': 'Tab', 'selector': 'tab'},{'name': 'Tabs', 'selector': 'tabs'},{'name': 'TankDetailsComponent', 'selector': 'app-tank-details'},{'name': 'TomaDatosComponent', 'selector': 'app-toma-datos'},{'name': 'TomaDatosInfraComponent', 'selector': 'app-toma-datos-infra'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'TomaDatosComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'TomaDatosComponent.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <script src="../js/menu-wc.js"></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

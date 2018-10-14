@@ -8,824 +8,31 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-	    <link rel="stylesheet" href="../styles/style.css">
+	      <link rel="stylesheet" href="../styles/style.css">
     </head>
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
             <a href="../" class="navbar-brand">sistema-asadas documentation</a>
-            <button type="button" class="btn btn-default btn-menu fa fa-bars" id="btn-menu"></button>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
-            <div id="book-search-input" role="search">
-                <input type="text" placeholder="Type to search">
-            </div>
-            <nav>
-            
-                <ul class="list">
-            
-                    <li class="title">
-                        <a href="../index.html">sistema-asadas documentation</a>
-                    </li>
-            
-                    <li class="divider"></li>
-            
-            
-                    <li class="chapter">
-                        <a data-type="chapter-link" href="../index.html"><span class="fa fa-home"></span>Getting started</a>
-                        <ul class="links">
-                                <li class="link">
-                                    <a 
-                                        
-                                         href="../overview.html" 
-                                         href="../overview.html" 
-                                        >
-                                        <span class="fa fa-th"></span>Overview
-                                    </a>
-                                </li>
-                                <li class="link">
-                                  <a href="../index.html" ><span class="fa fa-file-text-o"></span>README</a>
-                                </li>
-                        </ul>
-                    </li>
-            
-            
-                    <li class="chapter">
-                        <a data-type="chapter-link" href="../modules.html" >
-                            <div class="menu-toggler linked" data-toggle="collapse"
-                                    data-target="#xs-modules-links"
-                            >
-                                <span class="fa fa-archive"></span>
-                                <span class="link-name">Modules</span>
-                                <span class="fa fa-angle-down"></span>
-                            </div>
-                        </a>
-                        <ul class="links collapse "
-                                id="xs-modules-links"
-                            >
-                                <li class="link">
-                                    <a href="../modules/AppModule.html" >AppModule</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../modules/RoutingModule.html" >RoutingModule</a>
-                                </li>
-                        </ul>
-                    </li>
-            
-                    <li class="chapter">
-                        <div class="simple menu-toggler" data-toggle="collapse"
-                                data-target="#xs-components-links"
-                            >
-                            <span class="fa fa-cogs"></span>
-                            <span>Components</span>
-                            <span class="fa fa-angle-down"></span>
-                        </div>
-                        <ul class="links collapse "
-                                id="xs-components-links"
-                            >
-                                <li class="link">
-                                    <a href="../components/AboutUsComponent.html" >AboutUsComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/AddAsadaComponent.html" >AddAsadaComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/AddChlorinSystemComponent.html" >AddChlorinSystemComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/AddInfrastructureComponent.html" >AddInfrastructureComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/AddNascentComponent.html" >AddNascentComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/AddSuperficialWaterComponent.html" >AddSuperficialWaterComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/AddTankComponent.html" >AddTankComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/AppComponent.html" >AppComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/AsadaDetailsComponent.html" >AsadaDetailsComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/ChlorinDetailsComponent.html" >ChlorinDetailsComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/CompareAsadasComponent.html" >CompareAsadasComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/DetailsSuperficialWaterComponent.html" >DetailsSuperficialWaterComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/EvalSersaComponent.html" >EvalSersaComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/GenerateReportComponent.html" >GenerateReportComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/GraphicdetailsComponent.html" >GraphicdetailsComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/GraphicsComponent.html" >GraphicsComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/HeaderComponent.html" >HeaderComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/HomeComponent.html" >HomeComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/LoginComponent.html" >LoginComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/MapGoogleComponent.html" >MapGoogleComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/MenuComponent.html" >MenuComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/NascentDetailsComponent.html" >NascentDetailsComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/NascentPickupComponent.html" >NascentPickupComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/NewNotificationComponent.html" >NewNotificationComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/NotFoundComponentComponent.html" >NotFoundComponentComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/NotificationsComponent.html" >NotificationsComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/PersmissionRequestsComponent.html" >PersmissionRequestsComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/ProfileComponent.html" >ProfileComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/ProfileHeaderComponent.html" >ProfileHeaderComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/SearchComponent.html" >SearchComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/SignupComponent.html" >SignupComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/SurfacePickupComponent.html" >SurfacePickupComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/Tab.html" >Tab</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/Tabs.html" >Tabs</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../components/TankDetailsComponent.html" >TankDetailsComponent</a>
-                                </li>
-                        </ul>
-                    </li>
-            
-            
-                    <li class="chapter">
-                        <div class="simple menu-toggler" data-toggle="collapse"
-                                data-target="#xs-classes-links"
-                            >
-                            <span class="fa fa-file-code-o"></span>
-                            <span>Classes</span>
-                            <span class="fa fa-angle-down"></span>
-                        </div>
-                        <ul class="links collapse "
-                                id="xs-classes-links"
-                            >
-                                <li class="link">
-                                    <a href="../classes/Asada.html" >Asada</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/AsadaForm.html" >AsadaForm</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/Chlorination.html" >Chlorination</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/DistributionLine.html" >DistributionLine</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/DrivingDistributionLine.html" >DrivingDistributionLine</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/Evaluation.html" >Evaluation</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/FirebaseImg.html" >FirebaseImg</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/FormularioSersa.html" >FormularioSersa</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/FromChlorin.html" >FromChlorin</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/Graphic.html" >Graphic</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/Nascent.html" >Nascent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/NascentForm.html" >NascentForm</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/Notification.html" >Notification</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/NotificationForm.html" >NotificationForm</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/RadioOption.html" >RadioOption</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/RolAccess.html" >RolAccess</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/SuperficialForm.html" >SuperficialForm</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/SuperficialWater.html" >SuperficialWater</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/Tank.html" >Tank</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/TankForm.html" >TankForm</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/TankQG.html" >TankQG</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/Upload.html" >Upload</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/User.html" >User</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/UserForm.html" >UserForm</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/inputText.html" >inputText</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/pkAsada.html" >pkAsada</a>
-                                </li>
-                        </ul>
-                    </li>
-            
-                    <li class="chapter">
-                        <div class="simple menu-toggler" data-toggle="collapse"
-                                data-target="#xs-injectables-links"
-                            >
-                            <span class="fa fa-long-arrow-down"></span>
-                            <span>Injectables</span>
-                            <span class="fa fa-angle-down"></span>
-                        </div>
-                        <ul class="links collapse "
-                                id="xs-injectables-links"
-                            >
-                                <li class="link">
-                                    <a href="../injectables/AngularFireService.html" >AngularFireService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/AuthGuard.html" >AuthGuard</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/ExportService.html" >ExportService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/FormsSersaService.html" >FormsSersaService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/GeolocationService.html" >GeolocationService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/GetEvalSersaService.html" >GetEvalSersaService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/GetUserDetailsService.html" >GetUserDetailsService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/GraphicsService.html" >GraphicsService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/MapGoogleService.html" >MapGoogleService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/NewNotificationService.html" >NewNotificationService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/NotificationsService.html" >NotificationsService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/SearchService.html"  data-type="entity-link" class="active" >SearchService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/StorageFirebaseService.html" >StorageFirebaseService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/TankDetailsService.html" >TankDetailsService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/UploadService.html" >UploadService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/UserService.html" >UserService</a>
-                                </li>
-                        </ul>
-                    </li>
-            
-                    <li class="chapter">
-                        <div class="simple menu-toggler" data-toggle="collapse"
-                                data-target="#xs-interfaces-links"
-                            >
-                            <span class="fa fa-info"></span>
-                            <span>Interfaces</span>
-                            <span class="fa fa-angle-down"></span>
-                        </div>
-                        <ul class="links collapse "
-                                id="xs-interfaces-links"
-                            >
-                                <li class="link">
-                                    <a href="../interfaces/Graphics.html" >Graphics</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/Infrastructure.html" >Infrastructure</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/Notification.html" >Notification</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/Notification.html" >Notification</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/asadastructure.html" >asadastructure</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/infraestructureCaptacion.html" >infraestructureCaptacion</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/infraestructureTank.html" >infraestructureTank</a>
-                                </li>
-                        </ul>
-                    </li>
-            
-            
-                    <li class="chapter">
-                        <div class="simple menu-toggler" data-toggle="collapse"
-                                data-target="#xs-miscellaneous-links"
-                            >
-                            <span class="fa fa-cubes"></span>
-                            <span>Miscellaneous</span>
-                            <span class="fa fa-angle-down"></span>
-                        </div>
-                        <ul class="links collapse "
-                                id="xs-miscellaneous-links"
-                            >
-                                <li class="link">
-                                  <a href="../miscellaneous/variables.html" data-type="entity-link" >Variables</a>
-                                </li>
-                        </ul>
-                    </li>
-            
-                    <li class="chapter">
-                        <a data-type="chapter-link" href="../routes.html" ><span class="fa fa-code-fork"></span>Routes</a>
-                    </li>
-            
-                    <li class="chapter">
-                        <a data-type="chapter-link" href="../coverage.html" ><span class="fa fa-tasks"></span>Documentation coverage</a>
-                    </li>
-            
-                    <li class="divider"></li>
-                    <li class="copyright">
-                            Documentation generated using <a href="https://compodoc.github.io/website/" target="_blank">
-                                        <img src="..//images/compodoc-vectorise.svg" class="img-responsive">
-                            </a>
-                    </li>
-            
-                </ul>
-            
-            </nav>
+                <div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search">
+</div>
+            <compodoc-menu></compodoc-menu>
         </div>
 
         <div class="container-fluid main">
            <div class="row main">
                <div class="hidden-xs menu">
-                   <nav>
-                   
-                       <ul class="list">
-                   
-                           <li class="title">
-                               <a href="../index.html">sistema-asadas documentation</a>
-                           </li>
-                   
-                           <li class="divider"></li>
-                   
-                               <div id="book-search-input" role="search">
-                                   <input type="text" placeholder="Type to search">
-                               </div>
-                   
-                           <li class="chapter">
-                               <a data-type="chapter-link" href="../index.html"><span class="fa fa-home"></span>Getting started</a>
-                               <ul class="links">
-                                       <li class="link">
-                                           <a 
-                                               
-                                                href="../overview.html" 
-                                                href="../overview.html" 
-                                               >
-                                               <span class="fa fa-th"></span>Overview
-                                           </a>
-                                       </li>
-                                       <li class="link">
-                                         <a href="../index.html" ><span class="fa fa-file-text-o"></span>README</a>
-                                       </li>
-                               </ul>
-                           </li>
-                   
-                   
-                           <li class="chapter">
-                               <a data-type="chapter-link" href="../modules.html" >
-                                   <div class="menu-toggler linked" data-toggle="collapse"
-                                           data-target="#modules-links"
-                                   >
-                                       <span class="fa fa-archive"></span>
-                                       <span class="link-name">Modules</span>
-                                       <span class="fa fa-angle-down"></span>
-                                   </div>
-                               </a>
-                               <ul class="links collapse "
-                                       id="modules-links"
-                   >
-                                       <li class="link">
-                                           <a href="../modules/AppModule.html" >AppModule</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../modules/RoutingModule.html" >RoutingModule</a>
-                                       </li>
-                               </ul>
-                           </li>
-                   
-                           <li class="chapter">
-                               <div class="simple menu-toggler" data-toggle="collapse"
-                                       data-target="#components-links"
-                   >
-                                   <span class="fa fa-cogs"></span>
-                                   <span>Components</span>
-                                   <span class="fa fa-angle-down"></span>
-                               </div>
-                               <ul class="links collapse "
-                                       id="components-links"
-                   >
-                                       <li class="link">
-                                           <a href="../components/AboutUsComponent.html" >AboutUsComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/AddAsadaComponent.html" >AddAsadaComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/AddChlorinSystemComponent.html" >AddChlorinSystemComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/AddInfrastructureComponent.html" >AddInfrastructureComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/AddNascentComponent.html" >AddNascentComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/AddSuperficialWaterComponent.html" >AddSuperficialWaterComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/AddTankComponent.html" >AddTankComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/AppComponent.html" >AppComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/AsadaDetailsComponent.html" >AsadaDetailsComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/ChlorinDetailsComponent.html" >ChlorinDetailsComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/CompareAsadasComponent.html" >CompareAsadasComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/DetailsSuperficialWaterComponent.html" >DetailsSuperficialWaterComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/EvalSersaComponent.html" >EvalSersaComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/GenerateReportComponent.html" >GenerateReportComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/GraphicdetailsComponent.html" >GraphicdetailsComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/GraphicsComponent.html" >GraphicsComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/HeaderComponent.html" >HeaderComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/HomeComponent.html" >HomeComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/LoginComponent.html" >LoginComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/MapGoogleComponent.html" >MapGoogleComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/MenuComponent.html" >MenuComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/NascentDetailsComponent.html" >NascentDetailsComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/NascentPickupComponent.html" >NascentPickupComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/NewNotificationComponent.html" >NewNotificationComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/NotFoundComponentComponent.html" >NotFoundComponentComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/NotificationsComponent.html" >NotificationsComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/PersmissionRequestsComponent.html" >PersmissionRequestsComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/ProfileComponent.html" >ProfileComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/ProfileHeaderComponent.html" >ProfileHeaderComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/SearchComponent.html" >SearchComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/SignupComponent.html" >SignupComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/SurfacePickupComponent.html" >SurfacePickupComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/Tab.html" >Tab</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/Tabs.html" >Tabs</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../components/TankDetailsComponent.html" >TankDetailsComponent</a>
-                                       </li>
-                               </ul>
-                           </li>
-                   
-                   
-                           <li class="chapter">
-                               <div class="simple menu-toggler" data-toggle="collapse"
-                                       data-target="#classes-links"
-                   >
-                                   <span class="fa fa-file-code-o"></span>
-                                   <span>Classes</span>
-                                   <span class="fa fa-angle-down"></span>
-                               </div>
-                               <ul class="links collapse "
-                                       id="classes-links"
-                   >
-                                       <li class="link">
-                                           <a href="../classes/Asada.html" >Asada</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/AsadaForm.html" >AsadaForm</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/Chlorination.html" >Chlorination</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/DistributionLine.html" >DistributionLine</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/DrivingDistributionLine.html" >DrivingDistributionLine</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/Evaluation.html" >Evaluation</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/FirebaseImg.html" >FirebaseImg</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/FormularioSersa.html" >FormularioSersa</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/FromChlorin.html" >FromChlorin</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/Graphic.html" >Graphic</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/Nascent.html" >Nascent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/NascentForm.html" >NascentForm</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/Notification.html" >Notification</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/NotificationForm.html" >NotificationForm</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/RadioOption.html" >RadioOption</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/RolAccess.html" >RolAccess</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/SuperficialForm.html" >SuperficialForm</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/SuperficialWater.html" >SuperficialWater</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/Tank.html" >Tank</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/TankForm.html" >TankForm</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/TankQG.html" >TankQG</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/Upload.html" >Upload</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/User.html" >User</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/UserForm.html" >UserForm</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/inputText.html" >inputText</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/pkAsada.html" >pkAsada</a>
-                                       </li>
-                               </ul>
-                           </li>
-                   
-                           <li class="chapter">
-                               <div class="simple menu-toggler" data-toggle="collapse"
-                                       data-target="#injectables-links"
-                   >
-                                   <span class="fa fa-long-arrow-down"></span>
-                                   <span>Injectables</span>
-                                   <span class="fa fa-angle-down"></span>
-                               </div>
-                               <ul class="links collapse "
-                                       id="injectables-links"
-                   >
-                                       <li class="link">
-                                           <a href="../injectables/AngularFireService.html" >AngularFireService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/AuthGuard.html" >AuthGuard</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/ExportService.html" >ExportService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/FormsSersaService.html" >FormsSersaService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/GeolocationService.html" >GeolocationService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/GetEvalSersaService.html" >GetEvalSersaService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/GetUserDetailsService.html" >GetUserDetailsService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/GraphicsService.html" >GraphicsService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/MapGoogleService.html" >MapGoogleService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/NewNotificationService.html" >NewNotificationService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/NotificationsService.html" >NotificationsService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/SearchService.html"  data-type="entity-link" class="active" >SearchService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/StorageFirebaseService.html" >StorageFirebaseService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/TankDetailsService.html" >TankDetailsService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/UploadService.html" >UploadService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/UserService.html" >UserService</a>
-                                       </li>
-                               </ul>
-                           </li>
-                   
-                           <li class="chapter">
-                               <div class="simple menu-toggler" data-toggle="collapse"
-                                       data-target="#interfaces-links"
-                   >
-                                   <span class="fa fa-info"></span>
-                                   <span>Interfaces</span>
-                                   <span class="fa fa-angle-down"></span>
-                               </div>
-                               <ul class="links collapse "
-                                       id="interfaces-links"
-                   >
-                                       <li class="link">
-                                           <a href="../interfaces/Graphics.html" >Graphics</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/Infrastructure.html" >Infrastructure</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/Notification.html" >Notification</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/Notification.html" >Notification</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/asadastructure.html" >asadastructure</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/infraestructureCaptacion.html" >infraestructureCaptacion</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/infraestructureTank.html" >infraestructureTank</a>
-                                       </li>
-                               </ul>
-                           </li>
-                   
-                   
-                           <li class="chapter">
-                               <div class="simple menu-toggler" data-toggle="collapse"
-                                       data-target="#miscellaneous-links"
-                   >
-                                   <span class="fa fa-cubes"></span>
-                                   <span>Miscellaneous</span>
-                                   <span class="fa fa-angle-down"></span>
-                               </div>
-                               <ul class="links collapse "
-                                       id="miscellaneous-links"
-                   >
-                                       <li class="link">
-                                         <a href="../miscellaneous/variables.html" data-type="entity-link" >Variables</a>
-                                       </li>
-                               </ul>
-                           </li>
-                   
-                           <li class="chapter">
-                               <a data-type="chapter-link" href="../routes.html" ><span class="fa fa-code-fork"></span>Routes</a>
-                           </li>
-                   
-                           <li class="chapter">
-                               <a data-type="chapter-link" href="../coverage.html" ><span class="fa fa-tasks"></span>Documentation coverage</a>
-                           </li>
-                   
-                           <li class="divider"></li>
-                           <li class="copyright">
-                                   Documentation generated using <a href="https://compodoc.github.io/website/" target="_blank">
-                                               <img src="..//images/compodoc-vectorise.svg" class="img-responsive">
-                                   </a>
-                           </li>
-                   
-                       </ul>
-                   
-                   </nav>
+                   <compodoc-menu mode="normal"></compodoc-menu>
                </div>
+               <!-- START CONTENT -->
                <div class="content injectable">
                    <div class="content-data">
+
 
 
 
@@ -838,169 +45,184 @@
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
-    <li class="active">
-        <a href="#info" id="info-tab" role="tab" data-toggle="tab" data-link="info">Info</a>
-    </li>
-
-
-    <li>
-        <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
-    </li>
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="info">
+    <div class="tab-pane fade active in" id="c-info">
         <p class="comment">
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/components/search/search.service.ts</code>
+            <code>src/app/components/add-asada/search.service.ts</code>
         </p>
 
 
 
             <section>
-                <h3 id="index">Index</h3>
-                <table class="table table-sm table-bordered index-table">
-                    <tbody>
-                        <tr>
-                            <td class="col-md-4">
-                                <h6><b>Methods</b></h6>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <ul class="index-list">
-                                    <li>
-                                         <a href="#search">search</a>
-                                    </li>
-                                </ul>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#search">search</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
 
             <section>
-                <h3 id="constructor">Constructor</h3>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                            <tr>
-                                <td class="col-md-4">
-                                    <code>constructor(af: AngularFire)</code>
-                                </td>
-                            </tr>
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <div class="io-line">Defined in <a href="" data-line="6" class="link-to-prism">src/app/components/search/search.service.ts:6</a></div>
-                                        </td>
-                                    </tr>
-            
-                            <tr>
-                                <td class="col-md-4">
-                                        <div>
-                                                <b>Parameters :</b>
-                                                <table class="params">
-                                                    <thead>
-                                                        <tr>
-                                                            <td>Name</td>
-                                                            <td>Type</td>
-                                                            <td>Optional</td>
-                                                            <td>Description</td>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                            <tr>
-                                                              <td>af</td>
-                                                              <td>
-                                                                        <code>AngularFire</code>
-                                                              </td>
-                                                              <td>
-                                                              </td>
-                                                              <td></td>
-                                                            </tr>
-                                                    </tbody>
-                                                </table>
-                                        </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-            </section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(af: AngularFire)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="6" class="link-to-prism">src/app/components/add-asada/search.service.ts:6</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>af</td>
+                                                  
+                                                        <td>
+                                                                    <code>AngularFire</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
 
             <section>
-                
-                    <h3 id="methods">
-                        Methods
-                    </h3>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                            <tr>
-                                <td class="col-md-4">
-                                    <a name="search"></a>
-                                    <span class="name"><b> search</b><a href="#search"><span class="fa fa-link"></span></a></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="col-md-4">
-            <code>search(searchType: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
-                                </td>
-                            </tr>
-            
-            
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">src/app/components/search/search.service.ts:9</a></div>
-                                        </td>
-                                    </tr>
-            
-                            <tr>
-                                <td class="col-md-4">
-            
-                                        <div class="io-description">
-                                                <b>Parameters :</b>
-                                                <table class="params">
-                                                    <thead>
-                                                        <tr>
-                                                            <td>Name</td>
-                                                            <td>Type</td>
-                                                            <td>Optional</td>
-                                                            <td>Description</td>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                            <tr>
-                                                              <td>searchType</td>
-                                                              <td>
-                                                                      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                                              </td>
-                                                              <td>
-                                                              </td>
-                                                              <td></td>
-                                                            </tr>
-                                                    </tbody>
-                                                </table>
-                                        </div>
-                                        <div>
-                                        </div>
-                                        <div class="io-description">
-                                            <b>Returns : </b>    <code>FirebaseListObservable&lt;any&gt;</code>
-            
-                                        </div>
-                                            <div class="io-description">
-                                                
-                                            </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-            </section>
+    
+        <h3 id="methods">
+            Methods
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="search"></a>
+                        <span class="name">
+                            <b>
+                            search
+                            </b>
+                            <a href="#search"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>search(searchType: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">src/app/components/add-asada/search.service.ts:9</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>searchType</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>FirebaseListObservable&lt;any&gt;</code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
 
     </div>
 
 
-    <div class="tab-pane fade tab-source-code" id="source">
-        <pre class="line-numbers"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import {AngularFire, FirebaseListObservable} from &quot;angularfire2/index&quot;
 
 
@@ -1015,7 +237,12 @@ export class SearchService {
 
 }</code></pre>
     </div>
+
 </div>
+
+
+
+
 
 
 
@@ -1025,7 +252,7 @@ export class SearchService {
 
                    </div><div class="search-results">
     <div class="has-results">
-        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
         <ul class="search-results-list"></ul>
     </div>
     <div class="no-results">
@@ -1033,8 +260,19 @@ export class SearchService {
     </div>
 </div>
 </div>
+               <!-- END CONTENT -->
            </div>
        </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'SearchService.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <script src="../js/menu-wc.js"></script>
 
        <script src="../js/libs/bootstrap-native.js"></script>
 
@@ -1045,17 +283,17 @@ export class SearchService {
 
        <script src="../js/compodoc.js"></script>
 
-       <script>var COMPODOC_CURRENT_PAGE_DEPTH = 1;</script>
-
-       <script src="../js/search/search.js"></script>
-       <script src="../js/search/lunr.min.js"></script>
-       <script src="../js/search/search-lunr.js"></script>
-
        <script src="../js/tabs.js"></script>
        <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
        <script src="../js/libs/prism.js"></script>
        <script src="../js/sourceCode.js"></script>
-       <script src="../js/search/search_index.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
 
     </body>
 </html>

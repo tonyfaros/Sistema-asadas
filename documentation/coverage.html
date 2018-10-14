@@ -8,822 +8,28 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
-	    <link rel="stylesheet" href="./styles/style.css">
+	      <link rel="stylesheet" href="./styles/style.css">
     </head>
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
             <a href="./" class="navbar-brand">sistema-asadas documentation</a>
-            <button type="button" class="btn btn-default btn-menu fa fa-bars" id="btn-menu"></button>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
-            <div id="book-search-input" role="search">
-                <input type="text" placeholder="Type to search">
-            </div>
-            <nav>
-            
-                <ul class="list">
-            
-                    <li class="title">
-                        <a href="./index.html">sistema-asadas documentation</a>
-                    </li>
-            
-                    <li class="divider"></li>
-            
-            
-                    <li class="chapter">
-                        <a data-type="chapter-link" href="./index.html"><span class="fa fa-home"></span>Getting started</a>
-                        <ul class="links">
-                                <li class="link">
-                                    <a 
-                                        
-                                         href="./overview.html" 
-                                         href="./overview.html" 
-                                        >
-                                        <span class="fa fa-th"></span>Overview
-                                    </a>
-                                </li>
-                                <li class="link">
-                                  <a href="./index.html" ><span class="fa fa-file-text-o"></span>README</a>
-                                </li>
-                        </ul>
-                    </li>
-            
-            
-                    <li class="chapter">
-                        <a data-type="chapter-link" href="./modules.html" >
-                            <div class="menu-toggler linked" data-toggle="collapse"
-                                    data-target="#xs-modules-links"
-                            >
-                                <span class="fa fa-archive"></span>
-                                <span class="link-name">Modules</span>
-                                <span class="fa fa-angle-down"></span>
-                            </div>
-                        </a>
-                        <ul class="links collapse "
-                                id="xs-modules-links"
-                            >
-                                <li class="link">
-                                    <a href="./modules/AppModule.html" >AppModule</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./modules/RoutingModule.html" >RoutingModule</a>
-                                </li>
-                        </ul>
-                    </li>
-            
-                    <li class="chapter">
-                        <div class="simple menu-toggler" data-toggle="collapse"
-                                data-target="#xs-components-links"
-                            >
-                            <span class="fa fa-cogs"></span>
-                            <span>Components</span>
-                            <span class="fa fa-angle-down"></span>
-                        </div>
-                        <ul class="links collapse "
-                                id="xs-components-links"
-                            >
-                                <li class="link">
-                                    <a href="./components/AboutUsComponent.html" >AboutUsComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./components/AddAsadaComponent.html" >AddAsadaComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./components/AddChlorinSystemComponent.html" >AddChlorinSystemComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./components/AddInfrastructureComponent.html" >AddInfrastructureComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./components/AddNascentComponent.html" >AddNascentComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./components/AddSuperficialWaterComponent.html" >AddSuperficialWaterComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./components/AddTankComponent.html" >AddTankComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./components/AppComponent.html" >AppComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./components/AsadaDetailsComponent.html" >AsadaDetailsComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./components/ChlorinDetailsComponent.html" >ChlorinDetailsComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./components/CompareAsadasComponent.html" >CompareAsadasComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./components/DetailsSuperficialWaterComponent.html" >DetailsSuperficialWaterComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./components/EvalSersaComponent.html" >EvalSersaComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./components/GenerateReportComponent.html" >GenerateReportComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./components/GraphicdetailsComponent.html" >GraphicdetailsComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./components/GraphicsComponent.html" >GraphicsComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./components/HeaderComponent.html" >HeaderComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./components/HomeComponent.html" >HomeComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./components/LoginComponent.html" >LoginComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./components/MapGoogleComponent.html" >MapGoogleComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./components/MenuComponent.html" >MenuComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./components/NascentDetailsComponent.html" >NascentDetailsComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./components/NascentPickupComponent.html" >NascentPickupComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./components/NewNotificationComponent.html" >NewNotificationComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./components/NotFoundComponentComponent.html" >NotFoundComponentComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./components/NotificationsComponent.html" >NotificationsComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./components/PersmissionRequestsComponent.html" >PersmissionRequestsComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./components/ProfileComponent.html" >ProfileComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./components/ProfileHeaderComponent.html" >ProfileHeaderComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./components/SearchComponent.html" >SearchComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./components/SignupComponent.html" >SignupComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./components/SurfacePickupComponent.html" >SurfacePickupComponent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./components/Tab.html" >Tab</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./components/Tabs.html" >Tabs</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./components/TankDetailsComponent.html" >TankDetailsComponent</a>
-                                </li>
-                        </ul>
-                    </li>
-            
-            
-                    <li class="chapter">
-                        <div class="simple menu-toggler" data-toggle="collapse"
-                                data-target="#xs-classes-links"
-                            >
-                            <span class="fa fa-file-code-o"></span>
-                            <span>Classes</span>
-                            <span class="fa fa-angle-down"></span>
-                        </div>
-                        <ul class="links collapse "
-                                id="xs-classes-links"
-                            >
-                                <li class="link">
-                                    <a href="./classes/Asada.html" >Asada</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./classes/AsadaForm.html" >AsadaForm</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./classes/Chlorination.html" >Chlorination</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./classes/DistributionLine.html" >DistributionLine</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./classes/DrivingDistributionLine.html" >DrivingDistributionLine</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./classes/Evaluation.html" >Evaluation</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./classes/FirebaseImg.html" >FirebaseImg</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./classes/FormularioSersa.html" >FormularioSersa</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./classes/FromChlorin.html" >FromChlorin</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./classes/Graphic.html" >Graphic</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./classes/Nascent.html" >Nascent</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./classes/NascentForm.html" >NascentForm</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./classes/Notification.html" >Notification</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./classes/NotificationForm.html" >NotificationForm</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./classes/RadioOption.html" >RadioOption</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./classes/RolAccess.html" >RolAccess</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./classes/SuperficialForm.html" >SuperficialForm</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./classes/SuperficialWater.html" >SuperficialWater</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./classes/Tank.html" >Tank</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./classes/TankForm.html" >TankForm</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./classes/TankQG.html" >TankQG</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./classes/Upload.html" >Upload</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./classes/User.html" >User</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./classes/UserForm.html" >UserForm</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./classes/inputText.html" >inputText</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./classes/pkAsada.html" >pkAsada</a>
-                                </li>
-                        </ul>
-                    </li>
-            
-                    <li class="chapter">
-                        <div class="simple menu-toggler" data-toggle="collapse"
-                                data-target="#xs-injectables-links"
-                            >
-                            <span class="fa fa-long-arrow-down"></span>
-                            <span>Injectables</span>
-                            <span class="fa fa-angle-down"></span>
-                        </div>
-                        <ul class="links collapse "
-                                id="xs-injectables-links"
-                            >
-                                <li class="link">
-                                    <a href="./injectables/AngularFireService.html" >AngularFireService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./injectables/AuthGuard.html" >AuthGuard</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./injectables/ExportService.html" >ExportService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./injectables/FormsSersaService.html" >FormsSersaService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./injectables/GeolocationService.html" >GeolocationService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./injectables/GetEvalSersaService.html" >GetEvalSersaService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./injectables/GetUserDetailsService.html" >GetUserDetailsService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./injectables/GraphicsService.html" >GraphicsService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./injectables/MapGoogleService.html" >MapGoogleService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./injectables/NewNotificationService.html" >NewNotificationService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./injectables/NotificationsService.html" >NotificationsService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./injectables/SearchService.html" >SearchService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./injectables/StorageFirebaseService.html" >StorageFirebaseService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./injectables/TankDetailsService.html" >TankDetailsService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./injectables/UploadService.html" >UploadService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./injectables/UserService.html" >UserService</a>
-                                </li>
-                        </ul>
-                    </li>
-            
-                    <li class="chapter">
-                        <div class="simple menu-toggler" data-toggle="collapse"
-                                data-target="#xs-interfaces-links"
-                            >
-                            <span class="fa fa-info"></span>
-                            <span>Interfaces</span>
-                            <span class="fa fa-angle-down"></span>
-                        </div>
-                        <ul class="links collapse "
-                                id="xs-interfaces-links"
-                            >
-                                <li class="link">
-                                    <a href="./interfaces/Graphics.html" >Graphics</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./interfaces/Infrastructure.html" >Infrastructure</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./interfaces/Notification.html" >Notification</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./interfaces/Notification.html" >Notification</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./interfaces/asadastructure.html" >asadastructure</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./interfaces/infraestructureCaptacion.html" >infraestructureCaptacion</a>
-                                </li>
-                                <li class="link">
-                                    <a href="./interfaces/infraestructureTank.html" >infraestructureTank</a>
-                                </li>
-                        </ul>
-                    </li>
-            
-            
-                    <li class="chapter">
-                        <div class="simple menu-toggler" data-toggle="collapse"
-                                data-target="#xs-miscellaneous-links"
-                            >
-                            <span class="fa fa-cubes"></span>
-                            <span>Miscellaneous</span>
-                            <span class="fa fa-angle-down"></span>
-                        </div>
-                        <ul class="links collapse "
-                                id="xs-miscellaneous-links"
-                            >
-                                <li class="link">
-                                  <a href="./miscellaneous/variables.html" data-type="entity-link" >Variables</a>
-                                </li>
-                        </ul>
-                    </li>
-            
-                    <li class="chapter">
-                        <a data-type="chapter-link" href="./routes.html" ><span class="fa fa-code-fork"></span>Routes</a>
-                    </li>
-            
-                    <li class="chapter">
-                        <a data-type="chapter-link" href="./coverage.html"  class="active" ><span class="fa fa-tasks"></span>Documentation coverage</a>
-                    </li>
-            
-                    <li class="divider"></li>
-                    <li class="copyright">
-                            Documentation generated using <a href="https://compodoc.github.io/website/" target="_blank">
-                                        <img src=".//images/compodoc-vectorise.svg" class="img-responsive">
-                            </a>
-                    </li>
-            
-                </ul>
-            
-            </nav>
+                <div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search">
+</div>
+            <compodoc-menu></compodoc-menu>
         </div>
 
         <div class="container-fluid main">
            <div class="row main">
                <div class="hidden-xs menu">
-                   <nav>
-                   
-                       <ul class="list">
-                   
-                           <li class="title">
-                               <a href="./index.html">sistema-asadas documentation</a>
-                           </li>
-                   
-                           <li class="divider"></li>
-                   
-                               <div id="book-search-input" role="search">
-                                   <input type="text" placeholder="Type to search">
-                               </div>
-                   
-                           <li class="chapter">
-                               <a data-type="chapter-link" href="./index.html"><span class="fa fa-home"></span>Getting started</a>
-                               <ul class="links">
-                                       <li class="link">
-                                           <a 
-                                               
-                                                href="./overview.html" 
-                                                href="./overview.html" 
-                                               >
-                                               <span class="fa fa-th"></span>Overview
-                                           </a>
-                                       </li>
-                                       <li class="link">
-                                         <a href="./index.html" ><span class="fa fa-file-text-o"></span>README</a>
-                                       </li>
-                               </ul>
-                           </li>
-                   
-                   
-                           <li class="chapter">
-                               <a data-type="chapter-link" href="./modules.html" >
-                                   <div class="menu-toggler linked" data-toggle="collapse"
-                                           data-target="#modules-links"
-                                   >
-                                       <span class="fa fa-archive"></span>
-                                       <span class="link-name">Modules</span>
-                                       <span class="fa fa-angle-down"></span>
-                                   </div>
-                               </a>
-                               <ul class="links collapse "
-                                       id="modules-links"
-                   >
-                                       <li class="link">
-                                           <a href="./modules/AppModule.html" >AppModule</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./modules/RoutingModule.html" >RoutingModule</a>
-                                       </li>
-                               </ul>
-                           </li>
-                   
-                           <li class="chapter">
-                               <div class="simple menu-toggler" data-toggle="collapse"
-                                       data-target="#components-links"
-                   >
-                                   <span class="fa fa-cogs"></span>
-                                   <span>Components</span>
-                                   <span class="fa fa-angle-down"></span>
-                               </div>
-                               <ul class="links collapse "
-                                       id="components-links"
-                   >
-                                       <li class="link">
-                                           <a href="./components/AboutUsComponent.html" >AboutUsComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./components/AddAsadaComponent.html" >AddAsadaComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./components/AddChlorinSystemComponent.html" >AddChlorinSystemComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./components/AddInfrastructureComponent.html" >AddInfrastructureComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./components/AddNascentComponent.html" >AddNascentComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./components/AddSuperficialWaterComponent.html" >AddSuperficialWaterComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./components/AddTankComponent.html" >AddTankComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./components/AppComponent.html" >AppComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./components/AsadaDetailsComponent.html" >AsadaDetailsComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./components/ChlorinDetailsComponent.html" >ChlorinDetailsComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./components/CompareAsadasComponent.html" >CompareAsadasComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./components/DetailsSuperficialWaterComponent.html" >DetailsSuperficialWaterComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./components/EvalSersaComponent.html" >EvalSersaComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./components/GenerateReportComponent.html" >GenerateReportComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./components/GraphicdetailsComponent.html" >GraphicdetailsComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./components/GraphicsComponent.html" >GraphicsComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./components/HeaderComponent.html" >HeaderComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./components/HomeComponent.html" >HomeComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./components/LoginComponent.html" >LoginComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./components/MapGoogleComponent.html" >MapGoogleComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./components/MenuComponent.html" >MenuComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./components/NascentDetailsComponent.html" >NascentDetailsComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./components/NascentPickupComponent.html" >NascentPickupComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./components/NewNotificationComponent.html" >NewNotificationComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./components/NotFoundComponentComponent.html" >NotFoundComponentComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./components/NotificationsComponent.html" >NotificationsComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./components/PersmissionRequestsComponent.html" >PersmissionRequestsComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./components/ProfileComponent.html" >ProfileComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./components/ProfileHeaderComponent.html" >ProfileHeaderComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./components/SearchComponent.html" >SearchComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./components/SignupComponent.html" >SignupComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./components/SurfacePickupComponent.html" >SurfacePickupComponent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./components/Tab.html" >Tab</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./components/Tabs.html" >Tabs</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./components/TankDetailsComponent.html" >TankDetailsComponent</a>
-                                       </li>
-                               </ul>
-                           </li>
-                   
-                   
-                           <li class="chapter">
-                               <div class="simple menu-toggler" data-toggle="collapse"
-                                       data-target="#classes-links"
-                   >
-                                   <span class="fa fa-file-code-o"></span>
-                                   <span>Classes</span>
-                                   <span class="fa fa-angle-down"></span>
-                               </div>
-                               <ul class="links collapse "
-                                       id="classes-links"
-                   >
-                                       <li class="link">
-                                           <a href="./classes/Asada.html" >Asada</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./classes/AsadaForm.html" >AsadaForm</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./classes/Chlorination.html" >Chlorination</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./classes/DistributionLine.html" >DistributionLine</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./classes/DrivingDistributionLine.html" >DrivingDistributionLine</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./classes/Evaluation.html" >Evaluation</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./classes/FirebaseImg.html" >FirebaseImg</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./classes/FormularioSersa.html" >FormularioSersa</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./classes/FromChlorin.html" >FromChlorin</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./classes/Graphic.html" >Graphic</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./classes/Nascent.html" >Nascent</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./classes/NascentForm.html" >NascentForm</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./classes/Notification.html" >Notification</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./classes/NotificationForm.html" >NotificationForm</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./classes/RadioOption.html" >RadioOption</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./classes/RolAccess.html" >RolAccess</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./classes/SuperficialForm.html" >SuperficialForm</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./classes/SuperficialWater.html" >SuperficialWater</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./classes/Tank.html" >Tank</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./classes/TankForm.html" >TankForm</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./classes/TankQG.html" >TankQG</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./classes/Upload.html" >Upload</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./classes/User.html" >User</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./classes/UserForm.html" >UserForm</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./classes/inputText.html" >inputText</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./classes/pkAsada.html" >pkAsada</a>
-                                       </li>
-                               </ul>
-                           </li>
-                   
-                           <li class="chapter">
-                               <div class="simple menu-toggler" data-toggle="collapse"
-                                       data-target="#injectables-links"
-                   >
-                                   <span class="fa fa-long-arrow-down"></span>
-                                   <span>Injectables</span>
-                                   <span class="fa fa-angle-down"></span>
-                               </div>
-                               <ul class="links collapse "
-                                       id="injectables-links"
-                   >
-                                       <li class="link">
-                                           <a href="./injectables/AngularFireService.html" >AngularFireService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./injectables/AuthGuard.html" >AuthGuard</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./injectables/ExportService.html" >ExportService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./injectables/FormsSersaService.html" >FormsSersaService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./injectables/GeolocationService.html" >GeolocationService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./injectables/GetEvalSersaService.html" >GetEvalSersaService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./injectables/GetUserDetailsService.html" >GetUserDetailsService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./injectables/GraphicsService.html" >GraphicsService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./injectables/MapGoogleService.html" >MapGoogleService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./injectables/NewNotificationService.html" >NewNotificationService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./injectables/NotificationsService.html" >NotificationsService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./injectables/SearchService.html" >SearchService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./injectables/StorageFirebaseService.html" >StorageFirebaseService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./injectables/TankDetailsService.html" >TankDetailsService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./injectables/UploadService.html" >UploadService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./injectables/UserService.html" >UserService</a>
-                                       </li>
-                               </ul>
-                           </li>
-                   
-                           <li class="chapter">
-                               <div class="simple menu-toggler" data-toggle="collapse"
-                                       data-target="#interfaces-links"
-                   >
-                                   <span class="fa fa-info"></span>
-                                   <span>Interfaces</span>
-                                   <span class="fa fa-angle-down"></span>
-                               </div>
-                               <ul class="links collapse "
-                                       id="interfaces-links"
-                   >
-                                       <li class="link">
-                                           <a href="./interfaces/Graphics.html" >Graphics</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./interfaces/Infrastructure.html" >Infrastructure</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./interfaces/Notification.html" >Notification</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./interfaces/Notification.html" >Notification</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./interfaces/asadastructure.html" >asadastructure</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./interfaces/infraestructureCaptacion.html" >infraestructureCaptacion</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="./interfaces/infraestructureTank.html" >infraestructureTank</a>
-                                       </li>
-                               </ul>
-                           </li>
-                   
-                   
-                           <li class="chapter">
-                               <div class="simple menu-toggler" data-toggle="collapse"
-                                       data-target="#miscellaneous-links"
-                   >
-                                   <span class="fa fa-cubes"></span>
-                                   <span>Miscellaneous</span>
-                                   <span class="fa fa-angle-down"></span>
-                               </div>
-                               <ul class="links collapse "
-                                       id="miscellaneous-links"
-                   >
-                                       <li class="link">
-                                         <a href="./miscellaneous/variables.html" data-type="entity-link" >Variables</a>
-                                       </li>
-                               </ul>
-                           </li>
-                   
-                           <li class="chapter">
-                               <a data-type="chapter-link" href="./routes.html" ><span class="fa fa-code-fork"></span>Routes</a>
-                           </li>
-                   
-                           <li class="chapter">
-                               <a data-type="chapter-link" href="./coverage.html"  class="active" ><span class="fa fa-tasks"></span>Documentation coverage</a>
-                           </li>
-                   
-                           <li class="divider"></li>
-                           <li class="copyright">
-                                   Documentation generated using <a href="https://compodoc.github.io/website/" target="_blank">
-                                               <img src=".//images/compodoc-vectorise.svg" class="img-responsive">
-                                   </a>
-                           </li>
-                   
-                       </ul>
-                   
-                   </nav>
+                   <compodoc-menu mode="normal"></compodoc-menu>
                </div>
+               <!-- START CONTENT -->
                <div class="content coverage">
                    <div class="content-data">
 
@@ -838,11 +44,17 @@
 
 
 
+
+
+
+
 <ol class="breadcrumb">
-  <li>Documentation coverage</li>
+    <li>Documentation coverage</li>
 </ol>
 
-<img src="./images/coverage-badge.svg">
+<div>
+    <img src="./images/coverage-badge-documentation.svg">
+</div>
 
 <table class="table table-bordered coverage" id="coverage-table">
     <thead class="coverage-header">
@@ -856,6 +68,7 @@
     <tbody>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./components/AppComponent.html">src/app/app.component.ts</a>
             </td>
             <td>
@@ -871,21 +84,23 @@
         </tr>
         <tr class="low">
             <td>
-                <a href="./injectables/AuthGuard.html">src/app/auth.service.ts</a>
+                <!-- miscellaneous -->
+                <a href="./miscellaneous/variables.html#routing">src/app/common/mock/routes-mock.ts</a>
             </td>
             <td>
-                injectable
+                variable
             </td>
             <td>
-                AuthGuard
+                routing
             </td>
             <td align="right" data-sort="0">
                 <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/3)</span>
+                <span class="coverage-count">(0/1)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./classes/Asada.html">src/app/common/model/Asada.ts</a>
             </td>
             <td>
@@ -896,11 +111,12 @@
             </td>
             <td align="right" data-sort="0">
                 <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/36)</span>
+                <span class="coverage-count">(0/34)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./classes/Chlorination.html">src/app/common/model/Chlorination.ts</a>
             </td>
             <td>
@@ -911,11 +127,12 @@
             </td>
             <td align="right" data-sort="0">
                 <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/18)</span>
+                <span class="coverage-count">(0/19)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./classes/DistributionLine.html">src/app/common/model/DistributionLine.ts</a>
             </td>
             <td>
@@ -926,11 +143,12 @@
             </td>
             <td align="right" data-sort="0">
                 <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/16)</span>
+                <span class="coverage-count">(0/17)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./classes/DrivingDistributionLine.html">src/app/common/model/DrivingDistributionLine.ts</a>
             </td>
             <td>
@@ -946,6 +164,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./classes/Evaluation.html">src/app/common/model/Evaluation.ts</a>
             </td>
             <td>
@@ -961,6 +180,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./classes/FirebaseImg.html">src/app/common/model/FirebaseImg.ts</a>
             </td>
             <td>
@@ -971,11 +191,12 @@
             </td>
             <td align="right" data-sort="0">
                 <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/4)</span>
+                <span class="coverage-count">(0/5)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./classes/AsadaForm.html">src/app/common/model/FormAsada-class.ts</a>
             </td>
             <td>
@@ -991,6 +212,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./classes/FromChlorin.html">src/app/common/model/FormChlorin-class.ts</a>
             </td>
             <td>
@@ -1006,6 +228,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./classes/NascentForm.html">src/app/common/model/FormNascent.ts</a>
             </td>
             <td>
@@ -1021,6 +244,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./classes/NotificationForm.html">src/app/common/model/FormNotification.ts</a>
             </td>
             <td>
@@ -1036,6 +260,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./classes/SuperficialForm.html">src/app/common/model/FormSuperficial.ts</a>
             </td>
             <td>
@@ -1051,6 +276,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./classes/TankForm.html">src/app/common/model/FormTank-class.ts</a>
             </td>
             <td>
@@ -1066,6 +292,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./classes/UserForm.html">src/app/common/model/FormUser-class.ts</a>
             </td>
             <td>
@@ -1076,11 +303,12 @@
             </td>
             <td align="right" data-sort="0">
                 <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/4)</span>
+                <span class="coverage-count">(0/6)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./classes/FormularioSersa.html">src/app/common/model/FormularioSersa.ts</a>
             </td>
             <td>
@@ -1096,6 +324,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./classes/Graphic.html">src/app/common/model/Graphic.ts</a>
             </td>
             <td>
@@ -1111,6 +340,23 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
+                <a href="./classes/Historial.html">src/app/common/model/Historial.ts</a>
+            </td>
+            <td>
+                class
+            </td>
+            <td>
+                Historial
+            </td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/9)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
                 <a href="./interfaces/Infrastructure.html">src/app/common/model/Infrastructure.ts</a>
             </td>
             <td>
@@ -1121,11 +367,12 @@
             </td>
             <td align="right" data-sort="0">
                 <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/10)</span>
+                <span class="coverage-count">(0/12)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./classes/Nascent.html">src/app/common/model/Nascent.ts</a>
             </td>
             <td>
@@ -1136,11 +383,12 @@
             </td>
             <td align="right" data-sort="0">
                 <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/16)</span>
+                <span class="coverage-count">(0/17)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./classes/Notification.html">src/app/common/model/Notification.ts</a>
             </td>
             <td>
@@ -1156,6 +404,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./classes/RolAccess.html">src/app/common/model/RolAccess.ts</a>
             </td>
             <td>
@@ -1171,6 +420,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./classes/SuperficialWater.html">src/app/common/model/SuperficialWater.ts</a>
             </td>
             <td>
@@ -1181,11 +431,12 @@
             </td>
             <td align="right" data-sort="0">
                 <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/16)</span>
+                <span class="coverage-count">(0/17)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./classes/Tank.html">src/app/common/model/Tank.ts</a>
             </td>
             <td>
@@ -1196,11 +447,12 @@
             </td>
             <td align="right" data-sort="0">
                 <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/19)</span>
+                <span class="coverage-count">(0/18)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./classes/TankQG.html">src/app/common/model/TankQG.ts</a>
             </td>
             <td>
@@ -1211,11 +463,44 @@
             </td>
             <td align="right" data-sort="0">
                 <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/18)</span>
+                <span class="coverage-count">(0/21)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
+                <a href="./classes/TomaDatos.html">src/app/common/model/TomaDatos.ts</a>
+            </td>
+            <td>
+                class
+            </td>
+            <td>
+                TomaDatos
+            </td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/8)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/TomaInfra.html">src/app/common/model/TomaInfra.ts</a>
+            </td>
+            <td>
+                class
+            </td>
+            <td>
+                TomaInfra
+            </td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/13)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
                 <a href="./classes/User.html">src/app/common/model/User.ts</a>
             </td>
             <td>
@@ -1226,11 +511,12 @@
             </td>
             <td align="right" data-sort="0">
                 <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/6)</span>
+                <span class="coverage-count">(0/11)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./classes/inputText.html">src/app/common/model/inputText-class.ts</a>
             </td>
             <td>
@@ -1246,6 +532,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./classes/pkAsada.html">src/app/common/model/peekAsada.ts</a>
             </td>
             <td>
@@ -1261,6 +548,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./classes/RadioOption.html">src/app/common/model/radioOption-class.ts</a>
             </td>
             <td>
@@ -1276,6 +564,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./classes/Upload.html">src/app/common/model/upload.ts</a>
             </td>
             <td>
@@ -1291,6 +580,7 @@
         </tr>
         <tr class="good">
             <td>
+                <!-- miscellaneous -->
                 <a href="./injectables/GeolocationService.html">src/app/common/service/Geolocation.service.ts</a>
             </td>
             <td>
@@ -1306,6 +596,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./injectables/AngularFireService.html">src/app/common/service/angularFire.service.ts</a>
             </td>
             <td>
@@ -1316,11 +607,12 @@
             </td>
             <td align="right" data-sort="0">
                 <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/18)</span>
+                <span class="coverage-count">(0/30)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./injectables/ExportService.html">src/app/common/service/export.service.ts</a>
             </td>
             <td>
@@ -1336,6 +628,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./injectables/FormsSersaService.html">src/app/common/service/forms-sersa.service.ts</a>
             </td>
             <td>
@@ -1351,6 +644,103 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/LocationsService.html">src/app/common/service/locations.service.ts</a>
+            </td>
+            <td>
+                injectable
+            </td>
+            <td>
+                LocationsService
+            </td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/18)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/canton.html">src/app/common/service/locations.service.ts</a>
+            </td>
+            <td>
+                interface
+            </td>
+            <td>
+                canton
+            </td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/2)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/distrito.html">src/app/common/service/locations.service.ts</a>
+            </td>
+            <td>
+                interface
+            </td>
+            <td>
+                distrito
+            </td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/locaciones.html">src/app/common/service/locations.service.ts</a>
+            </td>
+            <td>
+                interface
+            </td>
+            <td>
+                locaciones
+            </td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/2)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/location.html">src/app/common/service/locations.service.ts</a>
+            </td>
+            <td>
+                interface
+            </td>
+            <td>
+                location
+            </td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/4)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/provincia.html">src/app/common/service/locations.service.ts</a>
+            </td>
+            <td>
+                interface
+            </td>
+            <td>
+                provincia
+            </td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/2)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
                 <a href="./injectables/StorageFirebaseService.html">src/app/common/service/storageFirebase.service.ts</a>
             </td>
             <td>
@@ -1366,6 +756,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./injectables/UploadService.html">src/app/common/service/upload.service.ts</a>
             </td>
             <td>
@@ -1381,6 +772,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./injectables/UserService.html">src/app/common/service/user.service.ts</a>
             </td>
             <td>
@@ -1391,11 +783,12 @@
             </td>
             <td align="right" data-sort="0">
                 <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/19)</span>
+                <span class="coverage-count">(0/22)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./components/AboutUsComponent.html">src/app/components/about-us/about-us.component.ts</a>
             </td>
             <td>
@@ -1411,6 +804,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./components/AddAsadaComponent.html">src/app/components/add-asada/add-asada.component.ts</a>
             </td>
             <td>
@@ -1421,11 +815,28 @@
             </td>
             <td align="right" data-sort="0">
                 <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/21)</span>
+                <span class="coverage-count">(0/29)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/SearchService.html">src/app/components/add-asada/search.service.ts</a>
+            </td>
+            <td>
+                injectable
+            </td>
+            <td>
+                SearchService
+            </td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/3)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
                 <a href="./components/AddChlorinSystemComponent.html">src/app/components/add-chlorin-system/add-chlorin-system.component.ts</a>
             </td>
             <td>
@@ -1441,6 +852,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./components/AddInfrastructureComponent.html">src/app/components/add-infrastructure/add-infrastructure.component.ts</a>
             </td>
             <td>
@@ -1456,6 +868,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./components/AddNascentComponent.html">src/app/components/add-nascent/add-nascent.component.ts</a>
             </td>
             <td>
@@ -1471,6 +884,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./components/AddSuperficialWaterComponent.html">src/app/components/add-superficial-water/add-superficial-water.component.ts</a>
             </td>
             <td>
@@ -1486,6 +900,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./components/AddTankComponent.html">src/app/components/add-tank/add-tank.component.ts</a>
             </td>
             <td>
@@ -1501,6 +916,23 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
+                <a href="./components/AdmUsuariosComponent.html">src/app/components/adm-usuarios/adm-usuarios.component.ts</a>
+            </td>
+            <td>
+                component
+            </td>
+            <td>
+                AdmUsuariosComponent
+            </td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/29)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
                 <a href="./components/AsadaDetailsComponent.html">src/app/components/asada-details/asada-details.component.ts</a>
             </td>
             <td>
@@ -1511,11 +943,28 @@
             </td>
             <td align="right" data-sort="0">
                 <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/34)</span>
+                <span class="coverage-count">(0/39)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
+                <a href="./components/BitacoraComponent.html">src/app/components/bitacora/bitacora.component.ts</a>
+            </td>
+            <td>
+                component
+            </td>
+            <td>
+                BitacoraComponent
+            </td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/31)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
                 <a href="./components/ChlorinDetailsComponent.html">src/app/components/chlorin-details/chlorin-details.component.ts</a>
             </td>
             <td>
@@ -1526,11 +975,12 @@
             </td>
             <td align="right" data-sort="0">
                 <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/55)</span>
+                <span class="coverage-count">(0/59)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./components/CompareAsadasComponent.html">src/app/components/compare-asadas/compare-asadas.component.ts</a>
             </td>
             <td>
@@ -1541,11 +991,108 @@
             </td>
             <td align="right" data-sort="0">
                 <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/17)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/SearchService.html">src/app/components/compare-asadas/search.service.ts</a>
+            </td>
+            <td>
+                injectable
+            </td>
+            <td>
+                SearchService
+            </td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
                 <span class="coverage-count">(0/3)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
+                <a href="./components/DashboardComponent.html">src/app/components/dashboard/dashboard.component.ts</a>
+            </td>
+            <td>
+                component
+            </td>
+            <td>
+                DashboardComponent
+            </td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/39)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/AsadaTotal.html">src/app/components/dashboard/dashboard.component.ts</a>
+            </td>
+            <td>
+                class
+            </td>
+            <td>
+                AsadaTotal
+            </td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/6)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/IncidenteTotal.html">src/app/components/dashboard/dashboard.component.ts</a>
+            </td>
+            <td>
+                class
+            </td>
+            <td>
+                IncidenteTotal
+            </td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./classes/InfraTipo.html">src/app/components/dashboard/dashboard.component.ts</a>
+            </td>
+            <td>
+                class
+            </td>
+            <td>
+                InfraTipo
+            </td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/4)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/DashboardService.html">src/app/components/dashboard/dashboard.service.ts</a>
+            </td>
+            <td>
+                injectable
+            </td>
+            <td>
+                DashboardService
+            </td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/5)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
                 <a href="./components/DetailsSuperficialWaterComponent.html">src/app/components/details-superficial-water/details-superficial-water.component.ts</a>
             </td>
             <td>
@@ -1561,6 +1108,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./components/EvalSersaComponent.html">src/app/components/eval-sersa/eval-sersa.component.ts</a>
             </td>
             <td>
@@ -1576,6 +1124,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./injectables/GetEvalSersaService.html">src/app/components/eval-sersa/get-eval-sersa.service.ts</a>
             </td>
             <td>
@@ -1591,6 +1140,55 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
+                <a href="./components/FilterComponent.html">src/app/components/filter/filter.component.ts</a>
+            </td>
+            <td>
+                component
+            </td>
+            <td>
+                FilterComponent
+            </td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/29)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/filterConfig.html">src/app/components/filter/filter.component.ts</a>
+            </td>
+            <td>
+                interface
+            </td>
+            <td>
+                filterConfig
+            </td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/4)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/filterParam.html">src/app/components/filter/filter.component.ts</a>
+            </td>
+            <td>
+                interface
+            </td>
+            <td>
+                filterParam
+            </td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/4)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
                 <a href="./components/GenerateReportComponent.html">src/app/components/generate-report/generate-report.component.ts</a>
             </td>
             <td>
@@ -1606,6 +1204,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./components/GraphicdetailsComponent.html">src/app/components/graphicdetails/graphicdetails.component.ts</a>
             </td>
             <td>
@@ -1621,6 +1220,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./components/GraphicsComponent.html">src/app/components/graphics/graphics.component.ts</a>
             </td>
             <td>
@@ -1636,6 +1236,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./interfaces/Graphics.html">src/app/components/graphics/graphics.component.ts</a>
             </td>
             <td>
@@ -1651,6 +1252,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./injectables/GraphicsService.html">src/app/components/graphics/graphics.service.ts</a>
             </td>
             <td>
@@ -1666,6 +1268,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./components/HeaderComponent.html">src/app/components/header/header.component.ts</a>
             </td>
             <td>
@@ -1681,6 +1284,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./components/HomeComponent.html">src/app/components/home/home.component.ts</a>
             </td>
             <td>
@@ -1696,6 +1300,39 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
+                <a href="./components/InfrastructureGalleryComponent.html">src/app/components/infrastructure-gallery/infrastructure-gallery.component.ts</a>
+            </td>
+            <td>
+                component
+            </td>
+            <td>
+                InfrastructureGalleryComponent
+            </td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/45)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./miscellaneous/variables.html#lodash">src/app/components/infrastructure-gallery/infrastructure-gallery.component.ts</a>
+            </td>
+            <td>
+                variable
+            </td>
+            <td>
+                lodash
+            </td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
                 <a href="./components/LoginComponent.html">src/app/components/login/login.component.ts</a>
             </td>
             <td>
@@ -1706,11 +1343,12 @@
             </td>
             <td align="right" data-sort="0">
                 <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/14)</span>
+                <span class="coverage-count">(0/23)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./components/MapGoogleComponent.html">src/app/components/map-google/map-google.component.ts</a>
             </td>
             <td>
@@ -1721,11 +1359,12 @@
             </td>
             <td align="right" data-sort="0">
                 <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/45)</span>
+                <span class="coverage-count">(0/77)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./interfaces/asadastructure.html">src/app/components/map-google/map-google.component.ts</a>
             </td>
             <td>
@@ -1736,41 +1375,60 @@
             </td>
             <td align="right" data-sort="0">
                 <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/17)</span>
+                <span class="coverage-count">(0/18)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
-                <a href="./interfaces/infraestructureCaptacion.html">src/app/components/map-google/map-google.component.ts</a>
+                <!-- miscellaneous -->
+                <a href="./interfaces/genericInfraestructure.html">src/app/components/map-google/map-google.component.ts</a>
             </td>
             <td>
                 interface
             </td>
             <td>
-                infraestructureCaptacion
+                genericInfraestructure
             </td>
             <td align="right" data-sort="0">
                 <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/12)</span>
+                <span class="coverage-count">(0/13)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
-                <a href="./interfaces/infraestructureTank.html">src/app/components/map-google/map-google.component.ts</a>
+                <!-- miscellaneous -->
+                <a href="./interfaces/snitMapLayer.html">src/app/components/map-google/map-google.component.ts</a>
             </td>
             <td>
                 interface
             </td>
             <td>
-                infraestructureTank
+                snitMapLayer
             </td>
             <td align="right" data-sort="0">
                 <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/12)</span>
+                <span class="coverage-count">(0/6)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/snitMapLayerGroup.html">src/app/components/map-google/map-google.component.ts</a>
+            </td>
+            <td>
+                interface
+            </td>
+            <td>
+                snitMapLayerGroup
+            </td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/6)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
                 <a href="./injectables/MapGoogleService.html">src/app/components/map-google/map-google.service.ts</a>
             </td>
             <td>
@@ -1786,6 +1444,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./components/MenuComponent.html">src/app/components/menu/menu.component.ts</a>
             </td>
             <td>
@@ -1801,6 +1460,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./components/NascentDetailsComponent.html">src/app/components/nascent-details/nascent-details.component.ts</a>
             </td>
             <td>
@@ -1816,6 +1476,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./components/NascentPickupComponent.html">src/app/components/nascent-pickup/nascent-pickup.component.ts</a>
             </td>
             <td>
@@ -1831,6 +1492,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./components/NewNotificationComponent.html">src/app/components/new-notification/new-notification.component.ts</a>
             </td>
             <td>
@@ -1846,6 +1508,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./injectables/NewNotificationService.html">src/app/components/new-notification/new-notification.service.ts</a>
             </td>
             <td>
@@ -1861,6 +1524,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./components/NotFoundComponentComponent.html">src/app/components/not-found-component/not-found-component.component.ts</a>
             </td>
             <td>
@@ -1876,6 +1540,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./components/NotificationsComponent.html">src/app/components/notifications/notifications.component.ts</a>
             </td>
             <td>
@@ -1891,6 +1556,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./interfaces/Notification.html">src/app/components/notifications/notifications.component.ts</a>
             </td>
             <td>
@@ -1906,6 +1572,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./injectables/NotificationsService.html">src/app/components/notifications/notifications.service.ts</a>
             </td>
             <td>
@@ -1921,6 +1588,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./components/PersmissionRequestsComponent.html">src/app/components/persmission-requests/persmission-requests.component.ts</a>
             </td>
             <td>
@@ -1931,11 +1599,12 @@
             </td>
             <td align="right" data-sort="0">
                 <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/7)</span>
+                <span class="coverage-count">(0/9)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./injectables/GetUserDetailsService.html">src/app/components/profile-header/get-user-details.service.ts</a>
             </td>
             <td>
@@ -1951,6 +1620,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./components/ProfileHeaderComponent.html">src/app/components/profile-header/profile-header.component.ts</a>
             </td>
             <td>
@@ -1961,11 +1631,12 @@
             </td>
             <td align="right" data-sort="0">
                 <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/18)</span>
+                <span class="coverage-count">(0/19)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./interfaces/Notification.html">src/app/components/profile-header/profile-header.component.ts</a>
             </td>
             <td>
@@ -1981,6 +1652,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./components/ProfileComponent.html">src/app/components/profile/profile.component.ts</a>
             </td>
             <td>
@@ -1991,11 +1663,28 @@
             </td>
             <td align="right" data-sort="0">
                 <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/33)</span>
+                <span class="coverage-count">(0/27)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
+                <a href="./components/ReporteComponent.html">src/app/components/reporte/reporte.component.ts</a>
+            </td>
+            <td>
+                component
+            </td>
+            <td>
+                ReporteComponent
+            </td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/20)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
                 <a href="./components/SearchComponent.html">src/app/components/search/search.component.ts</a>
             </td>
             <td>
@@ -2006,11 +1695,12 @@
             </td>
             <td align="right" data-sort="0">
                 <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/48)</span>
+                <span class="coverage-count">(0/75)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./injectables/SearchService.html">src/app/components/search/search.service.ts</a>
             </td>
             <td>
@@ -2026,6 +1716,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./components/SignupComponent.html">src/app/components/signup/signup.component.ts</a>
             </td>
             <td>
@@ -2036,11 +1727,12 @@
             </td>
             <td align="right" data-sort="0">
                 <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/21)</span>
+                <span class="coverage-count">(0/22)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./components/SurfacePickupComponent.html">src/app/components/surface-pickup/surface-pickup.component.ts</a>
             </td>
             <td>
@@ -2056,6 +1748,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./components/Tab.html">src/app/components/tab-component/tab.ts</a>
             </td>
             <td>
@@ -2071,6 +1764,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./components/Tabs.html">src/app/components/tab-component/tabs.ts</a>
             </td>
             <td>
@@ -2086,6 +1780,7 @@
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./components/TankDetailsComponent.html">src/app/components/tank-details/tank-details.component.ts</a>
             </td>
             <td>
@@ -2096,11 +1791,12 @@
             </td>
             <td align="right" data-sort="0">
                 <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/55)</span>
+                <span class="coverage-count">(0/58)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
+                <!-- miscellaneous -->
                 <a href="./injectables/TankDetailsService.html">src/app/components/tank-details/tank-details.service.ts</a>
             </td>
             <td>
@@ -2114,6 +1810,150 @@
                 <span class="coverage-count">(0/5)</span>
             </td>
         </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/TomaDatosInfraComponent.html">src/app/components/toma-datos-infra/toma-datos-infra.component.ts</a>
+            </td>
+            <td>
+                component
+            </td>
+            <td>
+                TomaDatosInfraComponent
+            </td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/12)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/TomaDatosComponent.html">src/app/components/toma-datos/toma-datos.component.ts</a>
+            </td>
+            <td>
+                component
+            </td>
+            <td>
+                TomaDatosComponent
+            </td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/19)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./miscellaneous/variables.html#routing">src/app/modules/routing.module.ts</a>
+            </td>
+            <td>
+                variable
+            </td>
+            <td>
+                routing
+            </td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./miscellaneous/variables.html#environment">src/environments/environment.prod.ts</a>
+            </td>
+            <td>
+                variable
+            </td>
+            <td>
+                environment
+            </td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./miscellaneous/variables.html#environment">src/environments/environment.ts</a>
+            </td>
+            <td>
+                variable
+            </td>
+            <td>
+                environment
+            </td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./miscellaneous/variables.html#firebaseConfig">src/environments/firebase.config.ts</a>
+            </td>
+            <td>
+                variable
+            </td>
+            <td>
+                firebaseConfig
+            </td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./miscellaneous/variables.html#__karma__">src/test.ts</a>
+            </td>
+            <td>
+                variable
+            </td>
+            <td>
+                __karma__
+            </td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./miscellaneous/variables.html#context">src/test.ts</a>
+            </td>
+            <td>
+                variable
+            </td>
+            <td>
+                context
+            </td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./miscellaneous/variables.html#require">src/test.ts</a>
+            </td>
+            <td>
+                variable
+            </td>
+            <td>
+                require
+            </td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
     </tbody>
 </table>
 
@@ -2125,7 +1965,7 @@
 
                    </div><div class="search-results">
     <div class="has-results">
-        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
         <ul class="search-results-list"></ul>
     </div>
     <div class="no-results">
@@ -2133,8 +1973,19 @@
     </div>
 </div>
 </div>
+               <!-- END CONTENT -->
            </div>
        </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 0;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'coverage';
+            var COMPODOC_CURRENT_PAGE_URL = 'coverage.html';
+       </script>
+
+       <script src="./js/libs/custom-elements.min.js"></script>
+       <script src="./js/libs/lit-html.js"></script>
+       <script src="./js/menu-wc.js"></script>
 
        <script src="./js/libs/bootstrap-native.js"></script>
 
@@ -2145,17 +1996,17 @@
 
        <script src="./js/compodoc.js"></script>
 
-       <script>var COMPODOC_CURRENT_PAGE_DEPTH = 0;</script>
-
-       <script src="./js/search/search.js"></script>
-       <script src="./js/search/lunr.min.js"></script>
-       <script src="./js/search/search-lunr.js"></script>
-
        <script src="./js/tabs.js"></script>
        <script src="./js/menu.js"></script>
+       <script src="./js/libs/clipboard.min.js"></script>
        <script src="./js/libs/prism.js"></script>
        <script src="./js/sourceCode.js"></script>
-       <script src="./js/search/search_index.js"></script>
+          <script src="./js/search/search.js"></script>
+          <script src="./js/search/lunr.min.js"></script>
+          <script src="./js/search/search-lunr.js"></script>
+          <script src="./js/search/search_index.js"></script>
+       <script src="./js/lazy-load-graphs.js"></script>
+
 
     </body>
 </html>
