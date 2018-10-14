@@ -30,10 +30,10 @@ import { LocationsService, provincia, canton, distrito } from 'app/common/servic
 export class AsadaDetailsComponent implements OnInit {
 
 	/*   		 Html variables    */
-	public adminEntity: RadioOption[] = [{ display: 'A y A', value: 'AYA' }, { display: 'Municipal', value: 'Minucipal' }, { display: 'Asada', value: 'Asada' }, { display: 'Privado', value: 'Privado' }];
+	public adminEntity: RadioOption[] = [{ display: 'A y A', value: 'AYA' }, { display: 'Municipal', value: 'Minucipal' }, { display: 'Asada', value: 'ASADA' }, { display: 'Privado', value: 'Privado' }];
 	public zoneType: RadioOption[] = [{ display: 'Urbana', value: 'Urbana' }, { display: 'Rural', value: 'Rural' }, { display: 'Urbano-Rural', value: 'Urbano-Rural' }];
 	public WaterControlProgram: RadioOption[] = [{ display: 'Si', value: 'Si' }, { display: 'No', value: 'No' }];
-	public locations:provincia[]=[];// ["San Jose", "Heredia", "Cartago", "Limon", "Alajuela", "Guanacaste", "Putarenas"];
+	public locations:provincia[]=[];
 	private selectedProvince:number;
 	private selectedCanton:number;
 	private selectedDistrict:number;
@@ -74,7 +74,7 @@ export class AsadaDetailsComponent implements OnInit {
 	
 
 	ngOnInit() {
-		this.emptyForm();
+		this.resetForm();
 		this.sub = this.route.params
 			.subscribe((params: Params) => {
 				this.AsadaId = params['id'];
@@ -134,9 +134,6 @@ export class AsadaDetailsComponent implements OnInit {
 		this.exportService.exportAsada(this.asadaDB);
 	}
 
-	onSubmit2() {
-		
-	}
 
 	onSubmit() {
 		this.newAsada = this.detailAsadaForm.value;
@@ -204,7 +201,7 @@ export class AsadaDetailsComponent implements OnInit {
 				if (this.asadaDB && this.asadaDB.concessionDue) {
 					this.dueDate = new Date(this.asadaDB.concessionDue.year, this.asadaDB.concessionDue.month - 1, this.asadaDB.concessionDue.day, 0, 0, 0, 0);
 
-					this.buildForm();
+					this.fillForm();
 				}
 
 			}
@@ -264,8 +261,8 @@ export class AsadaDetailsComponent implements OnInit {
 		this.ngOnInit();
 	}
 
-	buildForm(): void {
-
+	fillForm(): void {
+		console.log(this.asadaDB);
 		this.detailAsadaForm = this.fb.group({
 			'asadaName': [this.asadaDB.name, Validators.required],
 			'province': [this.asadaDB.location.province.code, Validators.required],
@@ -297,7 +294,7 @@ export class AsadaDetailsComponent implements OnInit {
 	}
 
 
-	emptyForm(): void {
+	resetForm(): void {
 		this.detailAsadaForm = this.fb.group({
 			'asadaName': ['', Validators.required],
 			'province': [1, Validators.required],

@@ -75,7 +75,8 @@ export class TomaDatosInfraComponent implements OnInit {
 }
 
 evaluate(elem: any): void {
-  this.router.navigate(['/evalSERSA', elem.type, elem.$key]);
+
+  this.router.navigate(['/evalSERSA', elem.type, this.id, elem.$key]);
 }
 
 }

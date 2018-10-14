@@ -52,7 +52,7 @@ const appRoutes: Routes = [
   { path: '', component: HomeComponent, canActivate:[AuthGuard] },
   { path: 'search/:id', component: SearchComponent },
   { path: 'LoginPage', component: LoginComponent },
-  { path: 'evalSERSA/:type/:id', component: EvalSersaComponent },
+  { path: 'evalSERSA/:type/:id/:idInfra', component: EvalSersaComponent },
   { path: 'addTank', component: AddTankComponent, canActivate:[AuthGuard] },
   { path: 'aboutus', component: AboutUsComponent },
   { path: 'surfacePickupComponent', component: SurfacePickupComponent },

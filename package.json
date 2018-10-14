@@ -9,8 +9,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "precache": "sw-precache --verbose --config=sw-precache-config.js",
-    "compodoc": "./node_modules/.bin/compodoc -p src/tsconfig.json"
+    "precache": "sw-precache --verbose --config=sw-precache-config.js"
+    
   },
   "private": true,
   "dependencies": {

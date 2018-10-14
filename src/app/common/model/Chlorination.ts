@@ -21,7 +21,7 @@ export class Chlorination implements Infrastructure{
     inCharge: string;
     aqueductName: string;
     aqueductInCharge: string;
-    ubication: string;
+    location: string;
     chlorinType: string;
     dosageType: string;
     installationDate: {

@@ -212,4 +212,6 @@ export class UserService {
     this.af.database.object('usuarios/' + pKey).remove();
    }
 
+   
+
 }

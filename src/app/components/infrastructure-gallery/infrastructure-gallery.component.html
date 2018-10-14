@@ -1,18 +1,8 @@
-<button (click)="prueba()">prueba</button>
-
-
-<img class="effect gallery-image" id="imagenPrueba" width="64px" />
-
-
-
-
-
-
-<div class="card style-default-dark col-xs-12 gallery-panel">
+<div class="card style-default-dark gallery-panel">
   <div class="card-head">
     <header *ngIf="!editMode">Evidencias de tomas de datos</header>
     <header *ngIf="editMode">Seleccione la foto principal</header>
-    <button class="btn btn-icon-toggle pull-right full-mode-toggle top-right" *ngIf="!emptyGallery" (click)="openFullMode()"><i
+    <button class="btn btn-icon-toggle pull-right full-mode-toggle top-right" *ngIf="!emptyGallery && selectionMode=='selection'" (click)="openFullMode()"><i
         class="md md-fullscreen"></i></button>
     <!-- <button (click)="toggleEdit()">p1</button> -->
 
@@ -28,19 +18,23 @@
     <div *ngIf='infrastructure'>
       <div class="card-head">
         <ul class="nav nav-tabs" data-toggle="tabs">
-          <li [class.active]="tabIndex==0"><a (click)="changeTabIndex(0)">Subir</a></li>
-          <li [class.active]="tabIndex==1"><a (click)="changeTabIndex(1)">Seleccionar</a></li>
+          <li [class.active]="tabIndex==0"><a (click)="toggleImageUploadMode()">Subir</a></li>
+          <li [class.active]="tabIndex==1"><a (click)="toggleImageSelectionMode()">Seleccionar</a></li>
         </ul>
       </div>
       <!--end .card-head -->
       <div class="card-body tab-content">
         <div class="tab-pane" [class.active]="tabIndex==0" id="tab-subir">
           <div class="album-thumbnails">
-            <span> <span class="glyphicon glyphicon-plus"></span> Agregar una imagen</span>
-            <input type="file" class="upload" accept="image/*" (change)="uploadFile($event)" />
-            <img class="effect gallery-image" [src]="uploadedImageUrl" *ngIf="uploadedImageUrl" width="64px" />
-            <img class="effect gallery-image" src="../../assets/icons/image-not-found.png"  width="64px" *ngIf="!uploadedImageUrl" />
-
+            <a class="card">
+              <div>
+                <img  id="uploaded-image" *ngIf="uploadedImageFile" />
+                <img  src="../../assets/icons/image-not-found.png" *ngIf="!uploadedImageFile" />
+              </div>
+            </a>
+            <span> <span class="glyphicon glyphicon-plus"></span> Agregar una imagen
+              <input type="file" class="upload" accept="image/jpeg, image/png" (change)="uploadFile($event,'uploaded-image')" />
+            </span>
           </div>
         </div>
         <div class="tab-pane" [class.active]="tabIndex==1" id="tab-seleccionar">
@@ -81,17 +75,20 @@
 
   <div class="card-actionbar" *ngIf="editMode">
     <div class="card-actionbar-row">
-      <button type="button" *ngIf="(tabIndex==0 && imageToUpload) || (tabIndex==1 && selectedImage)" class="btn ink-reaction btn-raised btn-accent-dark" (click)="saveSelectedImageAsMain()">
+      <button type="button" *ngIf="(selectionMode=='upload' && uploadedImageFile) || (selectionMode=='selection' && selectedImageFile)"
+        class="btn ink-reaction btn-raised btn-accent-dark" (click)="saveSelectedImageAsMain()">
         Guardar Cambios
       </button>
 
-      <button type="button" class="btn ink-reaction btn-raised btn-default-dark" (click)="cancel()">
+      <button type="button" class="btn ink-reaction btn-raised btn-default-dark" (click)="close()">
         Volver
       </button>
 
     </div>
   </div>
 </div>
+
+<toaster-container [toasterconfig]="toastConfig"></toaster-container>
 
 <div class="ng-overlay" *ngIf="fullmode && !emptyGallery">
   <div class="ng-gallery-content" (swipeleft)="fullModeMoveLeft()" (swiperight)="fullModeMoveRight()" (swipeup)="closeFullMode()">

@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+declare var $: any;
 
 /*		Model-Entities		*/
 import { RadioOption } from '../../common/model/radioOption-class';
@@ -43,8 +44,8 @@ export class TankDetailsComponent implements OnInit, OnDestroy {
 
     /*    Html variables    */
     // radio button options
-    public tankType: RadioOption[] = [{ display: 'Elevado', value: 'Elevado' }, { display: 'A nivel', value: 'Nivel' }, { display: 'Enterrado', value: 'Enterrado' }, { display: 'Semi-enterrado', value: 'Semi' }];
-    public tankMaterial: RadioOption[] = [{ display: 'Contreto', value: 'Contreto' }, { display: 'Metálico', value: 'Metalico' }, { display: 'Plástico', value: 'Plastico' }];
+    public tankType: RadioOption[] = [{ display: 'Elevado', value: 'Elevado' }, { display: 'A nivel', value: 'A nivel' }, { display: 'Enterrado', value: 'Enterrado' }, { display: 'Semi-enterrado', value: 'Semi' }];
+    public tankMaterial: RadioOption[] = [{ display: 'Concreto', value: 'Concreto' }, { display: 'Metálico', value: 'Metalico' }, { display: 'Plástico', value: 'Plastico' }];
     public cleaningFrec: RadioOption[] = [{ display: 'Anual', value: 'Anual' }, { display: 'Semestral', value: 'Semestral' }, { display: 'Trimestral', value: 'Trimestral' }, { display: 'Mensual', value: 'Mensual' }, { display: 'Otra', value: 'Otra' }, { display: 'No se sabe/Nunca', value: 'NA' }];
     public measureUnit: RadioOption[] = [{ display: 'metros cubicos', value: 'metro3' }, { display: 'litros', value: 'litro' }];
 
@@ -60,20 +61,20 @@ export class TankDetailsComponent implements OnInit, OnDestroy {
     /*		DB variables 	  */
     public infraDB: Tank;
 
-    public imageURL;
-    private storageRef;
-    public imgMarkedDel: FirebaseImg;
-    public imgMarkedEdit: FirebaseImg;
-
-    /*		routing variables 	  */
-    private sub: any;
-    private infrastructureId: string;
+    /*		access Mode 		*/
+    public editmode = true;
+    /*	      images		*/
+    public showGallery = false;
 
     /*		Toast variables		*/
     public toastConfig: ToasterConfig = new ToasterConfig({
         positionClass: 'toast-bottom-center',
         limit: 5
     });
+
+    /*		routing variables 	  */
+    private sub: any;
+    private infrastructureId: string;
 
     /*		Auth		*/
     private user: FirebaseAuthState;
@@ -91,20 +92,16 @@ export class TankDetailsComponent implements OnInit, OnDestroy {
         private geoLocation: GeolocationService,
         private toasterService: ToasterService,
         private exportService: ExportService
-    ) {
-        this.storageRef = firebaseApp.storage().ref();
-    }
+    ) { }
 
 
     ngOnInit() {
-        //Loads the FormBuilder
-        this.emptyForm();
-        //Loads the infraestructure id
+        this.resetForm();
         this.sub = this.route.params
             .subscribe((params: Params) => {
                 this.infrastructureId = params['id'];
                 this.readOnlyMode = params['action'] == 'edit' ? false : true;
-                this.getInfrastuctures(this.infrastructureId);
+                this.getInfrastucture(this.infrastructureId);
             });
 
         //Gets the actual login
@@ -138,30 +135,6 @@ export class TankDetailsComponent implements OnInit, OnDestroy {
             }
         });
     }
-
-    /*    DB methods    */
-
-    getInfrastuctures(pId): void {
-        this.angularFireService.getInfrastructure(pId)
-            .subscribe(
-                results => {
-
-                    this.infraDB = results;
-
-                    if (this.infraDB && this.infraDB.details) {
-                        this.creationDate = new Date(this.infraDB.details.creationDate.year, this.infraDB.details.creationDate.month
-                            - 1, this.infraDB.details.creationDate.day, 0, 0, 0, 0);
-                        this.buildForm();
-                        this.updateDisplayedImages();
-                        this.mainImgDirectory = 'infrastructure/' + this.infraDB.$key + "/main/";
-                    }
-
-
-                }
-            );
-    }
-
-
     onSubmit() {
 
         this.newTank = this.detailTankForm.value;
@@ -185,27 +158,33 @@ export class TankDetailsComponent implements OnInit, OnDestroy {
             this.newTank.aqueductName + ' ' +
             this.infraDB.asada.name + ' ' +
             this.infraDB.asada.id;
-        if (this.newMainImage) {
-
-        } 
         this.updateInfrastructure(this.infrastructureId, this.infraDB);
-        //this.reload();
-        
-        console.log(this.infrastructureId+"  -  ");
-        console.log(this.infraDB); 
-    }
+        this.reload();
 
+    }
+    /*    DB methods    */
+    getInfrastucture(pId): void {
+        this.angularFireService.getInfrastructure(pId)
+            .subscribe(
+                results => {
+
+                    this.infraDB = results;
+                    if (this.infraDB && this.infraDB.details) {
+                        this.fillForm();
+                    }
+
+                }
+            );
+    }
     updateInfrastructure(pId, pInfra): void {
-        
-        this.uploadMainImage();
-        var newInfra = {
+        var newInfra: Tank = {
             tags: pInfra.tags,
             name: pInfra.name,
             risk: pInfra.risk,
-            mainImg:pInfra.mainImg,
+            mainImg: pInfra.mainImg,
             img: ((pInfra.img == undefined) ? [] : pInfra.img),
             type: pInfra.type,
-            asada:{
+            asada: {
                 name: pInfra.asada.name,
                 id: pInfra.asada.id,
             },
@@ -218,7 +197,7 @@ export class TankDetailsComponent implements OnInit, OnDestroy {
                 material: pInfra.details.material,
                 registerNo: pInfra.details.registerNo,
                 tankType: pInfra.details.tankType,
-                direction:pInfra.details.direction,
+                direction: pInfra.details.direction,
                 volume: {
                     amount: pInfra.details.volume.amount,
                     unit: pInfra.details.volume.unit
@@ -236,244 +215,9 @@ export class TankDetailsComponent implements OnInit, OnDestroy {
             sector: pInfra.sector,
             dateCreated: pInfra.dateCreated
         };
-
-        console.log(newInfra);
-        //this.angularFireService.updateInfrastructure(pId, newInfra);
     }
-
-    private newMainImage: File;
-    loadImage(event) {
-        try {
-            let eventObj: MSInputMethodContext = <MSInputMethodContext>event;
-            let target: HTMLInputElement = <HTMLInputElement>eventObj.target;
-            let files: FileList = target.files;
-            if (files[0]) {
-                this.newMainImage = files[0];
-                this.showLoadedImage();
-            }
-            else {
-                this.newMainImage = undefined;
-            }
-
-        } catch (ex) { console.log("ERROR EN LA CARGA:" + ex); }
-    }
-    showLoadedImage() {
-        alert("image loaded");
-        //newMainImage
-    }
-
-    public imagesObservable: Observable<Array<Image>>;
-
-    updateDisplayedImages(): void {
-
-        if (this.infraDB.img) {
-            var imagesArray: Array<Image> = [];
-            for (let image of this.infraDB.img) {
-                imagesArray.push(new Image(
-                    image.url,
-                    image.url, // thumb
-                    image.description, // description
-                    image.url //
-                )
-                );
-            }
-            this.imagesObservable = Observable.of(imagesArray);
-        }
-    }
-
-    delete() {
-        this.deleteAllImages();
-        this.angularFireService.deleteInfrastructure(this.infrastructureId);
-        this.router.navigate(['/asadaDetails', this.infraDB.asada.id]);
-    }
-
-
-    goBack(): void {
-        setTimeout(() => {
-            this.ngOnInit();
-        },
-            1500);
-
-    }
-    export() {
-        this.exportService.exportInfrastructure(this.infraDB)
-    }
-
-
-    reload() {
-        this.router.navigate(['/' + this.infraDB.type + 'Details', this.infrastructureId]);
-        this.ngOnInit();
-    }
-
-    getGeoLocation() {
-        this.geoLocation.getCurrentPosition().subscribe(
-            result => {
-                if (result) {
-                    this.detailTankForm.patchValue({ 'latitude': result.coords.latitude });
-                    this.detailTankForm.patchValue({ 'longitude': result.coords.longitude });
-                }
-
-            }
-        );
-    }
-
-    // uploadFile(event) {
-    //     let eventObj: MSInputMethodContext = <MSInputMethodContext>event;
-    //     let target: HTMLInputElement = <HTMLInputElement>eventObj.target;
-    //     let files: FileList = target.files;
-    //     this.imageFile = files[0];
-    //     this.uploadImage();
-    // }
-
-    private mainImgDirectory;
-    cleanMainImageDirectory() {
-        if (this.mainImgDirectory) {
-            try {
-                var directory= this.storageRef.child(this.mainImgDirectory);
-                if(directory){
-                    directory.delete();
-                }
-                return true;
-            }
-            catch (ex) {
-                console.log("error------->" + ex);
-                return false;
-            }
-        }
-    }
-
-    uploadMainImage() {
-        if (this.mainImgDirectory && this.newMainImage && this.cleanMainImageDirectory()) {
-            this.popInfoToast('Cargando imagen');
-            const newFilename = Date.now() + this.newMainImage.name;
-            const uploadTask: firebase.storage.UploadTask = this.storageRef.child(this.mainImgDirectory + newFilename).put(this.newMainImage);
-            let downloadURL: string;
-            uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
-                (snapshot) => {
-                },
-                (error) => { },
-                () => {
-                    downloadURL = uploadTask.snapshot.downloadURL;
-
-                    const newImage: FirebaseImg = { fileName: newFilename, url: downloadURL, thumbnailUrl: downloadURL, description: 'Imagen Principal' };
-                    this.infraDB.mainImg = newImage;
-                }
-            );
-
-        }
-        else {
-            this.popErrorToast('Solo se permite un maximo de 3 imagenes');
-        }
-    }
-
-    deleteAllImages() {
-        while (this.infraDB.img) {
-            this.markForDelete(this.infraDB.img[0]);
-            this.deleteImage();
-        }
-
-    }
-
-    markForDelete(pImage: FirebaseImg) {
-        this.imgMarkedDel = pImage;
-    }
-
-    deleteImage() {
-        if (this.imgMarkedDel && this.infraDB.img) {
-            var index = 0;
-            for (let image of this.infraDB.img) {
-                if (image == this.imgMarkedDel) {
-
-                    const fileName = this.imgMarkedDel.fileName;
-                    // Delete on the list
-                    this.infraDB.img.splice(index, 1)
-                    this.updateInfrastructure(this.infrastructureId, this.infraDB);
-
-                    // Delete on DB
-                    this.storageRef.child('infrastructure/' + fileName).delete();
-
-                    this.popSuccessToast('Imagen eliminada correctamente');
-                    this.imgMarkedDel = null;
-
-                }
-                index++;
-            }
-        }
-
-    }
-
-    cancelDeleteImg() {
-        this.imgMarkedDel = null;
-    }
-
-    markForEdition(pImage: FirebaseImg) {
-        this.imgMarkedEdit = pImage;
-    }
-
-    saveDescription(pDescription: string) {
-        if (this.imgMarkedEdit && this.infraDB.img) {
-            var index = 0;
-            for (let image of this.infraDB.img) {
-                if (image.fileName == this.imgMarkedEdit.fileName) {
-
-                    image.description = pDescription;
-                    //this.updateInfrastructure(this.infrastructureId, this.infraDB);
-                    this.popSuccessToast('Descripción agregada');
-                    this.imgMarkedEdit = null;
-
-                }
-            }
-        }
-    }
-
-    chooseSelectedImage() {
-        if (this.imgMarkedEdit) {
-            this.infraDB.mainImg = this.imgMarkedEdit;
-            this.imgMarkedEdit = null;
-            this.popSuccessToast('Imagen principal seleccionada');
-        }
-    }
-
-    cancelEditImg() {
-        this.imgMarkedEdit = null;
-    }
-
-
-    popSuccessToast(pMesage: string) {
-        var toast = {
-            type: 'success',
-            title: pMesage
-        };
-        this.toasterService.pop(toast);
-    }
-
-    popInfoToast(pMesage: string) {
-        var toast = {
-            type: 'info',
-            title: pMesage
-        };
-        this.toasterService.pop(toast);
-    }
-
-
-    popErrorToast(pMessage: string) {
-        var toast = {
-            type: 'error',
-            title: pMessage
-        };
-        this.toasterService.pop(toast);
-    }
-
-    changeToEdit() {
-        this.readOnlyMode = false;
-    }
-
-    openEvaluation() {
-        this.router.navigate(['/evalSERSA', this.infraDB.type, this.infrastructureId]);
-    }
-
-
-    buildForm(): void {
+    fillForm(): void {
+		console.log(this.infraDB);
         for (let unitM of this.measureUnit) {
             if (this.infraDB.details.volume.unit == unitM.value) {
                 this.valueUnit = unitM.display;
@@ -499,9 +243,7 @@ export class TankDetailsComponent implements OnInit, OnDestroy {
         this.detailTankForm.patchValue({ 'risk': this.infraDB.risk });
         this.detailTankForm.patchValue({ 'direction': this.infraDB.details.direction });
     }
-
-
-    emptyForm(): void {
+    resetForm(): void {
         this.detailTankForm = this.fb.group({
             'aqueductName': ['', Validators.required],
             'registerNo': ['', Validators.required],
@@ -523,8 +265,6 @@ export class TankDetailsComponent implements OnInit, OnDestroy {
             .subscribe(data => this.onValueChanged(data));
         this.onValueChanged(); // (re)set validation messages now
     }
-
-
     onValueChanged(data?: any) {
         if (!this.detailTankForm) { return; }
         const form = this.detailTankForm;
@@ -575,13 +315,104 @@ export class TankDetailsComponent implements OnInit, OnDestroy {
             'pattern': 'Ingresar solo numeros'
         },
         'direction': {
-            'required': 'Dirreción requerido'
+            'required': 'Direción requerida'
         }
     };
 
+	//Busca la ubicacion actual donde se encuentra el dispositivo
+	//con el que se esta accediendo
+	getGeoLocation() {
+		this.popInfoToast("Obteniendo ubicación.");
+		this.geoLocation.getCurrentPosition().subscribe(
+			result => {
+				if (result) {
+					this.detailTankForm.patchValue({ 'latitude': result.coords.latitude });
+					this.detailTankForm.patchValue({ 'longitude': result.coords.longitude });
+					
+					this.popSuccessToast("Ubicación cargada correctamente.");
+				}
+				else{
+					this.popErrorToast("No se pudo obtener la ubicación.");
+				}
 
-    /* 		IMAGE GALLERY METHODS 		*/
+			}
+		);
+	}
 
+	//Toasters
+	//Mensajes flotantes
+	popSuccessToast(pMesage: string) {
+		var toast = {
+			type: 'success',
+			body: pMesage
+		};
+		this.toasterService.pop(toast);
+	}
+	popInfoToast(pMesage: string) {
+		var toast = {
+			type: 'info',
+			body: pMesage
+		};
+		this.toasterService.pop(toast);
+	}
+	popErrorToast(pMessage: string) {
+		var toast = {
+			type: 'error',
+			body: pMessage
+		};
+		this.toasterService.pop(toast);
+	}
+	/*    Infrastructure methods    */
+	//Borra la infraestructura
+	delete() {
+		// this.deleteAllImages();
+		alert("Eliminado de Imagenes pendiente");
+		this.angularFireService.deleteInfrastructure(this.infrastructureId);
+		this.router.navigate(["/asadaDetails", this.infraDB.asada.id]);
+	}
+	//Exporta la infraestructura a un documento externo
+	export() {
+		this.exportService.exportInfrastructure(this.infraDB);
+	}
+	/*    HTML methods    */
+	goBack(): void {
+		setTimeout(() => {
+			this.ngOnInit();
+		},
+			1500);
 
-
+	}
+	reload() {
+		this.router.navigate(['/' + this.infraDB.type + 'Details', this.infrastructureId]);
+		this.ngOnInit();
+	}
+	//Cambia el modo a edicion
+	changeToEdit() {
+		this.readOnlyMode = false;
+	}
+	/*    Gallery methods    */
+	//Metodos escucha y interacciones con la galeria de evidencias
+	mainImageChanged(event,modalID:string){
+		this.showGallery=false;
+		this.toggleGalleryModal(false);
+		this.popSuccessToast("Imagen principal actualizada correctamente");
+	}
+	uploadingMainImage(image){
+		this.popInfoToast("Cargando imagen principal");
+	}
+	error(error){
+		if(error.content){
+			this.popErrorToast(error.content);
+		}
+		else{
+			if( (typeof error) == 'string'){
+				this.popErrorToast(error);
+			}
+		}
+	}
+	toggleGalleryModal(toggle:boolean){
+		this.showGallery=toggle;
+		var state=toggle?"show":"hide";
+		$('#gallery-modal').modal(state);
+	}
 }

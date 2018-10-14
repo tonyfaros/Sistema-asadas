@@ -2,7 +2,7 @@
 
   <div class="section-body contain-xl">
 
-    <div class="ccol-sm-6">
+    <div class="col-sm-12">
       <form class="form" (ngSubmit)="onSubmit()" [formGroup]="detailsSuperficialWForm">
         <div class="card">
 
@@ -18,41 +18,45 @@
           <div class="card-body">
             <div class="row">
 
-              <div class="col-sm-6">
+              <div class="col-xs-2 col-sm-2 col-md-1 col-lg-1 clearfix infra-main-image">
+                <a class="pull-left">
+                  <img class="img-circle " [src]="infraDB.mainImg.url" *ngIf="infraDB && infraDB.mainImg && infraDB.mainImg.url">
+                  <img class="img-circle " src="../../assets/icons/image-not-found.png" *ngIf="!(infraDB && infraDB.mainImg && infraDB.mainImg.url)">
+                  <a class="btn btn-icon-toggle ink-reaction img-circle edit-button" *ngIf="!readOnlyMode" (click)="toggleGalleryModal(true)">
+                    <i class="md md-mode-edit"></i></a>
+                </a>
+              </div>
+
+              <div class="col-xs-10 col-sm-10 col-md-5 col-lg-5 clearfix">
                 <div class="form-group">
-                  <input type="text" class="form-control" [readonly]="readOnlyMode == true" id="aqueductName" formControlName="aqueductName"
-                    required>
+                  <input type="text" class="form-control" [readonly]="readOnlyMode == true" id="aqueductName"
+                    formControlName="aqueductName" required>
                   <label for="aqueductName">Nombre del Acueducto</label>
                 </div>
                 <!-- Error message -->
                 <div *ngIf="formErrors.aqueductName" class="alert alert-danger">
                   {{ formErrors.aqueductName }}
                 </div>
-
               </div>
 
-              <div class="col-sm-6">
+              <div class="col-xs-12 col-sm-6">
                 <div class="form-group">
-                  <input type="text"  class="form-control" [readonly]="readOnlyMode == true" id="aqueductInCharge" formControlName="aqueductInCharge" required>
+                  <input type="text" class="form-control" [readonly]="readOnlyMode == true" id="aqueductInCharge"
+                    formControlName="aqueductInCharge" required>
                   <label for="aqueductInCharge">Encargado del acueducto</label>
                 </div>
 
-                  <!-- Error message -->
+                <!-- Error message -->
                 <div *ngIf="formErrors.aqueductInCharge" class="alert alert-danger">
-                    {{ formErrors.aqueductInCharge }}
+                  {{ formErrors.aqueductInCharge }}
                 </div>
 
               </div>
 
-            </div>
-            <!-- End Row -->
-
-
-            <div class="row">
-              <div class="col-sm-6">
+              <div class="col-xs-12 col-sm-6">
                 <div class="form-group">
-                  <input type="text" class="form-control" [readonly]="readOnlyMode == true" id="superficialWName" formControlName="superficialWName"
-                    required>
+                  <input type="text" class="form-control" [readonly]="readOnlyMode == true" id="superficialWName"
+                    formControlName="superficialWName" required>
                   <label for="superficialWName">Nombre de la toma</label>
                 </div>
 
@@ -63,13 +67,10 @@
 
               </div>
 
-            </div>
-
-            <div class="row">
-              <div class="col-sm-6">
+              <div class="col-xs-12 col-sm-6">
                 <div class="form-group">
-                  <input type="text" class="form-control" [readonly]="readOnlyMode == true" id="registerMINAE" formControlName="registerMINAE"
-                    required>
+                  <input type="text" class="form-control" [readonly]="readOnlyMode == true" id="registerMINAE"
+                    formControlName="registerMINAE" required>
                   <label for="registerMINAE">Número de registro en MINAE</label>
                 </div>
 
@@ -82,10 +83,10 @@
 
 
 
-              <div class="col-sm-6">
+              <div class="col-xs-12 col-sm-6">
                 <div class="form-group">
-                  <input type="text" class="form-control" [readonly]="readOnlyMode == true" id="registerARS" formControlName="registerARS"
-                    requerired>
+                  <input type="text" class="form-control" [readonly]="readOnlyMode == true" id="registerARS"
+                    formControlName="registerARS" requerired>
                   <label for="registerARS">Registro en dirección de ARS</label>
                 </div>
 
@@ -96,20 +97,17 @@
 
               </div>
 
-            </div>
-            <!-- End row -->
-
-            <div class="row">
-              <div class="col-sm-6">
+              <div class="col-xs-12 col-sm-6">
                 <div class="form-group">
                   <input type="text" class="form-control " readonly id="asadaName" formControlName="asadaName">
                   <label for="asadaName">ASADA</label>
                 </div>
               </div>
 
-              <div class="col-sm-6">
+              <div class="col-xs-12 col-sm-6">
                 <div class="form-group">
-                  <input type="text" class="form-control" [readonly]="readOnlyMode == true" id="inCharge" formControlName="inCharge" required>
+                  <input type="text" class="form-control" [readonly]="readOnlyMode == true" id="inCharge"
+                    formControlName="inCharge" required>
                   <label for="inCharge">Funcionario</label>
                 </div>
 
@@ -117,96 +115,94 @@
                 <div *ngIf="formErrors.inCharge" class="alert alert-danger">
                   {{ formErrors.inCharge }}
                 </div>
-
               </div>
-              
-            </div>
-            <!-- End row -->
 
-              <div class="row" *ngIf="isAdmin">
-                <div class="col-sm-6">
-                  <div class="form-group">
-                    <input type="text" class="form-control " readonly id="risk" formControlName="risk">
-                    <label for="risk">Riesgo</label>
+              <div class="col-xs-12 col-sm-6" *ngIf="isAdmin">
+                <div class="form-group">
+                  <input type="text" class="form-control " readonly id="risk" formControlName="risk">
+                  <label for="risk">Riesgo</label>
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-sm-6 col-md-6">
+
+                <div class="col-xs-12">
+                  <div class="form-group" *ngIf="readOnlyMode == false">
+                    <label class="col-sm-6 control-label">Frecuencia de limpieza</label>
+                    <div class="col-lg-12">
+                      <label *ngFor="let clean of cleaningFrec" class="radio-inline radio-styled">
+                        <input type="radio" value={{clean.value}} formControlName="cleaningFrec" (change)="checkOther(clean.value)"><span>{{clean.display}}</span>
+                      </label>
+
+                    </div>
+                    <!--end .col -->
+                    <div class="col-sm-6">
+                      <div class="form-group" *ngIf="otherValue == true">
+                        <input type="text" class="form-control" id="otherCleaning" formControlName="otherCleaning">
+                        <label for="otherCleaning">Especifique</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--end .col -->
+
+                <div class="col-xs-12">
+                  <div class="col-sm-6" *ngIf="readOnlyMode == true">
+                    <div class="form-group" *ngIf="otherValue == false">
+                      <input type="text" class="form-control" readonly formControlName="cleaningFrec">
+                      <label for="cleaningFrec">Frecuencia de limpieza</label>
+                    </div>
+
+                    <div class="form-group" *ngIf="otherValue == true">
+                      <input type="text" class="form-control" readonly id="otherCleaning" formControlName="otherCleaning">
+                      <label for="otherCleaning">Frecuencia de limpieza</label>
+                    </div>
+
                   </div>
                 </div>
 
-              </div> 
-              <!-- End row -->
-
-
-            <!-- END TEXT PLACE -->
-            <br>
-
-
-            <!-- BEGIN RADIO BUTTONS -->
-            <div class="row">
-              <div class="form-group" *ngIf="readOnlyMode == false">
-                <label class="col-sm-6 control-label">Frecuencia de limpieza</label>
-                <div class="col-lg-12">
-                  <label *ngFor="let clean of cleaningFrec" class="radio-inline radio-styled">
-                    <input type="radio" value={{clean.value}} formControlName="cleaningFrec" (change)="checkOther(clean.value)" ><span>{{clean.display}}</span>
-                  </label>
-        
-                </div><!--end .col -->
-                <div class="col-sm-6">
-                  <div class="form-group" *ngIf="otherValue == true">
-                    <input type="text"  class="form-control" id="otherCleaning" formControlName="otherCleaning">
-                    <label for="otherCleaning">Especifique</label>
-                  </div>
-                </div>
-              </div>  <!--end .col -->
-
-              <div class="col-sm-6" *ngIf="readOnlyMode == true">
-                <div class="form-group" *ngIf="otherValue == false">
-                  <input type="text" class="form-control" readonly formControlName="cleaningFrec">
-                  <label for="cleaningFrec">Frecuencia de limpieza</label>
-                </div>
-
-                <div class="form-group" *ngIf="otherValue == true">
-                  <input type="text"  class="form-control" readonly id="otherCleaning" formControlName="otherCleaning">
-                  <label for="otherCleaning">Frecuencia de limpieza</label>
-                </div>
-           
               </div>
-            </div>
 
-            <br>
+              <br>
 
-
-            <!-- END RADIO BUTTONS -->
-
-            <!-- BEGIN LOCATION -->
-            <div class="row">
-              <div class="col-sm-6">
+              <div class="col-xs-12 col-sm-12 col-md-6">
 
                 <div class="card">
                   <div class="card-head style-warning">
                     <header> Ubicación geográfica</header>
                   </div>
                   <div class="card-body">
-                    <div class="form-group">
-                      <input type="number" step="any" class="form-control" [readonly]="readOnlyMode == true" formControlName="latitude" required>
-                      <label>Latitud</label>
+
+                    <div class="col-xs-12 col-sm-6">
+
+                      <div class="form-group">
+                        <input type="number" step="any" class="form-control" [readonly]="readOnlyMode == true"
+                          formControlName="latitude" required>
+                        <label>Latitud</label>
+                      </div>
+                      <!-- Error message -->
+                      <div *ngIf="formErrors.latitude" class="alert alert-danger">
+                        {{ formErrors.latitude }}
+                      </div>
                     </div>
 
-                    <!-- Error message -->
-                    <div *ngIf="formErrors.latitude" class="alert alert-danger">
-                      {{ formErrors.latitude }}
-                    </div>
 
-                    <div class="form-group">
-                      <input type="number" step="any" class="form-control" [readonly]="readOnlyMode == true" formControlName="longitude" required>
-                      <label>Longitud</label>
-                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                      <div class="form-group">
+                        <input type="number" step="any" class="form-control" [readonly]="readOnlyMode == true"
+                          formControlName="longitude" required>
+                        <label>Longitud</label>
+                      </div>
 
-                    <!-- Error message -->
-                    <div *ngIf="formErrors.longitude" class="alert alert-danger">
-                      {{ formErrors.longitude }}
+                      <!-- Error message -->
+                      <div *ngIf="formErrors.longitude" class="alert alert-danger">
+                        {{ formErrors.longitude }}
+                      </div>
                     </div>
 
                     <div *ngIf="readOnlyMode == false">
-                      <button type="button" *ngIf="readOnlyMode == false" (click)="getGeoLocation()" class="btn btn-raised btn-default-light ink-reaction"><i class="md md-my-location"></i>Ubicación actual</button>
+                      <button type="button" *ngIf="readOnlyMode == false" (click)="getGeoLocation()" class="btn btn-raised btn-default-light ink-reaction"><i
+                          class="md md-my-location"></i>Ubicación actual</button>
                     </div>
                   </div>
                   <!--end .card-body -->
@@ -215,60 +211,18 @@
 
               </div>
             </div>
+
+
             <!-- END LOCATION -->
 
-            <!-- BEGIN IMAGE UPLOAD -->
-
-            <div class="card">
-              <div class="card-head style-warning">
-                <header> Imagenes</header>
-              </div>
-              <div class="card-body">
-
-                <div *ngIf="this.infraDB && this.infraDB.img">
-                  <!--img *ngFor="let image of this.infraDB.img" class="pull-left width-3" [src]="image" alt="" /-->
-                  <modal-gallery [modalImages]="imagesObservable" [showDownloadButton]="true" [downloadable]="true" [showExtUrlButton]="true"></modal-gallery>
-                </div>
-
-                <div *ngIf="this.infraDB && !this.infraDB.img">
-                  <label>No se encontro ninguna imagen</label>
-                </div>
-
-                <div style="float: right" *ngIf="readOnlyMode == false">
-                  <div class="fileUpload btn btn-success">
-                    <span> <span class="glyphicon glyphicon-plus"></span> Agregar una imagen</span>
-                    <input type="file" class="upload" accept="image/*" (change)="uploadFile($event)" />
-                  </div>
-
-                   <button type="button" class="btn btn-danger"  data-toggle="modal" data-target="#EliminateImage">
-                     <span class="glyphicon glyphicon-minus"></span> Eliminar imagen
-                    </button>
-                    
-                    <button type="button" class="btn btn-warning"  data-toggle="modal" data-target="#EditImage">
-                     <span class="glyphicon glyphicon-pencil"></span> Editar descripción
-                    </button>
-                </div>
-              </div>
-              <!--end .card-body -->
-            </div>
-            <!--end .card -->
-
-            <!-- END IMAGE UPLOAD -->
-
-            <toaster-container  [toasterconfig]="toastConfig"></toaster-container>
-
           </div>
-          <!-- End card body -->
-
-
-
-          <div class="card-actionbar" *ngIf="isAdmin">
+          <div class="card-actionbar" >
             <div class="card-actionbar-row">
 
-              <div *ngIf="readOnlyMode == false">
+              <div *ngIf="!readOnlyMode">
                 <button type="button" class="btn ink-reaction btn-raised btn-primary" data-toggle="modal" data-target="#SaveModal"
-                [disabled]="!detailsSuperficialWForm.valid">
-                  Guardar Cambios
+                  [disabled]="!detailsSuperficialWForm.valid">
+                  Guardar
                   <div class="ink" style="top: 20px; left: 51.75px;"></div>
                 </button>
 
@@ -277,24 +231,22 @@
                   <div class="ink" style="top: 20px; left: 51.75px;"></div>
                 </button>
 
-                <button type="button" class="btn ink-reaction btn-raised btn-danger" data-toggle="modal" data-target="#EliminateModal">
-                  Eliminar
-                  <div class="ink" style="top: 20px; "></div>
-                </button>
+                <button type="button" class="btn ink-reaction btn-raised btn-danger pull-left" data-toggle="modal"
+                data-target="#EliminateModal">
+                <i class="fa fa-trash-o"></i>
+              </button>
               </div>
 
 
-              <div *ngIf="readOnlyMode == true">
-                <button type="button" class="btn ink-reaction btn-raised btn-primary" *ngIf="readOnlyMode == true" (click)="changeToEdit()">
+              <div *ngIf="readOnlyMode">
+                <button type="button" class="btn ink-reaction btn-raised btn-primary" *ngIf="readOnlyMode == true"
+                  (click)="changeToEdit()">
                   Editar
                   <div class="ink" style="top: 20px; left: 51.75px;"></div>
                 </button>
-                <button type="button" class="btn ink-reaction btn-raised btn-primary btn-loading-state" *ngIf="readOnlyMode == true" (click)="export()">
+                <button type="button" class="btn ink-reaction btn-raised btn-primary btn-loading-state" *ngIf="readOnlyMode == true"
+                  (click)="export()">
                   Exportar
-                  <div class="ink" style="top: 20px; left: 51.75px;"></div>
-                </button>
-                <button type="button" class="btn ink-reaction btn-raised btn-warning" *ngIf="readOnlyMode == true" (click)="openEvaluation()">
-                  Evaluar
                   <div class="ink" style="top: 20px; left: 51.75px;"></div>
                 </button>
               </div>
@@ -302,124 +254,68 @@
 
             </div>
           </div>
-
-
+          <toaster-container [toasterconfig]="toastConfig"></toaster-container>
         </div>
-        <!--end .card -->
       </form>
     </div>
 
-    <!-- Modal -->
-    <div id="SaveModal" class="modal fade" role="dialog">
-      <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">Confirmar cambios</h4>
+  
+      <!-- Modal -->
+      <div #galleryModal id="gallery-modal" class="modal fade" role="dialog">
+          <div class="clearfix gallery-modal-holder">
+            <app-infrastructure-gallery id="gallery" class="gallery-modal-content" [editMode]='editmode' [infrastructure]='this.infraDB'
+              (onMainImageChanged)="mainImageChanged($event,galleryModal.id)" (onClose)="toggleGalleryModal(false)"
+              (onUploadingMainImage)="uploadingMainImage($event)">
+            </app-infrastructure-gallery>
           </div>
-          <div class="modal-body">
-            <h3>Desea guardar los cambios.</h3>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="onSubmit()">Guardar</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-          </div>
+  
         </div>
-
-      </div>
-    </div>
-
-    <!-- Modal -->
-    <div id="EliminateModal" class="modal fade" role="dialog">
-      <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">Confirmar accion</h4>
-          </div>
-          <div class="modal-body">
-            <h3>Desea eliminar la toma de agua superficial.</h3>
-            <h4 class="text-danger">Si es eliminada, no se podra recuperar</h4>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="delete()">Eliminar</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Modal -->
-    <div id="EliminateImage" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
-      <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">Eliminar imagen</h4>
-          </div>
-
-          <div class="modal-body">
-            <h3>Selecione la imagen que desea eliminar</h3>
-            <h4 class="text-danger">Una vez es eliminada, no se podra recuperar</h4>
-
-            <div class="row" *ngIf="this.infraDB && this.infraDB.img">
-                  <img *ngFor="let image of this.infraDB.img" class="pull-left width-3" [class.redBorder]="image==imgMarkedDel" [src]="image.url" alt="" (click)="markForDelete(image)">
-            </div>
-
-          </div>
-
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteImage()">Eliminar</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal" (click)="cancelDeleteImg()">Cancelar</button>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Modal -->
-    <div id="EditImage" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
-      <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">Editar imagen</h4>
-          </div>
-
-          <div class="modal-body">
-            <h3>Selecione la imagen que desea editar la descripción</h3>
-
-            <div class="row" *ngIf="this.infraDB && this.infraDB.img">
-                  <img *ngFor="let image of this.infraDB.img" class="pull-left width-3" [class.redBorder]="image==imgMarkedEdit" [src]="image.url" alt="" (click)="markForEdition(image)">
-            </div>
-
-            <br>
-
-            <div class="row" *ngIf="imgMarkedEdit">
-               <div class="col-sm-12">
-              <label class="control-label">descripción</label>
-              <div class="form-group">
-                  <input #descrip type="text" class="form-control " id="imgDescription" [value]="imgMarkedEdit.description">
-                  <label></label>
+  
+        <!-- Modal -->
+        <div id="SaveModal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+  
+            <!-- Modal content-->
+            <div class="modal-content">
+  
+              <div class="modal-header">
+                <h3 class="modal-title">Confirmar cambios</h3>
               </div>
-               </div>
-              <button type="button" class="btn btn-success" (click)="saveDescription(descrip.value)">Guardar</button>
-          </div>
-
-          </div>
-
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal" (click)="cancelEditImg()">Cerrar</button>
+              <div class="modal-body">
+                <h3 class="text-soft no-text-case">Desea guardar los cambios?</h3>
+              </div>
+  
+  
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="onSubmit()">Guardar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+              </div>
+            </div>
+  
           </div>
         </div>
-
-      </div>
-    </div>
+  
+        <!-- Modal -->
+        <div id="EliminateModal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+  
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <h3 class="modal-title">Confirmar acción</h3>
+              </div>
+              <div class="modal-body">
+                <h3 class="text-soft no-text-case">Desea eliminar el sistema de captación superficial?</h3>
+                <h4 class="text-soft no-text-case">Si es eliminado, no se podra recuperar</h4>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="delete()">Eliminar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+              </div>
+            </div>
+  
+          </div>
+        </div>
 
   </div>
   <!-- End section-body -->

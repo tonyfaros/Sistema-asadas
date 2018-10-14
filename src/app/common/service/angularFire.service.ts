@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
-import {AngularFire, FirebaseListObservable, FirebaseObjectObservable} from "angularfire2/index"
+import { AngularFire, FirebaseListObservable, FirebaseObjectObservable} from "angularfire2/index"
 import { Asada } from '../../common/model/Asada';
+import { TomaDatos } from '../../common/model/TomaDatos';
+import { TomaInfra } from '../../common/model/TomaInfra';
+import { Infrastructure } from '../../common/model/Infrastructure';
 
 import * as CryptoJS from 'crypto-js';
 
@@ -172,6 +175,46 @@ export class AngularFireService {
 	 	this.af.database.list('bitacora').push(pHistorial).catch((error)=>console.log(error));
 
 	 }
+
+	
+	
+
+	 getTomaDatos(pKey: String): FirebaseObjectObservable<any> {
+		const Obj$: FirebaseObjectObservable<any> =
+		  this.af.database.object('tomaDatos/'+pKey);
+		return Obj$;
+	  }
+
+
+	 updateTomaDatosDetails(pKey: String, pInfra) {
+		const Obj$ = this.getTomaDatos(pKey);
+		Obj$.update(pInfra).catch((error) => console.log("Error actualizando datos " + error));
+	  }
+
+	  
+
+	 updateTomaDatos(request,uid) {
+		var isCalled = false;
+		var subscription = this.getTomaDatos(uid).subscribe(
+		  results => {
+			if (!isCalled) {
+			  this.updateTomaDatosDetails(results.$key, {
+
+				dateCreated: request.dateCreated,
+    			idToma: request.idToma,
+    			nameAsada: request.nameAsada,
+    			status: request.status,
+    			idEstudiante: request.idEstudiante,
+				infraestructuras: request.infraestructuras
+				
+			  });
+			  isCalled = true;
+			}
+		  }
+		);
+	  }
+
+	  
 
 
 	 
