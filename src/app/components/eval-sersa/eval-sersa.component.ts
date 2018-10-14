@@ -117,12 +117,13 @@ export class EvalSersaComponent implements OnInit, OnDestroy {
         this.answers = new Array(this.form.length + 1);
 
 
+
         for(var i = 0; i<10; i++){
           var res = {
             'ans': ''  };
           
           res.ans=this.tomaDatosInfra.infraestructuras[this.idToma]["res"+(i+1)];
-          this.answers[i+1] = res.ans == "0" ? false:true;
+          this.answers[i+1] = res.ans == "0" ? false: res.ans=="1" ? true : null;
           this.filteredList.push(this.tomaDatosInfra.infraestructuras[this.idToma]["res"+(i+1)]);
         }
         console.log(this.filteredList);
