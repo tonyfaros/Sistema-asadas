@@ -1,0 +1,449 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>sistema-asadas documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">sistema-asadas documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search">
+</div>
+            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Interfaces</li>
+  <li>filterConfig</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/components/filter/filter.component.ts</code>
+        </p>
+
+
+
+        <section>
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#categorias">categorias</a>
+                                </li>
+                                <li>
+                                        <a href="#locaciones">locaciones</a>
+                                </li>
+                                <li>
+                                        <a href="#riesgos">riesgos</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section>
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="categorias"></a>
+                                        <span class="name"><b>categorias</b><a href="#categorias"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>categorias:     <code><a href="../interfaces/filterParam.html" target="_self" >filterParam[]</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code><a href="../interfaces/filterParam.html" target="_self" >filterParam[]</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="locaciones"></a>
+                                        <span class="name"><b>locaciones</b><a href="#locaciones"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>locaciones:     <code><a href="../interfaces/locaciones.html" target="_self" >locaciones</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code><a href="../interfaces/locaciones.html" target="_self" >locaciones</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="riesgos"></a>
+                                        <span class="name"><b>riesgos</b><a href="#riesgos"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>riesgos:     <code><a href="../interfaces/filterParam.html" target="_self" >filterParam[]</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code><a href="../interfaces/filterParam.html" target="_self" >filterParam[]</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit, EventEmitter, Output, Input, SimpleChange, SimpleChanges } from &#x27;@angular/core&#x27;;
+import { LocationsService, locaciones, location, provincia, canton, distrito } from &quot;app/common/service/locations.service&quot;;
+export {  LocationsService, locaciones, location, provincia, canton, distrito } from &quot;app/common/service/locations.service&quot;;
+
+@Component({
+  selector: &#x27;app-filter&#x27;,
+  templateUrl: &#x27;./filter.component.html&#x27;,
+  styleUrls: [&#x27;./filter.component.scss&#x27;],
+  providers: [LocationsService]
+})
+export class FilterComponent implements OnInit {
+
+  private locaciones: locaciones;
+  private categorias: filterParam[];
+  private riesgos: filterParam[];
+  private filterColSize&#x3D;12;
+  public filterConfiguration: filterConfig;
+
+
+  constructor(private LocServ: LocationsService) {
+  }
+
+  @Output() notify: EventEmitter&lt;filterConfig&gt; &#x3D; new EventEmitter&lt;filterConfig&gt;();
+  @Input() activeLocationFilter: boolean &#x3D; true;
+  @Input() activeRiskFilter: boolean &#x3D; true;
+  @Input() activeCategoryFilter: boolean &#x3D; true;
+  @Input() activeFilterButton: boolean &#x3D; true;
+
+
+  ngOnInit() {   
+    this.updateLocations();
+    this.updateCategorias();
+    this.updateRiesgos();
+    this.updateFiltersSize();
+  } 
+
+  ngOnChanges(changes:SimpleChanges){
+    this.updateFiltersSize();
+  }
+
+  updateFiltersSize(){
+    var filterCount&#x3D;0;
+    filterCount&#x3D;filterCount+Number(this.activeLocationFilter);
+    filterCount&#x3D;filterCount+Number(this.activeCategoryFilter);
+    filterCount&#x3D;filterCount+Number(this.activeRiskFilter);
+    this.filterColSize&#x3D;12/filterCount;
+  }
+
+  updateLocations() {
+    this.locaciones &#x3D; this.LocServ.getLocations();
+    this.locaciones &#x3D; this.LocServ.activateLocations(this.locaciones);
+  }
+
+  updateRiesgos() {
+    this.riesgos &#x3D; [
+      { value: &quot;Muy Alto&quot;,description:&quot;Muy Alto&quot;, active: true },
+      { value: &quot;Alto&quot;,description:&quot;Alto&quot;, active: true },
+      { value: &quot;Intermedio&quot;,description:&quot;Intermedio&quot;, active: true },
+      { value: &quot;Bajo&quot;,description:&quot;Bajo&quot;, active: true },
+      { value: &quot;Nulo&quot;,description:&quot;Nulo&quot;, active: true },
+      { value: &quot;noInfo&quot;,description:&quot;Sin información&quot;, active: true }
+    ]
+  }
+  toggleAllRiesgos(active:boolean){
+    if( this.riesgos){
+      this.riesgos.forEach(rie&#x3D;&gt;{rie.active&#x3D;active})
+    }
+    this.notifyChange();
+  }
+  toggleAllCategorias(active:boolean){
+    if( this.categorias){
+      this.categorias.forEach(cat&#x3D;&gt;{cat.active&#x3D;active})
+    }
+    this.notifyChange();
+  }
+  toggleAllLocaciones(active:boolean){
+    if( this.locaciones){
+      this.locaciones.provincias.forEach(prov&#x3D;&gt;{this.recursiveLocationActiveToggle(prov,active);})
+    }
+    this.notifyChange();
+  }
+
+  updateCategorias() {
+    this.categorias &#x3D; [
+      { value: &quot;Asada&quot;,description:&quot;Oficina de Asada&quot;, active: true },
+      { value: &quot;Tanque&quot;,description:&quot;Tanque&quot;, active: true },
+      { value: &quot;SistemaDistribucion&quot;,description:&quot;Sistema Distribución&quot;, active:true},
+      { value: &quot;TanqueQG&quot;,description:&quot;Tanque Quebrada Gradiente&quot;, active:true},
+      { value : &quot;SistemaCloracion&quot;,description: &quot;Sistema Cloración&quot;, active:true},
+      { value: &quot;CaptacionSuperficial&quot;,description:&quot;Captación Superficial&quot;, active: true },
+      { value: &quot;CaptacionNaciente&quot;,description:&quot;Captación Naciente&quot;, active: true },
+      { value: &quot;Naciente&quot;,description:&quot;Naciente&quot;, active: true }
+    ]
+  }
+
+  private LocationfilterCheckboxChange(event, loc: location) {
+    if (this.activeLocationFilter) {
+      //try {
+        this.recursiveLocationActiveToggle(loc,(event.target.checked||false));
+     /* } 
+      catch (ex) {
+        loc.active &#x3D; true;
+        event.target.checked &#x3D; true;
+      }*/
+      this.notifyChange();
+    }
+  }
+  private recursiveLocationActiveToggle(loc:location,active:boolean){
+      loc.active&#x3D;active;
+      var locations:location[]&#x3D;
+      ((&lt;provincia&gt;loc).cantones) || ((&lt;canton&gt;loc).distritos);
+      if(locations){
+        locations.forEach(loc&#x3D;&gt;{
+          this.recursiveLocationActiveToggle(loc,active);
+        });
+      }
+
+  }
+
+  private toggleActiveLocation(locations: location[], activate: boolean) {
+    try {
+      locations.forEach(loc &#x3D;&gt; {
+        loc.active &#x3D; activate;
+      });
+    }
+    catch(ex){}
+  }
+
+  private CategoryfilterCheckboxChange(event, value: string) {
+    var filterParm: filterParam;
+    if (this.activeCategoryFilter) {
+      this.categorias.forEach(param &#x3D;&gt; {
+        if (param.value &#x3D;&#x3D; value) {
+          filterParm &#x3D; param;
+        }
+      });
+      try {
+        filterParm.active &#x3D; event.target.checked;
+
+      } catch (ex) {
+        filterParm.active &#x3D; true;
+        event.target.checked &#x3D; true;
+      }
+      this.notifyChange();
+    }
+    
+  }
+
+  private RiskfilterCheckboxChange(event, value: string) {
+    var filterParm: filterParam;
+    if (this.activeRiskFilter) {
+      this.riesgos.forEach(param &#x3D;&gt; {
+        if (param.value &#x3D;&#x3D; value) {
+          filterParm &#x3D; param;
+        }
+      });
+      try {
+        filterParm.active &#x3D; event.target.checked;
+      } catch (ex) {
+        
+        filterParm.active &#x3D; true;
+        event.target.checked &#x3D; true;
+      }
+      this.notifyChange();
+    }
+  }
+
+  generateFilterConfiguration() {
+    this.filterConfiguration &#x3D; { &#x27;locaciones&#x27;: this.locaciones, &#x27;riesgos&#x27;: [], &#x27;categorias&#x27;: [] };
+    this.filterConfiguration.locaciones &#x3D; this.locaciones;
+    this.filterConfiguration.categorias &#x3D; this.categorias;
+    this.filterConfiguration.riesgos &#x3D; this.riesgos;
+  }
+
+  notifyChange() {
+    this.generateFilterConfiguration();
+    this.notify.emit(this.filterConfiguration);
+  }
+  
+  autohide(){
+    setTimeout(function () {
+      document.getElementById(&#x27;foo&#x27;).style.display&#x3D;&#x27;none&#x27;;
+  }, 10000);
+  return false;
+  }
+
+}
+
+export interface filterConfig {
+  locaciones: locaciones;
+  riesgos: filterParam[];
+  categorias: filterParam[];
+}
+
+export interface filterParam {
+  value: string;
+  description:string;
+  active: boolean;
+}</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'filterConfig.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <script src="../js/menu-wc.js"></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
