@@ -6,6 +6,7 @@ import { TomaInfra } from '../../common/model/TomaInfra';
 import { Infrastructure } from '../../common/model/Infrastructure';
 
 import * as CryptoJS from 'crypto-js';
+import { FirebaseImg } from '../model/FirebaseImg';
 
 @Injectable()
 export class AngularFireService {
@@ -84,6 +85,45 @@ export class AngularFireService {
 			return Obj$;
 		}
 	}
+	
+	updateInfrastructureImages(pKey:string,images:FirebaseImg[]):FirebaseObjectObservable<any>  {
+		var Obj$: FirebaseObjectObservable<any>;
+		try{
+			Obj$ = this.af.database.object('infraestructura/'+pKey+"/img");
+			if(Obj$){
+				Obj$.update(images);
+			}
+			else{
+				Obj$.set(images);
+			}
+			
+			return Obj$;
+		}
+		catch(ex){
+			return Obj$;
+		}
+	}
+
+	updateEvaluationEvidences(tomaDatosKey:string,evaluation:TomaInfra,evidences:FirebaseImg[]){
+		var Obj$: FirebaseObjectObservable<any>;
+		try{
+			Obj$ = this.af.database.object('tomaDatos/'+tomaDatosKey+'/'+evaluation.$key+'/evidences');
+			
+			if(Obj$){
+				Obj$.update(evidences);
+			}
+			else{
+				Obj$.set(evidences);
+			}
+			// TEMPORAL_BORRAR
+			this.updateInfrastructureImages(evaluation.id,evaluation.evidences);
+			return Obj$;
+		}
+		catch(ex){
+			return Obj$;
+		}
+	}
+	
 
 	 updateInfrastructure(pKey: String, pInfra){
 		const Obj$ = this.getInfrastructure(pKey);
@@ -176,8 +216,6 @@ export class AngularFireService {
 
 	 }
 
-	
-	
 
 	 getTomaDatos(pKey: String): FirebaseObjectObservable<any> {
 		const Obj$: FirebaseObjectObservable<any> =

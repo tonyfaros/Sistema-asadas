@@ -15,6 +15,8 @@ import { AngularFire } from "angularfire2";
 import {Location} from '@angular/common';
 import { AngularFireService } from '../../common/service/angularFire.service'; 
 import { TomaDatos } from '../../common/model/TomaDatos';
+import { TomaInfra } from '../../common/model/TomaInfra';
+import { EvidenceGalleryComponent } from '../infrastructure-gallery/evidence-gallery/evidence-gallery.component';
 
 @Component({
   selector: 'app-eval-sersa',
@@ -34,6 +36,9 @@ export class EvalSersaComponent implements OnInit, OnDestroy {
   idToma;
   idInfra;
   tomaDatosInfra: TomaDatos;
+
+  public evaluation:TomaInfra;
+
   
 
   /*			Toast variables		*/
@@ -76,6 +81,7 @@ export class EvalSersaComponent implements OnInit, OnDestroy {
         }
         console.log("abc");
         console.log(results.infraestructuras[this.idToma]["res"+1]);
+        this.evaluation=this.tomaDatosInfra.infraestructuras[this.idToma];
       });
 
       
@@ -261,6 +267,17 @@ export class EvalSersaComponent implements OnInit, OnDestroy {
     console.log(this.tomaDatosInfra);
     this.angularFireService.updateTomaDatos(this.tomaDatosInfra, this.tomaDatosId);
 
+    if(this.evidenceGallery){
+      this.evidenceGallery.saveEvidenceChanges().then(result=>{
+
+      });
+    }
+
+
+  }
+  private evidenceGallery: EvidenceGalleryComponent;
+  public onGalleryReady(gallery){
+    this.evidenceGallery=gallery;
   }
 
 }
