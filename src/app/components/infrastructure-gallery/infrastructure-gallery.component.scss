@@ -148,6 +148,18 @@
     margin-top: calc(50% - 27px)!important;
     margin-bottom: auto!important;
 }
+.centered{
+    display: block!important;
+    margin-left: auto!important;
+    margin-right: auto!important;
+}
+.loaded-image-container{
+    height:200px;
+}
+.loaded-image-panel{
+    min-width: 150px!important;
+    min-height: 150px!important;
+}
 
 .centered-content{
     align-items: center!important;

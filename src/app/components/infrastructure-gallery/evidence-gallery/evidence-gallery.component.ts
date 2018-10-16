@@ -152,7 +152,7 @@ export class EvidenceGalleryComponent implements OnInit, DoCheck {
             }
 
             this.newEvidenceImages.push(image);
-            console.table(this.newEvidenceImages);
+            // console.table(this.newEvidenceImages);
 
             this.updateUploadedImagesView();
 
@@ -175,7 +175,7 @@ export class EvidenceGalleryComponent implements OnInit, DoCheck {
       if (this.newEvidenceImages[i] && this.newEvidenceImages[i].file) {
         this.setImageSource(this.newEvidenceImages[i].tempImageKey, this.newEvidenceImages[i].file);
 
-        console.log(this.newEvidenceImages[i].file);
+        // console.log(this.newEvidenceImages[i].file);
       }
     }
   }
@@ -196,7 +196,7 @@ export class EvidenceGalleryComponent implements OnInit, DoCheck {
         }
       }
     });
-    console.table("removeSelected", this.removedEvidenceImages);
+    // console.table("removeSelected", this.removedEvidenceImages);
     this.selectedElements = [];
   }
   public saveEvidenceChanges() {
@@ -241,14 +241,14 @@ export class EvidenceGalleryComponent implements OnInit, DoCheck {
     return new Promise<TomaInfra>((resolve, reject) => {
       if (this.evaluation && this.tomaDatos) {
         if (this.removedEvidenceImages) {
-          console.table("removed", this.removedEvidenceImages);
+          // console.table("removed", this.removedEvidenceImages);
           this.removedEvidenceImages.forEach(img => {
             try {
               const thumbUploadTask: firebase.storage.UploadTask =
                 this.storageRef.child(img.filePath).delete().then(function () {
-                  console.log("erased");
+                  // console.log("erased");
                 }).catch(function (error) {
-                  console.log("failed", error);
+                  // console.log("failed", error);
 
                 });
             }
@@ -276,7 +276,7 @@ export class EvidenceGalleryComponent implements OnInit, DoCheck {
                     let downloadURL: string = imageUploadTask.snapshot.downloadURL;
                     img.image.url = downloadURL;
                     this.evaluation.evidences.push(img.image);
-                    console.log(img.image.fileName);
+                    // console.log(img.image.fileName);
                     completedAmount = completedAmount + 1;
 
                     if (completedAmount == this.newEvidenceImages.length) {

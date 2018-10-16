@@ -1,4 +1,4 @@
-import { Component, DoCheck, EventEmitter, HostListener, Inject, Input, OnInit, Output } from '@angular/core';
+import { Component, DoCheck, EventEmitter,ViewChild, HostListener, Inject, Input, OnInit, Output } from '@angular/core';
 import { ToasterConfig, ToasterService } from 'angular2-toaster';
 import { FirebaseApp } from 'angularfire2';
 import { FirebaseImg } from 'app/common/model/FirebaseImg';
@@ -51,6 +51,7 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
 
   private storageRef;
 
+  @ViewChild('file') fileInput;
   constructor(
     @Inject(FirebaseApp) firebaseApp: any,
     private angularFireService: AngularFireService,
@@ -84,6 +85,12 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
 
   ngDoCheck() {
     this.updateGallery();
+  }
+
+  addNewFile() {
+    if (this.fileInput) {
+      this.fileInput.nativeElement.click();
+    }
   }
 
 
@@ -252,8 +259,8 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
     let eventObj: MSInputMethodContext = <MSInputMethodContext>event;
     let target: HTMLInputElement = <HTMLInputElement>eventObj.target;
     let files: FileList = target.files;
-    this.uploadedImageFile = files[0];
-    if (displayImageId && this.uploadedImageFile) {
+    if (displayImageId && files[0]) {
+      this.uploadedImageFile = files[0];
       if (this.uploadedImageFile.type == 'image/jpeg' || this.uploadedImageFile.type == 'image/png') {
         try {
           this.loadingState = true;
@@ -273,12 +280,14 @@ export class InfrastructureGalleryComponent implements OnInit, DoCheck {
           this.loadingState = false;
         } catch (err) {
           this.loadingState = false;
+          this.updatePreviewImage();
         }
       }
       else {
         this.uploadedThumbnailFile = undefined;
         this.uploadedImageFile = undefined;
         target.value = "";
+        this.updatePreviewImage();
       }
     }
   }

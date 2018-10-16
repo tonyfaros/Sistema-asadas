@@ -250,19 +250,17 @@ export class EvalSersaComponent implements OnInit, OnDestroy {
     aux.res9 = ''+(this.answers[9] ? 1 : 0);
     aux.res10 = ''+(this.answers[10] ? 1 : 0);
 
-    this.tomaDatosInfra.infraestructuras[this.idToma] = aux;
-
-
 
     if(this.evidenceGallery && this.tomaDatosInfra && this.tomaDatosInfra.infraestructuras[this.idToma]){
       
-      if(!this.tomaDatosInfra.infraestructuras[this.idToma].evidences){
-        this.tomaDatosInfra.infraestructuras[this.idToma].evidences=[];
-      }
       this.evidenceGallery.saveEvidenceChanges().then(result=>{
+        
+        this.tomaDatosInfra.infraestructuras[this.idToma] = aux;
         this.tomaDatosInfra.infraestructuras[this.idToma].evidences=result.evidences;
-        this.popSuccessToast("Se ha guardado con exito");
-        //this.angularFireService.updateTomaDatos(this.tomaDatosInfra, this.tomaDatosId);
+        this.angularFireService.updateEvaluation(this.tomaDatosInfra.$key, this.idToma,this.tomaDatosInfra.infraestructuras[this.idToma])
+        .subscribe(()=>{
+          this.popSuccessToast("Se ha guardado con exito");
+        }).unsubscribe();
       });
     }
   }
