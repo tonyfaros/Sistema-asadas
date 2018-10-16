@@ -20,7 +20,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class TomaDatosComponent implements OnInit {
 
-  private infraestructureList: Infrastructure[];
+  infraestructureList: Infrastructure[];
   asadasList: any[];
   asadaSelected: string = '';
   todayDate: Date;
@@ -37,6 +37,12 @@ export class TomaDatosComponent implements OnInit {
     db.list('asadas')
     .subscribe(asadasList => {
       this.asadasList = asadasList;
+      
+      });
+
+    db.list('infraestructura')
+    .subscribe(infraestructureList => {
+      this.infraestructureList = infraestructureList;
       
       });
 
@@ -60,6 +66,7 @@ export class TomaDatosComponent implements OnInit {
           toma_datos.Asada = this.tomaDatosList[i]["nameAsada"];
           toma_datos.Fecha = this.tomaDatosList[i]["dateCreated"];
           toma_datos.Estado = this.tomaDatosList[i]["status"];
+          console.log("prueba 1",this.tomaDatosList[i]["infraestructuras"]);
           toma_datos.Infraestructura = this.tomaDatosList[i]["infraestructuras"].length;
           tomaDatosList.push(toma_datos);
 
@@ -134,13 +141,16 @@ export class TomaDatosComponent implements OnInit {
     for (let infra of this.infraestructureList){
       
       var infraTemp = new TomaInfra();
+      infraTemp.estado = 'Pendiente';
 
       if (infra.asada.name === id){
         
         infraTemp.id = infra.$key;
+
         listInfra.push(infraTemp);
       }
     }
+    console.log("prueba2", listInfra.length);
     return listInfra;
     
   }
