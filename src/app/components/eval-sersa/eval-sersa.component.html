@@ -9,8 +9,6 @@
 
         <div class="row">
           <form class="form" role="form">
-
-
             <div *ngFor="let element of form" class="col-md-12">
                 <div class="card">
                   <div class="card-body">
@@ -32,9 +30,9 @@
               
             <app-evidence-gallery 
             [evaluation]='evaluation' 
-            [tomaDatos]='tomaDatosInfra.$key'
+            [tomaDatos]='tomaDatosInfra'
             [editMode]='true'
-            (onReady)=" ($event)">
+            (onReady)="onGalleryReady($event)">
               
             </app-evidence-gallery>
               <div class="col-md-8">

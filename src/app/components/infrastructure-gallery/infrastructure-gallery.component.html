@@ -16,11 +16,16 @@
   </div>
   <div class="card-body style-default-bright gallery-content">
     <div *ngIf='!infrastructure'>
-      <article class="margin-bottom-xxl">
-        <p class="lead">
-          No se ha seleccionado una infraestructura
-        </p>
-      </article>
+
+      
+        <div class="noContent centered-content" >
+            <span class="noContent-info-text middle-top">
+                <p class="lead">
+                  No se ha seleccionado una infraestructura
+                </p>
+            </span>
+          </div>
+
     </div>
     <div *ngIf='infrastructure'>
       <div class="card-head">
@@ -46,12 +51,13 @@
         </div>
         <div class="tab-pane" [class.active]="tabIndex==1" id="tab-seleccionar">
 
-
-          <article *ngIf="emptyGallery" class="margin-bottom-xxl">
-            <p class="lead">
-              No existe fotos guardadas para esta infraestructura.
-            </p>
-          </article>
+            <div class="noContent centered-content" *ngIf="emptyGallery">
+                <span class="noContent-info-text middle-top">
+                    <p class="lead">
+                        No existen fotos guardadas para esta infraestructura.
+                      </p>
+                </span>
+              </div>
           <div *ngIf="!emptyGallery" class="row">
             <div *ngIf="!editMode" class="album-thumbnails">
               <a *ngFor="let image of infrastructure.img" class="card" (click)="markAsCurrent(image)">

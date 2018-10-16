@@ -15,6 +15,7 @@ import * as firebase from 'firebase';
 import { AngularFireService } from '../../../common/service/angularFire.service';
 import { promise } from 'selenium-webdriver';
 import { reject } from 'q';
+import { TomaDatos } from '../../../common/model/TomaDatos';
 
 const moment = require('moment');
 
@@ -78,7 +79,7 @@ export class EvidenceGalleryComponent implements OnInit, DoCheck {
   @Output() onError: EventEmitter<{ title: string, content: string }> = new EventEmitter<{ title: string, content: string }>();
 
   @Input() public evaluation: TomaInfra;
-  @Input() public tomaDatos: string;
+  @Input() public tomaDatos: TomaDatos;
   // @Input() public infrastructure: Infrastructure;
   @Input() editMode: boolean = false;
 
@@ -90,17 +91,22 @@ export class EvidenceGalleryComponent implements OnInit, DoCheck {
 
   private evindenceSettedFlag = false;
   ngDoCheck() {
-    if (this.evaluation.evidences && !this.evindenceSettedFlag) {
-      if(!this.evaluation.evidences)
-        this.evaluation.evidences=[];
+    if (this.evaluation && !this.evindenceSettedFlag) {
       this.evindenceSettedFlag = true;
-      this.starterEvidences = this.evaluation.evidences;
+      this.setInitData();
     }
     this.updateGallery();
   }
+  setInitData() {
+    if (!this.evaluation.evidences){
+      this.evaluation.evidences = [];
+    }
+    this.starterEvidences = this.evaluation.evidences;
+  }
+
   addNewFile() {
-    if(!this.evaluation.evidences)
-      this.evaluation.evidences=[];
+    if (!this.evaluation.evidences)
+      this.evaluation.evidences = [];
     if ((this.newEvidenceImages.length + this.evaluation.evidences.length) < MAX_TOTAL_IMAGES) {
       if (this.fileInput) {
         this.fileInput.nativeElement.click();
@@ -110,6 +116,7 @@ export class EvidenceGalleryComponent implements OnInit, DoCheck {
       this.popErrorToast("Se ha alcanzado el limite de imagenes disponibles")
     }
   }
+
   uploadNewEvidence(event) {
 
     if (this.newEvidenceImages.length + this.evaluation.evidences.length <= MAX_TOTAL_IMAGES) {
@@ -118,6 +125,7 @@ export class EvidenceGalleryComponent implements OnInit, DoCheck {
       let target: HTMLInputElement = <HTMLInputElement>eventObj.target;
       let files: FileList = target.files;
       var uploadedImageFile = files[0];
+
       if (/* displayImageId && parentElementId && */ uploadedImageFile) {
         if (uploadedImageFile.type == 'image/jpeg' || uploadedImageFile.type == 'image/png') {
           try {
@@ -128,7 +136,7 @@ export class EvidenceGalleryComponent implements OnInit, DoCheck {
               this.loadingState = false;
             });
             var tempImageKey = this.evaluation.id ?
-              this.evaluation.id :
+              (this.evaluation.id + "-" + Date.now() + "" + (uploadedImageFile.size % 10)) :
               (uploadedImageFile.name + "-" + Date.now() + "" + (uploadedImageFile.size % 10));
 
             var filePath = "infrastructure/" + this.evaluation.id + "/evidence/" + tempImageKey;
@@ -144,6 +152,8 @@ export class EvidenceGalleryComponent implements OnInit, DoCheck {
             }
 
             this.newEvidenceImages.push(image);
+            console.table(this.newEvidenceImages);
+
             this.updateUploadedImagesView();
 
           } catch (err) {
@@ -164,6 +174,8 @@ export class EvidenceGalleryComponent implements OnInit, DoCheck {
     for (let i = 0; i < this.newEvidenceImages.length; i++) {
       if (this.newEvidenceImages[i] && this.newEvidenceImages[i].file) {
         this.setImageSource(this.newEvidenceImages[i].tempImageKey, this.newEvidenceImages[i].file);
+
+        console.log(this.newEvidenceImages[i].file);
       }
     }
   }
@@ -184,29 +196,71 @@ export class EvidenceGalleryComponent implements OnInit, DoCheck {
         }
       }
     });
+    console.table("removeSelected", this.removedEvidenceImages);
     this.selectedElements = [];
   }
-
   public saveEvidenceChanges() {
+    this.loadingState = true;
     return new Promise<TomaInfra>((resolve, reject) => {
-      if(this.evaluation && this.tomaDatos){
+      this.uploadEvindences().then(result => {
+        this.selectedElements = [];
+        this.newEvidenceImages = [];
+        this.removedEvidenceImages = [];
+        this.updateUploadedImagesView();
+        var idEvaluation: number = this.getEvaluationId();
+        if (idEvaluation >= 0) {
+          
+          this.loadingState = true;
+          this.angularFireService.updateEvaluationEvidences(this.tomaDatos.$key, idEvaluation, this.evaluation, this.evaluation.evidences).subscribe(
+            results => {
+              console.table(this.evaluation.evidences);
+              this.onEvidencesUpdated.emit(this.evaluation);
+              resolve(this.evaluation);
+              this.setInitData();
+              this.loadingState = false;
+            });
+        }
+        else {
+          resolve(this.evaluation);
+          this.loadingState = false;
+        }
+      });
+    });
+  }
+  show() {
+    console.log("-------------------------------------------\n\n");
+    console.log("evidencias"); console.table(this.evaluation.evidences);
+    console.log("selected"); console.table(this.selectedElements);
+    console.log("removed"); console.table(this.removedEvidenceImages);
+    console.log("newEvidenceImages"); console.table(this.newEvidenceImages);
+    console.log("files"); console.table(this.fileInput.FileList);
+  }
+  //
+
+  private uploadEvindences() {
+    return new Promise<TomaInfra>((resolve, reject) => {
+      if (this.evaluation && this.tomaDatos) {
         if (this.removedEvidenceImages) {
+          console.table("removed", this.removedEvidenceImages);
           this.removedEvidenceImages.forEach(img => {
             try {
               const thumbUploadTask: firebase.storage.UploadTask =
                 this.storageRef.child(img.filePath).delete().then(function () {
-                  // File deleted successfully
+                  console.log("erased");
                 }).catch(function (error) {
-                  this.loadingState = false;
+                  console.log("failed", error);
+
                 });
             }
             catch (ex) {
             }
-          })
+          });
+          this.removedEvidenceImages = [];
         }
-  
-        if (this.newEvidenceImages) {
+
+        if (this.newEvidenceImages && this.newEvidenceImages.length > 0) {
           for (let i = 0; i < this.newEvidenceImages.length; i++) {
+            var completedAmount = 0;
             let img = this.newEvidenceImages[i];
             if (img.file && img.image && img.tempImageKey) {
               try {
@@ -222,15 +276,13 @@ export class EvidenceGalleryComponent implements OnInit, DoCheck {
                     let downloadURL: string = imageUploadTask.snapshot.downloadURL;
                     img.image.url = downloadURL;
                     this.evaluation.evidences.push(img.image);
-                    if ((i + 1) >= this.newEvidenceImages.length) {
+                    console.log(img.image.fileName);
+                    completedAmount = completedAmount + 1;
+
+                    if (completedAmount == this.newEvidenceImages.length) {
                       this.notifyAllImagesUploaded();
-                      this.angularFireService.updateEvaluationEvidences(this.tomaDatos, this.evaluation, this.evaluation.evidences).subscribe(
-                        results => {
-                          this.onEvidencesUpdated.emit(this.evaluation);
-                          resolve(this.evaluation);
-                        });
-                      this.reset();
-                      this.loadingState = false;
+                      resolve(this.evaluation);
+
                     }
                   }
                 );
@@ -243,14 +295,26 @@ export class EvidenceGalleryComponent implements OnInit, DoCheck {
             }
           }
         }
+        else {
+          resolve(this.evaluation);
+          this.loadingState = false;
+        }
       }
-      else{
+      else {
         reject();
+        this.loadingState = false;
       }
-
 
     });
 
+  }
+  getEvaluationId(): number {
+    for (var i = 0; i < (this.tomaDatos.infraestructuras).length; i++) {
+      if (this.tomaDatos.infraestructuras[i]['id'] == this.evaluation.id) {
+        return i;
+      }
+    }
+    return -1;
   }
 
 
@@ -259,7 +323,9 @@ export class EvidenceGalleryComponent implements OnInit, DoCheck {
     this.selectedElements = [];
     this.newEvidenceImages = [];
     this.updateUploadedImagesView();
-    this.evaluation.evidences = this.starterEvidences;
+    if (this.evaluation && this.starterEvidences) {
+      this.evaluation.evidences = this.starterEvidences;
+    }
 
     this.currentImage = null;
     this.indexString = "";

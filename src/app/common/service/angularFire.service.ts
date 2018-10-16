@@ -90,13 +90,7 @@ export class AngularFireService {
 		var Obj$: FirebaseObjectObservable<any>;
 		try{
 			Obj$ = this.af.database.object('infraestructura/'+pKey+"/img");
-			if(Obj$){
-				Obj$.update(images);
-			}
-			else{
-				Obj$.set(images);
-			}
-			
+			Obj$.set(images);
 			return Obj$;
 		}
 		catch(ex){
@@ -104,22 +98,17 @@ export class AngularFireService {
 		}
 	}
 
-	updateEvaluationEvidences(tomaDatosKey:string,evaluation:TomaInfra,evidences:FirebaseImg[]){
+	updateEvaluationEvidences(tomaDatosKey:string,evalId:number,evaluation:TomaInfra,evidences:FirebaseImg[]){
 		var Obj$: FirebaseObjectObservable<any>;
 		try{
-			Obj$ = this.af.database.object('tomaDatos/'+tomaDatosKey+'/'+evaluation.$key+'/evidences');
-			
-			if(Obj$){
-				Obj$.update(evidences);
-			}
-			else{
-				Obj$.set(evidences);
-			}
+			Obj$ = this.af.database.object('tomaDatos/'+tomaDatosKey+'/infraestructuras/'+evalId+'/evidences');
+			Obj$.set(evidences);
 			// TEMPORAL_BORRAR
-			this.updateInfrastructureImages(evaluation.id,evaluation.evidences);
+			this.updateInfrastructureImages(evaluation.id,evidences);
 			return Obj$;
 		}
 		catch(ex){
+			console.log("--------error-----------------"+ex);
 			return Obj$;
 		}
 	}

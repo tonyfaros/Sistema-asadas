@@ -1,5 +1,4 @@
 <div class="card style-default-dark gallery-panel">
-
   <div class="loading" *ngIf="loadingState">
     <div class="loading-spinner"></div>
   </div>
@@ -7,13 +6,10 @@
   <div class="card-head">
     <div class="top-left-controls">
       <header class=" no-padding">Evidencias</header>
-      <!-- <header class=" no-padding" *ngIf="editMode">Seleccione la foto principal</header> -->
     </div>
-    <!-- <button class="btn btn-icon-toggle pull-right full-mode-toggle top-right" (click)="openFullMode()"><i class="md md-fullscreen"></i></button> -->
   </div>
 
   <div class="card-body style-default-bright gallery-content">
-
     <div class="card-head images-control" *ngIf="evaluation && editMode">
       <h6 class="text-default-dark selected-amount pull-left" *ngIf="selectedElements.length>0"><i>Seleccionados:
           {{selectedElements.length}}</i></h6>
