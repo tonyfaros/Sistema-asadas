@@ -25,6 +25,7 @@ export class TomaDatosComponent implements OnInit {
   asadaSelected: string = '';
   todayDate: Date;
   tomaDatosList: any[];
+  rol;
   
   
   public cantidadTanques = 0;
@@ -99,10 +100,10 @@ export class TomaDatosComponent implements OnInit {
 
       this.user = user;
       this.User = this.user.uid;
-      
-     // this.data.currentList.subscribe(cList => this.cList = cList);
-     // this.data.currentList.subscribe(listParm => this.infraestructureList)
-    });}
+      this.angularFireService.getUsuario(this.User).subscribe(result => this.rol = result.rol);
+    });
+    
+  }
 
  
 

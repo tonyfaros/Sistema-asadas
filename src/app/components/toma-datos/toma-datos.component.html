@@ -38,7 +38,7 @@
                       <th class="text-medium text-lg text-primary">ASADA</th>
                       <th class="text-medium text-lg text-primary">Fecha</th>
                       <th class="text-medium text-lg text-primary"># Infraestructuras</th>
-                      <th class="text-medium text-lg text-primary">Estado</th>
+                      <th class="text-medium text-lg text-primary" *ngIf = "rol=='Estudiante'">Estado</th>
                       <th class="text-medium text-lg text-primary"> </th>
                       
                       
@@ -51,7 +51,7 @@
                       <td><a class="opacity-75">{{element.Asada}}</a></td>
                       <td><a class="opacity-75" >{{element.Fecha}}</a></td>
                       <td><a class="opacity-75">{{element.Infraestructura}}</a></td>
-                      <td><a [style.color]="element.Estado === 'Pendiente' ? 'orange' : element.Estado === 'Aceptado' ? 'green' : 'red'"><b>{{element.Estado}}</b></a></td>
+                      <td *ngIf = "rol=='Estudiante'"><a [style.color]="element.Estado === 'Pendiente' ? 'orange' : element.Estado === 'Aceptado' ? 'green' : 'red'"><b>{{element.Estado}}</b></a></td>
                       <td class="text-right">
                             <button *ngIf = "element.Estado!='Aceptado'" type="button" class="btn btn-icon-toggle" [routerLink]="['/tomaDatosInfra',element.key]"  data-toggle="tooltip" data-placement="top" data-original-title="Copy row"><i class="fa fa-arrow-right"></i></button>
                           </td>
