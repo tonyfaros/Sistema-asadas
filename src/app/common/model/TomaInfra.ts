@@ -14,4 +14,5 @@ export class TomaInfra {
     res9: string = '';
     res10: string = '';
     evidences:FirebaseImg[];
+    estado: string = 'Pendiente';
 }

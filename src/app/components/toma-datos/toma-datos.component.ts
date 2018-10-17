@@ -20,7 +20,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class TomaDatosComponent implements OnInit {
 
-  private infraestructureList: Infrastructure[];
+  infraestructureList: Infrastructure[];
   asadasList: any[];
   asadaSelected: string = '';
   todayDate: Date;
@@ -37,6 +37,12 @@ export class TomaDatosComponent implements OnInit {
     db.list('asadas')
     .subscribe(asadasList => {
       this.asadasList = asadasList;
+      
+      });
+
+    db.list('infraestructura')
+    .subscribe(infraestructureList => {
+      this.infraestructureList = infraestructureList;
       
       });
 
@@ -79,7 +85,6 @@ export class TomaDatosComponent implements OnInit {
    }
 
    openInfraList(elem){
-     console.log("yes");
     this.router.navigate(['/tomaDatosInfra',elem]);
    }
 
@@ -125,7 +130,7 @@ export class TomaDatosComponent implements OnInit {
     tomaDatos.dateCreated = latest_date;
     tomaDatos.idToma= id.toString();
     tomaDatos.nameAsada = this.asadaSelected;
-    tomaDatos.status = 'Pendiente';
+    tomaDatos.status = 'Sin responder';
     tomaDatos.idEstudiante = this.User;
     tomaDatos.infraestructuras = this.returnInfraesOfAsada(this.asadaSelected);
 
@@ -138,13 +143,16 @@ export class TomaDatosComponent implements OnInit {
     for (let infra of this.infraestructureList){
       
       var infraTemp = new TomaInfra();
+      infraTemp.estado = 'Pendiente';
 
       if (infra.asada.name === id){
         
         infraTemp.id = infra.$key;
+
         listInfra.push(infraTemp);
       }
     }
+    console.log("prueba2", listInfra.length);
     return listInfra;
     
   }

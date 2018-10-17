@@ -171,9 +171,13 @@ export class AngularFireService {
 		Obj$.update(pAsda).catch((error) => console.log("Error actualizando datos " + error));
 	}
 
-	deleteNotification(pKey: string) {
-		this.af.database.object('notifications/' + pKey).remove();
-	}
+	 deleteNotification(pKey:string){
+     	this.af.database.object('notifications/'+pKey).remove();
+	   }
+	   
+	deleteTomaDatos(pKey:string){
+		this.af.database.object('tomaDatos/'+pKey).remove();
+	  }
 
 	addNewNotification(pNotif): void {
 		this.af.database.list('notifications').push(pNotif).catch((error) => console.log(error));;
