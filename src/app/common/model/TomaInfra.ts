@@ -11,4 +11,5 @@ export class TomaInfra {
     res8: string = '';
     res9: string = '';
     res10: string = '';
+    estado: string = 'Pendiente';
 }

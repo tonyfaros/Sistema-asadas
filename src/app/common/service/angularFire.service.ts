@@ -141,7 +141,11 @@ export class AngularFireService {
 
 	 deleteNotification(pKey:string){
      	this.af.database.object('notifications/'+pKey).remove();
-   	}
+	   }
+	   
+	deleteTomaDatos(pKey:string){
+		this.af.database.object('tomaDatos/'+pKey).remove();
+	  }
 
 	addNewNotification(pNotif):void{
 			this.af.database.list('notifications').push(pNotif).catch((error)=>console.log(error));;
@@ -205,7 +209,8 @@ export class AngularFireService {
     			nameAsada: request.nameAsada,
     			status: request.status,
     			idEstudiante: request.idEstudiante,
-				infraestructuras: request.infraestructuras
+				infraestructuras: request.infraestructuras,
+				estado: request.estado
 				
 			  });
 			  isCalled = true;
