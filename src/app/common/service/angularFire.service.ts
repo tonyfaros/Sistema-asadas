@@ -180,14 +180,19 @@ export class AngularFireService {
 
 	 }
 
-	
-	
-
 	 getTomaDatos(pKey: String): FirebaseObjectObservable<any> {
 		const Obj$: FirebaseObjectObservable<any> =
 		  this.af.database.object('tomaDatos/'+pKey);
 		return Obj$;
 	  }
+
+	  getAllTomaDatos(): FirebaseListObservable<any> {
+		const Obj$: FirebaseListObservable<any> = this.af.database.list('tomaDatos/');
+		return Obj$;
+	  }
+	  
+	
+	  
 
 
 	 updateTomaDatosDetails(pKey: String, pInfra) {

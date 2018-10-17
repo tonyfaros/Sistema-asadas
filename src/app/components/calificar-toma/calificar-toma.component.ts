@@ -5,6 +5,7 @@ import {AngularFireDatabase} from 'angularfire2/database';
 import { AngularFireService } from '../../common/service/angularFire.service';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import { UserService } from "app/common/service/user.service";
+import { Infrastructure } from '../../common/model/Infrastructure';
 
 import { User } from '../../common/model/User';
 
@@ -18,72 +19,113 @@ import { User } from '../../common/model/User';
 
 })
 export class CalificarTomaComponent implements OnInit {
+  infraestructureList: Infrastructure[];
+  asadasList: any[];
   tomaDatosList: any[];
   User = '';
+  usuarioAux = new User();
 
   constructor(private userService: UserService,
     db: AngularFireDatabase, 
     private af: AngularFire,
     private angularFireService: AngularFireService) { 
+      this.infraestructureList = [];
+      this.tomaDatosList = [];
 
-    db.list('/tomaDatos')
-    .subscribe(tomaDatosList => {
-      
-      this.tomaDatosList = tomaDatosList;
-      var tomaDatosList = new Array();
-      for (var i = 0; i < this.tomaDatosList.length; i++){
-        this.angularFireService.getUsuario(this.tomaDatosList[i]['idEstudiante']).subscribe(
-          estudiante => {
-        //Estudiante = this.userService.getUser(this.tomaDatosList[i]['idEstudiante']);
-        
-        var toma_datos = {
-          'key':'',
-          'Estudiante':'',
-          'Asada': '',
-          'Fecha': '',
-          'Estado': '',
-          'Infraestructura': ''
-        }
-        console.log("usuario");
-        console.log(this.User);
-        console.log(estudiante['profesor']);
-
-        if(estudiante['profesor'] == this.User /*&& estudiante['estado'] == ""*/){
-          toma_datos.key = this.tomaDatosList[i]["$key"];  
-          toma_datos.Estudiante = estudiante['nombre']; 
-          toma_datos.Asada = this.tomaDatosList[i]["nameAsada"];
-          toma_datos.Fecha = this.tomaDatosList[i]["dateCreated"];
-          toma_datos.Estado = this.tomaDatosList[i]["status"];
-          toma_datos.Infraestructura = this.tomaDatosList[i]["infraestructuras"].length;
-          tomaDatosList.push(toma_datos);
-
-        }
+      db.list('asadas')
+    .subscribe(asadasList => {
+      this.asadasList = asadasList;
       });
-    }
-    console.log("esto");
-    console.log(tomaDatosList);
-    });
+
+    db.list('infraestructura')
+    .subscribe(infraestructureList => {
+      this.infraestructureList = infraestructureList;
+      });
   
   }
 
   user: FirebaseAuthState;
+  
 
-    ngOnInit() {
+    async ngOnInit() {
+      //this.tomaDatosList = [];
+      //se obtiene el id del usuario en sesion
       this.af.auth.subscribe(user => {
 
         this.user = user;
         this.User = this.user.uid;
       });
 
+      //se obtienen las tomas de datos
+      this.getToma();
   }
 
-  getEstudiante(id){
-    this.angularFireService.getUsuario(id).subscribe(
-      results => {
-        console.log(results);
-        return results;
-      });
+
+  async getToma(){
+
+    await this.getTomas();
+    var TomaResults = new Array();
+    TomaResults = this.tomaDatosList;
+    this.tomaDatosList = [];
+    
+
+    for (var i = 0; i < TomaResults.length; i++){
+      
+
+      await this.getEstudiante(TomaResults[i]["idEstudiante"]);
+      
+      var toma_datos = {
+        'key':'',
+        'Estudiante':'',
+        'Asada': '',
+        'Fecha': '',
+        'Estado': '',
+        'Infraestructura': ''
+      }
+      if(TomaResults[i]["status"] == "Pendiente" && this.usuarioAux.profesor == this.User){
+        
+        toma_datos.key = TomaResults[i]["$key"];  
+        toma_datos.Estudiante = this.usuarioAux.nombre;
+        toma_datos.Asada = TomaResults[i]["nameAsada"];
+        toma_datos.Fecha = TomaResults[i]["dateCreated"];
+        toma_datos.Estado = TomaResults[i]["status"];
+        toma_datos.Infraestructura = TomaResults[i]["infraestructuras"].length;
+        this.tomaDatosList.push(toma_datos);
+              
+      }
+    }
+        
+        
+        
   }
+
+  getTomas(){
+    return new Promise<string>((resolve, reject) => {
+        // note: could be written `$.get(url).done(resolve).fail(reject);`,
+        //       but I expanded it out for clarity
+        this.angularFireService.getAllTomaDatos().subscribe(TomaResults => 
+          { 
+            this.tomaDatosList = TomaResults;
+            resolve(this.tomaDatosList[0]["status"]);
+            
+          });
+        });
+    
+}
+
+  getEstudiante(id){
+    return new Promise<string>((resolve, reject) => {
+        // note: could be written `$.get(url).done(resolve).fail(reject);`,
+        //       but I expanded it out for clarity
+        this.angularFireService.getUsuario(id).subscribe(
+          results => {
+            this.usuarioAux = results;
+            resolve(this.usuarioAux.nombre);
+            
+          });
+        });
+    
+}
 
 
 }
