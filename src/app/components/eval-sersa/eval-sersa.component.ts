@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Router } from '@angular/router';
+import { User } from '../../common/model/User';
+import { FirebaseAuthState } from 'angularfire2/index';
 
 
 import 'rxjs/add/operator/switchMap';
@@ -55,11 +57,21 @@ export class EvalSersaComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private af: AngularFire
   ) { }
-  private user;
+  
+
+  User='';
+  user: FirebaseAuthState;
 
   ngOnInit() {
+    this.af.auth.subscribe(user => {
+
+      this.user = user;
+      this.User = this.user.uid;
+    });
+
     this.filteredList=[];
-    this.loadUserPermissions();
+    console.log("usuario ID");
+    console.log(this.user);
     this.sub = this.route.params.subscribe((params: Params) => {
       this.tomaDatosId = params['id'];
       this.type = params['type'];
@@ -82,25 +94,15 @@ export class EvalSersaComponent implements OnInit, OnDestroy {
       });
 
       
-
+      console.log(User);
+      console.log(this.tomaDatosInfra);
     
   }
 
 
   
 
-  loadUserPermissions() {
-    this.user = {};
-    this.af.auth.subscribe(user => {
-      if (user) {
-        this.userService.getUser(user.uid).subscribe(
-          results => {
-            this.user = results;
-          }
-        )
-      }
-    });
-  }
+  
   newAnswer(question: number, value: boolean): void {
     this.answers[question] = value;
   }
@@ -177,24 +179,6 @@ export class EvalSersaComponent implements OnInit, OnDestroy {
     }
     return risk;
   }
-  /*
-  pushAnswers(risk) {
-    let evaluations = this.getFormService.getEvaluations(this.infrastructureId);
-    var currentdate = new Date();
-    var datetime = currentdate.getDate() + "/"
-      + (currentdate.getMonth() + 1) + "/"
-      + currentdate.getFullYear() + " @ "
-      + currentdate.getHours() + ":"
-      + currentdate.getMinutes() + ":"
-      + currentdate.getSeconds();
-    var answer = {
-      "questions": this.answers,
-      "user": this.user,
-      "dateTime": datetime,
-      "riskCalculated":risk
-    }
-    evaluations.push(answer);
-  }*/
 
 
   ngOnDestroy(): void {
@@ -203,7 +187,6 @@ export class EvalSersaComponent implements OnInit, OnDestroy {
 
   goBack() {
     this._location.back();
-    //this.router.navigate(['/' + this.type + 'Details/' + this.infrastructureId]);
   }
 
   arrayComplete(pArray): Boolean {

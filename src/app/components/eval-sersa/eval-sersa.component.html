@@ -35,13 +35,22 @@
             (onReady)="onGalleryReady($event)">
               
             </app-evidence-gallery>
-              <div class="col-md-8">
+              <div class="col-md-8" *ngIf = "User == tomaDatosInfra.idEstudiante">
                 <div class="form-group">
                   <button type="button" (click) = "saveAnswers()" class="btn btn-raised btn-primary"  
                   >Guardar Evaluacion</button>
                   <button  type="button" class="btn btn-raised btn-warning" (click)="goBack()">Volver</button>
 
                   <button id="openModalButton" [hidden]="true" data-toggle="modal" data-target="#ConfirmModal"></button>
+                </div>
+              </div>
+              <div class="col-md-8" *ngIf = "User != tomaDatosInfra.idEstudiante">
+                <div class="form-group">
+                  <button type="button" (click) = "saveAnswers()" class="btn btn-raised btn-primary"  
+                  >Aceptar</button>
+                  <button  type="button" class="btn btn-raised btn-danger" >Rechazar</button>
+
+                  <button  type="button" class="btn btn-raised btn-warning" (click)="goBack()">Volver</button>
                 </div>
               </div>
             </form>

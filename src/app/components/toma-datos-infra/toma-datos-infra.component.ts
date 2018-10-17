@@ -5,7 +5,9 @@ import {AngularFireDatabase} from 'angularfire2/database';
 import { MapGoogleService } from '../map-google/map-google.service';
 import { ToasterService, ToasterConfig } from 'angular2-toaster';
 import {Location} from '@angular/common';
-
+import { TomaDatos } from '../../common/model/TomaDatos';
+import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { FirebaseAuthState } from 'angularfire2/index';
 
 declare var $: any;
 
@@ -25,6 +27,7 @@ export class TomaDatosInfraComponent implements OnInit {
   infraFiltered: any[] = [];
   nameAsada: string;
   formReady: boolean = false;
+  tomaAux: TomaDatos;
   //tomaDatos: TomaDatos;
 
   /*			Toast variables		*/
@@ -33,7 +36,8 @@ export class TomaDatosInfraComponent implements OnInit {
     limit: 5
   });
 
-  constructor( private _Activatedroute:ActivatedRoute,
+  constructor( private _Activatedroute:ActivatedRoute, 
+    private af: AngularFire,
      db: AngularFireDatabase,
      private router: Router,
      private toasterService: ToasterService,
@@ -42,8 +46,9 @@ export class TomaDatosInfraComponent implements OnInit {
      private _location: Location  ) {
 
     
-
+    
     this.id=this._Activatedroute.snapshot.params['id'];
+    this.angularFireService.getTomaDatos(this.id).subscribe(results => this.tomaAux=results);
     db.list('/tomaDatos')
     .subscribe(tomaDatosList => {
       this.tomaDatosList = tomaDatosList;
@@ -54,9 +59,15 @@ export class TomaDatosInfraComponent implements OnInit {
    
    }
 
+  User = '';
+  user: FirebaseAuthState;
 
   ngOnInit() {
-    
+    this.af.auth.subscribe(user => {
+
+      this.user = user;
+      this.User = this.user.uid;
+    });
   }
 
   setInfraOfTomaDatos(){
