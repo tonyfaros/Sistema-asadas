@@ -15,6 +15,8 @@ import { AngularFire } from "angularfire2";
 import {Location} from '@angular/common';
 import { AngularFireService } from '../../common/service/angularFire.service'; 
 import { TomaDatos } from '../../common/model/TomaDatos';
+import { TomaInfra } from '../../common/model/TomaInfra';
+import { EvidenceGalleryComponent } from '../infrastructure-gallery/evidence-gallery/evidence-gallery.component';
 
 @Component({
   selector: 'app-eval-sersa',
@@ -34,6 +36,9 @@ export class EvalSersaComponent implements OnInit, OnDestroy {
   idToma;
   idInfra;
   tomaDatosInfra: TomaDatos;
+
+  public evaluation:TomaInfra;
+
   
 
   /*			Toast variables		*/
@@ -64,7 +69,6 @@ export class EvalSersaComponent implements OnInit, OnDestroy {
 
 
     this.getForm();
-    console.log(this.idInfra);
 
     this.angularFireService.getTomaDatos(this.tomaDatosId).subscribe(
       results => {
@@ -74,8 +78,7 @@ export class EvalSersaComponent implements OnInit, OnDestroy {
             this.idToma = i;
           }
         }
-        console.log("abc");
-        console.log(results.infraestructuras[this.idToma]["res"+1]);
+        this.evaluation=this.tomaDatosInfra.infraestructuras[this.idToma];
       });
 
       
@@ -112,8 +115,6 @@ export class EvalSersaComponent implements OnInit, OnDestroy {
 
         
         this.form = results;
-        console.log("form");
-        console.log(this.form);
         this.answers = new Array(this.form.length + 1);
 
 
@@ -126,8 +127,6 @@ export class EvalSersaComponent implements OnInit, OnDestroy {
           this.answers[i+1] = res.ans == "0" ? false: res.ans=="1" ? true : null;
           this.filteredList.push(this.tomaDatosInfra.infraestructuras[this.idToma]["res"+(i+1)]);
         }
-        console.log(this.filteredList);
-        console.log(this.answers);
 
       }
       );
@@ -151,11 +150,9 @@ export class EvalSersaComponent implements OnInit, OnDestroy {
   }
 
   saveAnswers() {
-    console.log(this.answers);
     if (this.arrayComplete(this.answers)) {
       
       let risk: number = this.calculateRisk();
-      console.log("riesgo" + risk);
       
       //this.riesgo_name = "adios";
       
@@ -239,9 +236,6 @@ export class EvalSersaComponent implements OnInit, OnDestroy {
   }
 
   guardar(){
-    console.log(this.tomaDatosInfra);
-    //this.angularFireService.updateTomaDatos()
-    console.log("holaaa");
 
     var aux = this.tomaDatosInfra.infraestructuras[this.idToma];
 
@@ -255,13 +249,25 @@ export class EvalSersaComponent implements OnInit, OnDestroy {
     aux.res8 = ''+(this.answers[8] ? 1 : 0);
     aux.res9 = ''+(this.answers[9] ? 1 : 0);
     aux.res10 = ''+(this.answers[10] ? 1 : 0);
+    aux.estado = 'Completo';
 
-    this.tomaDatosInfra.infraestructuras[this.idToma] = aux;
 
-    console.log("adiooooos");
-    console.log(this.tomaDatosInfra);
-    this.angularFireService.updateTomaDatos(this.tomaDatosInfra, this.tomaDatosId);
-
+    if(this.evidenceGallery && this.tomaDatosInfra && this.tomaDatosInfra.infraestructuras[this.idToma]){
+      
+      this.evidenceGallery.saveEvidenceChanges().then(result=>{
+        
+        this.tomaDatosInfra.infraestructuras[this.idToma] = aux;
+        this.tomaDatosInfra.infraestructuras[this.idToma].evidences=result.evidences;
+        this.angularFireService.updateEvaluation(this.tomaDatosInfra.$key, this.idToma,this.tomaDatosInfra.infraestructuras[this.idToma])
+        .subscribe(()=>{
+          this.popSuccessToast("Se ha guardado con exito");
+        }).unsubscribe();
+      });
+    }
   }
 
+  private evidenceGallery: EvidenceGalleryComponent;
+  onGalleryReady(gallery){
+    this.evidenceGallery=gallery;
+  }
 }

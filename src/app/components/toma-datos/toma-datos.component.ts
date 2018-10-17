@@ -66,8 +66,11 @@ export class TomaDatosComponent implements OnInit {
           toma_datos.Asada = this.tomaDatosList[i]["nameAsada"];
           toma_datos.Fecha = this.tomaDatosList[i]["dateCreated"];
           toma_datos.Estado = this.tomaDatosList[i]["status"];
-          console.log("prueba 1",this.tomaDatosList[i]["infraestructuras"]);
-          toma_datos.Infraestructura = this.tomaDatosList[i]["infraestructuras"].length;
+          if(this.tomaDatosList[i]["infraestructuras"])
+            toma_datos.Infraestructura = this.tomaDatosList[i]["infraestructuras"].length;
+          else{
+            toma_datos.Infraestructura="0";
+          }
           tomaDatosList.push(toma_datos);
 
         }
@@ -82,7 +85,6 @@ export class TomaDatosComponent implements OnInit {
    }
 
    openInfraList(elem){
-     console.log("yes");
     this.router.navigate(['/tomaDatosInfra',elem]);
    }
 
@@ -128,7 +130,7 @@ export class TomaDatosComponent implements OnInit {
     tomaDatos.dateCreated = latest_date;
     tomaDatos.idToma= id.toString();
     tomaDatos.nameAsada = this.asadaSelected;
-    tomaDatos.status = 'Pendiente';
+    tomaDatos.status = 'No enviado';
     tomaDatos.idEstudiante = this.User;
     tomaDatos.infraestructuras = this.returnInfraesOfAsada(this.asadaSelected);
 

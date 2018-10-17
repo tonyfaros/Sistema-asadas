@@ -1,0 +1,164 @@
+<div class="card style-default-dark gallery-panel">
+  <div class="loading" *ngIf="loadingState">
+    <div class="loading-spinner"></div>
+  </div>
+
+  <div class="card-head">
+    <div class="top-left-controls">
+      <header class=" no-padding">Evidencias</header>
+    </div>
+  </div>
+
+  <div class="card-body style-default-bright gallery-content">
+    <div class="card-head images-control" *ngIf="evaluation && editMode">
+      <h6 class="text-default-dark selected-amount pull-left" *ngIf="selectedElements.length>0"><i>Seleccionados:
+          {{selectedElements.length}}</i></h6>
+      <div class="tools">
+        <div class="btn-group">
+          <a class="btn btn-icon-toggle image-control" (click)="removeSelected()" *ngIf="selectedElements.length>0"><i class="fa fa-trash-o"></i></a>
+          <a class="btn btn-icon-toggle image-control" (click)="addNewFile()"><i class="fa fa-plus"></i></a>
+          <a class="btn btn-icon-toggle image-control" (click)="reset()"><i class="md md-replay"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf='!evaluation'>
+      <div class="noContent centered-content" *ngIf="emptyGallery" cl>
+        <span class="noContent-info-text middle-top ">
+          <p class="lead">
+            <strong class="text-danger">No se podido cargar el formulario</strong><br>
+          </p>
+        </span>
+      </div>
+    </div>
+    <div *ngIf='evaluation'>
+      <div class="card-body no-padding-top">
+
+        <div *ngIf="!editMode" class="tab-pane">
+          <div class="album-thumbnails">
+            <a *ngFor="let image of evaluation.evidences" class="card" (click)="markAsCurrent(image)">
+              <div>
+                <img [src]="image.url" alt="Image" />
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div *ngIf="editMode" class="tab-pane">
+
+          <div class="row">
+            <div>
+              <div class="noContent centered-content" *ngIf="emptyGallery">
+                <span class="noContent-info-text middle-top">
+                  <p class="lead">
+                    <strong>Vacio</strong><br>
+                    Agregar<a class="btn btn-icon-toggle" (click)="addNewFile()"><i class="fa fa-plus"></i></a>
+                  </p>
+                </span>
+              </div>
+              <div *ngIf="!emptyGallery" class="album-thumbnails col-xs-12">
+                <a *ngFor="let image of evaluation.evidences" class="card" (click)="markAsSelected(image)">
+                  <div [class.selected]="selectedElements.includes(image)">
+                    <img [src]="image.url" alt="Image" [class.selected-image]="selectedElements.includes(image)" />
+                    <div class="selected-indicator centered-content">
+                      <i class="fa fa-check-square top-right"></i>
+                    </div>
+                    <div class="unselected-indicator centered-content">
+                      <i class="fa fa-square-o top-right"></i>
+                    </div>
+                  </div>
+                </a>
+
+                <a *ngFor="let image of newEvidenceImages" class="card" (click)="markAsSelected(image)">
+                  <div [class.selected]="selectedElements.includes(image)">
+                    <img [id]="image.tempImageKey" [alt]="'imageToUpload-'+image.tempImageKey" [class.selected-image]="selectedElements.includes(image)" />
+                    <div class="selected-indicator centered-content">
+                      <i class="fa fa-check-square top-right"></i>
+                    </div>
+                    <div class="unselected-indicator centered-content">
+                      <i class="fa fa-square-o top-right"></i>
+                    </div>
+                    <div class="new-indicator centered-content">
+                        <button class="btn ink-reaction bottom-right btn-sm btn-default-dark no-text-case">Nuevo</button>
+                      </div>
+                  </div>
+                </a>
+                <div class="add-evidence">
+                  <button class=" btn  btn-xs ink-reaction btn-floating-action active btn-icon-toggle add-evidence-btn" 
+                  (click)="addNewFile()" style="line-height: 2"><i class="fa fa-plus"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="card-actionbar no-padding" *ngIf="editMode">
+    <div class="card-actionbar-row">
+      <!-- 
+      <div class="col-xs-12 col-sm-6 clearfix gallery-footer-section" *ngIf="preview">
+        <a class="pull-left">
+          Seleccionada:
+          <img class="img-circle " id="preview-image" *ngIf="mainImageFile">
+          <img class="img-circle " src="../../assets/icons/image-not-found.png" *ngIf="!mainImageFile">
+        </a>
+    </div> -->
+      <div class="col-xs-12 clearfix gallery-footer-section">
+        <div class="bottom-right">
+          <button type="button" *ngIf="(selectionMode=='upload' && uploadedImageFile) || (selectionMode=='selection' && selectedImageFile)"
+            class="btn ink-reaction btn-raised btn-accent-dark" (click)="saveSelectedImageAsMain()">
+            Guardar Cambios
+          </button>
+
+          <button type="button" class="btn ink-reaction btn-raised btn-default-dark" (click)="close()">
+            Volver
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<input type="file" #file style="display: none" accept="image/jpeg, image/png" (change)="uploadNewEvidence($event)" />
+<toaster-container [toasterconfig]="toastConfig"></toaster-container>
+
+<div class="ng-overlay" *ngIf="fullmode && !emptyGallery">
+  <div class="ng-gallery-content" (swipeleft)="fullModeMoveLeft()" (swiperight)="fullModeMoveRight()" (swipeup)="closeFullMode()">
+    <div class="tools top-left-controls">
+      <div class="btn-group">
+        <div class="btn-group ">
+          <a class="btn btn-icon-toggle btn-close btn-gallery-action" (click)="closeFullMode()"><i class="md md-arrow-back"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="tools top-right-controls" *ngIf="currentImage && currentImage.url">
+      <div class="btn-group">
+        <div class="btn-group ">
+          <div class="panel-selected-toggle pull-left" *ngIf="editMode">
+            <button class="btn btn-accent-light element-selected-toggle" *ngIf="selectedImage && selectedImage==currentImage">
+              <strong>Seleccionado<i class="fa fa-check"></i></strong></button>
+            <button class="btn btn-default-light element-selected-toggle" *ngIf="currentImage && currentImage.url && selectedImage!=currentImage"
+              (click)="markAsSelected(currentImage)">
+              Seleccionar<i class="fa fa-check"></i></button>
+          </div>
+          <a class="btn btn-icon-toggle btn-refresh btn-gallery-action" href="{{currentImage.url}}" target="_blank"><i
+              class="md md-open-in-new"></i></a>
+          <a class="btn btn-icon-toggle btn-refresh btn-gallery-action" (click)="downloadImage()"><i class="md md-file-download"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <span class="info-text middle-top">{{indexString}}</span>
+
+    <a class="nav-left" (click)="fullModeMoveLeft()"><i class="fa fa-angle-left"></i></a>
+    <img class="effect gallery-image" [src]="currentImage.url" *ngIf="currentImage && currentImage.url" />
+    <img class="effect gallery-image" src="../../assets/icons/image-not-found.png" *ngIf="!(currentImage && currentImage.url)" />
+    <a class="nav-right" (click)="fullModeMoveRight()"><i class="fa fa-angle-right"></i></a>
+
+    <span class="info-text middle-bottom" *ngIf="currentImage && currentImage.url">{{currentImage.description}}</span>
+
+  </div>
+</div>

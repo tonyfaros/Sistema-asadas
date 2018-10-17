@@ -47,6 +47,7 @@ export class TomaDatosInfraComponent implements OnInit {
     db.list('/tomaDatos')
     .subscribe(tomaDatosList => {
       this.tomaDatosList = tomaDatosList;
+      this.infraFiltered = [];
       this.getInfraestructures();
     });
 
@@ -59,11 +60,12 @@ export class TomaDatosInfraComponent implements OnInit {
   }
 
   setInfraOfTomaDatos(){
+    
     for(let tomaDatos of this.tomaDatosList){
       
-      if(tomaDatos.$key == this.id){
+      if(tomaDatos.$key == this.id && tomaDatos.infraestructuras){
         this.nameAsada = tomaDatos.nameAsada;
-        
+        tomaDatos.infraestructuras
         for(let infra of tomaDatos.infraestructuras){
           this.checkInfra(infra.id);
         }
@@ -72,7 +74,7 @@ export class TomaDatosInfraComponent implements OnInit {
   }
 
   checkInfra(id){
-    //this.infraFiltered = [];
+    
     for(let infra of this.infraestructureList){
       if(infra.$key == id){
 
@@ -82,6 +84,7 @@ export class TomaDatosInfraComponent implements OnInit {
   }
 
   getInfraestructures(): void {
+    this.infraFiltered = [];
     this.mapService.getInfrastructures()
         .subscribe(
             results => {
@@ -95,16 +98,22 @@ export class TomaDatosInfraComponent implements OnInit {
 
 checkEvaluationComplete(){
   for (let toma of this.tomaDatosList){
-    for (let answer of toma.infraestructuras){
-      if (answer.estado == 'Pendiente'){
-        this.popErrorToast("Faltan formularios por completar.");
-        
-        return false;
+    if(toma.$key == this.id){
+      for (let answer of toma.infraestructuras){
+        if (answer.estado === 'Pendiente'){
+          this.popErrorToast("Faltan formularios por completar.");
+          return false;
+        }
       }
     }
   }
   $('#confirmSendModal').modal('show');
   return true;
+}
+
+sendEvaluation(){
+  this.angularFireService.updateStatusTomaDatos(this.id,'Pendiente');
+  this._location.back();
 }
 
 

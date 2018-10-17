@@ -9,8 +9,6 @@
 
         <div class="row">
           <form class="form" role="form">
-
-
             <div *ngFor="let element of form" class="col-md-12">
                 <div class="card">
                   <div class="card-body">
@@ -29,6 +27,14 @@
                   </div><!--end .card-body -->
                 </div><!--end .card -->
               </div>
+              
+            <app-evidence-gallery 
+            [evaluation]='evaluation' 
+            [tomaDatos]='tomaDatosInfra'
+            [editMode]='true'
+            (onReady)="onGalleryReady($event)">
+              
+            </app-evidence-gallery>
               <div class="col-md-8">
                 <div class="form-group">
                   <button type="button" (click) = "saveAnswers()" class="btn btn-raised btn-primary"  

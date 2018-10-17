@@ -11,7 +11,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 
-//import {DataTableModule} from "angular2-datatable";
 
 import { RoutingModule } from './modules/routing.module';
 
@@ -76,6 +75,7 @@ import { AdmUsuariosComponent } from './components/adm-usuarios/adm-usuarios.com
 import { TomaDatosInfraComponent } from './components/toma-datos-infra/toma-datos-infra.component';
 import { InfrastructureGalleryComponent } from './components/infrastructure-gallery/infrastructure-gallery.component';
 import { CalificarTomaComponent } from './components/calificar-toma/calificar-toma.component';
+import { EvidenceGalleryComponent } from './components/infrastructure-gallery/evidence-gallery/evidence-gallery.component';
 
 
 @NgModule({
@@ -125,11 +125,11 @@ import { CalificarTomaComponent } from './components/calificar-toma/calificar-to
     TomaDatosInfraComponent,
     InfrastructureGalleryComponent,
     CalificarTomaComponent,
+    EvidenceGalleryComponent,
+
   ],
   imports: [
     DatepickerModule,
-
-    //DataTableModule,
     BrowserModule,
     NgxChartsModule,
 
