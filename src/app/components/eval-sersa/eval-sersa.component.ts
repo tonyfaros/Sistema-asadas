@@ -38,6 +38,7 @@ export class EvalSersaComponent implements OnInit, OnDestroy {
   idToma;
   idInfra;
   tomaDatosInfra: TomaDatos;
+  disradio = null;
 
   public evaluation:TomaInfra;
 
@@ -70,8 +71,6 @@ export class EvalSersaComponent implements OnInit, OnDestroy {
     });
 
     this.filteredList=[];
-    console.log("usuario ID");
-    console.log(this.user);
     this.sub = this.route.params.subscribe((params: Params) => {
       this.tomaDatosId = params['id'];
       this.type = params['type'];
@@ -93,10 +92,8 @@ export class EvalSersaComponent implements OnInit, OnDestroy {
         this.evaluation=this.tomaDatosInfra.infraestructuras[this.idToma];
       });
 
-      
-      console.log(User);
-      console.log(this.tomaDatosInfra);
-    
+      if(this.User == this.tomaDatosInfra.idEstudiante)
+        this.disradio==true;
   }
 
 

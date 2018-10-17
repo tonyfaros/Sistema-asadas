@@ -17,10 +17,10 @@
                       <div class="form-group">
                         <div class="col-sm-9">
                           <label class="radio-inline radio-styled">
-                            <input type="radio" (click)="newAnswer(element.$key,true)" [name]="element.$key" [checked] = 'filteredList[(element.$key)-1] == "1"'><span>Si</span>
+                            <input type="radio" (click)="newAnswer(element.$key,true)" [name]="element.$key" [checked] = 'filteredList[(element.$key)-1] == "1"' [disabled] = "User != tomaDatosInfra.idEstudiante"><span>Si</span>
                           </label>
                           <label class="radio-inline radio-styled">
-                            <input type="radio" (click)="newAnswer(element.$key,false)" [name]="element.$key"[checked] = 'filteredList[(element.$key)-1] == "0"' required><span>No</span>
+                            <input type="radio" (click)="newAnswer(element.$key,false)" [name]="element.$key"[checked] = 'filteredList[(element.$key)-1] == "0"' [disabled] = "User != tomaDatosInfra.idEstudiante" required><span>No</span>
                           </label>
                         </div><!--end .col -->
                       </div><!--end .form-group -->
