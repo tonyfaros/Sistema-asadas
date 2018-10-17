@@ -120,13 +120,12 @@ export class AngularFireService {
 		console.log("pruebaFire",pKey);
 		try{
 			Obj$ = this.af.database.object('tomaDatos/'+pKey+'/status');
-			if(Obj$){
-				Obj$.update(status);
-			}
-			else{
-				Obj$.set(status);
-			}
-			
+			Obj$.set(status).then(result=>{
+				console.log("Actualizacion exitosa")
+			}).catch(error=>{
+				alert("Error: los errores se visualizan en la consola");
+				console.log("error",error);
+			});
 			return Obj$;
 		}
 		catch(ex){
