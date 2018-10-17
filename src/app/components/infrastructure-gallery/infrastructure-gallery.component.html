@@ -1,19 +1,31 @@
 <div class="card style-default-dark gallery-panel">
+
+  <div class="loading" *ngIf="loadingState">
+    <div class="loading-spinner"></div>
+  </div>
+
   <div class="card-head">
-    <header *ngIf="!editMode">Evidencias de tomas de datos</header>
-    <header *ngIf="editMode">Seleccione la foto principal</header>
-    <button class="btn btn-icon-toggle pull-right full-mode-toggle top-right" *ngIf="!emptyGallery && selectionMode=='selection'" (click)="openFullMode()"><i
-        class="md md-fullscreen"></i></button>
-    <!-- <button (click)="toggleEdit()">p1</button> -->
+    <div class="top-left-controls">
+
+      <header class=" no-padding" *ngIf="!editMode">Evidencias de tomas de datos</header>
+      <header class=" no-padding" *ngIf="editMode">Seleccione la foto principal</header>
+    </div>
+    <button class="btn btn-icon-toggle pull-right full-mode-toggle top-right" *ngIf="!emptyGallery && selectionMode=='selection'"
+      (click)="openFullMode()"><i class="md md-fullscreen"></i></button>
 
   </div>
   <div class="card-body style-default-bright gallery-content">
     <div *ngIf='!infrastructure'>
-      <article class="margin-bottom-xxl">
-        <p class="lead">
-          No se ha seleccionado una infraestructura
-        </p>
-      </article>
+
+
+      <div class="noContent centered-content">
+        <span class="noContent-info-text middle-top">
+          <p class="lead">
+            <strong class="text-danger">No se podido cargar la infraestructura.</strong><br>
+          </p>
+        </span>
+      </div>
+
     </div>
     <div *ngIf='infrastructure'>
       <div class="card-head">
@@ -25,26 +37,57 @@
       <!--end .card-head -->
       <div class="card-body tab-content">
         <div class="tab-pane" [class.active]="tabIndex==0" id="tab-subir">
-          <div class="album-thumbnails">
-            <a class="card">
-              <div>
-                <img  id="uploaded-image" *ngIf="uploadedImageFile" />
-                <img  src="../../assets/icons/image-not-found.png" *ngIf="!uploadedImageFile" />
+
+          <div class="image-selection">
+            <div class="centered-content loaded-image-container" *ngIf="uploadedImageFile"   >
+              <div class="album-thumbnails centered-content " (click)="addNewFile()">
+                <a class="card centered loaded-image-panel">
+                    <img id="uploaded-image"  *ngIf="uploadedImageFile" />
+                </a>
               </div>
-            </a>
-            <span> <span class="glyphicon glyphicon-plus"></span> Agregar una imagen
-              <input type="file" class="upload" accept="image/jpeg, image/png" (change)="uploadFile($event,'uploaded-image')" />
-            </span>
+              <div class="info-text " (click)="addNewFile()">
+                  <p class="lead text-default-dark">
+                      Editar<a class="btn btn-icon-toggle"><i class="fa fa-pencil"></i></a>
+                    </p>
+              </div>
+            </div>
+            <div class="centered-content" *ngIf="!uploadedImageFile"  style="height:75px; font-size:24px;" (click)="addNewFile()">
+              <span class="noContent-info-text middle-top">
+                  Agregar<a class="btn btn-icon-toggle"><i class="fa fa-plus"></i></a>
+              </span>
+            </div>
           </div>
+
+          <!-- <div class="album-thumbnails">
+              <a class="card">
+                  <div>
+                    
+                  </div>
+                </a>
+          </div>
+            <span class="noContent-info-text" (click)="addNewFile()">
+              <a class="card">
+                <div>
+                  <img id="uploaded-image" width="150px"  *ngIf="uploadedImageFile" />
+                  <img src="../../assets/icons/image-not-found.png" width="150px" *ngIf="!uploadedImageFile" />
+                </div>
+              </a>
+              <p class="lead">
+                Agregar<a class="btn btn-icon-toggle"><i class="fa fa-plus"></i></a>
+              </p>
+            </span> -->
+          <input type="file" #file style="display: none" accept="image/jpeg, image/png" (change)="updateUploadedImageFile($event,'uploaded-image')" />
+          <!-- </div> -->
         </div>
         <div class="tab-pane" [class.active]="tabIndex==1" id="tab-seleccionar">
 
-
-          <article *ngIf="emptyGallery" class="margin-bottom-xxl">
-            <p class="lead">
-              No existe fotos guardadas para esta infraestructura.
-            </p>
-          </article>
+          <div class="noContent centered-content" *ngIf="emptyGallery">
+            <span class="noContent-info-text middle-top">
+              <p class="lead">
+                No existen fotos guardadas para esta infraestructura.
+              </p>
+            </span>
+          </div>
           <div *ngIf="!emptyGallery" class="row">
             <div *ngIf="!editMode" class="album-thumbnails">
               <a *ngFor="let image of infrastructure.img" class="card" (click)="markAsCurrent(image)">
@@ -55,12 +98,15 @@
             </div>
             <div *ngIf="editMode" class="album-thumbnails">
               <a *ngFor="let image of infrastructure.img" class="card" (click)="markAsSelected(image)">
-                <div>
-                  <img [src]="image.url" alt="Image" [class.selected]="image==selectedImage" />
+                <div [class.selected]="image==selectedImage">
+                  <img [src]="image.url" alt="Image" [class.selected-image]="image==selectedImage" />
                   <div class="selected-indicator centered-content">
-                    <i class="fa fa-check top-right"></i>
+                    <i class="fa fa-check-square top-right"></i>
                     <button class="btn btn-icon-toggle full-mode-toggle-centered" *ngIf="image==selectedImage" (click)="openFullMode()"><i
                         class="md md-fullscreen"></i></button>
+                  </div>
+                  <div class="unselected-indicator centered-content">
+                    <i class="fa fa-square-o top-right"></i>
                   </div>
                 </div>
               </a>
@@ -69,21 +115,32 @@
 
         </div>
       </div>
-
     </div>
   </div>
 
-  <div class="card-actionbar" *ngIf="editMode">
+
+  <div class="card-actionbar no-padding" *ngIf="editMode">
     <div class="card-actionbar-row">
-      <button type="button" *ngIf="(selectionMode=='upload' && uploadedImageFile) || (selectionMode=='selection' && selectedImageFile)"
-        class="btn ink-reaction btn-raised btn-accent-dark" (click)="saveSelectedImageAsMain()">
-        Guardar Cambios
-      </button>
 
-      <button type="button" class="btn ink-reaction btn-raised btn-default-dark" (click)="close()">
-        Volver
-      </button>
+      <div class="col-xs-12 col-sm-6 clearfix gallery-footer-section" *ngIf="preview">
+        <a class="pull-left">
+          Seleccionada:
+          <img class="img-circle " id="preview-image" *ngIf="mainImageFile">
+          <img class="img-circle " src="../../assets/icons/image-not-found.png" *ngIf="!mainImageFile">
+        </a>
+      </div>
+      <div class="col-xs-12 col-sm-6 clearfix gallery-footer-section">
+        <div class="bottom-right">
+          <button type="button" *ngIf="(selectionMode=='upload' && uploadedImageFile) || (selectionMode=='selection' && selectedImageFile)"
+            class="btn ink-reaction btn-raised btn-accent-dark" (click)="saveSelectedImageAsMain()">
+            Guardar Cambios
+          </button>
 
+          <button type="button" class="btn ink-reaction btn-raised btn-default-dark" (click)="close()">
+            Volver
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

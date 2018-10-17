@@ -63,9 +63,9 @@ export class TomaDatosInfraComponent implements OnInit {
     
     for(let tomaDatos of this.tomaDatosList){
       
-      if(tomaDatos.$key == this.id){
+      if(tomaDatos.$key == this.id && tomaDatos.infraestructuras){
         this.nameAsada = tomaDatos.nameAsada;
-        
+        tomaDatos.infraestructuras
         for(let infra of tomaDatos.infraestructuras){
           this.checkInfra(infra.id);
         }

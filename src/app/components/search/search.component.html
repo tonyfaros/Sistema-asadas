@@ -169,14 +169,17 @@
 											</td>
 											<td class="col-xs-2">
 
-
-												
-												<div *ngIf="element.mainImg && element.mainImg.thumbnailUrl">
-													<img class="img-circle row-image"  [src]="element.mainImg.thumbnailUrl" alt="" />
+												<div class = "main-image" *ngIf="element.mainImg && element.mainImg.thumbnailUrl">
+													<img [src]="element.mainImg.thumbnailUrl" alt="" />
 												</div>
 
-												<div *ngIf="!(element.mainImg && element.mainImg.thumbnailUrl)">
-													<img class="img-circle  row-image" src="../../../assets/img/default-image.png" alt="" />
+												
+												<!-- <div *ngIf="element.mainImg && element.mainImg.thumbnailUrl">
+													<img class="img-circle row-image"  [src]="element.mainImg.thumbnailUrl" alt="" />
+												</div> -->
+
+												<div  class = "main-image"  *ngIf="!(element.mainImg && element.mainImg.thumbnailUrl)">
+													<img src="../../../assets/img/default-image.png" alt="" />
 												</div>
 											</td>
 											<td class="col-xs-2">

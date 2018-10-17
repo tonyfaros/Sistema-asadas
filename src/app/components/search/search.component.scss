@@ -4,9 +4,17 @@ app-filter{
     right: 0px;
     float: left;
   }
-.row-image{
-    height: 55px!important;
-    width: 55px!important;
+  .main-image{
+    position:relative;
+      width:60px;
+      height:60px;
+      border-radius:50%;
+      overflow:hidden;
+      
+    }
+.main-image img{
+    max-height:100%;
+    height: 100%;
 }
 
 .riskBorder-MuyAlto{
