@@ -249,6 +249,7 @@ export class EvalSersaComponent implements OnInit, OnDestroy {
     aux.res8 = ''+(this.answers[8] ? 1 : 0);
     aux.res9 = ''+(this.answers[9] ? 1 : 0);
     aux.res10 = ''+(this.answers[10] ? 1 : 0);
+    aux.estado = 'Completo';
 
 
     if(this.evidenceGallery && this.tomaDatosInfra && this.tomaDatosInfra.infraestructuras[this.idToma]){

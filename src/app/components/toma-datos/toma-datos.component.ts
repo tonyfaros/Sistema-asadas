@@ -130,7 +130,7 @@ export class TomaDatosComponent implements OnInit {
     tomaDatos.dateCreated = latest_date;
     tomaDatos.idToma= id.toString();
     tomaDatos.nameAsada = this.asadaSelected;
-    tomaDatos.status = 'Sin responder';
+    tomaDatos.status = 'No enviado';
     tomaDatos.idEstudiante = this.User;
     tomaDatos.infraestructuras = this.returnInfraesOfAsada(this.asadaSelected);
 
