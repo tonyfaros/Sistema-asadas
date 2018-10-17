@@ -4,9 +4,7 @@
     <div class="section-header">
       <h2 class="text-default-bright">{{nameAsada}}</h2>
 
-      <div class="section-header">
-        <h2 class="text-default-bright">{{nameAsada}}</h2>
-
+      
       </div>
 
       <div class="section-body">
@@ -55,70 +53,16 @@
                     style="float: left;">Borrar toma</button>
                   <button type="button" class="btn ink-reaction btn-raised btn-primary-dark" (click)="checkEvaluationComplete()"
                     style="float: right;">Enviar toma</button>
-
-
-                </div>
-
-
-                <div class="no-y-padding" style="background-color:transparent">
-
-                  <form class="form form-inverse">
-                    <div class="form-group">
-                    </div>
-                    <!--end .form-group -->
-                    </form>
                 </div>
 
               </div>
 
-            </div>
-
-
-
-
-            <div class="card tabs-left style-default-light ">
-
-              <div class="card-body tab-content style-default-bright">
-                <div class="tab-pane active" id="web1">
-                  <div class="row">
-                    <div class="col-lg-12">
-                      <div>
-                        <table class="table table-hover">
-                          <thead>
-                            <tr>
-                              <th class="text-medium text-lg text-primary sorting">Nombre</th>
-                              <th class="text-medium text-lg text-primary sorting">Tipo</th>
-                              <th class="text-medium text-lg text-primary sorting">Formulario</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr *ngFor="let infra of infraFiltered">
-                              <td><a class="opacity-75">{{infra.name}}</a></td>
-                              <td><a class="opacity-75">{{infra.type}}</a></td>
-                              <td>
-                                <button type="button" class="btn btn-icon-toggle" (click)="evaluate(infra)" data-toggle="tooltip"
-                                  data-placement="top" data-original-title="Copy row"><i class="fa fa-arrow-right"></i></button>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-
-                        <button type="button" class="btn ink-reaction btn-raised btn-primary-dark " style="float: right;">Enviar
-                          toma</button>
-
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-
-
+  
 
     <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="formModalLabel"
       aria-hidden="true">
@@ -166,7 +110,7 @@
 
     <toaster-container [toasterconfig]="toastConfig"></toaster-container>
 
-  </div>
+  
 
 </section>
 
