@@ -75,6 +75,7 @@ import { TomaDatosComponent } from './components/toma-datos/toma-datos.component
 import { AdmUsuariosComponent } from './components/adm-usuarios/adm-usuarios.component';
 import { TomaDatosInfraComponent } from './components/toma-datos-infra/toma-datos-infra.component';
 import { InfrastructureGalleryComponent } from './components/infrastructure-gallery/infrastructure-gallery.component';
+import { CalificarTomaComponent } from './components/calificar-toma/calificar-toma.component';
 
 
 @NgModule({
@@ -123,6 +124,7 @@ import { InfrastructureGalleryComponent } from './components/infrastructure-gall
     FilterComponent,
     TomaDatosInfraComponent,
     InfrastructureGalleryComponent,
+    CalificarTomaComponent,
   ],
   imports: [
     DatepickerModule,

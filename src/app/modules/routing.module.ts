@@ -41,6 +41,7 @@ import { BitacoraComponent } from '../components/bitacora/bitacora.component'
 //Ricardo' Components imports
 import { ReporteComponent } from '../components/reporte/reporte.component'
 import { TomaDatosComponent } from '../components/toma-datos/toma-datos.component'
+import { CalificarTomaComponent } from '../components/calificar-toma/calificar-toma.component'
 import { AdmUsuariosComponent } from '../components/adm-usuarios/adm-usuarios.component'
 import { AuthGuard } from '../auth.service' 
 
@@ -89,6 +90,7 @@ const appRoutes: Routes = [
   //Luis' Component routes
   { path: 'reporte', component: ReporteComponent },
   { path: 'tomaDatos', component: TomaDatosComponent },
+  { path: 'calificar', component: CalificarTomaComponent },
   { path: 'admUsuarios', component: AdmUsuariosComponent },
   { path: '**', component: NotFoundComponentComponent }
 

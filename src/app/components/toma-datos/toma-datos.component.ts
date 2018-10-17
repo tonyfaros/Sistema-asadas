@@ -16,7 +16,7 @@ import { Router, ActivatedRoute } from '@angular/router';
   templateUrl: './toma-datos.component.html',
 
   styleUrls: ['./toma-datos.component.scss'],
-  providers: [AngularFireService,DatePipe,MapGoogleService]
+  providers: [AngularFireService,DatePipe]
 })
 export class TomaDatosComponent implements OnInit {
 
@@ -31,7 +31,7 @@ export class TomaDatosComponent implements OnInit {
   public cantidadCaptaciones = 0;
   public cantidadCloracion = 0;
 
-  constructor(private mapService: MapGoogleService, private router: Router, db: AngularFireDatabase, private af: AngularFire,private angularFireService: AngularFireService,private datepipe: DatePipe) {
+  constructor(private router: Router, db: AngularFireDatabase, private af: AngularFire,private angularFireService: AngularFireService,private datepipe: DatePipe) {
     this.infraestructureList = [];
     
     db.list('asadas')
