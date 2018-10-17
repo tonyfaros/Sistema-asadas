@@ -82,7 +82,6 @@ export class TomaDatosComponent implements OnInit {
    }
 
    openInfraList(elem){
-     console.log("yes");
     this.router.navigate(['/tomaDatosInfra',elem]);
    }
 
@@ -128,7 +127,7 @@ export class TomaDatosComponent implements OnInit {
     tomaDatos.dateCreated = latest_date;
     tomaDatos.idToma= id.toString();
     tomaDatos.nameAsada = this.asadaSelected;
-    tomaDatos.status = 'Pendiente';
+    tomaDatos.status = 'Sin responder';
     tomaDatos.idEstudiante = this.User;
     tomaDatos.infraestructuras = this.returnInfraesOfAsada(this.asadaSelected);
 

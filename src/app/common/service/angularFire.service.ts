@@ -85,6 +85,25 @@ export class AngularFireService {
 		}
 	}
 
+	updateStatusTomaDatos(pKey:string,status):FirebaseObjectObservable<any>  {
+		var Obj$: FirebaseObjectObservable<any>;
+		console.log("pruebaFire",pKey);
+		try{
+			Obj$ = this.af.database.object('tomaDatos/'+pKey+'/status');
+			if(Obj$){
+				Obj$.update(status);
+			}
+			else{
+				Obj$.set(status);
+			}
+			
+			return Obj$;
+		}
+		catch(ex){
+			return Obj$;
+		}
+	}
+
 	 updateInfrastructure(pKey: String, pInfra){
 		const Obj$ = this.getInfrastructure(pKey);
 		Obj$.update(pInfra).catch(error=>{console.log("Error actualizando datos " + error)});
