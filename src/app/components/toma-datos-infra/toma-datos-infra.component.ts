@@ -28,6 +28,7 @@ export class TomaDatosInfraComponent implements OnInit {
   nameAsada: string;
   formReady: boolean = false;
   tomaAux: TomaDatos;
+  rol;
   //tomaDatos: TomaDatos;
 
   /*			Toast variables		*/
@@ -67,6 +68,7 @@ export class TomaDatosInfraComponent implements OnInit {
 
       this.user = user;
       this.User = this.user.uid;
+      this.angularFireService.getUsuario(this.User).subscribe(result => this.rol = result.rol);
     });
   }
 
@@ -123,8 +125,14 @@ checkEvaluationComplete(){
 }
 
 sendEvaluation(){
-  this.angularFireService.updateStatusTomaDatos(this.id,'Pendiente');
-  this._location.back();
+  if(this.rol == "Estudiante"){
+    this.angularFireService.updateStatusTomaDatos(this.id,'Pendiente');
+    this._location.back();
+  }
+  else{
+    this.angularFireService.updateStatusTomaDatos(this.id,'Aceptado');
+    //this.angularFireService.uptadeRiesgoInfraestructura(this.tomaAux.$key,);
+  }
 }
 
 

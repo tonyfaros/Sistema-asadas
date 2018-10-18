@@ -38,7 +38,8 @@ export class EvalSersaComponent implements OnInit, OnDestroy {
   idToma;
   idInfra;
   tomaDatosInfra: TomaDatos;
-  disradio = null;
+  rol;
+  
 
   public evaluation:TomaInfra;
 
@@ -68,6 +69,7 @@ export class EvalSersaComponent implements OnInit, OnDestroy {
 
       this.user = user;
       this.User = this.user.uid;
+      this.angularFireService.getUsuario(this.User).subscribe(result => this.rol = result.rol);
     });
 
     this.filteredList=[];
@@ -92,8 +94,7 @@ export class EvalSersaComponent implements OnInit, OnDestroy {
         this.evaluation=this.tomaDatosInfra.infraestructuras[this.idToma];
       });
 
-      if(this.User == this.tomaDatosInfra.idEstudiante)
-        this.disradio==true;
+      
   }
 
 
@@ -165,6 +166,19 @@ export class EvalSersaComponent implements OnInit, OnDestroy {
     } else {
       this.popErrorToast("El formulario esta incompleto.");
     }
+
+  }
+
+  saveAnswersAdm(){
+      
+      let risk: number = this.calculateRisk();
+      
+      
+      this.riesgo_num = risk;
+        
+      this.angularFireService.uptadeRiesgoInfraestructura(this.idInfra,this.riesgo_num);
+      this.angularFireService.uptadeEstadoTomaInfra(this.tomaDatosInfra.$key,this.idToma,"Aceptado");
+    
 
   }
 

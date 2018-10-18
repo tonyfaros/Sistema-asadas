@@ -242,6 +242,20 @@ export class AngularFireService {
 			return Obj$;
 		}
 	}
+	uptadeRiesgoInfraestructura(key,riesgo){
+		var Obj$: FirebaseObjectObservable<any>;
+			Obj$ = this.af.database.object('infraestructura/'+key+'/risk');
+			Obj$.set(riesgo);
+	}
+
+	uptadeEstadoTomaInfra(keyToma,key,estado){
+		var Obj$: FirebaseObjectObservable<any>;
+			Obj$ = this.af.database.object('tomaDatos/'+keyToma+'/infraestructuras/'+key+'/estado');
+			Obj$.set(estado);
+	}
+
+
+
 
 	getTomaDatos(pKey: String): FirebaseObjectObservable<any> {
 		const Obj$: FirebaseObjectObservable<any> =
