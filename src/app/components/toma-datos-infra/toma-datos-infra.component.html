@@ -1,5 +1,8 @@
 <section>
 
+    <app-toma-datos-results>
+      </app-toma-datos-results>
+      
   <div class="section-body contain-xl">
     <div class="section-header">
       <h2 class="text-default-bright">{{nameAsada}}</h2>
@@ -48,7 +51,7 @@
                     </tr>
                   </tbody>
                 </table>
-                <div class="form-group" *ngIf = "User == tomaAux.idEstudiante">
+                <div class="form-group" *ngIf = "tomaAux && User == tomaAux.idEstudiante">
                   <button type="button" class="btn ink-reaction btn-raised btn-danger" data-toggle="modal" data-target="#confirmDeleteModal"
                     style="float: left;">Borrar toma</button>
                   <button type="button" class="btn ink-reaction btn-raised btn-primary-dark" (click)="checkEvaluationComplete()"

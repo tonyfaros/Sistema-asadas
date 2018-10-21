@@ -1,0 +1,38 @@
+<div class="row" style="color:black">
+  <input id="in" />
+  <button (click)="prueba()">prueba</button>
+  <!-- <div class="col-xs-6">
+
+    <ngx-charts-bar-horizontal 
+    [view]="barsView" 
+    [scheme]="colorScheme" 
+    [results]="barChartData"
+    [gradient]="gradient" 
+    [xAxis]="showXAxis" 
+    [yAxis]="showYAxis" 
+    [legend]="doughnutShowLegend" 
+    [showXAxisLabel]="showXAxisLabel"
+    [showYAxisLabel]="showYAxisLabel" 
+    [xAxisLabel]="xAxisLabel" 
+    [yAxisLabel]="yAxisLabel">
+    </ngx-charts-bar-horizontal>
+  </div> -->
+  <div class="col-xs-6" style="background-color: rgba(10,10,10,0.1);">
+    <h4>Distribución de Infraestructuras</h4>
+    <ngx-charts-advanced-pie-chart 
+    [view]="doughnutView" 
+    [results]="barChartData" 
+    [legend]="true"
+    [explodeSlices]="true" 
+    [labels]="true" 
+    [doughnut]="doughnut" 
+    [scheme]="colorScheme"
+    (select)="percentageFormatting($event)"
+    (percentageFormatting)="percentageFormatting($event)"
+    (nameFormatting)="percentageFormatting($event)"
+    (valueFormatting)="percentageFormatting($event)"
+    [gradient]="false">
+    </ngx-charts-advanced-pie-chart>
+  </div>
+
+</div>

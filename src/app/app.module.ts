@@ -76,6 +76,7 @@ import { TomaDatosInfraComponent } from './components/toma-datos-infra/toma-dato
 import { InfrastructureGalleryComponent } from './components/infrastructure-gallery/infrastructure-gallery.component';
 import { CalificarTomaComponent } from './components/calificar-toma/calificar-toma.component';
 import { EvidenceGalleryComponent } from './components/infrastructure-gallery/evidence-gallery/evidence-gallery.component';
+import { TomaDatosResultsComponent } from './components/toma-datos-results/toma-datos-results.component';
 
 
 @NgModule({
@@ -126,6 +127,7 @@ import { EvidenceGalleryComponent } from './components/infrastructure-gallery/ev
     InfrastructureGalleryComponent,
     CalificarTomaComponent,
     EvidenceGalleryComponent,
+    TomaDatosResultsComponent,
 
   ],
   imports: [

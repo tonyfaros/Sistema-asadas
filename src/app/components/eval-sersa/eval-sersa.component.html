@@ -35,7 +35,7 @@
             (onReady)="onGalleryReady($event)">
               
             </app-evidence-gallery>
-              <div class="col-md-8" *ngIf = "User == tomaDatosInfra.idEstudiante">
+              <div class="col-md-8" *ngIf = "tomaDatosInfra && User == tomaDatosInfra.idEstudiante">
                 <div class="form-group">
                   <button type="button" (click) = "saveAnswersAdmn()" class="btn btn-raised btn-primary"  
                   >Guardar Evaluacion</button>
