@@ -84,7 +84,7 @@ export class TomaDatosResultsComponent implements OnInit {
   }
 
   infrasVarietyChartData(){
-    
+
   }
   evaluatedInfrasChartData(){
 

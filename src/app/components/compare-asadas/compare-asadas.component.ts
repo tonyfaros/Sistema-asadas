@@ -16,22 +16,25 @@ import { UserService } from "app/common/service/user.service";
 import { SearchService } from './search.service';
 
 @Component({
-  selector: 'app-compare-asadas',
-  templateUrl: './compare-asadas.component.html',
-  styleUrls: ['./compare-asadas.component.scss'],
-  providers: [SearchService, UserService, AngularFireService]
+	selector: 'app-compare-asadas',
+	templateUrl: './compare-asadas.component.html',
+	styleUrls: ['./compare-asadas.component.scss'],
+	providers: [SearchService, UserService, AngularFireService]
 })
 export class CompareAsadasComponent implements OnInit {
 
 	private sub: any;
-	public filteredList: any [];
-	public asadasCompareList: Asada [];
-	private allList: any[];
+	public allAsadasList: any[];
+	public asadasList:any[]
+	public asadasCompareList: Asada[];
+	public allList: any[];
 	private searchFirebase: any;
 	private searchFirebase2: any;
 	public userAccess;
 	private user;
 	public isLoggedIn: boolean;
+
+	public maxComparedAmount: number = 4;
 
 
 	constructor(
@@ -47,16 +50,14 @@ export class CompareAsadasComponent implements OnInit {
 		this.loadLocalAttributes();
 		this.loadUserPermissions();
 		this.asadasCompareList = [];
-		this.asadasCompareList.push(new Asada ());
-		this.asadasCompareList.push(new Asada ());
-		this.asadasCompareList.push(new Asada ());
-		this.asadasCompareList.push(new Asada ());
+
 	}
 
 	ngOnDestroy(): void {
 		if (this.sub != null)
 			this.sub.unsubscribe();
-		this.filteredList = [];
+		this.allAsadasList = [];
+		this.asadasList=[];
 		this.allList = [];
 	}
 
@@ -73,23 +74,24 @@ export class CompareAsadasComponent implements OnInit {
 				)
 			}
 			this.getResult();
-			
+
 		});
 	}
 
 
 	loadLocalAttributes() {
-		this.filteredList = [];
+		this.asadasList = [];
 		this.allList = [];
 
 	}
 
 	getResult(): void {
-		this.allList = this.filteredList = [];	
+		this.allList = this.allAsadasList= this.asadasList = [];
 		this.searchFirebase = this.searchService.search("asadas");
 		this.searchFirebase.subscribe(
 			results => {
-				this.filteredList = results;
+				this.allAsadasList=results;
+				this.asadasList = results;
 			}
 		);
 		this.searchFirebase2 = this.searchService.search("infraestructura");
@@ -100,7 +102,7 @@ export class CompareAsadasComponent implements OnInit {
 		);
 	}
 
-	onSelectedItem(elem: any, asada: number): void {
+	addAsada(elem: any): void {
 		elem.nascent = 0;
 		elem.superficial = 0;
 		elem.tanksNumber = 0;
@@ -108,46 +110,41 @@ export class CompareAsadasComponent implements OnInit {
 		elem.waterWells = 0;
 		for (let infra of this.allList) {
 			if (elem.$key == infra.asada.id) {
-				if (infra.type == `CaptacionNaciente`) {
-					elem.nascent++;
-				} 
-				else if (infra.type == `CaptacionSuperficial`) {
-					elem.superficial++;
-				}
-				else if (infra.type == `Tanque` || infra.type == `TanqueQG`) {
-					elem.tanksNumber++;
-				} 
-				else if (infra.type == `SistemaCloracion`) {
-					elem.fountains++;
-				}
-				else if (infra.type == `SistemaDistribucion` || infra.type == `LineaDistribucion`) {
-					elem.waterWells++;
-				} 
-				else {
-					//nada
+				switch (infra.type) {
+					case (`CaptacionNaciente`): {
+						elem.nascent++; break
+					}
+					case (`CaptacionSuperficial`): {
+						elem.superficial++; break
+					}
+					case (`Tanque`): {
+						elem.tanksNumber++; break
+					}
+					case (`TanqueQG`): {
+						elem.tanksNumber++; break
+					}
+					case (`SistemaCloracion`): {
+						elem.fountains++; break
+					}
+					case (`CaptacionNaciente`): {
+						elem.nascent++; break
+					}
+					case (`SistemaDistribucion`): {
+						elem.waterWells++; break
+					}
+					case (`LineaDistribucion`): {
+						elem.waterWells++; break
+					}
 				}
 			}
 		}
-
-		switch(asada){
-			case 1:
-					this.asadasCompareList[0] = (elem);
-					break;
-			case 2:
-					this.asadasCompareList[1] = (elem);
-					break;
-			case 3:
-					this.asadasCompareList[2] = (elem);
-					break;
-			case 4: 
-					this.asadasCompareList[3] = (elem);
-					break;
-			default:
-					break;
-
-
-		}
-
+		
+		this.asadasCompareList.push(elem);
+		this.asadasList=this.allAsadasList.filter(asada=>!this.asadasCompareList.includes(asada));
+	}
+	removeAsada(elem: Asada): void {
+		if (elem)
+			this.asadasCompareList = this.asadasCompareList.filter(asada => asada.$key != elem.$key);
 	}
 
 }

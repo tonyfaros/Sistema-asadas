@@ -54,10 +54,11 @@ div.reload-message{
     -webkit-box-sizing: border-box!important;
     box-sizing: border-box!important;
   }
+
   .loading  .loading-spinner {
-    border: 2px solid #f3f3f3 !important;
+    border: 2px solid #f3f3f3 ;
     border-radius: 50%;
-    border-top: 2px solid #2D2D2D !important;
+    border-top: 2px solid #2D2D2D ;
 
     height: 40px!important;
     width: 40px!important;
@@ -72,6 +73,10 @@ div.reload-message{
     -o-animation: spinner 1s infinite linear;
     animation: spinner 1s infinite linear;
   }
+  .loading .loading-spinner.dark {
+    border: 2px solid #18181b ;
+    border-top: 2px solid rgb(230, 230, 230) ;
+    }
   
   .loading  .loading-timeout-message{
     position: absolute;
